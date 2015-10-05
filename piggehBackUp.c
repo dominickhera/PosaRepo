@@ -26,7 +26,7 @@ scanf("%c", &charAnswer);
 if (charAnswer == 'y') {
 printf("please set the game total: \n");
 scanf("%d", &gameTotal);
-}
+
 
 printf("do you want to (r)oll or (h)old? : \n");
 scanf("%c", &rollAnswer);
@@ -39,7 +39,7 @@ printf("%d\n", ((rand() % 6) + 1));
 printf("hi");
 
 }
-
+}
 return 0;
 
 }
