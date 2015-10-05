@@ -10,10 +10,10 @@
 int main(void) {
 
 srand ((int)time(0));
-int answer;
-char charAnswer;
-char rollAnswer;
-int gameTotal;
+//int answer;
+char charAnswer = 'x' ;
+char rollAnswer =  'x' ;
+int gameTotal = 0;
 int playerOneTotal = 0;
 int playerTwoTotal = 0;
 
@@ -35,8 +35,7 @@ if (rollAnswer == 'r') {
 
 printf("%d\n", ((rand() % 6) + 1));
 
-}
-if (rollAnswer == 'h') {
+} else if (rollAnswer == 'h') {
 printf("hi");
 
 }
