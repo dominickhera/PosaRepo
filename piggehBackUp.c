@@ -29,6 +29,7 @@ scanf("%d", &gameTotal);
 
 
 printf("do you want to (r)oll or (h)old? : \n");
+
 scanf("%c", &rollAnswer);
 
 if (rollAnswer == 'r') {
