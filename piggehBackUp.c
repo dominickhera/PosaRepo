@@ -10,12 +10,12 @@
 int main(void) {
 
 srand ((int)time(0));
-//int answer;
 char charAnswer = 'x' ;
 char rollAnswer =  'x' ;
 int gameTotal = 0;
 int playerOneTotal = 0;
 int playerTwoTotal = 0;
+int randomNumber = 0;
 
 printf("\nwelcome to a game  of pigthrones\n");
 printf("---------------------------\n");
@@ -30,15 +30,32 @@ scanf("%d", &gameTotal);
 
 printf("do you want to (r)oll or (h)old? : \n");
 
-scanf("%c", &rollAnswer);
+scanf("\n%c", &rollAnswer);
 
 if (rollAnswer == 'r') {
 
-printf("%d\n", ((rand() % 6) + 1));
+randomNumber = ((rand() % 6) + 1);
+//printf("%d\n", ((rand() % 6) + 1));
+printf("%d\n", randomNumber);
+if (randomNumber == 1) {
+if (playerOneTotal >= gameTotal) {
+printf("Player one wins! weo weo weo");
+return 0;
+} else if (playerTwoTotal >= gameTotal) {
+printf("Player two wins! weo weo weo");
+}
 
 } else if (rollAnswer == 'h') {
-printf("hi");
-
+if (playerOneTotal >= gameTotal) {
+printf("Player one wins! weo weo weo \n");
+return 0;
+} else if (playerTwoTotal >= gameTotal) {
+printf("Player two wins! weo weo weo \n");
+return 0;
+} else {
+printf("it's now the next players turn");
+}
+}
 }
 }
 return 0;
