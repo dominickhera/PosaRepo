@@ -13,6 +13,7 @@ srand ((int)time(0));
 char charAnswer = 'x' ;
 char rollAnswer =  'x' ;
 int gameTotal = 0;
+int playerTurn = 0;
 int playerOneTotal = 0;
 int playerTwoTotal = 0;
 int randomNumber = 0;
@@ -41,14 +42,23 @@ printf("%d\n", randomNumber);
 switch (randomNumber) {
 	case 0:
 		printf("how the fuck did you even get here? Get the fuck out");
+		return 0;
 		break;
 
 	case 1:
+		printf("You rolled a %d\n", randomNumber);
 		if (playerOneTotal >= gameTotal) {
 printf("Player one has won! weo weo weo\n");
-} else if (playerTwoTotal >= gameTotal) {
+} else 
+ if (playerTwoTotal >= gameTotal) {
 printf("Player two has won! weo weo weo\n");
 }
+		printf("Sorry, you lose a turn");
+		if (playerTurn == 1) {
+		playerTurn = 0;
+		} else {
+		playerTurn = 1;
+		}
 		break;
 
 
@@ -57,17 +67,19 @@ printf("Player two has won! weo weo weo\n");
 	case 4:
 	case 5:
 	case 6:
-		printf("TO BE CONTINUED");
+		printf("You rolled %d\n", randomNumber);
 		break;
 
 	default:
 		printf("default answer");
 		break;}
-} else if (rollAnswer == 'h') {
+} else
+ if (rollAnswer == 'h') {
 if (playerOneTotal >= gameTotal) {
 printf("Player one wins! weo weo weo \n");
 return 0;
-} else if (playerTwoTotal >= gameTotal) {
+} else
+ if (playerTwoTotal >= gameTotal) {
 printf("Player two wins! weo weo weo \n");
 return 0;
 } else {
