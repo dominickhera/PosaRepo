@@ -37,14 +37,24 @@ if (rollAnswer == 'r') {
 randomNumber = ((rand() % 6) + 1);
 //printf("%d\n", ((rand() % 6) + 1));
 printf("%d\n", randomNumber);
-if (randomNumber == 1) {
-if (playerOneTotal >= gameTotal) {
-printf("Player one wins! weo weo weo");
-return 0;
-} else if (playerTwoTotal >= gameTotal) {
-printf("Player two wins! weo weo weo");
-}
 
+switch (randomNumber) {
+	case 0:
+		printf("how the fuck did you even get here? Get the fuck out");
+		break;
+
+	case 1:
+		if (playerOneTotal >= gameTotal) {
+printf("Player one has won! weo weo weo\n");
+} else if (playerTwoTotal >= gameTotal) {
+printf("Player two has won! weo weo weo\n")
+}
+		break;
+
+
+	case 2:
+		printf("TO BE CONTINUED");
+	
 } else if (rollAnswer == 'h') {
 if (playerOneTotal >= gameTotal) {
 printf("Player one wins! weo weo weo \n");
