@@ -47,14 +47,22 @@ switch (randomNumber) {
 		if (playerOneTotal >= gameTotal) {
 printf("Player one has won! weo weo weo\n");
 } else if (playerTwoTotal >= gameTotal) {
-printf("Player two has won! weo weo weo\n")
+printf("Player two has won! weo weo weo\n");
 }
 		break;
 
 
 	case 2:
+	case 3:
+	case 4:
+	case 5:
+	case 6:
 		printf("TO BE CONTINUED");
-	
+		break;
+
+	default:
+		printf("default answer");
+		break;}
 } else if (rollAnswer == 'h') {
 if (playerOneTotal >= gameTotal) {
 printf("Player one wins! weo weo weo \n");
@@ -64,7 +72,6 @@ printf("Player two wins! weo weo weo \n");
 return 0;
 } else {
 printf("it's now the next players turn");
-}
 }
 }
 }
