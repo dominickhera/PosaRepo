@@ -13,7 +13,7 @@ srand ((int)time(0));
 char charAnswer = 'x' ;
 char rollAnswer =  'x' ;
 int gameTotal = 0;
-int playerTurn = 0;
+int playerTurn = 1;
 int playerOneTotal = 0;
 int playerTwoTotal = 0;
 int randomNumber = 0;
@@ -29,14 +29,14 @@ printf("please set the game total: \n");
 scanf("%d", &gameTotal);
 
 
-printf("do you want to (r)oll or (h)old? : \n");
+while (playerOneTotal <= gameTotal || playerTwoTotal <= gameTotal ) {
+printf("do you want to (r)oll or (h)old? : \n >");
 
 scanf("\n%c", &rollAnswer);
 
 if (rollAnswer == 'r') {
 
 randomNumber = ((rand() % 6) + 1);
-//printf("%d\n", ((rand() % 6) + 1));
 printf("%d\n", randomNumber);
 
 switch (randomNumber) {
@@ -47,17 +47,28 @@ switch (randomNumber) {
 
 	case 1:
 		printf("You rolled a %d\n", randomNumber);
+		if (playerTurn == 1) {
+		playerOneTotal = playerOneTotal + randomNumber;
+		printf("Player %d Point Total: %d\n", playerTurn, playerOneTotal);
+		} else {
+		playerTwoTotal = playerTwoTotal + randomNumber;
+		printf("Player %d Point Total: %d\n", playerTurn, playerTwoTotal);
+		}
 		if (playerOneTotal >= gameTotal) {
 printf("Player one has won! weo weo weo\n");
+return 0;
 } else 
  if (playerTwoTotal >= gameTotal) {
 printf("Player two has won! weo weo weo\n");
+return 0;
 }
-		printf("Sorry, you lose a turn");
+		printf("Sorry, you lose a turn\n");
 		if (playerTurn == 1) {
-		playerTurn = 0;
+		playerTurn = 2;
+		printf("it is now Player  %d's turn\n", playerTurn);
 		} else {
 		playerTurn = 1;
+		printf("it is now Player %d's turn\n", playerTurn);
 		}
 		break;
 
@@ -68,6 +79,13 @@ printf("Player two has won! weo weo weo\n");
 	case 5:
 	case 6:
 		printf("You rolled %d\n", randomNumber);
+		if (playerTurn == 1) {
+		playerOneTotal = playerOneTotal + randomNumber;
+		printf("Player %d Point Total: %d\n", playerTurn, playerOneTotal);
+		} else {
+		playerTwoTotal = playerTwoTotal + randomNumber;
+		printf("Player %d Point Total %d\n", playerTurn, playerTwoTotal);
+		}
 		break;
 
 	default:
@@ -84,6 +102,7 @@ printf("Player two wins! weo weo weo \n");
 return 0;
 } else {
 printf("it's now the next players turn");
+}
 }
 }
 }
