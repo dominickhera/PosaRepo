@@ -14,48 +14,48 @@ switch(num) {
 		break;	
 
 	case 1:
-		printf("+-------+\n");
-		printf("|       |\n");
-		printf("|   o   |\n");
-		printf("|       |\n");
-		printf("+-------+\n");
+		printf("    +-------+\n");
+		printf("    |       |\n");
+		printf("    |   o   |\n");
+		printf("    |       |\n");
+		printf("    +-------+\n");
 		break;
 	case 2:
-		printf("+-------+\n");
-                printf("|       |\n");
-                printf("| o   o |\n");
-                printf("|       |\n");
-                printf("+-------+\n");
+		printf("    +-------+\n");
+                printf("    |       |\n");
+                printf("    | o   o |\n");
+                printf("    |       |\n");
+                printf("    +-------+\n");
 		break;
 	case 3:
-		printf("+-------+\n");
-                printf("| o     |\n");
-                printf("|   o   |\n");
-                printf("|     o |\n");
-                printf("+-------+\n");
+		printf("    +-------+\n");
+                printf("    | o     |\n");
+                printf("    |   o   |\n");
+                printf("    |     o |\n");
+                printf("    +-------+\n");
                 break;
 
 	case 4:
-		printf("+-------+\n");
-                printf("| o   o |\n");
-                printf("|       |\n");
-                printf("| o   o |\n");
-                printf("+-------+\n");
+		printf("    +-------+\n");
+                printf("    | o   o |\n");
+                printf("    |       |\n");
+                printf("    | o   o |\n");
+                printf("    +-------+\n");
                 break;
 
 	case 5:
-		printf("+-------+\n");
-                printf("| o   o |\n");
-                printf("|   o   |\n");
-                printf("| o   o |\n");
-                printf("+-------+\n");
+		printf("    +-------+\n");
+                printf("    | o   o |\n");
+                printf("    |   o   |\n");
+                printf("    | o   o |\n");
+                printf("    +-------+\n");
                 break;
 	case 6:
-		printf("+-------+\n");
-                printf("| o   o |\n");
-                printf("| o   o |\n");
-                printf("| o   o |\n");
-                printf("+-------+\n");
+		printf("    +-------+\n");
+                printf("    | o   o |\n");
+                printf("    | o   o |\n");
+                printf("    | o   o |\n");
+                printf("    +-------+\n");
                 break;
 
 	default:
@@ -82,7 +82,7 @@ printf("\ndo you and your friend want to play a game? (y/n) \n > ");
 scanf("%c", &charAnswer);
 
 if (charAnswer == 'y') {
-printf("please set the game total: \n >");
+printf("please set the game total: \n > ");
 scanf("%d", &gameTotal);
 
 
@@ -157,11 +157,11 @@ switch (randomNumber) {
 		printf("Player %d  Point Total %d\n", playerTurn,  playerTwoTotal);
 		printf("Game Total: %d\n", gameTotal);
 		printf("---------------------------\n");
-		if (playerOneTotal > (gameTotal - 1)) {
+		if (playerOneTotal >= gameTotal) {
 		printf("player one has won! weo weo weo\n");
 		return 0;
 		} else
-		if (playerTwoTotal > (gameTotal - 1)) {
+		if (playerTwoTotal >= gameTotal) {
 		printf("player two has won! weo weo weo\n");
 		return 0;
 		}
