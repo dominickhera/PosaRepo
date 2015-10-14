@@ -76,9 +76,9 @@ int playerTwoTotal = 0;
 int randomNumber = 0;
 
 printf("\nwelcome to a game  of pigthrones\n");
-printf("---------------------------\n");
+printf("================================\n");
 printf("  made by dominick hera   \n");
-printf("\ndo you and your friend want to play a game? (y/n) \n >");
+printf("\ndo you and your friend want to play a game? (y/n) \n > ");
 scanf("%c", &charAnswer);
 
 if (charAnswer == 'y') {
@@ -87,7 +87,7 @@ scanf("%d", &gameTotal);
 
 
 while ((playerOneTotal < (gameTotal - 1)) || (playerTwoTotal < (gameTotal - 1))) {
-printf("do you want to (r)oll or (h)old? : \n >");
+printf("do you want to (r)oll or (h)old? : \n > ");
 
 scanf("\n%c", &rollAnswer);
 
@@ -157,11 +157,11 @@ switch (randomNumber) {
 		printf("Player %d  Point Total %d\n", playerTurn,  playerTwoTotal);
 		printf("Game Total: %d\n", gameTotal);
 		printf("---------------------------\n");
-		if (playerOneTotal >= gameTotal) {
+		if (playerOneTotal > (gameTotal - 1)) {
 		printf("player one has won! weo weo weo\n");
 		return 0;
 		} else
-		if (playerTwoTotal >= gameTotal) {
+		if (playerTwoTotal > (gameTotal - 1)) {
 		printf("player two has won! weo weo weo\n");
 		return 0;
 		}
