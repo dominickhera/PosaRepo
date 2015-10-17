@@ -8,8 +8,10 @@
 #include<time.h>
 
 //dice display code switch case that displays a different character drawn dice based on the number the user rolls
-void showDice(int num) {
-	switch(num) {
+void showDice(int num) 
+{
+	switch(num)
+ {
 		case 1:
 			printf("    +-------+\n");
 			printf("    |       |\n"); 
@@ -61,7 +63,8 @@ void showDice(int num) {
 	}
 }
 
-int main(void) {
+int main(void) 
+	{
 
 //declaring all the variables needed as well as the random number generator
 	srand (time(NULL));
@@ -101,7 +104,8 @@ int main(void) {
 
 
 //starts the switch case using the random number generator for each of the cases
-	switch (randomNumber) {
+	switch (randomNumber) 
+			{
 
 //is the pig case that sets the roll total to 0, showing the die, the player totals as well and changes turns to the next player
 		case 1:
@@ -116,21 +120,25 @@ int main(void) {
 			printf("player %d point total: %d\n", playerTurn, playerOneTotal);
 			printf("player 2 point total: %d\n", playerTwoTotal);
 			printf("game total: %d\n", gameTotal);
-			} else {
+			}
+			 else
+		        {
 			printf("player 1 point total: %d\n", playerOneTotal);
 			printf("player %d point total: %d\n", playerTurn,  playerTwoTotal);
 			printf("Game Total: %d\n", gameTotal);
-				}
+			}
 			printf("-------------------\n");
 			printf("sorry, you lose a turn\n");
 				if (playerTurn == 1)
 				 {
 					playerTurn = 2;
 					printf("it is now player  %d's turn\n", playerTurn);
-				} else {
-					playerTurn = 1;
-			printf("it is now player %d's turn\n", playerTurn);
-					}
+				}
+				 else
+			        {
+				playerTurn = 1;
+				printf("it is now player %d's turn\n", playerTurn);
+				}
 					printf("-----------------------\n");
 					break;
 
@@ -152,7 +160,9 @@ int main(void) {
 					printf("player 2 point total: %d\n", playerTwoTotal);
 					printf("game total: %d\n", gameTotal);
 					printf("---------------------------\n");
-				} else {
+				}
+				 else
+				 {
 					printf("player 1 point total %d\n", playerOneTotal);
 					printf(">>player %d  point total %d<<\n", playerTurn,  playerTwoTotal);
 					printf("game total: %d\n", gameTotal);
@@ -179,7 +189,9 @@ int main(void) {
 			 {	
 				printf("player one wins with %d points! weo weo weo \n", playerOneTotal);
 				return 0;
-				} else {
+				}
+				 else 
+				{
 					playerTurn = 2;
 					printf("--------------------------\n");
 					printf("player 1 point total: %d\n",  playerOneTotal);
@@ -188,14 +200,18 @@ int main(void) {
 					printf("it's now player %d's turn\n", playerTurn);
 					printf("--------------------------\n");
 					} 
-				} else {
+				}
+				 else 
+				{
 					playerTwoTotal = playerTwoTotal + rollTotal;
 					rollTotal = 0;
 					if (playerTwoTotal >= gameTotal)
 					 {
 						printf("player two wins with %d points! weo weo weo \n", playerTwoTotal);
 						return 0;
-					} else {
+					}
+					 else
+			                {
 						playerTurn = 1;
 						printf("---------------------------\n");
 						printf("player 1 point total: %d\n",  playerOneTotal);
@@ -203,10 +219,10 @@ int main(void) {
 						printf("---------------------------\n");
 						printf("it's now players %d turn\n", playerTurn);
 						printf("---------------------------\n");
-						}
 					}
 				}
 			}
 		}
-	return 0;
+	}
+return 0;
 }
