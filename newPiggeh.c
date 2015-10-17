@@ -136,8 +136,8 @@ int main(void)
 				}
 				 else
 			        {
-				playerTurn = 1;
-				printf("it is now player %d's turn\n", playerTurn);
+					playerTurn = 1;
+					printf("it is now player %d's turn\n", playerTurn);
 				}
 					printf("-----------------------\n");
 					break;
@@ -177,8 +177,11 @@ int main(void)
 		}
 		 else
 
-//hold option, if it's player ones turn then it adds the roll total to the player one total, sets the roll total back to 0 for the next turn, and then proceeds to check to see if the players total
-//is greater than or equal to the game total and if it's true then the game ends and prints that that player one and the amount of points they won with. , if the player doesnt win then it proceeds
+//hold option, if it's player ones turn then it adds the roll total to the player one total
+//sets the roll total back to 0 for the next turn
+//and then proceeds to check to see if the players total
+//is greater than or equal to the game total and if it's true then the game ends and prints that
+//that player one and the amount of points they won with. , if the player doesnt win then it proceeds
 //to change the player turn and loops back to the top.
  	if (rollAnswer == 'h')
 	{		

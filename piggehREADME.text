@@ -27,6 +27,9 @@ Known Limitations
 *****************
 
 there are always limitations.  list the ones you know about.  Things like "it breaks if you enter zero" are a limitation.
+-when being asked if the user wants to play, if the user enters any other character besides "y" then the program exits
+-when being asked what the game total will be, if the user enters anything besides a number the program exits
+-when being asked if the user wants to roll or hold, if the user enters anything besides r or h then the program will repeatly re ask the question and sometimes state the question multiple times
 
 
 
