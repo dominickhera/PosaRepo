@@ -1,0 +1,35 @@
+****************************************************
+Dominick Hera		0943778
+CIS1500 		Assignment 1/Pig
+17/10/15
+****************************************************
+
+
+************
+Compilation
+************
+
+words here about exactly what command is used to compile the program, including all the necessary flags.
+gcc -std=c99 -Wall -pedantic newPiggeh.c -o piggeh
+
+***********************
+Running the program(s)
+***********************
+
+words here about how to run the program, assuming it was compiles as above
+y: yes play a game
+n: no dont play a game
+r: roll
+h: hold
+
+*****************
+Known Limitations
+*****************
+
+there are always limitations.  list the ones you know about.  Things like "it breaks if you enter zero" are a limitation.
+
+
+
+
+
+
