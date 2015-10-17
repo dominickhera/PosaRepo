@@ -11,7 +11,7 @@
 void showDice(int num) 
 {
 	switch(num)
- {
+	 {
 		case 1:
 			printf("    +-------+\n");
 			printf("    |       |\n"); 
@@ -64,7 +64,7 @@ void showDice(int num)
 }
 
 int main(void) 
-	{
+{
 
 //declaring all the variables needed as well as the random number generator
 	srand (time(NULL));
@@ -104,8 +104,8 @@ int main(void)
 
 
 //starts the switch case using the random number generator for each of the cases
-	switch (randomNumber) 
-			{
+		switch (randomNumber) 
+		{
 
 //is the pig case that sets the roll total to 0, showing the die, the player totals as well and changes turns to the next player
 		case 1:
@@ -161,8 +161,8 @@ int main(void)
 					printf("game total: %d\n", gameTotal);
 					printf("---------------------------\n");
 				}
-				 else
-				 {
+			        else
+			        {
 					printf("player 1 point total %d\n", playerOneTotal);
 					printf(">>player %d  point total %d<<\n", playerTurn,  playerTwoTotal);
 					printf("game total: %d\n", gameTotal);
@@ -173,8 +173,9 @@ int main(void)
 		default:
 			printf("default answer");
 			break;
-				}
-			} else
+			}
+		}
+		 else
 
 //hold option, if it's player ones turn then it adds the roll total to the player one total, sets the roll total back to 0 for the next turn, and then proceeds to check to see if the players total
 //is greater than or equal to the game total and if it's true then the game ends and prints that that player one and the amount of points they won with. , if the player doesnt win then it proceeds
