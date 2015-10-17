@@ -91,91 +91,91 @@ int main(void)
 		scanf("%d", &gameTotal);
 
 //start of the major loop that controls the entire game. ends when one of the player totals is not less than the game total. 
-	while ((playerOneTotal < (gameTotal - 1)) || (playerTwoTotal < (gameTotal - 1))) {
-		printf("player %d, do you want to (r)oll or (h)old? : \n > ", playerTurn);
+		while ((playerOneTotal < (gameTotal - 1)) || (playerTwoTotal < (gameTotal - 1))) {
+			printf("player %d, do you want to (r)oll or (h)old? : \n > ", playerTurn);
 
-		scanf("\n%c", &rollAnswer);
+			scanf("\n%c", &rollAnswer);
 
-		if (rollAnswer == 'r')
-		 {
+			if (rollAnswer == 'r')
+			 {
 
 //calls the random number generator and assigns it to an integer for easier use throughout the code
-		randomNumber = ((rand() % 6) + 1);
+			randomNumber = ((rand() % 6) + 1);
 
 
 //starts the switch case using the random number generator for each of the cases
-		switch (randomNumber) 
-		{
+			switch (randomNumber) 
+			{
 
 //is the pig case that sets the roll total to 0, showing the die, the player totals as well and changes turns to the next player
-		case 1:
-			rollTotal = 0;
-			printf("you rolled a %d\n", randomNumber);
-			printf("--------------------\n");
-			showDice(randomNumber);
-			printf("--------------------\n");
-			printf("player %d's roll total: %d\n", playerTurn, rollTotal);
-			if (playerTurn == 1) 
-			{
-			printf("player %d point total: %d\n", playerTurn, playerOneTotal);
-			printf("player 2 point total: %d\n", playerTwoTotal);
-			printf("game total: %d\n", gameTotal);
-			}
-			 else
-		        {
-			printf("player 1 point total: %d\n", playerOneTotal);
-			printf("player %d point total: %d\n", playerTurn,  playerTwoTotal);
-			printf("Game Total: %d\n", gameTotal);
-			}
-			printf("-------------------\n");
-			printf("sorry, you lose a turn\n");
-				if (playerTurn == 1)
-				 {
-					playerTurn = 2;
-					printf("it is now player  %d's turn\n", playerTurn);
-				}
-				 else
-			        {
-					playerTurn = 1;
-					printf("it is now player %d's turn\n", playerTurn);
-				}
-					printf("-----------------------\n");
-					break;
-
-//accommodates every other number besides 1/pig adds the random number to the roll total, shows the character die, the player totals
-		case 2:
-		case 3:
-		case 4:
-		case 5:
-		case 6:
-			rollTotal = rollTotal + randomNumber;
-			printf("you rolled %d\n", randomNumber);
-			printf("-----------------------\n");
-			showDice(randomNumber);
-			printf("-----------------------\n");
-			printf("player %d's roll total: %d\n", playerTurn, rollTotal);
-				if (playerTurn == 1)
-				 {
-					printf(">>player %d point total: %d<<\n", playerTurn, playerOneTotal);
+			case 1:
+				rollTotal = 0;
+				printf("you rolled a %d\n", randomNumber);
+				printf("--------------------\n");
+				showDice(randomNumber);
+				printf("--------------------\n");
+				printf("player %d's roll total: %d\n", playerTurn, rollTotal);
+				if (playerTurn == 1) 
+				{
+					printf("player %d point total: %d\n", playerTurn, playerOneTotal);
 					printf("player 2 point total: %d\n", playerTwoTotal);
 					printf("game total: %d\n", gameTotal);
-					printf("---------------------------\n");
 				}
-			        else
-			        {
-					printf("player 1 point total %d\n", playerOneTotal);
-					printf(">>player %d  point total %d<<\n", playerTurn,  playerTwoTotal);
-					printf("game total: %d\n", gameTotal);
-					printf("---------------------------\n");
+			 	else
+		       	        {
+					printf("player 1 point total: %d\n", playerOneTotal);
+					printf("player %d point total: %d\n", playerTurn,  playerTwoTotal);
+					printf("Game Total: %d\n", gameTotal);
+				}
+					printf("-------------------\n");
+					printf("sorry, you lose a turn\n");
+					if (playerTurn == 1)
+					 {
+						playerTurn = 2;
+						printf("it is now player  %d's turn\n", playerTurn);
 					}
-					break;
+					 else
+				        {
+						playerTurn = 1;
+						printf("it is now player %d's turn\n", playerTurn);
+					}
+						printf("-----------------------\n");
+						break;
 
-		default:
-			printf("default answer");
-			break;
+//accommodates every other number besides 1/pig adds the random number to the roll total, shows the character die, the player totals
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+				rollTotal = rollTotal + randomNumber;
+				printf("you rolled %d\n", randomNumber);
+				printf("-----------------------\n");
+				showDice(randomNumber);
+				printf("-----------------------\n");
+				printf("player %d's roll total: %d\n", playerTurn, rollTotal);
+					if (playerTurn == 1)
+					 {
+						printf(">>player %d point total: %d<<\n", playerTurn, playerOneTotal);
+						printf("player 2 point total: %d\n", playerTwoTotal);
+						printf("game total: %d\n", gameTotal);
+						printf("---------------------------\n");
+					}
+				        else
+				        {
+						printf("player 1 point total %d\n", playerOneTotal);
+						printf(">>player %d  point total %d<<\n", playerTurn,  playerTwoTotal);
+						printf("game total: %d\n", gameTotal);
+						printf("---------------------------\n");
+					}
+						break;
+
+			default:
+				printf("default answer");
+				break;
+				}
 			}
-		}
-		 else
+			 else
 
 //hold option, if it's player ones turn then it adds the roll total to the player one total
 //sets the roll total back to 0 for the next turn
