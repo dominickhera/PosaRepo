@@ -1,0 +1,14 @@
+../newPiggeh.c:72:  Extra space before last semicolon. If this should be an empty statement, use {} instead.  [whitespace/semicolon] [5]
+../newPiggeh.c:73:  Extra space before last semicolon. If this should be an empty statement, use {} instead.  [whitespace/semicolon] [5]
+../newPiggeh.c:90:  Missing space before {  [whitespace/braces] [5]
+../newPiggeh.c:109:  Missing space before {  [whitespace/braces] [5]
+../newPiggeh.c:120:  Missing space before {  [whitespace/braces] [5]
+../newPiggeh.c:188:  Missing space before {  [whitespace/braces] [5]
+../newPiggeh.c:190:  Missing space before {  [whitespace/braces] [5]
+../newPiggeh.c:199:  Missing space before {  [whitespace/braces] [5]
+../newPiggeh.c:210:  Missing space before {  [whitespace/braces] [5]
+Done processing ../newPiggeh.c
+Category 'whitespace/braces' errors found: 7
+Category 'whitespace/semicolon' errors found: 2
+Total errors found: 9
+LOC: 233

@@ -14,6 +14,9 @@ int randomNumber = 0;
 printf("how many people are in your group?\n");
 scanf("%d", &personCount);
 
+struct nameArray *arrayNameSize;
+arrayNameSize =(struct nameArray *) malloc(sizeof(struct nameArray)*personCount);
+
 //printf("%d is the person Count\n", nameArray[]);
 
 while (count  != personCount) {
@@ -21,7 +24,6 @@ while (count  != personCount) {
 //randomNumber = ((rand() % personCount));
 count += 1;
 printf("%d\n", count);
-//printf("%d\n", randomNumber);
 }
 printf("all done\n");
 
