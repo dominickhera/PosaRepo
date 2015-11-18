@@ -1,31 +1,36 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
-
+#include<string.h>
 int main(void) {
 
 srand(time(NULL));
-int personCount = 0;
-int nameArray[personCount];
-int count = 0;
-char charAnswer;
+int i = 0;
 int randomNumber = 0;
+int numberPeople;
 
-printf("how many people are in your group?\n");
-scanf("%d", &personCount);
+printf("how many people will there be?\n");
+scanf("%d", &numberPeople);
+char peopleArray[numberPeople - 1];
+char secondArray[numberPeople - 1];
 
-struct nameArray *arrayNameSize;
-arrayNameSize =(struct nameArray *) malloc(sizeof(struct nameArray)*personCount);
-
-//printf("%d is the person Count\n", nameArray[]);
-
-while (count  != personCount) {
-
-//randomNumber = ((rand() % personCount));
-count += 1;
-printf("%d\n", count);
+for (i = 0; i < numberPeople; i++) {
+printf("input persons name: ");
+scanf("%s", peopleArray);
+strcpy(peopleArray, secondArray);
 }
-printf("all done\n");
+printf("alright, next lets find you your secret santa is!\n");
 
+for (i = 0; i < numberPeople; i++) {
+printf("enter your name: ");
+scanf("%s", secondArray);
+randomNumber = (rand() % numberPeople);
+printf("%s", peopleArray[randomNumber]);
+/*
+if (secondArray == people Array) {
+
+} else {
+}*/
+}
 return 0;
 }
