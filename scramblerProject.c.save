@@ -1,0 +1,27 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<time.h>
+
+int main(void){
+int wordLen;
+FILE *ifp;
+char word[30];
+char docOpen[50];
+
+printf("enter name of document name to look at\n");
+scanf("%s", docOpen);
+ifp = fopen(docOpen, "r");
+
+if (ifp == NULL) {
+printf("sorry, file does not exist.\n");
+return 0;
+}
+
+while (fscanf(ifp, "%s", word) != EOF) {
+wordLen = strlen(word);
+printf("%s = %d characters\n", word, wordLen);
+}
+
+return 0;
+}
