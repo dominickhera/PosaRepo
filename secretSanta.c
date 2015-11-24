@@ -20,7 +20,13 @@ char secondArray[numberPeople];
 for (i = 0; i < numberPeople; i++) {
 printf("input persons name: ");
 scanf("%s", &peopleArray[i]);
+printf("%s \n", peopleArray);
 }
+
+for (i = 0; i < numberPeople; i++) {
+printf("%s, ", &peopleArray[i]);
+}
+printf("\n");
 
 //transition phrase w000000
 printf("alright, next lets find you your secret santa is!\n");
