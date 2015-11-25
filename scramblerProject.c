@@ -3,61 +3,46 @@
 #include<time.h>
 #include<stdlib.h>
 
-<<<<<<< HEAD
-=======
-/*
-int getFileName(char docName[]) {
->>>>>>> 5ddf1287c1d2d8e0ebb5491372b5886482cf7c40
-/*int getFileName(char docName) {
-FILE *ifp;
-
-printf("enter name of document to scramble: \n");
-scanf("%s", docName);
-
-ifp = fopen(docName, "r");
-
-if (ifp == NULL) {
-printf("Sorry, that file does not exist.\n");
-return 0;
-}
-}*/
+int getFilename(char fileOpen);
+int scrambleWord(char wordThing);
+int processText(char textThing);
 
 int main(void) {
-FILE *ifp;
-srand (time(NULL));
-int randomNumber = 0;
-char docOpen[50];
 int wordLen;
 char word[30];
-int charTotal = 0;
-int i = 0;
+FILE *ifp;
+char fileName[50];
 
-printf("enter name of document to scramble: \n");
-scanf("%s", docOpen);
+getFilename(fileName);
+ifp = fopen(fileName, "r");
+processText(word);
 
-ifp = fopen(docOpen, "r");
-
-if (ifp == NULL) {
-printf("Sorry, that files does not exist.\n");
 return 0;
 }
+
+int getFileName(char fileName){
+char fileOpen[50];
+
+printf("enter filename and extension to scramble.\n");
+scanf("%s", fileOpen);
+
+return fileOpen;
+}
+
+int processText(char textThing) {
+FILE *ifp;
+char word[30];
+int wordLen;
 
 while (fscanf(ifp, "%s", word) != EOF) {
 wordLen = strlen(word);
-charTotal = wordLen + charTotal;
-if (wordLen < 3) {
-printf("%s ", word);
-} else {
-for (i = 0; i < wordLen; i++) {
-randomNumber = (rand() % wordLen);
-strcpy(word, "test");
-printf("%s ", word);
+printf("%s = %d characters\n", word, wordLen);
 }
-//printf("%s = %d characters \n", word, wordLen);
-}
-}
-printf("the character total is %d\n", charTotal);
-//getFileName(docOpen);
 
-return 0;
+return;
+}
+
+int scrambleWord(char wordThing){
+
+return;
 }
