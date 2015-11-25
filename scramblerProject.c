@@ -3,6 +3,11 @@
 #include<time.h>
 #include<stdlib.h>
 
+<<<<<<< HEAD
+=======
+/*
+int getFileName(char docName[]) {
+>>>>>>> 5ddf1287c1d2d8e0ebb5491372b5886482cf7c40
 /*int getFileName(char docName) {
 FILE *ifp;
 
