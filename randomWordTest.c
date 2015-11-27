@@ -33,7 +33,7 @@ for (i = 0; i < wordLen; i++) {
 if (i == 0 || i == wordLen) {
 printf("%c", word[i]);
 } else {
-printf("%c", word[randomNumber]);
+printf("%c", word[i]);
 }
 }
 printf(" ");
