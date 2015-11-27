@@ -37,6 +37,11 @@ printf("%s ", word);
 	 randomNumber = (rand() % wordLen);
      	 randomThing = i + randomNumber;
 	 printf("%c", word[randomThing]);
+for (i = 0; i < wordLen; i++) {
+if (i == 0 || i == wordLen) {
+printf("%c", word[i]);
+} else {
+printf("%c", word[i]);
 }
 }
 
