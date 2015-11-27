@@ -8,9 +8,10 @@ int wordLen;
 char word[30];
 char scramble[30];
 char fileName[30];
-int i;
+int i, j;
 srand (time(NULL));
 int randomNumber = 0;
+int randomThing = 0;
 FILE *ifp;
 
 printf("enter file name\n");
@@ -25,17 +26,20 @@ return 0;
 
 while (fscanf(ifp, "%s", word) != EOF){
 wordLen = strlen(word);
-randomNumber = (rand() % wordLen);
 if (wordLen <= 3) {
 printf("%s ", word);
 } else {
-for (i = 0; i < wordLen; i++) {
-if (i == 0 || i == wordLen) {
-printf("%c", word[i]);
-} else {
-printf("%c", word[randomNumber]);
+    for (i = 0; i < wordLen; i++) {
+	if (i == 0 || i == wordLen) {
+	printf("%c", word[i]);
+	} else {
+ //      if (i > 0 && i < wordLen) {
+	 randomNumber = (rand() % wordLen);
+     	 randomThing = i + randomNumber;
+	 printf("%c", word[randomThing]);
 }
 }
+
 printf(" ");
 }
 }
