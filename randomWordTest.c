@@ -29,16 +29,15 @@ wordLen = strlen(word);
 if (wordLen <= 3) {
 printf("%s ", word);
 } else {
-    for (i = 0; i < wordLen; i++) {
-	if (i == 0 || i == wordLen) {
-	printf("%c", word[i]);
-	} else {
+    printf("%c", word[0]);
+    for (i = 1; i < (wordLen - 2); i++) {
+//	printf("%c", word[i]);
+//	} else {
  //      if (i > 0 && i < wordLen) {
 	 randomNumber = (rand() % wordLen);
-     	 randomThing = i + randomNumber;
-	 printf("%c", word[randomThing]);
+	 printf("%c", word[randomNumber]);
 }
-}
+printf("%c", word[wordLen]);
 printf(" ");
 }
 }
