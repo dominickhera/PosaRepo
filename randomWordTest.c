@@ -3,6 +3,11 @@
 #include<stdlib.h>
 #include<time.h>
 
+
+char getFileName (char openFile[30]);
+char scrambleWord (char word[30], int length);
+char processText (char openFile[30], 
+
 int main(void) {
 int wordLen;
 char word[30];
@@ -14,9 +19,7 @@ int randomNumber = 0;
 int randomThing = 0;
 FILE *ifp;
 
-printf("enter file name\n");
-scanf("%s", fileName);
-
+getFileName(fileName);
 ifp = fopen(fileName, "r");
 
 if (ifp == NULL) {
@@ -44,3 +47,14 @@ printf(" ");
 printf("\n");
 return 0;
 }
+
+char getFileName (char openFile[30]) {
+
+printf("enter file name to scramble\n");
+scanf("%s", openFile);
+
+return openFile[30];
+}
+
+
+
