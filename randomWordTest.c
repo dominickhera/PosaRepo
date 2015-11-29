@@ -60,10 +60,11 @@ char getFileName (char openFile[30]) {
 
 char scambleWord (char word, int length) {
     int i;
+    char letters[length-2];
     if (length <= 3) {
         printf("%s ", word);
     } else {
-        char letters[length-2];  
+       //char letters[length-2];  
         for (i = 1; i < (length - 2); i++){
             letters[i] = word[i];
             printf("%c", letters[i]);
