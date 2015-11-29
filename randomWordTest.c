@@ -5,7 +5,7 @@
 
 
 char getFileName (char openFile[30]);
-char scrambleWord (char word[30], int length);
+char scrambleWord (char word[], int length);
 char processText (char openFile[30]);
 
 int main(void) {
@@ -22,24 +22,30 @@ int main(void) {
     ifp = fopen(fileName, "r");
 
     if (ifp == NULL) {
-        printf("Sorry, file does not exist");
+        printf("Sorry, file does not exist\n");
         return 0;
     }
 
     while (fscanf(ifp, "%s", word) != EOF){
         wordLen = strlen(word);
-        if (wordLen <= 3) {
-            printf("%s ", word);
-        } else {
-            printf("%c", word[0]);
-            for (i = 1; i < (wordLen - 2); i++) {
-                randomNumber = (rand() % wordLen);
-                printf("%c", word[randomNumber]);
-            }
-            printf("%c", word[wordLen]);
-            printf(" ");
-        }
+        scrambleWord(word, wordLen);
     }
+
+    /*    while (fscanf(ifp, "%s", word) != EOF){
+          wordLen = strlen(word);
+          if (wordLen <= 3) {
+          printf("%s ", word);
+          } else {
+          printf("%c", word[0]);
+          for (i = 1; i < (wordLen); i++) {
+          randomNumber = (rand() % wordLen);
+          scramble[i - 1] = word[i];
+          word[i] = scramble[i];
+          printf("%c", word[i]);
+          }
+          printf(" ");
+          }
+          }*/
     printf("\n");
     return 0;
 }
@@ -51,11 +57,17 @@ char getFileName (char openFile[30]) {
 
     return openFile[30];
 }
-/*
-   char scambleWord (char word[30], int length) {
 
-   }
-
-   char processText ( ) {
-
-   }*/
+char scambleWord (char word, int length) {
+    int i;
+    if (length <= 3) {
+        printf("%s ", word);
+    } else {
+        char letters[length-2];  
+        for (i = 1; i < (length - 2); i++){
+            letters[i] = word[i];
+            printf("%c", letters[i]);
+	  }
+          printf(" ");
+          }
+}
