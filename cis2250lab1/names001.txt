@@ -1,0 +1,12 @@
+Mary,F,7065
+Anna,F,2604
+Emma,F,2003
+Elizabeth,F,1939
+Minnie,F,1746
+Margaret,F,1578
+John,M,9655
+William,M,9532
+James,M,5927
+Charles,M,5348
+George,M,5126
+Frank,M,3242
