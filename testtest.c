@@ -12,7 +12,7 @@ int main ( int argc, char* argv[]) {
 
     printf(" *\n\n");
 
-    if (argc == 2) {
+    if (argc != 2) {
         printf(" incorrect number of arguments given\n");
         return 1;
     }
