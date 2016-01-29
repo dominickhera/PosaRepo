@@ -28,7 +28,7 @@ int main(){
         }
 
         fprintf(outputFile, "%s\n", line);
-
+	printf("%s\n", line);
     }
 
     fclose(openFile);
