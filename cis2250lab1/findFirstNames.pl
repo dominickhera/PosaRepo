@@ -64,6 +64,7 @@ my $female_count = 0;
 my $male_count   = 0;
 my @first_name;
 my @class_first_name;
+my @class_number;
 my @gender;
 my @number;
 my $csv          = Text::CSV->new({ sep_char => $COMMA });
@@ -110,6 +111,7 @@ foreach my $class_name_record ( @class_records ) {
       my @master_fields = $csv->fields();
       $class_record_count++;
       $class_first_name[$class_record_count] = $master_fields[0];
+      $class_number[$class_record_count] = $master_fields[1];
    } else {
       warn "Line/record could not be parsed: $class_records[$class_record_count]\n";
    }
@@ -135,16 +137,18 @@ foreach my $name_record ( @records ) {
 for my $i ( 0..$class_record_count ) {
     for my $j ( 0..$record_count ) {
 	if ($first_name[$j] eq $class_records[$i]) {
+	  #  if ($number[$j] = $class_number[$i]) {
 		if ($top_class_count < 72) { 
 		$top_class_count++;
 		print $class_records[$i].$SPACE."(".$number[$i].")\n" or
 	            die "Print failure\n"
 	} else {
-	    class_miscount++;
+	    $class_miscount++;
 	    print $class_records[$i].$SPACE."(0)\n" or
 		die "Print failure\n"	  
 	   
-	  }	
+	 # }	
+	}
     }
    }
 }
