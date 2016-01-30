@@ -6,7 +6,7 @@ use strict;
 use warnings;
 use version;   our $VERSION = qv('5.16.0');   # This is the version of Perl to be used
 use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher)
-                       # to parse each line
+# to parse each line
 
 #
 #      readtopNames.pl
@@ -59,12 +59,13 @@ my $total_count = 0;
 my $top_class_count= 0;
 my $class_miscount = 0;
 my $top_fem_count = 0;
-my $top_male_count= 0;
+my $top_male_count;
 my $female_count = 0;
 my $male_count   = 0;
+my $class_match = 0;
+my $change_thing = 0;
 my @first_name;
 my @class_first_name;
-my @class_number;
 my @gender;
 my @number;
 my $csv          = Text::CSV->new({ sep_char => $COMMA });
@@ -73,32 +74,32 @@ my $csv          = Text::CSV->new({ sep_char => $COMMA });
 #   Check that you have the right number of parameters
 #
 if ($#ARGV != 1 ) {
-   print "Usage: readFile.pl <names file>\n" or
-      die "Print failure\n";
-   exit;
+    print "Usage: readFile.pl <names file>\n" or
+        die "Print failure\n";
+    exit;
 } else {
-   $filename = $ARGV[0];
-   $complist = $ARGV[1];
+    $filename = $ARGV[0];
+    $complist = $ARGV[1];
 }
 
 #
 #   Open the input file and load the contents into records array
 #
 open my $names_fh, '<', $filename
-   or die "Unable to open names file: $filename\n";
+or die "Unable to open names file: $filename\n";
 
 @records = <$names_fh>;
 
 open my $class_names_fh, '<', $complist
-   or die "Unable to open names file: $complist\n";
+or die "Unable to open names file: $complist\n";
 
 @class_records = <$class_names_fh>;
 
 close $names_fh or
-   die "Unable to close: $ARGV[0]\n";   # Close the input file
+die "Unable to close: $ARGV[0]\n";   # Close the input file
 
 close $class_names_fh or
-   die "Unable to close: $ARGV[1]\n";   # Close the input file
+die "Unable to close: $ARGV[1]\n";   # Close the input file
 
 #
 #   Parse each line and store the information in arrays
@@ -107,50 +108,64 @@ close $class_names_fh or
 #   Extract each field from each name record as delimited by a comma
 #
 foreach my $class_name_record ( @class_records ) {
-   if ( $csv->parse($class_name_record) ) {
-      my @master_fields = $csv->fields();
-      $class_record_count++;
-      $class_first_name[$class_record_count] = $master_fields[0];
-      $class_number[$class_record_count] = $master_fields[1];
-   } else {
-      warn "Line/record could not be parsed: $class_records[$class_record_count]\n";
-   }
+    if ( $csv->parse($class_name_record) ) {
+        my @master_fields = $csv->fields();
+        $class_record_count++;
+        $class_first_name[$class_record_count] = $master_fields[0];
+    } else {
+        warn "Line/record could not be parsed: $class_records[$class_record_count]\n";
+    }
 }
 
-chomp(@class_records);
+#chomp(@class_records);
 
 foreach my $name_record ( @records ) {
-   if ( $csv->parse($name_record) ) {
-      my @master_fields = $csv->fields();
-      $record_count++;
-      $first_name[$record_count] = $master_fields[0];
-      $gender[$record_count]     = $master_fields[1];
-      $number[$record_count]     = $master_fields[2];
-   } else {
-      warn "Line/record could not be parsed: $records[$record_count]\n";
-   }
+    if ( $csv->parse($name_record) ) {
+        my @master_fields = $csv->fields();
+        $record_count++;
+        $first_name[$record_count] = $master_fields[0];
+        $gender[$record_count]     = $master_fields[1];
+        $number[$record_count]     = $master_fields[2];
+        if ($change_thing == 0 && $master_fields[1] eq "M") {
+            $change_thing = 1;
+            $top_male_count = $record_count;
+        }
+    } else {
+        warn "Line/record could not be parsed: $records[$record_count]\n";
+    }
 }
 #
 #   Print out the records and counts for females
 #
 
-for my $i ( 0..$class_record_count ) {
-    for my $j ( 0..$record_count ) {
-	if ($first_name[$j] eq $class_records[$i]) {
-	  #  if ($number[$j] = $class_number[$i]) {
-		if ($top_class_count < 72) { 
-		$top_class_count++;
-		print $class_records[$i].$SPACE."(".$number[$i].")\n" or
-	            die "Print failure\n"
-	} else {
-	    $class_miscount++;
-	    print $class_records[$i].$SPACE."(0)\n" or
-		die "Print failure\n"	  
-	   
-	 # }	
-	}
-    }
-   }
+for my $j ( 0..$#class_first_name ) {
+    $class_match = 0;
+OUTER:  for my $i ( 0..$#first_name ) {
+            if ($first_name[$i] eq $class_first_name[$j]) {
+                $top_class_count++;
+                $class_match = 1;
+                for my $k ($i + 1 .. $#first_name){
+                    if ($class_first_name[$j] eq $first_name[$k]) {
+                        print $class_first_name[$j] . " (" . ($i + 1) . ", " . ($k - $top_male_count + 1) . ")\n";
+                        last OUTER;
+                    }             
+                }
+                if ($gender[$i] eq "F") {
+                    print $class_first_name[$j].$SPACE."(".($i + 1).")\n";
+                } else {
+                    print $class_first_name[$j].$SPACE."(".(($i) - $top_male_count +1).")\n";
+                }
+                last;
+            }
+        }
+
+        if ($class_match == 1) {
+        } else {
+            print $class_records[$j]." (0)\n" or
+                die "Print failure\n";	  
+            $class_miscount++;
+        }
+
 }
 print 'Number of found names: '.$top_class_count."\n";
 print 'Number of missing names: '.$class_miscount."\n";
