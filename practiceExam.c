@@ -2,41 +2,40 @@
 #include<stdlib.h>
 #include<string.h>
 
-
-void initPhone();
-void printPhone();
-
-struct phoneNumberStruct {
+typedef struct phoneNumberStruct {
     int areaCode;
     int phoneNumber;
     char * descrip;
-}typedef phone;
+}phone;
 
-int main(){
-phone * phoneThing;
+phone* initPhone();
+void printPhone(phone* p);
+
+int main(int argc, char* argv[]){
+
+    phone* phoneThing;
 
     printf("Dominick Hera\n");
-    initPhone(phoneThing);
+    phoneThing = initPhone(argc, argv);
     printPhone(phoneThing);
-    free(phoneThing);
     free(phoneThing->descrip);
+    free(phoneThing);
     return 0;
 
 }
-void initPhone(int argc, char * argv){
+phone * initPhone(int argc, char * argv[]){
     phone * phoneThing;
 
     phoneThing = malloc(sizeof(phone));
     phoneThing->descrip = malloc(sizeof(char)*25);
 
-    phoneThing->areaCode = argv[1];;
-    printf("%d", phoneThing->areaCode);
-    phoneThing->phoneNumber = argv[2];
-    printf("%d", phoneThing->phoneNumber);
-    strcpy(phoneThing->descrip, &argv[3]);
-    printf("%s", phoneThing->descrip);
+    phoneThing->areaCode = atoi(argv[1]);
+    phoneThing->phoneNumber = atoi(argv[2]);
+    strcpy(phoneThing->descrip, argv[3]);
+
+    return phoneThing;
 
 }
-void printPhone(){
+void printPhone(phone* phoneThing){
     printf("%s: (%d) %d\n", phoneThing->descrip, phoneThing->areaCode, phoneThing->phoneNumber);
 }
