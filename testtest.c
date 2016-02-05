@@ -3,7 +3,7 @@
 #include<string.h>
 
 int main ( int argc, char* argv[]) {
-    FILE * fptr;   
+  //  FILE * fptr;   
     int i = 0;
     printf(" number of arguments given: %d\n", argc);
     for (int i = 0; i < argc; i++) {
@@ -11,7 +11,7 @@ int main ( int argc, char* argv[]) {
     }
 
     printf(" *\n\n");
-
+/*
     if (argc != 2) {
         printf(" incorrect number of arguments given\n");
         return 1;
@@ -22,5 +22,5 @@ int main ( int argc, char* argv[]) {
     if (fptr == NULL) {
         printf(" couldn't open file");
         return 0;
-    }
+    }*/
 }
