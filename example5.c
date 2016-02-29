@@ -86,8 +86,8 @@ int checkCollision( char* c, int ypos, int xpos) {
     int x, y;
     getyx(strdscr, y, x);;
     move(y,x);
-   *c = mvinch(ypos, xpos);
-     if (*c == ' ') {
+    *c = mvinch(ypos, xpos);
+    if (*c == ' ') {
         return 0;
     }else{
         return 1;
