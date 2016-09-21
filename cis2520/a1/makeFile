@@ -1,0 +1,23 @@
+CFLAGS = -std=c99 -Wall
+EXE = run
+
+all: $(EXE)
+
+$(EXE): run.o BIN
+                gcc run.o -o ./bin/$(EXE)
+
+BIN:
+        if [ ! -d "bin" ]; then mkdir bin; fi;
+
+
+run.o: ./src/run.c
+        gcc -c $(CFLAGS) ./src/run.c -Iinclude
+
+# draw.o: ./src/draw.c
+#         gcc -c $(CFLAGS) ./src/draw.c -Iinclude
+
+# parse.o: ./src/parse.c
+#         gcc -c $(CFLAGS) ./src/parse.c -Iinclude
+
+clean:
+        rm *.o
