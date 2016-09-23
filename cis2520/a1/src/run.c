@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -11,7 +12,8 @@ int main(void)
 		switch(userChoice)
 		{
 			case 1:
-				printf("you picked 1\n");
+				// printf("you picked 1\n");
+				
 				break;
 			case 2:
 				printf("you picked 2\n");
@@ -21,7 +23,7 @@ int main(void)
 				break;
 			case 4:
 				printf("goodbye\n");
-				break;
+				exit(1);
 			default:
 				printf("enter a number between 1-4\n");
 				break;

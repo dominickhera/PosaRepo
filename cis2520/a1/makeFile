@@ -3,16 +3,19 @@ EXE = run
 
 all: $(EXE)
 
-$(EXE): run.o BIN
-                gcc run.o -o ./bin/$(EXE)
+$(EXE): run.o functions.o BIN
+	gcc run.o functions.o -o ./bin/$(EXE)
 
 BIN:
-        if [ ! -d "bin" ]; then mkdir bin; fi;
+	if [ ! -d "bin" ]; then mkdir bin; fi;
 
 
 run.o: ./src/run.c
-        gcc -c $(CFLAGS) ./src/run.c -Iinclude
+	gcc -c $(CFLAGS) ./src/run.c -Iinclude
 
+functions.o: ./src/functions.c
+	gcc -c $(CFLAGS) ./src/functions.c -Iinclude
+	
 # draw.o: ./src/draw.c
 #         gcc -c $(CFLAGS) ./src/draw.c -Iinclude
 
@@ -20,4 +23,4 @@ run.o: ./src/run.c
 #         gcc -c $(CFLAGS) ./src/parse.c -Iinclude
 
 clean:
-        rm *.o
+	rm *.o
