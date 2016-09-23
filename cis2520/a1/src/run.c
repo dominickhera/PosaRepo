@@ -1,8 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
+// #include <string.h>
+// #include <stdlib.h>
+// #include <stdio.h>
+ #include "run.h"
 
 int main(void)
 {
+	char str[] = "Carbon";
+	int string = strlen(str);
 	int userChoice = 0;
 	while (userChoice != 4)
 	{
@@ -12,8 +16,10 @@ int main(void)
 		switch(userChoice)
 		{
 			case 1:
-				// printf("you picked 1\n");
-				
+				// char str[] = "Carbon";
+				// int string = strlen(str);
+				switcharoni(str, 0, string-1);
+				printf("\n");
 				break;
 			case 2:
 				printf("you picked 2\n");

@@ -1,3 +1,5 @@
+#include "functions.h"
+
 
 void swaparoni(char *x, char *y)
 {
