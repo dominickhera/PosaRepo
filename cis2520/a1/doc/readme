@@ -1,0 +1,26 @@
+======================
+a1
+21/9/16
+dominick hera
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+./bin/rogue ./assets/hard.txt
+
+==========
+to compile
+==========
+type 'make' to run the makeFile
+
+====================
+known limitations
+====================
+- 
+
+=======
+testing
+=======
+- 
