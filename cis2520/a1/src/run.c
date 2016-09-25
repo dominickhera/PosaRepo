@@ -8,6 +8,7 @@ int main(void)
 	char str[] = "Carbon";
 	int string = strlen(str);
 	int userChoice = 0;
+	int x, y;
 	while (userChoice != 4)
 	{
 		printf("(1) carbon scramble\n(2) ackermann's function\n(3) newton's method\n(4) exit\nenter a number: ");
@@ -20,7 +21,12 @@ int main(void)
 				printf("\n");
 				break;
 			case 2:
-				printf("you picked 2\n");
+				printf("please enter first number\n");
+				scanf("%d", &x);
+				printf("please enter second number\n");
+				scanf("%d", &y);
+				ackermanns(x,y);
+				// printf("A(%d, %d)\n", x, y);
 				break;
 			case 3:
 				printf("you picked 3\n");

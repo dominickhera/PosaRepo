@@ -15,12 +15,6 @@ run.o: ./src/run.c
 
 functions.o: ./src/functions.c
 	gcc -c $(CFLAGS) ./src/functions.c -Iinclude
-	
-# draw.o: ./src/draw.c
-#         gcc -c $(CFLAGS) ./src/draw.c -Iinclude
-
-# parse.o: ./src/parse.c
-#         gcc -c $(CFLAGS) ./src/parse.c -Iinclude
 
 clean:
 	rm *.o
