@@ -10,14 +10,12 @@ int main(void)
 	int userChoice = 0;
 	while (userChoice != 4)
 	{
-		printf("(1) carbon scamble\n(2) ackermann's function\n(3) newton's method\n(4) exit\nenter a number: ");
+		printf("(1) carbon scramble\n(2) ackermann's function\n(3) newton's method\n(4) exit\nenter a number: ");
 		scanf("%d", &userChoice);
 
 		switch(userChoice)
 		{
 			case 1:
-				// char str[] = "Carbon";
-				// int string = strlen(str);
 				switcharoni(str, 0, string-1);
 				printf("\n");
 				break;
