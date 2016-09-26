@@ -1,5 +1,6 @@
 #include "ackermann.h"
 
+//initiates the ackerman function, asking for the two variables and calling the main ackermann function
 void ackermannInit()
 {
 
@@ -15,11 +16,11 @@ printf("the answer is %d\n", ackermanns(x,y));
 }
 
 
+//main ackermann function that will spit out an answer based on the two numbers given, it currently only goes up to 4,1
 int ackermanns(int x, int y)
 {
   if (x<0 || y<0)
   {
-    printf("-1\n");
     return -1;
   }
   if(x == 0)

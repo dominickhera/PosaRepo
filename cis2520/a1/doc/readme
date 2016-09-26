@@ -15,14 +15,17 @@ to run
 to compile
 ==========
 type 'make' to run the makeFile
-or make -f makeFile if that does not work
+or 'make -f makeFile' if that does not work
 
 ====================
 known limitations
 ====================
-- 
+- ackermanns function only seems to go up about A(4,1) which in its' own seems to take about a minute to compute
 
 =======
 testing
 =======
-- 
+- ackermanns kept spinning into crazy numbers when two small numbers were 
+entered, fixed by chaning if else statement into seperate if then statements
+- newtons kept segfaulting when attempting to run the recursive version of the function, was fixed 
+by changing the way the function worked by having the e and x values be called into the function instead of being pre defined in the function
