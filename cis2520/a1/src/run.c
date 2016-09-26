@@ -1,5 +1,7 @@
  #include "run.h"
 
+//switch case nested within a while loop that calls each initfunction based on the input provided by the user
+//loop ends when the user presses 4
 int main(void)
 {
 	int userChoice = 0;
