@@ -3,8 +3,8 @@ EXE = run
 
 all: $(EXE)
 
-$(EXE): run.o functions.o BIN
-	gcc run.o functions.o -o ./bin/$(EXE)
+$(EXE): run.o carbon.o ackermann.o newton.o BIN
+	gcc run.o carbon.o ackermann.o newton.o -o ./bin/$(EXE)
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
@@ -13,8 +13,17 @@ BIN:
 run.o: ./src/run.c
 	gcc -c $(CFLAGS) ./src/run.c -Iinclude
 
-functions.o: ./src/functions.c
-	gcc -c $(CFLAGS) ./src/functions.c -Iinclude
+# functions.o: ./src/functions.c
+# 	gcc -c $(CFLAGS) ./src/functions.c -Iinclude
+
+carbon.o: ./src/carbon.c
+	gcc -c $(CFLAGS) ./src/carbon.c -Iinclude
+
+ackermann.o: ./src/ackermann.c
+	gcc -c $(CFLAGS) ./src/ackermann.c -Iinclude
+
+newton.o: ./src/newton.c
+	gcc -c $(CFLAGS) ./src/newton.c -Iinclude
 
 clean:
 	rm *.o

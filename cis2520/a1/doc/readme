@@ -2,18 +2,20 @@
 a1
 21/9/16
 dominick hera
+0943778
 dhera@mail.uoguelph.ca
 ======================
 
 ======
 to run
 ======
-./bin/rogue ./assets/hard.txt
+./bin/run
 
 ==========
 to compile
 ==========
 type 'make' to run the makeFile
+or make -f makeFile if that does not work
 
 ====================
 known limitations

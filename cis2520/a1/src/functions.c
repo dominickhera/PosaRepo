@@ -72,7 +72,7 @@ float newtonRecursive(float x)
 
   if (fabs(recursiveAnswer * recursiveAnswer)/ x - 1.0 >= 0.0000)
   {
-    recursiveAnswer
+    //  recursiveAnswer
   }
 }
 

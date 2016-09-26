@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <functions.h>
+#include "carbon.h"
+#include "ackermann.h"
+#include "newton.h"
+#include <math.h>
 
 #endif

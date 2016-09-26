@@ -1,15 +1,14 @@
-#ifndef __DHERA__FUNCTIONS__
-#define __DHERA__FUNCTIONS__
+#ifndef __DHERA__CARBON__
+#define __DHERA__CARBON__
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <math.h>
 
+void carbonInit ();
 void swaparoni(char *x, char *y);
 void switcharoni(char *c, int x, int y);
-int ackermanns(int x, int y);
-float newtonIterative(float x);
-float newtonRecursive(float x);
 
 #endif

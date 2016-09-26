@@ -5,10 +5,9 @@
 
 int main(void)
 {
-	char str[] = "Carbon";
-	int string = strlen(str);
+	// char str[] = "Carbon";
+	// int string = strlen(str);
 	int userChoice = 0;
-	int x, y;
 	struct timeval startTime;
 	struct timeval endTime;
 	unsigned long long int startMicros;
@@ -22,16 +21,12 @@ int main(void)
 		switch(userChoice)
 		{
 			case 1:
-				switcharoni(str, 0, string-1);
+				carbonInit();
+				// switcharoni(str, 0, string-1);
 				printf("\n");
 				break;
 			case 2:
-				printf("please enter first number\n");
-				scanf("%d", &x);
-				printf("please enter second number\n");
-				scanf("%d", &y);
-				ackermanns(x,y);
-				// printf("A(%d, %d)\n", x, y);
+				ackermannInit();
 				break;
 			case 3:
 				printf("you picked 3\n");
