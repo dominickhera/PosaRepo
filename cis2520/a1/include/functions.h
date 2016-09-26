@@ -8,5 +8,7 @@
 void swaparoni(char *x, char *y);
 void switcharoni(char *c, int x, int y);
 int ackermanns(int x, int y);
+float newtonIterative(float x);
+float newtonRecursive(float x);
 
 #endif

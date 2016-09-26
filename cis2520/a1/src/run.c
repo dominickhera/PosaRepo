@@ -9,6 +9,11 @@ int main(void)
 	int string = strlen(str);
 	int userChoice = 0;
 	int x, y;
+	struct timeval startTime;
+	struct timeval endTime;
+	unsigned long long int startMicros;
+	unsigned long long int endMicros;
+	unsigned long long int deltaMicros;
 	while (userChoice != 4)
 	{
 		printf("(1) carbon scramble\n(2) ackermann's function\n(3) newton's method\n(4) exit\nenter a number: ");
@@ -30,6 +35,13 @@ int main(void)
 				break;
 			case 3:
 				printf("you picked 3\n");
+				gettimeofday(&startTime);
+				/* do stuff */
+				gettimeofday(&endTime);
+
+				startMicros = (1000000 * startTime.tv_sec) + startTime.tv_usec;
+				endMicros = (1000000 * endTime.tv_sec) + endTime.tv_usec;
+				deltaMicros = endMicros - startMicros;
 				break;
 			case 4:
 				printf("goodbye\n");
