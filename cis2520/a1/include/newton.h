@@ -7,7 +7,8 @@
 #include <time.h>
 #include <math.h>
 
-float newtonIterative(float x);
-float newtonRecursive(float x);
+void newtonInit();
+double newtonIterative(double x);
+double newtonRecursive(double e,  double x, double recursiveAnswer);
 
 #endif
