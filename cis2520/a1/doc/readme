@@ -21,6 +21,7 @@ or 'make -f makeFile' if that does not work
 known limitations
 ====================
 - ackermanns function only seems to go up about A(4,1) which in its' own seems to take about a minute to compute
+- entering anything besides a number the main menu goes into an infinite loop
 
 =======
 testing
