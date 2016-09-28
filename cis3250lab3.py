@@ -17,10 +17,10 @@ while (userOption != 6):
 	if (userOption == 1):
 		print "\nyou selected option 1\n"
 		for x in firstNameList:
-			# print "%s %s - %d\n" % (firstNameList[x], lastNameList[x], idList[x])
-			print firstNameList
-			print lastNameList
-			print idList
+			print "%s %s - %s" % (firstNameList[i], lastNameList[i], idList[i])
+			i = i + 1
+		print "\n"
+			
 	if (userOption == 2):
 		firstNameEntry = raw_input("enter student first name:\n> ")
 		firstNameList.append(firstNameEntry)
