@@ -1,0 +1,2 @@
+    /usr/bin : /bin /usr
+        /usr/: local/:bin  
