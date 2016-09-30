@@ -3,7 +3,7 @@
 firstNameList = []
 lastNameList = []
 idList = []
-theFile = open('student.txt', 'w')
+# theFile = open('student.txt', 'w')
 userOption = 0
 listCount = 0
 viewCount = 0
@@ -27,17 +27,17 @@ while (userOption != 6):
 	if (userOption == 2):
 		firstNameEntry = raw_input("enter student first name:\n> ")
 		firstNameList.append(firstNameEntry)
-		print firstNameList
+		# print firstNameList
 		lastNameEntry = raw_input("enter student last name:\n> ")
 		lastNameList.append(lastNameEntry)
-		print lastNameList
+		# print lastNameList
 		idEntry = raw_input("enter student id number:\n> ")
 		# if (isinstance(idEntry, int)):
 			# print(isinstance(idEntry, int))
 		idList.append(idEntry)
-		print idList
+		# print idList
 		listCount = listCount + 1
-		print listCount
+		# print listCount
 		# else:
 		# 	print "not a var fam"
 		# 	while ((isinstance(idEntry, int) == 0)):
@@ -59,12 +59,13 @@ while (userOption != 6):
 		viewCount = (listCount - 1)
 		print "%s %s - %s\n" % (firstNameList[viewCount], lastNameList[viewCount], idList[viewCount])
 	if (userOption == 5):
+		theFile = open('student.txt', 'w')
 		i = 0
 		# print "\nyou selected option 5\n"
-		theFile.write("First Name  Last Name  - Student ID\n")
+		theFile.write("First Name Last Name - Student ID\n")
 		for x in firstNameList:
-			theFile.write("%s %s - %s" % (firstNameList[i], lastNameList[i], idList[i]))
+			theFile.write("%s %s - %s\n" % (firstNameList[i], lastNameList[i], idList[i]))
 			i = i + 1
-
+		theFile.close()
 	if (userOption == 6):
 		print "\ngoodbye\n"
