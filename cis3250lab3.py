@@ -3,7 +3,6 @@
 firstNameList = []
 lastNameList = []
 idList = []
-# theFile = open('student.txt', 'w')
 userOption = 0
 listCount = 0
 viewCount = 0
@@ -36,12 +35,15 @@ while (userOption != 6):
 
 	if (userOption == 3):
 
-		if (viewCount + 1 > listCount):
-			viewCount = 0
-			print "%s %s - %s\n" % (firstNameList[viewCount], lastNameList[viewCount], idList[viewCount])
-		else:
+		if (viewCount + 1 < listCount):
 			viewCount = viewCount + 1
-			print "%s %s - %s\n" % (firstNameList[viewCount], lastNameList[viewCount], idList[viewCount])
+			print "%d\n" % (viewCount)
+			# print "%s %s - %s\n" % (firstNameList[viewCount], lastNameList[viewCount], idList[viewCount])
+		else:
+			viewCount = 0
+			print "%d\n" % (viewCount)
+		print "%s %s - %s\n" % (firstNameList[viewCount], lastNameList[viewCount], idList[viewCount])
+
 	if (userOption == 4):
 		if (viewCount - 1 == -1):
 			viewCount = listCount
