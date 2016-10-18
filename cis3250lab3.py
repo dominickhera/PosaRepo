@@ -17,7 +17,6 @@ while (userOption != 6):
 
 	if (userOption == 1):
 		i = 0
-		print "\nyou selected option 1\n"
 		for x in firstNameList:
 			print "%s %s - %s" % (firstNameList[i], lastNameList[i], idList[i])
 			i = i + 1
@@ -37,11 +36,8 @@ while (userOption != 6):
 
 		if (viewCount + 1 < listCount):
 			viewCount = viewCount + 1
-			print "%d\n" % (viewCount)
-			# print "%s %s - %s\n" % (firstNameList[viewCount], lastNameList[viewCount], idList[viewCount])
 		else:
 			viewCount = 0
-			print "%d\n" % (viewCount)
 		print "%s %s - %s\n" % (firstNameList[viewCount], lastNameList[viewCount], idList[viewCount])
 
 	if (userOption == 4):
@@ -49,6 +45,7 @@ while (userOption != 6):
 			viewCount = listCount
 		viewCount = (viewCount - 1)
 		print "%s %s - %s\n" % (firstNameList[viewCount], lastNameList[viewCount], idList[viewCount])
+	
 	if (userOption == 5):
 		theFile = open('student.txt', 'w')
 		i = 0
@@ -57,5 +54,6 @@ while (userOption != 6):
 			theFile.write("%s %s - %s\n" % (firstNameList[i], lastNameList[i], idList[i]))
 			i = i + 1
 		theFile.close()
+	
 	if (userOption == 6):
 		print "\ngoodbye\n"
