@@ -63,8 +63,6 @@ def validate():
 	else:
 		tkMessageBox.showinfo("Hey pal", "valid expression ")
 
-
-
 root = Tk()
 
 entryBox = Entry(root, width=80)
