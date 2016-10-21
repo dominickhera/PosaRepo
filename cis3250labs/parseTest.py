@@ -3,29 +3,31 @@ import re
 
 userInput = raw_input("input equation\n")
 
-# i = 0
 numCount = 0
 operandCount = 0
 entryBracketCount = 0
 exitBracketCount = 0
 charCount = 0
-
-print (len(userInput))
+endOfLine = len(userInput) - 1
 for i in range(len(userInput)):
 	if (re.search('[a-zA-Z]+', userInput[i])):
 		charCount = charCount + 1
 	elif (re.search('[0-9]+', userInput[i])):
-		# print userInput[i]
 		numCount = numCount + 1
 	elif (re.search('[[\+|\-|\*|\/]+', userInput[i])):
 		operandCount = operandCount + 1
-		# if userInput[i + 1] == len(userInput):
-		# if len(userInput) == userInput[i]:
-		# 	print "invalid expression"
-		# 	exit(0)
-		# else:
-			# if(re.search('[^a-zA-Z0-9]+', userInput[i + 1])):
-				# print 'next char is not a number'
+		# print endOfLine
+		if(re.search('[[\+|\-|\*|\/]+', userInput[endOfLine])):
+			print "invalid expression"
+			exit(0)
+		else:
+			if(re.search('[a-zA-Z]+', userInput[i + 1])):
+				continue
+			elif(re.search('[\d]+', userInput[i + 1])):
+				continue
+			else:
+				print 'invalid expression'
+				exit(0)
 	elif (re.search('[(]+', userInput[i])):
 		entryBracketCount = entryBracketCount + 1
 	elif (re.search('[)]+', userInput[i])):
