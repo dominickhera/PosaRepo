@@ -7,14 +7,13 @@ import math
 import tkMessageBox
 
 xVar = input("input x variable: ")
-print xVar , "is your x var"
 deltaE = input("input your delta E variable (predefined error value): ")
-print deltaE, "is your delta e"
+
 
 
 newX = xVar * (math.pi/180)
 c = math.sin(newX)
-print c , "is your c"
+
 
 y = 0
 k = 1
@@ -32,6 +31,3 @@ while ((math.fabs(c - y)) > deltaE):
 	n = n + 1
 	print n, "cycles"
 	k = k + 2
-
-print y , "is your final y value"
-print "cycled ", n , " total times"
