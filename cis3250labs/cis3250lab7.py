@@ -22,7 +22,6 @@ g = 9.8
 
 newAngle = (angle * math.pi)/180
 T = (((2 * velocity) * (math.sin(newAngle)))/ g)
-	# print T , "is T"
 
 t = 0
 h = 0
@@ -34,9 +33,7 @@ while (t <= T):
 	x = velocity * t * math.cos(newAngle)
 
 	t = t + .1
-	# print t , " is t"
 	oval = canavasThing.create_oval(x,749 - h,x,749 - h, fill="black")
-	# print "[x: ", x , ", h: ", h , "]"
 
 canavasThing.pack()
 root.mainloop()
