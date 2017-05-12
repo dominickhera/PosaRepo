@@ -1,11 +1,9 @@
 #!/usr/bin/python
 
-a = [1,2,3]
-b = []
+numbers = ["1", "2", "3"]
+testNum = 0
 
-for i in a:
-    usrInput = raw_input('enter name: ')
-    b.append(usrInput)
 
-b.sort()
-print b
+for i in range(len(numbers)):
+    testNum = testNum + int(numbers[i])
+    print testNum
