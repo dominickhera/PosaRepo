@@ -2,7 +2,19 @@
 
 List *initializeList(void (*printFunction)(void *tobePrinted),void (*deleteFunction)(void *toBeDeleted),int (*compareFunction)(const void *first, const void *second))
 {
+    List * temp = malloc(sizeof(List));
 
+    temp->head = NULL;
+    temp->printFunction = void *tobePrinted;
+    temp->deleteFunction = void *toBeDeleted;
+    temp->compareFunction = compareFunction;
+
+    if(temp == NULL || temp->printFunction == NULL || temp->deleteFunction == NULL || temp->compareFunction == NULL)
+    {
+        return NULL;
+    }
+
+    return temp;
 }
 
 Node *initializeNode(void *data)
@@ -43,7 +55,7 @@ void *getFromFront(List *list)
         return NULL;
     }
     
-    return list;
+    return list->head;
 
 }
 
@@ -53,12 +65,21 @@ void *getFromBack(List *list)
     List * temp;
     temp = list;
 
+    if(list == NULL)
+    {
+        return NULL;
+    }
+
+    temp->previous = temp->head;
+    temp = temp->next;
+
     while(temp->next != NULL)
     {
+        temp->previous = temp;
         temp = temp->next;
     }
 
-    return temp;
+    return temp->previous;
 }
 
 void printForward(List *list)
