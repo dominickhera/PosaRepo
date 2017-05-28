@@ -26,12 +26,28 @@ Node *initializeNode(void *data)
 void insertFront(List *list, void *toBeAdded)
 {
 
-
+    if(list != NULL)
+    {
+        return list->head;
+    }
+    else
+    {
+        return 0;
+    }
 
 }
 
 void insertBack(List *list, void *toBeAdded)
 {
+
+    if(list != NULL)
+    {
+        return list->tail;
+    }
+    else
+    {
+        return 0;
+    }
 
 }
 
@@ -56,10 +72,22 @@ void deleteList(Life *list)
 void insertSorted(List *list, void *toBeAdded)
 {
 
+    if(list == NULL)
+    {
+        return NULL;
+    }
+
+
+
 }
 
 int deleteDataFromList(List *list, void *toBeDeleted)
 {
+
+    if(list == NULL)
+    {
+        return NULL;
+    }
 
 }
 
@@ -111,7 +139,8 @@ void printForward(List *list)
 
     while(temp != NULL)
     {
-        
+        list->printFunction(data);
+        temp = list->next;
     }
 
 
@@ -120,6 +149,21 @@ void printForward(List *list)
 
 void printBackwards(List *list)
 {
+
+    List * temp;
+    temp = list->tail;
+
+    if(list == NULL)
+    {
+        return NULL;
+    }
+
+    while(temp != NULL)
+    {
+        list->printFunction(data);
+        temp = list->previous;
+    }
+
 
 }
 
