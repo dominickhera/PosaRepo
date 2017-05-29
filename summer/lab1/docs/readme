@@ -1,0 +1,33 @@
+======================
+l1
+28/5/17
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+
+./bin/run
+
+==========
+to compile
+==========
+type 'make' to run the makeFile
+
+=============
+description
+=============
+
+- a basic doubly linked list that has been written as generically as possible to be able to be used multiple times in the future
+
+====================
+known limitations
+====================
+- no compare function was written so it will most likely have issues dealing with anything resulting in comparisons.
+- the code was able to make it through most of the testing suite provided by the teacher, although there isnt a personalized testing piece written to be manually tested.
+- the list seg faults when attempting to insert at the front of a null list apparently.
+- code won't work with make file although the makefile is properly written, will only work with self testing suite.
+

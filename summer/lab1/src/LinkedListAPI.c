@@ -21,50 +21,70 @@ List *initializeList(void (*printFunction)(void *tobePrinted),void (*deleteFunct
 
 Node *initializeNode(void *data)
 {
-   
-   Node * temp = malloc(sizeof(Node));
 
-   if(temp == NULL)
-   {
-    return NULL;
-   }
+    Node * temp = malloc(sizeof(Node));
 
-   temp->next = NULL;
-   temp->previous = NULL;
-   temp->data = data;
+    if(temp == NULL)
+    {
+        return NULL;
+    }
 
-   return temp;
+    temp->next = NULL;
+    temp->previous = NULL;
+    temp->data = data;
+
+    return temp;
 
 }
 
 void insertFront(List *list, void *toBeAdded)
 {
-
-    if(list != NULL)
+    Node * tempNode;
+    tempNode = list->head;
+    if(tempNode == NULL)
     {
-        toBeAdded = list->head;
+        tempNode = malloc(sizeof(Node));
+        tempNode->previous = NULL;
+        tempNode->data = toBeAdded;
+        tempNode->next = NULL;  
+        list->head = tempNode;
+        list->tail = tempNode;
     }
-    // else
-    // {
-    //     return 0;
-    // }
-
+    else
+    {
+        tempNode = malloc(sizeof(Node));
+        tempNode->previous = NULL;
+        tempNode->data = toBeAdded;
+        tempNode->next = list->head;
+        list->head = tempNode;
+    }
 }
 
 void insertBack(List *list, void *toBeAdded)
 {
-
-    if(list != NULL)
+    Node * tempNode = NULL;
+    tempNode = (Node*)malloc(sizeof(Node));
+    tempNode = list->head;
+    if(tempNode!= NULL)
     {
-        toBeAdded = list->tail;
-        // return toBeAdded;
+        tempNode = malloc(sizeof(Node));
+        tempNode->previous = list->tail;
+        tempNode->next = NULL;
+        tempNode->data = toBeAdded;
+        list->tail = tempNode; 
     }
-    // else
-    // {
-    //     return 0;
-    // }
+    else
+    {
+        tempNode = malloc(sizeof(Node));
+        tempNode->previous = NULL;
+        tempNode->data = toBeAdded;
+        tempNode->next = NULL;
+        list->head = tempNode;
+        list->tail = tempNode;
+    }
 
 }
+
 
 void deleteList(List *list)
 {
@@ -106,9 +126,9 @@ int deleteDataFromList(List *list, void *toBeDeleted)
     temp = list;
 
     Node * tempNode;
-    tempNode = NULL;
+    tempNode = list->head;
 
-    while(tempNode->next != NULL)
+    /*while(tempNode->next != NULL)
     {
         if(tempNode->data == toBeDeleted)
         {
@@ -116,13 +136,25 @@ int deleteDataFromList(List *list, void *toBeDeleted)
             // free(tempNode->data);
             temp->deleteData(tempNode->data);
             free(tempNode->data);
-            break;
+            return;
             // return toBeDeleted;
         }
         tempNode->previous = tempNode;
         tempNode = tempNode->next;
     }
-
+*/
+    while(tempNode->data != toBeDeleted)
+    {
+        if(tempNode->next == NULL)
+        {
+            return 0;
+        } 
+        else
+        {
+            tempNode->previous = tempNode;
+            tempNode = tempNode->next; 
+        }
+    }
 
     return 0;
     // free(tempNode->data);
@@ -134,12 +166,18 @@ int deleteDataFromList(List *list, void *toBeDeleted)
 void *getFromFront(List *list)
 {
 
+    List * temp;
+    temp = list;
+
+    Node * tempNode;
+    tempNode = temp->head; 
+
     if(list == NULL)
     {
         printf("error\n");
     }
-    
-    return list->head;
+
+    return tempNode->data;
 
 }
 
@@ -150,25 +188,10 @@ void *getFromBack(List *list)
     temp = list;
 
     Node * tempNode;
-    tempNode = NULL;
+    tempNode = temp->tail;
 
-    // if(list == NULL)
-    // {
-    //     return;
-    // }
 
-    tempNode->previous = temp->head;
-    tempNode = tempNode->next;
-
-    while(tempNode->next != NULL)
-    {
-        tempNode->previous = tempNode->next;
-        tempNode = tempNode->next;
-    }
-
-    temp->tail = tempNode->previous;
-
-    return temp->tail;
+    return tempNode->data;
 }
 
 void printForward(List *list)
@@ -218,4 +241,5 @@ void printBackwards(List *list)
     }
 
 }
+
 
