@@ -12,8 +12,14 @@ $(EXE): LinkedListAPI.o BIN
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
 
+cppcheck:
+	cppcheck --enable=all --language=c --std=c99 --inconclusive --suppress=missingInclude src/*.c -i ./include
+
 LinkedListAPI.o: ./src/LinkedListAPI.c
 	$(CC) -c $(CFLAGS) ./src/LinkedListAPI.c -Iinclude
+
+doxy: Doxyfile
+	doxygen
 
 clean:
 	rm *.o
