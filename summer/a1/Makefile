@@ -21,5 +21,8 @@ LinkedListAPI.o: ./src/LinkedListAPI.c
 doxy: Doxyfile
 	doxygen
 
+test: ./src/parse.o BIN
+	gcc parse.o -o ./bin/test
+
 clean:
 	rm *.o
