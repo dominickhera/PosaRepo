@@ -5,8 +5,8 @@
  * @brief File containing the function definitions of a doubly linked list
  */
 
-#ifndef _LIST_API_
-#define _LIST_API_
+#ifndef _EAST_LIST_API_
+#define _EAST_LIST_API_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,7 +62,7 @@ void insertEastFront(EastList *eastlist, void *toBeAdded);
 *@param list pointer to the dummy head of the list
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
-void insertEastBack(EastList *eastlist, void *toBeAdded);
+// void insertEastBack(EastList *eastlist, void *toBeAdded);
 
 /** Deletes the entire linked list head to tail, starting with the nodes, followed by the list itself.
 *@pre 'List' type must exist and be used in order to keep track of the linked list.
@@ -114,7 +114,7 @@ void printEastForward(EastList *eastlist);
  *@pre List must exist, but does not have to have elements.
  *@param list Pointer to linked list dummy head.
  **/
-void printEastBackwards(EastList *eastlist);
+// void printEastBackwards(EastList *eastlist);
 
 
 

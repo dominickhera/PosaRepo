@@ -5,8 +5,8 @@
  * @brief File containing the function definitions of a doubly linked list
  */
 
-#ifndef _LIST_API_
-#define _LIST_API_
+#ifndef _WEST_LIST_API_
+#define _WEST_LIST_API_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,13 +57,6 @@ WestNode *initializeWestNode(void *data);
 **/
 void insertWestFront(WestList *list, void *toBeAdded);
 
-/**Inserts a Node to the back of a linked list. The list then updates accordingly to adhere to the ADT.
-*@pre 'List' type must exist and be used in order to keep track of the linked list.
-*@param list pointer to the dummy head of the list
-*@param toBeAdded a pointer to data that is to be added to the linked list
-**/
-void insertWestBack(WestList *list, void *toBeAdded);
-
 /** Deletes the entire linked list head to tail, starting with the nodes, followed by the list itself.
 *@pre 'List' type must exist and be used in order to keep track of the linked list.
 *@param list pointer to the List-type dummy node
@@ -109,17 +102,6 @@ void *getFromWestBack(WestList *list);
  *@param list Pointer to linked list dummy head.
  **/
 void printWestForward(WestList *list);
-
-/**Function to print list from tail to head. This will utilize the list's printData function pointer to print.
- *@pre List must exist, but does not have to have elements.
- *@param list Pointer to linked list dummy head.
- **/
-void printWestBackwards(WestList *list);
-
-
-
-
-
 
 
 
