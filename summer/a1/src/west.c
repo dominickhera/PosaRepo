@@ -10,8 +10,8 @@ WestList *initializeWestList(void (*printFunction)(void *tobePrinted),void (*del
         return NULL;
     }
 
-    temp->head = NULL;
-    temp->tail = NULL;
+    temp->westHead = NULL;
+    temp->westTail = NULL;
     temp->printData = printFunction;
     temp->deleteData = deleteFunction;
     temp->compare = compareFunction;
@@ -31,7 +31,7 @@ WestNode *initializeWestNode(void *data)
 
     temp->next = NULL;
     temp->previous = NULL;
-    temp->data = data;
+    temp->westData = data;
 
     return temp;
 
@@ -46,7 +46,7 @@ void insertWestFront(WestList *westList, void *toBeAdded)
     {
         tempNode = malloc(sizeof(WestNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->westData = toBeAdded;
         tempNode->next = NULL;  
         westList->westHead = tempNode;
         westList->westTail = tempNode;
@@ -55,9 +55,9 @@ void insertWestFront(WestList *westList, void *toBeAdded)
     {
         tempNode = malloc(sizeof(WestNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
-        tempNode->next = list->head;
-        list->head = tempNode;
+        tempNode->westData = toBeAdded;
+        tempNode->next = westList->westHead;
+        westList->westHead = tempNode;
     }
 }
 
@@ -70,7 +70,7 @@ void deleteWestList(WestList *westList)
     WestNode * tempNode;
     tempNode = westList->westHead;
 
-    if(list != NULL)
+    if(westList != NULL)
     {
         while(tempNode->next != NULL)
         {
@@ -81,7 +81,7 @@ void deleteWestList(WestList *westList)
     } 
 }
 
-void insertWestSorted(WestList *list, void *toBeAdded)
+void insertWestSorted(WestList *westList, void *toBeAdded)
 {
     WestList * temp;
     temp = westList;
@@ -92,7 +92,7 @@ void insertWestSorted(WestList *list, void *toBeAdded)
     {
         tempNode = malloc(sizeof(WestNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->westData = toBeAdded;
         tempNode->next = NULL;  
         westList->westHead = tempNode;
         westList->westTail = tempNode;
@@ -101,7 +101,7 @@ void insertWestSorted(WestList *list, void *toBeAdded)
     {
         tempNode = malloc(sizeof(WestNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->westData = toBeAdded;
         tempNode->next = westList->westHead;
         westList->westHead = tempNode;
     }
@@ -119,7 +119,7 @@ int deleteDataFromWestList(WestList *westList, void *toBeDeleted)
 
     while(tempNode->next != NULL)
     {
-        if(tempNode->data == toBeDeleted)
+        if(tempNode->westData == toBeDeleted)
         {
             if(tempNode->next != NULL)
             {
@@ -152,7 +152,7 @@ void *getFromWestFront(WestList *westList)
         printf("error\n");
     }
 
-    return tempNode->data;
+    return tempNode->westData;
 
 }
 
@@ -166,7 +166,7 @@ void *getFromWestBack(WestList *westList)
     tempNode = temp->westTail;
 
 
-    return tempNode->data;
+    return tempNode->westData;
 }
 
 void printWestForward(WestList *westList)
@@ -180,7 +180,7 @@ void printWestForward(WestList *westList)
 
     while(tempNode != NULL)
     {
-        temp->printData(tempNode->data);
+        temp->printData(tempNode->westData);
         tempNode = tempNode->next;
         tempNode->previous = tempNode;
     }

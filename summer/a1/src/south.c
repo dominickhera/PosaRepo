@@ -31,7 +31,7 @@ SouthNode *initializeSouthNode(void *data)
 
     temp->next = NULL;
     temp->previous = NULL;
-    temp->data = data;
+    temp->southData = data;
 
     return temp;
 
@@ -46,7 +46,7 @@ void insertSouthFront(SouthList *southList, void *toBeAdded)
     {
         tempNode = malloc(sizeof(SouthNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->southData = toBeAdded;
         tempNode->next = NULL;  
         southList->southHead = tempNode;
         southList->southTail = tempNode;
@@ -55,7 +55,7 @@ void insertSouthFront(SouthList *southList, void *toBeAdded)
     {
         tempNode = malloc(sizeof(SouthNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->southData = toBeAdded;
         tempNode->next = southList->southHead;
         southList->southHead = tempNode;
     }
@@ -92,7 +92,7 @@ void insertSouthSorted(SouthList *southList, void *toBeAdded)
     {
         tempNode = malloc(sizeof(SouthNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->southData = toBeAdded;
         tempNode->next = NULL;  
         southList->southHead = tempNode;
         southList->southTail = tempNode;
@@ -101,8 +101,8 @@ void insertSouthSorted(SouthList *southList, void *toBeAdded)
     {
         tempNode = malloc(sizeof(SouthNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
-        tempNode->next = list->head;
+        tempNode->southData = toBeAdded;
+        tempNode->next = southList->southHead;
         southList->southHead = tempNode;
     }
 
@@ -119,7 +119,7 @@ int deleteDataFromSouthList(SouthList *southList, void *toBeDeleted)
 
     while(tempNode->next != NULL)
     {
-        if(tempNode->data == toBeDeleted)
+        if(tempNode->southData == toBeDeleted)
         {
             if(tempNode->next != NULL)
             {
@@ -152,7 +152,7 @@ void *getFromSouthFront(SouthList *southList)
         printf("error\n");
     }
 
-    return tempNode->data;
+    return tempNode->southData;
 
 }
 
@@ -166,7 +166,7 @@ void *getFromSouthBack(SouthList *southList)
     tempNode = temp->southTail;
 
 
-    return tempNode->data;
+    return tempNode->southData;
 }
 
 void printSouthForward(SouthList *southList)
@@ -180,7 +180,7 @@ void printSouthForward(SouthList *southList)
 
     while(tempNode != NULL)
     {
-        temp->printData(tempNode->data);
+        temp->printData(tempNode->southData);
         tempNode = tempNode->next;
         tempNode->previous = tempNode;
     }

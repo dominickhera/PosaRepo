@@ -16,7 +16,7 @@
 of it, as well as the node immediately behind it.
 **/
 typedef struct listSouthNode{
-    void *data;
+    void *southData;
     struct listSouthNode *previous;
     struct listSouthNode *next;
 } SouthNode;
@@ -25,8 +25,8 @@ typedef struct listSouthNode{
  *Dummy head of the list. Contains no actual data on it beyond a pointer to the front and end of the list.
  **/
 typedef struct listSouthHead{
-    Node *southHead;
-    Node *southTail;
+    SouthNode *southHead;
+    SouthNode *southTail;
     void (*deleteData)(void *toBeDeleted);
     int (*compare)(const void *first,const void *second);
     void (*printData)(void *toBePrinted);
@@ -38,7 +38,7 @@ typedef struct listSouthHead{
 *@param deleteFunction function pointer to delete a single piece of data from the list
 *@param compareFunction function pointer to compare two nodes of the list in order to test for equality or order
 **/
-SouthList *initializeList(void (*printFunction)(void *toBePrinted),void (*deleteFunction)(void *toBeDeleted),int (*compareFunction)(const void *first,const void *second));
+SouthList *initializeSouthList(void (*printFunction)(void *toBePrinted),void (*deleteFunction)(void *toBeDeleted),int (*compareFunction)(const void *first,const void *second));
 
 /**Function for creating a node for a linked list. This node contains generic data and may be connected to 
 other notes in a list.

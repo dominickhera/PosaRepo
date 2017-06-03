@@ -11,7 +11,7 @@ EastList *initializeEastList(void (*printFunction)(void *tobePrinted),void (*del
     }
 
     temp->eastHead = NULL;
-    temp->eastHail = NULL;
+    temp->eastTail = NULL;
     temp->printData = printFunction;
     temp->deleteData = deleteFunction;
     temp->compare = compareFunction;
@@ -31,7 +31,7 @@ EastNode *initializeEastNode(void *data)
 
     temp->next = NULL;
     temp->previous = NULL;
-    temp->data = data;
+    temp->eastData = data;
 
     return temp;
 
@@ -40,13 +40,13 @@ EastNode *initializeEastNode(void *data)
 void insertEastFront(EastList *eastList, void *toBeAdded)
 {
     EastNode * tempNode;
-    tempNode = list->eastHead;
+    tempNode = eastList->eastHead;
     
     if(tempNode == NULL)
     {
         tempNode = malloc(sizeof(EastNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->eastData = toBeAdded;
         tempNode->next = NULL;  
         eastList->eastHead = tempNode;
         eastList->eastTail = tempNode;
@@ -55,7 +55,7 @@ void insertEastFront(EastList *eastList, void *toBeAdded)
     {
         tempNode = malloc(sizeof(EastNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->eastData = toBeAdded;
         tempNode->next = eastList->eastHead;
         eastList->eastHead = tempNode;
     }
@@ -70,7 +70,7 @@ void deleteEastList(EastList *eastList)
     EastNode * tempNode;
     tempNode = eastList->eastHead;
 
-    if(list != NULL)
+    if(eastList != NULL)
     {
         while(tempNode->next != NULL)
         {
@@ -92,7 +92,7 @@ void insertEastSorted(EastList *eastList, void *toBeAdded)
     {
         tempNode = malloc(sizeof(EastNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->eastData = toBeAdded;
         tempNode->next = NULL;  
         eastList->eastHead = tempNode;
         eastList->eastTail = tempNode;
@@ -101,8 +101,8 @@ void insertEastSorted(EastList *eastList, void *toBeAdded)
     {
         tempNode = malloc(sizeof(EastNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
-        tempNode->next = list->head;
+        tempNode->eastData = toBeAdded;
+        tempNode->next = eastList->eastHead;
         eastList->eastHead = tempNode;
     }
 
@@ -119,7 +119,7 @@ int deleteDataFromEastList(EastList *eastList, void *toBeDeleted)
 
     while(tempNode->next != NULL)
     {
-        if(tempNode->data == toBeDeleted)
+        if(tempNode->eastData == toBeDeleted)
         {
             if(tempNode->next != NULL)
             {
@@ -152,7 +152,7 @@ void *getFromEastFront(EastList *eastList)
         printf("error\n");
     }
 
-    return tempNode->data;
+    return tempNode->eastData;
 
 }
 
@@ -166,7 +166,7 @@ void *getFromEastBack(EastList *eastList)
     tempNode = temp->eastTail;
 
 
-    return tempNode->data;
+    return tempNode->eastData;
 }
 
 void printEastForward(EastList *eastList)
@@ -180,7 +180,7 @@ void printEastForward(EastList *eastList)
 
     while(tempNode != NULL)
     {
-        temp->printData(tempNode->data);
+        temp->printData(tempNode->eastData);
         tempNode = tempNode->next;
         tempNode->previous = tempNode;
     }

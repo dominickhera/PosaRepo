@@ -1,5 +1,5 @@
-#ifndef _DHERA_PARSE_
-#define _DHERA_PARSE_
+#ifndef _DHERA_FUNCTIONS_
+#define _DHERA_FUNCTIONS_
 
 #include <stdio.h>
 #include <stdlib.h>

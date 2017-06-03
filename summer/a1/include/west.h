@@ -16,7 +16,7 @@
 of it, as well as the node immediately behind it.
 **/
 typedef struct listWestNode{
-    void *data;
+    void *westData;
     struct listWestNode *previous;
     struct listWestNode *next;
 } WestNode;
@@ -25,8 +25,8 @@ typedef struct listWestNode{
  *Dummy head of the list. Contains no actual data on it beyond a pointer to the front and end of the list.
  **/
 typedef struct listWestHead{
-    Node *westHead;
-    Node *westTail;
+    WestNode *westHead;
+    WestNode *westTail;
     void (*deleteData)(void *toBeDeleted);
     int (*compare)(const void *first,const void *second);
     void (*printData)(void *toBePrinted);

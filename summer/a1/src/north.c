@@ -31,7 +31,7 @@ NorthNode *initializeNorthNode(void *data)
 
     temp->next = NULL;
     temp->previous = NULL;
-    temp->data = data;
+    temp->northData = data;
 
     return temp;
 
@@ -46,45 +46,20 @@ void insertFront(NorthList *northList, void *toBeAdded)
     {
         tempNode = malloc(sizeof(NorthNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->northData = toBeAdded;
         tempNode->next = NULL;  
         northList->northHead = tempNode;
         northList->northTail = tempNode;
     }
     else
     {
-        tempNode = malloc(sizeof(Node));
+        tempNode = malloc(sizeof(NorthNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->northData = toBeAdded;
         tempNode->next = northList->northHead;
         northList->northHead = tempNode;
     }
 }
-
-// void insertBack(NorthList *list, void *toBeAdded)
-// {
-//     NorthNode * tempNode = NULL;
-//     tempNode = (Node*)malloc(sizeof(Node));
-//     tempNode = list->head;
-//     if(tempNode!= NULL)
-//     {
-//         tempNode = malloc(sizeof(Node));
-//         tempNode->previous = list->tail;
-//         tempNode->next = NULL;
-//         tempNode->data = toBeAdded;
-//         list->tail = tempNode; 
-//     }
-//     else
-//     {
-//         tempNode = malloc(sizeof(Node));
-//         tempNode->previous = NULL;
-//         tempNode->data = toBeAdded;
-//         tempNode->next = NULL;
-//         list->head = tempNode;
-//         list->tail = tempNode;
-//     }
-
-// }
 
 
 void deleteNorthList(NorthList *northList)
@@ -118,7 +93,7 @@ void insertNorthSorted(NorthList *northList, void *toBeAdded)
     {
         tempNode = malloc(sizeof(NorthNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->northData = toBeAdded;
         tempNode->next = NULL;  
         northList->northHead = tempNode;
         northList->northTail = tempNode;
@@ -127,7 +102,7 @@ void insertNorthSorted(NorthList *northList, void *toBeAdded)
     {
         tempNode = malloc(sizeof(NorthNode));
         tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        tempNode->northData = toBeAdded;
         tempNode->next = northList->northHead;
         northList->northHead = tempNode;
     }
@@ -145,7 +120,7 @@ int deleteDataFromNorthList(NorthList *northList, void *toBeDeleted)
 
     while(tempNode->next != NULL)
     {
-        if(tempNode->data == toBeDeleted)
+        if(tempNode->northData == toBeDeleted)
         {
             if(tempNode->next != NULL)
             {
@@ -171,14 +146,14 @@ void *getFromNorthFront(NorthList *northList)
     temp = northList;
 
     NorthNode * tempNode;
-    tempNode = temp->head; 
+    tempNode = temp->northHead; 
 
-    if(list == NULL)
+    if(northList == NULL)
     {
         printf("error\n");
     }
 
-    return tempNode->data;
+    return tempNode->northData;
 
 }
 
@@ -188,11 +163,11 @@ void *getFromNorthBack(NorthList *northList)
     NorthList * temp;
     temp = northList;
 
-    NodeNode * tempNode;
+    NorthNode * tempNode;
     tempNode = temp->northTail;
 
 
-    return tempNode->data;
+    return tempNode->northData;
 }
 
 void printNorthForward(NorthList *northList)
@@ -206,28 +181,10 @@ void printNorthForward(NorthList *northList)
 
     while(tempNode != NULL)
     {
-        temp->printData(tempNode->data);
+        temp->printData(tempNode->northData);
         tempNode = tempNode->next;
         tempNode->previous = tempNode;
     }
 }
-
-// void printBackwards(NorthList *northList)
-// {
-
-//     List * temp;
-//     temp = list;
-
-//     NorthNode * tempNode = NULL;
-//     tempNode = list->tail;
-
-//     while(tempNode != NULL)
-//     {
-//         temp->printData(tempNode->data);
-//         tempNode = tempNode->previous;
-//         tempNode->next = tempNode->previous;
-//     }
-
-// }
 
 
