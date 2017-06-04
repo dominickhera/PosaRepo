@@ -187,3 +187,20 @@ void printSouthForward(SouthList *southList)
 }
 
 
+void printSouthData(SouthList *southList)
+{
+
+    SouthList * temp;
+    temp = southList;
+
+    SouthNode * tempNode;
+    tempNode = southList->southHead;
+
+    // while(tempNode != NULL)
+    // {
+        temp->printData(tempNode->southData);
+        // tempNode = tempNode->next;
+        // tempNode->previous = tempNode;
+    // }
+}
+

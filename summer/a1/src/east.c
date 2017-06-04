@@ -186,4 +186,21 @@ void printEastForward(EastList *eastList)
     }
 }
 
+void printEastData(EastList *eastList)
+{
+
+    EastList * temp;
+    temp = eastList;
+
+    EastNode * tempNode;
+    tempNode = eastList->eastHead;
+
+    while(tempNode != NULL)
+    {
+        temp->printData(tempNode->eastData);
+        tempNode = tempNode->next;
+        // tempNode->previous = tempNode;
+    }
+}
+
 

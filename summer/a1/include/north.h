@@ -115,7 +115,7 @@ void printNorthForward(NorthList *northlist);
  *@param list Pointer to linked list dummy head.
  **/
 // void printNorthBackwards(NorthList *northlist);
-
+void printNorthData(NorthList *northList);
 
 
 #endif

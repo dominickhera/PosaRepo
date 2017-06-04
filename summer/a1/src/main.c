@@ -8,7 +8,7 @@
 
 void printFunction(void * data)
 {
-	printf("%s", (char *)data);
+	printf("%s\n", (char *)data);
 }
 
 int compareFunction(const void *first,const void *second)
@@ -31,7 +31,7 @@ int compareFunction(const void *first,const void *second)
 int main(int argc, char ** argv)
 {
     char line[256];
-    char tempChar;
+    char * tempChar = malloc(sizeof(char)*10);
     char * parse;
     int maxWaitTime = 0;
     int averageWaitTime = 0;
@@ -60,61 +60,66 @@ int main(int argc, char ** argv)
 	// strcpy(dog, "branwen");
 
 	NorthList * northList = initializeNorthList(&printFunction, &free, &compareFunction);
-	// EastList * eastList = initializeEastList(&printFunction, &free, &compareFunction);
-	// SouthList * southList = initializeSouthList(&printFunction, &free, &compareFunction);
-	// WestList * westList = initializeWestList(&printFunction, &free, &compareFunction);
+    // NorthNode *initializeNorthNode(void *data);
+	EastList * eastList = initializeEastList(&printFunction, &free, &compareFunction);
+	SouthList * southList = initializeSouthList(&printFunction, &free, &compareFunction);
+	WestList * westList = initializeWestList(&printFunction, &free, &compareFunction);
 
-
-    // NorthList * northList = NULL;
 
     while(fgets(line, sizeof(line), fp) != NULL)
     {
         parse = strtok (line," ");
-        // printf("butts");
         while (parse != NULL)
         {
-            // printf ("%s",parse);
             if(strcmp(parse, "N") == 0)
             {
             	// printf("north ");
                 parse = strtok (NULL, " ");
-                tempChar = *parse;
-                insertNorthFront(northList, (void **) tempChar);
-                printNorthForward(northList);
+                tempChar = parse;
+                initializeNorthNode((void *) tempChar);
+                insertNorthFront(northList, (void *) tempChar);
+                // printf("%s\n", (char *)northList->northHead);
+                printNorthData(northList);
                 // northData = &tempChar;
                 // printf(" %c ", northData);
                 parse = strtok (NULL, " ");
-                tempChar = *parse;
+                tempChar = parse;
                 // printf(" %c\n", tempChar);
             }
             else if(strcmp(parse, "E") == 0)
             {
                 // printf("east ");
                 parse = strtok (NULL, " ");
-                tempChar = *parse;
+                tempChar = parse;
+                insertEastFront(eastList, (void *) tempChar);
+                printEastData(eastList);
                 // printf(" %c ", tempChar);
                 parse = strtok (NULL, " ");
-                tempChar = *parse;
+                tempChar = parse;
                 // printf(" %c\n", tempChar);
             }
             else if(strcmp(parse, "S") == 0)
             {
                 // printf("south ");
                 parse = strtok (NULL, " ");
-                tempChar = *parse;
+                tempChar = parse;
+                insertSouthFront(southList, (void *) tempChar);
+                printSouthData(southList);
                 // printf(" %c ", tempChar);
                 parse = strtok (NULL, " ");
-                tempChar = *parse;
+                tempChar = parse;
                 // printf(" %c\n", tempChar);
             }
             else if(strcmp(parse, "W") == 0)
             {
                 // printf("west ");
                 parse = strtok (NULL, " ");
-                tempChar = *parse;
+                tempChar = parse;
+                insertWestFront(westList, (void *) tempChar);
+                printWestData(westList);
                 // printf(" %c ", tempChar);
                 parse = strtok (NULL, " ");
-                tempChar = *parse;
+                tempChar = parse;
                 // printf(" %c\n", tempChar);
             }
             // printf(" butts ");

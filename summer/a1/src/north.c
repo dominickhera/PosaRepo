@@ -59,6 +59,7 @@ void insertNorthFront(NorthList *northList, void *toBeAdded)
         tempNode->next = northList->northHead;
         northList->northHead = tempNode;
     }
+    // tempNode->printData(tempNode->northData);
 }
 
 
@@ -185,6 +186,23 @@ void printNorthForward(NorthList *northList)
         tempNode = tempNode->next;
         // tempNode->previous = tempNode;
     }
+}
+
+void printNorthData(NorthList *northList)
+{
+
+    NorthList * temp;
+    temp = northList;
+
+    NorthNode * tempNode;
+    tempNode = northList->northHead;
+
+    // while(tempNode != NULL)
+    // {
+        temp->printData(tempNode->northData);
+        tempNode = tempNode->next;
+        // tempNode->previous = tempNode;
+    // }
 }
 
 

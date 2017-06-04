@@ -103,7 +103,7 @@ void *getFromWestBack(WestList *list);
  **/
 void printWestForward(WestList *list);
 
-
+void printWestData(WestList *westList);
 
 
 #endif

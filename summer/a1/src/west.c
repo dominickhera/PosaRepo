@@ -186,4 +186,20 @@ void printWestForward(WestList *westList)
     }
 }
 
+void printWestData(WestList *westList)
+{
+
+    WestList * temp;
+    temp = westList;
+
+    WestNode * tempNode;
+    tempNode = westList->westHead;
+
+    // while(tempNode != NULL)
+    // {
+        temp->printData(tempNode->westData);
+        tempNode = tempNode->next;
+        // tempNode->previous = tempNode;
+    // }
+}
 

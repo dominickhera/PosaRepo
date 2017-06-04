@@ -115,7 +115,7 @@ void printEastForward(EastList *eastlist);
  *@param list Pointer to linked list dummy head.
  **/
 // void printEastBackwards(EastList *eastlist);
-
+void printEastData(EastList *eastList);
 
 #endif
 
