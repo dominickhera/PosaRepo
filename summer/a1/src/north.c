@@ -30,14 +30,14 @@ NorthNode *initializeNorthNode(void *data)
     }
 
     temp->next = NULL;
-    temp->previous = NULL;
+    // temp->previous = NULL;
     temp->northData = data;
 
     return temp;
 
 }
 
-void insertFront(NorthList *northList, void *toBeAdded)
+void insertNorthFront(NorthList *northList, void *toBeAdded)
 {
     NorthNode * tempNode;
     tempNode = northList->northHead;
@@ -45,7 +45,7 @@ void insertFront(NorthList *northList, void *toBeAdded)
     if(tempNode == NULL)
     {
         tempNode = malloc(sizeof(NorthNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->northData = toBeAdded;
         tempNode->next = NULL;  
         northList->northHead = tempNode;
@@ -54,7 +54,7 @@ void insertFront(NorthList *northList, void *toBeAdded)
     else
     {
         tempNode = malloc(sizeof(NorthNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->northData = toBeAdded;
         tempNode->next = northList->northHead;
         northList->northHead = tempNode;
@@ -92,7 +92,7 @@ void insertNorthSorted(NorthList *northList, void *toBeAdded)
     if(tempNode == NULL)
     {
         tempNode = malloc(sizeof(NorthNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->northData = toBeAdded;
         tempNode->next = NULL;  
         northList->northHead = tempNode;
@@ -101,7 +101,7 @@ void insertNorthSorted(NorthList *northList, void *toBeAdded)
     else
     {
         tempNode = malloc(sizeof(NorthNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->northData = toBeAdded;
         tempNode->next = northList->northHead;
         northList->northHead = tempNode;
@@ -124,13 +124,13 @@ int deleteDataFromNorthList(NorthList *northList, void *toBeDeleted)
         {
             if(tempNode->next != NULL)
             {
-                tempNode->next->previous = tempNode->previous;
+                tempNode->next = tempNode->next->next;
             } 
 
-            if(tempNode->previous != NULL)
-            {
-                tempNode->previous->next = tempNode->next;
-            }
+            // if(tempNode->previous != NULL)
+            // {
+            //     tempNode->previous->next = tempNode->next;
+            // }
             free(tempNode);
         }
         tempNode = tempNode->next;
@@ -183,7 +183,7 @@ void printNorthForward(NorthList *northList)
     {
         temp->printData(tempNode->northData);
         tempNode = tempNode->next;
-        tempNode->previous = tempNode;
+        // tempNode->previous = tempNode;
     }
 }
 

@@ -30,7 +30,7 @@ WestNode *initializeWestNode(void *data)
     }
 
     temp->next = NULL;
-    temp->previous = NULL;
+    // temp->previous = NULL;
     temp->westData = data;
 
     return temp;
@@ -45,7 +45,7 @@ void insertWestFront(WestList *westList, void *toBeAdded)
     if(tempNode == NULL)
     {
         tempNode = malloc(sizeof(WestNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->westData = toBeAdded;
         tempNode->next = NULL;  
         westList->westHead = tempNode;
@@ -54,7 +54,7 @@ void insertWestFront(WestList *westList, void *toBeAdded)
     else
     {
         tempNode = malloc(sizeof(WestNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->westData = toBeAdded;
         tempNode->next = westList->westHead;
         westList->westHead = tempNode;
@@ -91,7 +91,7 @@ void insertWestSorted(WestList *westList, void *toBeAdded)
     if(tempNode == NULL)
     {
         tempNode = malloc(sizeof(WestNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->westData = toBeAdded;
         tempNode->next = NULL;  
         westList->westHead = tempNode;
@@ -100,7 +100,7 @@ void insertWestSorted(WestList *westList, void *toBeAdded)
     else
     {
         tempNode = malloc(sizeof(WestNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->westData = toBeAdded;
         tempNode->next = westList->westHead;
         westList->westHead = tempNode;
@@ -123,13 +123,13 @@ int deleteDataFromWestList(WestList *westList, void *toBeDeleted)
         {
             if(tempNode->next != NULL)
             {
-                tempNode->next->previous = tempNode->previous;
+                tempNode->next = tempNode->next->next;
             } 
 
-            if(tempNode->previous != NULL)
-            {
-                tempNode->previous->next = tempNode->next;
-            }
+            // if(tempNode->previous != NULL)
+            // {
+            //     tempNode->previous->next = tempNode->next;
+            // }
             free(tempNode);
         }
         tempNode = tempNode->next;
@@ -182,7 +182,7 @@ void printWestForward(WestList *westList)
     {
         temp->printData(tempNode->westData);
         tempNode = tempNode->next;
-        tempNode->previous = tempNode;
+        // tempNode->previous = tempNode;
     }
 }
 

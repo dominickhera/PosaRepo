@@ -17,7 +17,7 @@ of it, as well as the node immediately behind it.
 **/
 typedef struct listWestNode{
     void *westData;
-    struct listWestNode *previous;
+    // struct listWestNode *previous;
     struct listWestNode *next;
 } WestNode;
 

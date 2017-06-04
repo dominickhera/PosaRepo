@@ -30,7 +30,7 @@ EastNode *initializeEastNode(void *data)
     }
 
     temp->next = NULL;
-    temp->previous = NULL;
+    // temp->previous = NULL;
     temp->eastData = data;
 
     return temp;
@@ -45,7 +45,7 @@ void insertEastFront(EastList *eastList, void *toBeAdded)
     if(tempNode == NULL)
     {
         tempNode = malloc(sizeof(EastNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->eastData = toBeAdded;
         tempNode->next = NULL;  
         eastList->eastHead = tempNode;
@@ -54,7 +54,7 @@ void insertEastFront(EastList *eastList, void *toBeAdded)
     else
     {
         tempNode = malloc(sizeof(EastNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->eastData = toBeAdded;
         tempNode->next = eastList->eastHead;
         eastList->eastHead = tempNode;
@@ -91,7 +91,7 @@ void insertEastSorted(EastList *eastList, void *toBeAdded)
     if(tempNode == NULL)
     {
         tempNode = malloc(sizeof(EastNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->eastData = toBeAdded;
         tempNode->next = NULL;  
         eastList->eastHead = tempNode;
@@ -100,7 +100,7 @@ void insertEastSorted(EastList *eastList, void *toBeAdded)
     else
     {
         tempNode = malloc(sizeof(EastNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->eastData = toBeAdded;
         tempNode->next = eastList->eastHead;
         eastList->eastHead = tempNode;
@@ -123,13 +123,13 @@ int deleteDataFromEastList(EastList *eastList, void *toBeDeleted)
         {
             if(tempNode->next != NULL)
             {
-                tempNode->next->previous = tempNode->previous;
+                tempNode->next = tempNode->next->next;
             } 
 
-            if(tempNode->previous != NULL)
-            {
-                tempNode->previous->next = tempNode->next;
-            }
+            // if(tempNode->previous != NULL)
+            // {
+            //     tempNode->previous->next = tempNode->next;
+            // }
             free(tempNode);
         }
         tempNode = tempNode->next;
@@ -182,7 +182,7 @@ void printEastForward(EastList *eastList)
     {
         temp->printData(tempNode->eastData);
         tempNode = tempNode->next;
-        tempNode->previous = tempNode;
+        // tempNode->previous = tempNode;
     }
 }
 

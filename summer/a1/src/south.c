@@ -30,7 +30,7 @@ SouthNode *initializeSouthNode(void *data)
     }
 
     temp->next = NULL;
-    temp->previous = NULL;
+    // temp->previous = NULL;
     temp->southData = data;
 
     return temp;
@@ -45,7 +45,7 @@ void insertSouthFront(SouthList *southList, void *toBeAdded)
     if(tempNode == NULL)
     {
         tempNode = malloc(sizeof(SouthNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->southData = toBeAdded;
         tempNode->next = NULL;  
         southList->southHead = tempNode;
@@ -54,7 +54,7 @@ void insertSouthFront(SouthList *southList, void *toBeAdded)
     else
     {
         tempNode = malloc(sizeof(SouthNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->southData = toBeAdded;
         tempNode->next = southList->southHead;
         southList->southHead = tempNode;
@@ -91,7 +91,7 @@ void insertSouthSorted(SouthList *southList, void *toBeAdded)
     if(tempNode == NULL)
     {
         tempNode = malloc(sizeof(SouthNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->southData = toBeAdded;
         tempNode->next = NULL;  
         southList->southHead = tempNode;
@@ -100,7 +100,7 @@ void insertSouthSorted(SouthList *southList, void *toBeAdded)
     else
     {
         tempNode = malloc(sizeof(SouthNode));
-        tempNode->previous = NULL;
+        // tempNode->previous = NULL;
         tempNode->southData = toBeAdded;
         tempNode->next = southList->southHead;
         southList->southHead = tempNode;
@@ -123,13 +123,13 @@ int deleteDataFromSouthList(SouthList *southList, void *toBeDeleted)
         {
             if(tempNode->next != NULL)
             {
-                tempNode->next->previous = tempNode->previous;
+                tempNode->next = tempNode->next->next;
             } 
 
-            if(tempNode->previous != NULL)
-            {
-                tempNode->previous->next = tempNode->next;
-            }
+            // if(tempNode->previous != NULL)
+            // {
+            //     tempNode->previous->next = tempNode->next;
+            // }
             free(tempNode);
         }
         tempNode = tempNode->next;
@@ -182,7 +182,7 @@ void printSouthForward(SouthList *southList)
     {
         temp->printData(tempNode->southData);
         tempNode = tempNode->next;
-        tempNode->previous = tempNode;
+        // tempNode->previous = tempNode;
     }
 }
 

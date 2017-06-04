@@ -17,7 +17,7 @@ of it, as well as the node immediately behind it.
 **/
 typedef struct listEastNode{
     void *eastData;
-    struct listEastNode *previous;
+    // struct listEastNode *previous;
     struct listEastNode *next;
 } EastNode;
 
@@ -115,13 +115,6 @@ void printEastForward(EastList *eastlist);
  *@param list Pointer to linked list dummy head.
  **/
 // void printEastBackwards(EastList *eastlist);
-
-
-
-
-
-
-
 
 
 #endif
