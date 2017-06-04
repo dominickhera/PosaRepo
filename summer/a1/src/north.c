@@ -37,7 +37,7 @@ NorthNode *initializeNorthNode(void *data)
 
 }
 
-void insertNorthFront(NorthList *northList, void *toBeAdded)
+void insertNorthFront(NorthList *northList, void *toBeAdded, void *timeToBeAdded)
 {
     NorthNode * tempNode;
     tempNode = northList->northHead;
@@ -47,6 +47,7 @@ void insertNorthFront(NorthList *northList, void *toBeAdded)
         tempNode = malloc(sizeof(NorthNode));
         // tempNode->previous = NULL;
         tempNode->northData = toBeAdded;
+        tempNode->northTimeData = timeToBeAdded;
         tempNode->next = NULL;  
         northList->northHead = tempNode;
         northList->northTail = tempNode;
@@ -56,6 +57,7 @@ void insertNorthFront(NorthList *northList, void *toBeAdded)
         tempNode = malloc(sizeof(NorthNode));
         // tempNode->previous = NULL;
         tempNode->northData = toBeAdded;
+        tempNode->northTimeData = timeToBeAdded;
         tempNode->next = northList->northHead;
         northList->northHead = tempNode;
     }
@@ -83,7 +85,7 @@ void deleteNorthList(NorthList *northList)
     } 
 }
 
-void insertNorthSorted(NorthList *northList, void *toBeAdded)
+void insertNorthSorted(NorthList *northList, void *toBeAdded, void *timeToBeAdded)
 {
     NorthList * temp;
     temp = northList;
@@ -95,6 +97,7 @@ void insertNorthSorted(NorthList *northList, void *toBeAdded)
         tempNode = malloc(sizeof(NorthNode));
         // tempNode->previous = NULL;
         tempNode->northData = toBeAdded;
+        tempNode->northTimeData = timeToBeAdded;
         tempNode->next = NULL;  
         northList->northHead = tempNode;
         northList->northTail = tempNode;
@@ -104,6 +107,7 @@ void insertNorthSorted(NorthList *northList, void *toBeAdded)
         tempNode = malloc(sizeof(NorthNode));
         // tempNode->previous = NULL;
         tempNode->northData = toBeAdded;
+        tempNode->northTimeData = timeToBeAdded;
         tempNode->next = northList->northHead;
         northList->northHead = tempNode;
     }
@@ -205,4 +209,20 @@ void printNorthData(NorthList *northList)
     // }
 }
 
+void printNorthTimeData(NorthList *northList)
+{
+
+    NorthList * temp;
+    temp = northList;
+
+    NorthNode * tempNode;
+    tempNode = northList->northHead;
+
+    // while(tempNode != NULL)
+    // {
+        temp->printData(tempNode->northTimeData);
+        // tempNode = tempNode->next;
+        // tempNode->previous = tempNode;
+    // }
+}
 

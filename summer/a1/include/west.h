@@ -17,6 +17,7 @@ of it, as well as the node immediately behind it.
 **/
 typedef struct listWestNode{
     void *westData;
+    void *westTimeData;
     // struct listWestNode *previous;
     struct listWestNode *next;
 } WestNode;
@@ -55,7 +56,7 @@ WestNode *initializeWestNode(void *data);
 *@param list pointer to the dummy head of the list
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
-void insertWestFront(WestList *list, void *toBeAdded);
+void insertWestFront(WestList *list, void *toBeAdded, void *timeToBeAdded);
 
 /** Deletes the entire linked list head to tail, starting with the nodes, followed by the list itself.
 *@pre 'List' type must exist and be used in order to keep track of the linked list.
@@ -104,7 +105,7 @@ void *getFromWestBack(WestList *list);
 void printWestForward(WestList *list);
 
 void printWestData(WestList *westList);
-
+void printWestTimeData(WestList *westList);
 
 #endif
 

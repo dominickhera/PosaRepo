@@ -8,7 +8,7 @@
 
 void printFunction(void * data)
 {
-	printf("%s\n", (char *)data);
+	printf("%s", (char *)data);
 }
 
 int compareFunction(const void *first,const void *second)
@@ -32,6 +32,7 @@ int main(int argc, char ** argv)
 {
     char line[256];
     char * tempChar = malloc(sizeof(char)*10);
+    char * tempNum = malloc(sizeof(char)*10);
     char * parse;
     int maxWaitTime = 0;
     int averageWaitTime = 0;
@@ -51,16 +52,7 @@ int main(int argc, char ** argv)
         printf("incorrect amount of input\n");
     }
 
- //    Array * arr = createArray(3, &printme, &free); //because my data is just a string I can send free as the cleanup function
-	// char * name = malloc(sizeof(char)*10);
-	// char * cat = malloc(sizeof(char)*10);
-	// char * dog = malloc(sizeof(char)*10);
-	// strcpy(name, "judi");
-	// strcpy(cat, "baldr");
-	// strcpy(dog, "branwen");
-
 	NorthList * northList = initializeNorthList(&printFunction, &free, &compareFunction);
-    // NorthNode *initializeNorthNode(void *data);
 	EastList * eastList = initializeEastList(&printFunction, &free, &compareFunction);
 	SouthList * southList = initializeSouthList(&printFunction, &free, &compareFunction);
 	WestList * westList = initializeWestList(&printFunction, &free, &compareFunction);
@@ -73,67 +65,55 @@ int main(int argc, char ** argv)
         {
             if(strcmp(parse, "N") == 0)
             {
-            	// printf("north ");
+            	printf("N");
                 parse = strtok (NULL, " ");
                 tempChar = parse;
                 initializeNorthNode((void *) tempChar);
-                insertNorthFront(northList, (void *) tempChar);
-                // printf("%s\n", (char *)northList->northHead);
-                printNorthData(northList);
-                // northData = &tempChar;
-                // printf(" %c ", northData);
                 parse = strtok (NULL, " ");
-                tempChar = parse;
-                // printf(" %c\n", tempChar);
+                tempNum = parse;
+                insertNorthFront(northList, (void *) tempChar, (void *) tempNum);
+                printNorthData(northList);
+                printNorthTimeData(northList);
             }
             else if(strcmp(parse, "E") == 0)
             {
-                // printf("east ");
+                printf("E");
                 parse = strtok (NULL, " ");
                 tempChar = parse;
-                insertEastFront(eastList, (void *) tempChar);
+                initializeEastNode((void *) tempChar);
+                parse = strtok (NULL, " ");
+                tempNum = parse;
+                insertEastFront(eastList, (void *) tempChar, (void *) tempNum);
                 printEastData(eastList);
-                // printf(" %c ", tempChar);
-                parse = strtok (NULL, " ");
-                tempChar = parse;
-                // printf(" %c\n", tempChar);
+                printEastTimeData(eastList);
             }
             else if(strcmp(parse, "S") == 0)
             {
-                // printf("south ");
+                printf("S");
                 parse = strtok (NULL, " ");
                 tempChar = parse;
-                insertSouthFront(southList, (void *) tempChar);
+                initializeSouthNode((void *) tempChar);
+                parse = strtok (NULL, " ");
+                tempNum = parse;
+                insertSouthFront(southList, (void *) tempChar, (void *)tempNum);
                 printSouthData(southList);
-                // printf(" %c ", tempChar);
-                parse = strtok (NULL, " ");
-                tempChar = parse;
-                // printf(" %c\n", tempChar);
+                printSouthTimeData(southList);
             }
             else if(strcmp(parse, "W") == 0)
             {
-                // printf("west ");
+                printf("W");
                 parse = strtok (NULL, " ");
                 tempChar = parse;
-                insertWestFront(westList, (void *) tempChar);
+                initializeWestNode((void *) tempChar);
+                parse = strtok (NULL, " ");
+                tempNum = parse;
+                insertWestFront(westList, (void *) tempChar, (void *)tempNum);
                 printWestData(westList);
-                // printf(" %c ", tempChar);
-                parse = strtok (NULL, " ");
-                tempChar = parse;
-                // printf(" %c\n", tempChar);
+                printWestTimeData(westList);
             }
-            // printf(" butts ");
             parse = strtok (NULL, " ");
         }
-        // printf("%s", line); 
     }  
-
-    // pch = strtok (str," ");
-    // while (pch != NULL)
-    //  {
-    //    printf ("%s\n",pch);
-    //    pch = strtok (NULL, " ");
-    //  }
 
     printf("\n");
 

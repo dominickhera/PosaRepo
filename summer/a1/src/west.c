@@ -37,7 +37,7 @@ WestNode *initializeWestNode(void *data)
 
 }
 
-void insertWestFront(WestList *westList, void *toBeAdded)
+void insertWestFront(WestList *westList, void *toBeAdded, void *timeToBeAdded)
 {
     WestNode * tempNode;
     tempNode = westList->westHead;
@@ -47,6 +47,7 @@ void insertWestFront(WestList *westList, void *toBeAdded)
         tempNode = malloc(sizeof(WestNode));
         // tempNode->previous = NULL;
         tempNode->westData = toBeAdded;
+        tempNode->westTimeData = timeToBeAdded;
         tempNode->next = NULL;  
         westList->westHead = tempNode;
         westList->westTail = tempNode;
@@ -56,6 +57,7 @@ void insertWestFront(WestList *westList, void *toBeAdded)
         tempNode = malloc(sizeof(WestNode));
         // tempNode->previous = NULL;
         tempNode->westData = toBeAdded;
+        tempNode->westTimeData = timeToBeAdded;
         tempNode->next = westList->westHead;
         westList->westHead = tempNode;
     }
@@ -203,3 +205,19 @@ void printWestData(WestList *westList)
     // }
 }
 
+void printWestTimeData(WestList *westList)
+{
+
+    WestList * temp;
+    temp = westList;
+
+    WestNode * tempNode;
+    tempNode = westList->westHead;
+
+    // while(tempNode != NULL)
+    // {
+        temp->printData(tempNode->westTimeData);
+        tempNode = tempNode->next;
+        // tempNode->previous = tempNode;
+    // }
+}

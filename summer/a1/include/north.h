@@ -17,6 +17,7 @@ of it, as well as the node immediately behind it.
 **/
 typedef struct listNorthNode{
     void *northData;
+    void *northTimeData;
     // struct listNorthNode *previous;
     struct listNorthNode *next;
 } NorthNode;
@@ -55,7 +56,7 @@ NorthNode *initializeNorthNode(void *data);
 *@param list pointer to the dummy head of the list
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
-void insertNorthFront(NorthList *northlist, void *toBeAdded);
+void insertNorthFront(NorthList *northlist, void *toBeAdded, void *timeToBeAdded);
 
 /**Inserts a Node to the back of a linked list. The list then updates accordingly to adhere to the ADT.
 *@pre 'List' type must exist and be used in order to keep track of the linked list.
@@ -78,7 +79,7 @@ void deleteNorthList(NorthList *northlist);
 as a pointer to the first and last element of the list.
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
-void insertNorthSorted(NorthList *northlist, void *toBeAdded);
+void insertNorthSorted(NorthList *northlist, void *toBeAdded, void*timeToBeAdded);
 
 /**Function to remove a node from the list and alter the pointers accordingly to not disrupt the order of the 
  *data structure. 
@@ -116,7 +117,7 @@ void printNorthForward(NorthList *northlist);
  **/
 // void printNorthBackwards(NorthList *northlist);
 void printNorthData(NorthList *northList);
-
+void printNorthTimeData(NorthList *northList);
 
 #endif
 

@@ -37,7 +37,7 @@ EastNode *initializeEastNode(void *data)
 
 }
 
-void insertEastFront(EastList *eastList, void *toBeAdded)
+void insertEastFront(EastList *eastList, void *toBeAdded, void *timeToBeAdded)
 {
     EastNode * tempNode;
     tempNode = eastList->eastHead;
@@ -47,6 +47,7 @@ void insertEastFront(EastList *eastList, void *toBeAdded)
         tempNode = malloc(sizeof(EastNode));
         // tempNode->previous = NULL;
         tempNode->eastData = toBeAdded;
+        tempNode->eastTimeData = timeToBeAdded;
         tempNode->next = NULL;  
         eastList->eastHead = tempNode;
         eastList->eastTail = tempNode;
@@ -56,6 +57,7 @@ void insertEastFront(EastList *eastList, void *toBeAdded)
         tempNode = malloc(sizeof(EastNode));
         // tempNode->previous = NULL;
         tempNode->eastData = toBeAdded;
+        tempNode->eastTimeData = timeToBeAdded;
         tempNode->next = eastList->eastHead;
         eastList->eastHead = tempNode;
     }
@@ -203,4 +205,20 @@ void printEastData(EastList *eastList)
     }
 }
 
+void printEastTimeData(EastList *eastList)
+{
+
+    EastList * temp;
+    temp = eastList;
+
+    EastNode * tempNode;
+    tempNode = eastList->eastHead;
+
+    while(tempNode != NULL)
+    {
+        temp->printData(tempNode->eastTimeData);
+        tempNode = tempNode->next;
+        // tempNode->previous = tempNode;
+    }
+}
 

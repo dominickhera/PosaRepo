@@ -17,6 +17,7 @@ of it, as well as the node immediately behind it.
 **/
 typedef struct listEastNode{
     void *eastData;
+    void *eastTimeData;
     // struct listEastNode *previous;
     struct listEastNode *next;
 } EastNode;
@@ -55,7 +56,7 @@ EastNode *initializeEastNode(void *data);
 *@param list pointer to the dummy head of the list
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
-void insertEastFront(EastList *eastlist, void *toBeAdded);
+void insertEastFront(EastList *eastlist, void *toBeAdded, void *timeToBeAdded);
 
 /**Inserts a Node to the back of a linked list. The list then updates accordingly to adhere to the ADT.
 *@pre 'List' type must exist and be used in order to keep track of the linked list.
@@ -116,6 +117,7 @@ void printEastForward(EastList *eastlist);
  **/
 // void printEastBackwards(EastList *eastlist);
 void printEastData(EastList *eastList);
+void printEastTimeData(EastList *eastList);
 
 #endif
 

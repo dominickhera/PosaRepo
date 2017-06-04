@@ -37,7 +37,7 @@ SouthNode *initializeSouthNode(void *data)
 
 }
 
-void insertSouthFront(SouthList *southList, void *toBeAdded)
+void insertSouthFront(SouthList *southList, void *toBeAdded, void *timeToBeAdded)
 {
     SouthNode * tempNode;
     tempNode = southList->southHead;
@@ -47,6 +47,7 @@ void insertSouthFront(SouthList *southList, void *toBeAdded)
         tempNode = malloc(sizeof(SouthNode));
         // tempNode->previous = NULL;
         tempNode->southData = toBeAdded;
+        tempNode->southTimeData = timeToBeAdded;
         tempNode->next = NULL;  
         southList->southHead = tempNode;
         southList->southTail = tempNode;
@@ -204,3 +205,19 @@ void printSouthData(SouthList *southList)
     // }
 }
 
+void printSouthTimeData(SouthList *southList)
+{
+
+    SouthList * temp;
+    temp = southList;
+
+    SouthNode * tempNode;
+    tempNode = southList->southHead;
+
+    // while(tempNode != NULL)
+    // {
+        temp->printData(tempNode->southTimeData);
+        // tempNode = tempNode->next;
+        // tempNode->previous = tempNode;
+    // }
+}
