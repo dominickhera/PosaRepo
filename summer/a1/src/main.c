@@ -52,7 +52,8 @@ int main(int argc, char ** argv)
     int westCount = 0;
     int swapCount = 0;
     int subCount = 0;
-    // int clk = 1;
+    int maxCount = 0;
+    int clk = 1;
     FILE * fp;
 
     fp = fopen(argv[1], "r");
@@ -156,7 +157,7 @@ int main(int argc, char ** argv)
 
     for(int i = 0; i < northCount; i++)
     {
-        // printf("W %s %s", westDStore[i], westNStore[i]);
+        printf("N %s %s", northDStore[i], northNStore[i]);
         insertNorthFront(northList, (void *) northDStore[i], (void *)northNStore[i]);
     }
 
@@ -187,7 +188,7 @@ int main(int argc, char ** argv)
 
     for(int i = 0; i < eastCount; i++)
     {
-        // printf("W %s %s", westDStore[i], westNStore[i]);
+        printf("E %s %s", eastDStore[i], eastNStore[i]);
         insertEastFront(eastList, (void *) eastDStore[i], (void *)eastNStore[i]);
     }
 
@@ -218,7 +219,7 @@ int main(int argc, char ** argv)
 
     for(int i = 0; i < southCount; i++)
     {
-        // printf("W %s %s", westDStore[i], westNStore[i]);
+        printf("S %s %s", southDStore[i], southNStore[i]);
         insertSouthFront(southList, (void *) southDStore[i], (void *)southNStore[i]);
     }
 
@@ -249,44 +250,21 @@ int main(int argc, char ** argv)
 
     for(int i = 0; i < westCount; i++)
     {
-        // printf("W %s %s", westDStore[i], westNStore[i]);
+        printf("W %s %s", westDStore[i], westNStore[i]);
         insertWestFront(westList, (void *) westDStore[i], (void *)westNStore[i]);
     }
 
-    subCount = 0;
+    printf("\n");
+
+    maxCount = northCount + eastCount + southCount + westCount;
+
+
     
-    while(subCount != westCount*2)
-    {
-        char * swapVal = malloc(sizeof(char) * 15);
-        char * secondSwapVal = malloc(sizeof(char) * 15);
 
-        if(atoi(westNStore[swapCount + 1]) > westCount || swapCount > westCount)
-        {
-            swapCount = 0;
-        }
-        else if(atoi(westNStore[swapCount]) > atoi(westNStore[swapCount+1]))
-        {
-            strcpy(swapVal, westNStore[swapCount]);
-            strcpy(westNStore[swapCount], westNStore[swapCount + 1]);
-            strcpy(westNStore[swapCount + 1], swapVal);
-
-            strcpy(secondSwapVal, westDStore[swapCount]);
-            strcpy(westDStore[swapCount], westDStore[swapCount + 1]);
-            strcpy(westDStore[swapCount + 1], secondSwapVal);
-        }
-        swapCount++;
-        subCount++;
-    }
-
-    for(int i = 0; i < westCount; i++)
-    {
-        // printf("W %s %s", westDStore[i], westNStore[i]);
-        insertWestFront(westList, (void *) westDStore[i], (void *)westNStore[i]);
-    }
-    // printWestForward(westList);
 
     printf("\n\nMax Wait Time: %d\n", maxWaitTime); 
     printf("Average Wait Time: %d\n", averageWaitTime); 
 
+    fclose(fp);
     return 0;
 }
