@@ -1,4 +1,5 @@
 #include "west.h"
+#include "functions.h"
 
 WestList *initializeWestList(void (*printFunction)(void *tobePrinted),void (*deleteFunction)(void *toBeDeleted),int (*compareFunction)(const void *first, const void *second))
 {
@@ -83,30 +84,76 @@ void deleteWestList(WestList *westList)
     } 
 }
 
-void insertWestSorted(WestList *westList, void *toBeAdded)
+void insertWestSorted(WestList *westList, void *toBeAdded, void *timeToBeAdded)
 {
-    WestList * temp;
-    temp = westList;
 
-    WestNode * tempNode;
+    WestNode * tempNode = malloc(sizeof(WestNode));
     tempNode = westList->westHead;
+
+
     if(tempNode == NULL)
     {
+        // printf("node is null\n");
+
         tempNode = malloc(sizeof(WestNode));
-        // tempNode->previous = NULL;
         tempNode->westData = toBeAdded;
+        tempNode->westTimeData = timeToBeAdded;
+        // printf("init: %s, fin: %s\n", (char *)tempNode->westTimeData, (char *)timeToBeAdded);
         tempNode->next = NULL;  
         westList->westHead = tempNode;
         westList->westTail = tempNode;
+    } 
+    else if(tempNode->westTimeData <= timeToBeAdded)
+    {
+        // printWestForward(westList);
+        // printf("init: %s, fin: %s\n", (char *)tempNode->westTimeData, (char *)timeToBeAdded);
+         tempNode= malloc(sizeof(WestNode));
+        while(tempNode->next != NULL)
+        {
+            tempNode->next->westData = tempNode->westData;
+            tempNode->next->westTimeData = tempNode->westTimeData;
+            tempNode->next->next = tempNode->next;
+            tempNode->westData = toBeAdded;
+            tempNode->westTimeData = timeToBeAdded;
+            tempNode->next = tempNode;
+        }
     }
     else
     {
+        while(tempNode->next != NULL || tempNode->next->westTimeData < timeToBeAdded)
+        {
+            printf("tits\n");
+            tempNode = tempNode->next;
+            printf("%s\n", (char *)tempNode->next->westTimeData);
+        }
+        printf("\nttities\n");
         tempNode = malloc(sizeof(WestNode));
-        // tempNode->previous = NULL;
         tempNode->westData = toBeAdded;
-        tempNode->next = westList->westHead;
-        westList->westHead = tempNode;
+        tempNode->westTimeData = timeToBeAdded;
+        tempNode->next = tempNode;
     }
+
+
+
+    // struct node* current;
+    // /* Special case for the head end */
+    // if (*head_ref == NULL || (*head_ref)->data >= new_node->data)
+    // {
+    //     new_node->next = *head_ref;
+    //     *head_ref = new_node;
+    // }
+    // else
+    // {
+    //      Locate the node before the point of insertion 
+    //     current = *head_ref;
+    //     while (current->next!=NULL &&
+    //            current->next->data < new_node->data)
+    //     {
+    //         current = current->next;
+    //     }
+    //     new_node->next = current->next;
+    //     current->next = new_node;
+    // }
 
 }
 
@@ -182,6 +229,7 @@ void printWestForward(WestList *westList)
 
     while(tempNode != NULL)
     {
+        // printf("hiya\n");
         temp->printData(tempNode->westData);
         tempNode = tempNode->next;
         // tempNode->previous = tempNode;

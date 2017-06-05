@@ -2,10 +2,10 @@
 #include <stdin.h>
 
 
-char parse (FILE * dataFile)
-{
+// char parse (FILE * dataFile)
+// {
 	
-}
+// }
 
 void printFunction(void * data)
 {
@@ -18,13 +18,17 @@ int compareFunction(const void *first,const void *second)
 
 	if(*(int *)first > *(int *)second || *(int *)first == *(int *)second)
 	{
-		return first;
+		printf("first is bigger\n");
+		return 1;
+		// return *(int *)first;
 	}
 	else
 	{
-		tempVal = first;
-		first = second;
-		second = tempVal;
-		return first;
+		printf("second is bigger\n");
+		// tempVal = *(int *)first;
+		// *(int *)first = *(int *)second;
+		// *(int *)second = tempVal;
+		// return *(int *)first;
+		return 2;
 	}
 }

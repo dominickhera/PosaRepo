@@ -94,13 +94,14 @@ void insertNorthSorted(NorthList *northList, void *toBeAdded, void *timeToBeAdde
     tempNode = northList->northHead;
     if(tempNode == NULL)
     {
-        tempNode = malloc(sizeof(NorthNode));
+        printf("node is NULL\n");
+        // tempNode = malloc(sizeof(NorthNode));
         // tempNode->previous = NULL;
-        tempNode->northData = toBeAdded;
-        tempNode->northTimeData = timeToBeAdded;
-        tempNode->next = NULL;  
-        northList->northHead = tempNode;
-        northList->northTail = tempNode;
+        // tempNode->northData = toBeAdded;
+        // tempNode->northTimeData = timeToBeAdded;
+        // tempNode->next = NULL;  
+        // northList->northHead = tempNode;
+        // northList->northTail = tempNode;
     }
     else
     {

@@ -72,7 +72,7 @@ void deleteWestList(WestList *list);
 as a pointer to the first and last element of the list.
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
-void insertWestSorted(WestList *list, void *toBeAdded);
+void insertWestSorted(WestList *list, void *toBeAdded, void *timeToBeAdded);
 
 /**Function to remove a node from the list and alter the pointers accordingly to not disrupt the order of the 
  *data structure. 
