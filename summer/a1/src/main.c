@@ -41,9 +41,10 @@ int main(int argc, char ** argv)
     char westNStore[256][256];
     char * tempChar = malloc(sizeof(char)*10);
     char * tempNum = malloc(sizeof(char)*10);
-    // char * westDirectionStore = malloc(sizeof(char) * 256); 
-    // char * westNumStore = malloc(sizeof(char) * 256); 
     char * parse;
+    // int waitTimeArray[256];
+    int tempWaitTime = 0;
+    int addedTotalWaitTime = 0;
     int maxWaitTime = 0;
     int averageWaitTime = 0;
     int northCount = 0;
@@ -53,6 +54,11 @@ int main(int argc, char ** argv)
     int swapCount = 0;
     int subCount = 0;
     int maxCount = 0;
+    int subNorthCount = 0;
+    int subEastCount = 0;
+    int subSouthCount = 0;
+    int subWestCount = 0;
+    int totalCarCount = 0;
     int clk = 1;
     FILE * fp;
 
@@ -258,13 +264,143 @@ int main(int argc, char ** argv)
 
     maxCount = northCount + eastCount + southCount + westCount;
 
+    while(totalCarCount != maxCount * 2)
+    {
+        // printf("clk: %d, ", clk);
+        // printf("val: %d\n", atoi(eastNStore[clk]));
+        if(clk >= atoi(northNStore[subNorthCount]))
+        {
+            // printf("n\n");
+            // printf("1\n");
+                tempWaitTime = clk - atoi(northNStore[subNorthCount]);
+            // printf("2\n");
+                if(strcmp(northDStore[subNorthCount], "F") == 0)
+                {
+                    // printf("3\n");
+                    clk += 2; 
+                }
+                
+                if(strcmp(northDStore[subNorthCount], "R") == 0)
+                {
+                    // printf("4\n");
+                    clk += 1.5; 
+                }
+                
+                if(strcmp(northDStore[subNorthCount], "L") == 0)
+                {
+                    // printf("5\n");
+                    clk += 3.5;
+                }
+            // }
+                if(tempWaitTime > maxWaitTime)
+                {
+                    maxWaitTime = tempWaitTime;
+                }
+                // printf("6\n");
+                addedTotalWaitTime += tempWaitTime;
 
-    
+                // printf("N %s %s, wait time: %d, clk: %d\n", northDStore[subNorthCount], northNStore[subNorthCount], tempWaitTime, clk);
+            // printf("n\n");
+            // clk++;
+            subNorthCount++;
+        }
 
+        if(clk >= atoi(eastNStore[subEastCount]))
+        {
+            // printf("e\n");
+                tempWaitTime = clk - atoi(eastNStore[subEastCount]);
+              if(strcmp(eastDStore[subEastCount], "F") == 0)
+                {
+                    clk += 2;
+                    // tempWaitTime = (atoi(eastNStore[subEastCount]) - clk) + 2; 
+                }
+                else if(strcmp(eastDStore[subEastCount], "R") == 0)
+                {
+                    clk += 1.5;
+                    // tempWaitTime = (atoi(eastNStore[subEastCount]) - clk) + 1.5; 
+                }
+                else if(strcmp(eastDStore[subEastCount], "L") == 0)
+                {
+                    clk += 3.5;
+                    // tempWaitTime = (atoi(eastNStore[subEastCount]) - clk) + 3.5;
+                }
 
-    printf("\n\nMax Wait Time: %d\n", maxWaitTime); 
+                if(tempWaitTime > maxWaitTime)
+                {
+                    maxWaitTime = tempWaitTime;
+                }
+                addedTotalWaitTime += tempWaitTime;
+                // printf("wait time: %d\n", tempWaitTime);
+            // printf("val: %d\n", atoi(eastNStore[subEastCount]));
+            // clk++;
+            subEastCount++;
+        }
+
+        if(clk >= atoi(southNStore[subSouthCount])) 
+        {
+            // printf("s\n");
+            tempWaitTime = clk - atoi(southNStore[subSouthCount]);
+              if(strcmp(northDStore[subSouthCount], "F") == 0)
+                {
+                    clk += 2;
+                    // tempWaitTime = (atoi(southNStore[subSouthCount]) - clk) + 2; 
+                }
+                else if(strcmp(southDStore[subSouthCount], "R") == 0)
+                {
+                    clk += 1.5;
+                    // tempWaitTime = (atoi(southNStore[subSouthCount]) - clk) + 1.5; 
+                }
+                else if(strcmp(southDStore[subSouthCount], "L") == 0)
+                {
+                    clk += 3.5;
+                    // tempWaitTime = (atoi(southNStore[subSouthCount]) - clk) + 3.5;
+                }
+            // clk++;
+                 if(tempWaitTime > maxWaitTime)
+                {
+                    maxWaitTime = tempWaitTime;
+                }
+                addedTotalWaitTime += tempWaitTime;
+                // printf("wait time: %d\n", tempWaitTime);
+            subSouthCount++;
+        }
+
+        if(clk >= atoi(westNStore[subWestCount]))
+        {
+            // printf("w\n");
+            tempWaitTime = clk - atoi(westNStore[subWestCount]);
+              if(strcmp(westDStore[subWestCount], "F") == 0)
+                {
+                    // tempWaitTime = (atoi(westNStore[subWestCount]) - clk) + 2; 
+                }
+                else if(strcmp(westDStore[subWestCount], "R") == 0)
+                {
+                    // tempWaitTime = (atoi(westNStore[subWestCount]) - clk) + 1.5; 
+                }
+                else if(strcmp(westDStore[subWestCount], "L") == 0)
+                {
+                    // tempWaitTime = (atoi(westNStore[subWestCount]) - clk) + 3.5;
+                }
+            // clk++;
+                 if(tempWaitTime > maxWaitTime)
+                {
+                    maxWaitTime = tempWaitTime;
+                }
+                addedTotalWaitTime += tempWaitTime;
+                // printf("wait time: %d\n", tempWaitTime);
+            subWestCount++;
+        }
+
+        // clk++;
+        totalCarCount++;
+
+    }
+
+    averageWaitTime = addedTotalWaitTime / maxCount;
+
+    printf("\nMax Wait Time: %d\n", maxWaitTime); 
     printf("Average Wait Time: %d\n", averageWaitTime); 
 
     fclose(fp);
     return 0;
-}
+    }
