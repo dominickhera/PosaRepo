@@ -15,16 +15,20 @@ to run
 ==========
 to compile
 ==========
+
 type 'make' to run the makeFile
 
 =============
 description
 =============
 
-- 
+- what shouldve been a four way stop sign intersection which would accruately take in data from a datafile given in the command line and figure out how long each car waits in order to figure out the max time a car had to wait to cross as well as the average of all the wait times compiled together. being the person i am, of course i procrastinated until the last second and ended up only doing partial the work and it's now the middle of the night where i am no longer able to focus.
 
 ====================
 known limitations
 ====================
-- 
+- the program doesn't properly cycle through the files so it will output incorrect data as the max and average wait times
+- ended up using arrays to sort and deal with the data despite inserting them into queues as originally requested
+- multiple functions end up being unused
+- lord have mercy on my soul and my grade.
 
