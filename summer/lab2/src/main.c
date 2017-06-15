@@ -7,7 +7,10 @@ void printData(void * data)
     printf("%s\n", (char *)data);
 }
 
-int hashData((size_t tableSize, int key))
+int hashData(size_t size, int dataKey)
+{
+	return 2;
+}
 
 int main()
 {

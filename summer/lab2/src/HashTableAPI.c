@@ -47,20 +47,20 @@ Node *createNode(int key, void *data)
 void destroyTable(HTable *hashTable)
 {
 
-	Node * temp;
+	Node * temp = NULL;
 	HTable * temp2;
 	// HTable * temp2;
 
 	for(int i = 0; i < hashTable->size; i++)
 	{
 
-		temp = removeData(hashTable->table[i], HTable->deleteData);
+		removeData(temp2, temp->key);
 
 		// temp1 = Node->data;
 		while(temp != NULL)
 		{
-			temp = removeData(temp, HTable->deleteData);
-			// temp2 = temp1;
+			removeData(temp2, temp->key);
+			 temp2 = temp->next;
 			// temp1 = temp1->next;
 			// free(temp2->key);
 			// free(temp2);
@@ -86,20 +86,24 @@ void removeData(HTable *hashTable, int key)
 {
 
 	Node * temp;
+	// temp = Node;
 
-	if(*hashTable == NULL)
+	// HTable * tempTable;
+	// tempTable = HTable;
+
+	// if(*hashTable == NULL)
+	// {
+	// 	return null;
+	// }
+
+
+	if(temp->key == key)
 	{
-		return null;
-	}
-
-
-	if(*hashTable->key == key)
-		{
 			temp = *hashTable;
-			*hashTable = (*hashTable)->next;
-			free(temp->key);
+			*hashTable = Node->next;
+			free(temp->data);
 			free(temp);
-		}
+	}
 	
 
 }
