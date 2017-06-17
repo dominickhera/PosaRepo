@@ -7,9 +7,9 @@ void printData(void * data)
     printf("%s\n", (char *)data);
 }
 
-int hashData(size_t size, int dataKey)
+int hashData(size_t hashSize, int dataKey)
 {
-	return 2;
+	return dataKey % hashSize;
 }
 
 int main()

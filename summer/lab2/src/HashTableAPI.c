@@ -75,7 +75,17 @@ void destroyTable(HTable *hashTable)
 void insertData(HTable *hashTable, int key, void *data)
 {
 
-	HTable * temp;
+	int count;
+
+	Node * temp;
+
+	count = hashTable->hashFunction(hashTable->size, key);
+
+	temp = createNode(key, data);
+
+	temp->next = hashTable->table[count];
+	hashTable->table[count] = temp;
+
 
 
 
