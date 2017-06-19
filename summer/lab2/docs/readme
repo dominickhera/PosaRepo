@@ -1,0 +1,32 @@
+======================
+l2
+19/6/17
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+
+./bin/run
+
+==========
+to compile
+==========
+
+type 'make' to run the makeFile
+
+=============
+description
+=============
+
+- the program is a basic hashtable that inputs a array of data into the hashtable based on the integer keys that are given to thr program and then which are searched for in the same order before being freed. The program is only unable to remove single data points and deal with removing data collision points but has no issues inserting them.
+
+
+====================
+known limitations
+====================
+- the program doesn't properly remove single data points
+- the program can't delete data that has collision issues

@@ -27,8 +27,5 @@ HashTableAPI.o: ./src/HashTableAPI.c
 doxy: Doxyfile
 	doxygen
 
-test: ./src/functions.o BIN
-	gcc functions.o -o ./bin/test
-
 clean:
 	rm *.o

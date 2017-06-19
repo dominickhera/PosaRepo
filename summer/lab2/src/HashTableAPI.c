@@ -61,27 +61,22 @@ void destroyTable(HTable *hashTable)
 void insertData(HTable *hashTable, int key, void *data)
 {
 
-    int count;
-
     if(hashTable != NULL)
     {
-
+    	int count = 0;
         count = hashTable->hashFunction(hashTable->size, key);
         Node * temp = createNode(key, data);
         temp->next = hashTable->table[count];
         hashTable->table[count] = temp;
-
     }
 }
 
 void removeData(HTable *hashTable, int key)
 {
 
-    int tempKey = 0;
-
     if (hashTable != NULL)
     {
-
+    	int tempKey = 0;
 
         tempKey = hashTable->hashFunction(hashTable->size, key);
 
@@ -91,7 +86,13 @@ void removeData(HTable *hashTable, int key)
 
             if(temp->key == tempKey)
             {
+            	if(temp->next != NULL)
+            	{
+            		temp->next = temp->next->next;
+            	}
+
                 free(temp->data);
+                free(temp);
             }
             temp = temp->next;
         }
