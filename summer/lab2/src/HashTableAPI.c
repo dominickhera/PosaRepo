@@ -3,16 +3,17 @@
 HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, int key),void (*destroyData)(void *data),void (*printData)(void *toBePrinted))
 {
 
-    HTable * temp = NULL;
-
-    temp = malloc(sizeof(HTable));
+    int i;
+    HTable * temp = malloc(sizeof(HTable));
 
     if(temp == NULL)
     {
         return NULL;
     }
 
-    for(int i = 0; i < size; i++)
+    temp->table = malloc(sizeof(*temp->table) * size);
+
+    for(i = 0; i < size; i++)
     {
         temp->table[i] = NULL;
     }
@@ -40,39 +41,18 @@ Node *createNode(int key, void *data)
     temp->next = NULL;
 
     return temp;
-
-
 }
 
 void destroyTable(HTable *hashTable)
 {
 
     Node * temp = NULL;
-    // HTable * temp2;
-    // // HTable * temp2;
 
     while(temp != NULL)
     {
-    	removeData(hashTable, temp->key);
-    	temp = temp->next;
+        removeData(hashTable, temp->key);
+        temp = temp->next;
     }
-
-    // for(int i = 0; i < hashTable->size; i++)
-    // {
-
-    //     Node * temp = removeData(hashTable, temp->key);
-
-    //     // temp1 = Node->data;
-    //     while(temp != NULL)
-    //     {
-    //         temp = removeData(temp, temp->key);
-    //         // temp = temp->next;
-    //         // temp1 = temp1->next;
-    //         // free(temp2->key);
-    //         // free(temp2);
-    //     }
-
-    // }
 
     free(hashTable);
 
@@ -83,59 +63,65 @@ void insertData(HTable *hashTable, int key, void *data)
 
     int count;
 
-    Node * temp;
+    if(hashTable != NULL)
+    {
 
-    count = hashTable->hashFunction(hashTable->size, key);
+        count = hashTable->hashFunction(hashTable->size, key);
+        Node * temp = createNode(key, data);
+        temp->next = hashTable->table[count];
+        hashTable->table[count] = temp;
 
-    temp = createNode(key, data);
-
-    temp->next = hashTable->table[count];
-    hashTable->table[count] = temp;
-
+    }
 }
 
 void removeData(HTable *hashTable, int key)
 {
+	int count;
 
-    int tempKey = 0;
-    tempKey = hashTable->hashFunction(hashTable->size, key);
-    Node * temp = hashTable->table[tempKey];
+	count = hashTable->hashFunction(hashTable->size, key);
 
-    while(temp != NULL)
-    {
+	if(hashTable != NULL)
+	{
 
-        if(temp->key != tempKey)
-        {
-            temp = temp->next;
-        }
-        else
-        {
-            free(temp->data);
-            free(temp);
-            temp = temp->next;
-        }
+		Node * temp = hashTable->table[count];
+		do 
+		{
+			if(temp->key == key)
+			{
+				free(temp->data);
+				free (temp);
+			}
+			temp = temp->next;
+		} while(temp->next != NULL);
 
-    }
-
+	}
+    
 }
 
 void *lookupData(HTable *hashTable, int key)
 {
 
-	int tempKey = 0;
-	tempKey = hashTable->hashFunction(hashTable->size, key);
+    int tempKey = 0;
 
-	Node * temp = hashTable->table[tempKey];
+    if (hashTable == NULL)
+    {
+        return NULL;
+    }
 
-	if(temp->key == tempKey)
-	{
-		return temp->data;
-	}
-	else
-	{
-		return NULL;
-	}
+    tempKey = hashTable->hashFunction(hashTable->size, key);
 
+    Node * temp = hashTable->table[tempKey];
+    while(temp != NULL)
+    {
+
+        if(temp->key == tempKey)
+        {
+            return temp->data;
+        }
+        temp = temp->next;
+    }
+
+    return NULL;
 
 }
 
