@@ -76,26 +76,26 @@ void insertData(HTable *hashTable, int key, void *data)
 
 void removeData(HTable *hashTable, int key)
 {
-	int count;
 
-	count = hashTable->hashFunction(hashTable->size, key);
+    int tempKey = 0;
 
-	if(hashTable != NULL)
-	{
+    if (hashTable != NULL)
+    {
 
-		Node * temp = hashTable->table[count];
-		do 
-		{
-			if(temp->key == key)
-			{
-				free(temp->data);
-				free (temp);
-			}
-			temp = temp->next;
-		} while(temp->next != NULL);
 
-	}
-    
+        tempKey = hashTable->hashFunction(hashTable->size, key);
+
+        Node * temp = hashTable->table[tempKey];
+        while(temp != NULL)
+        {
+
+            if(temp->key == tempKey)
+            {
+                free(temp->data);
+            }
+            temp = temp->next;
+        }
+    }
 }
 
 void *lookupData(HTable *hashTable, int key)
