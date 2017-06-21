@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "functions.h"
 
 /**
 *Node of the hash table. 

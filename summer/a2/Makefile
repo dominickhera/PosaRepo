@@ -6,8 +6,8 @@ EXE = run
 
 all: $(EXE)
 
-$(EXE): main.o HashTableAPI.o BIN OBJ
-	gcc main.o HashTableAPI.o -o ./bin/$(EXE)
+$(EXE): main.o HashTableAPI.o functions.o BIN OBJ
+	gcc main.o HashTableAPI.o functions.o -lncurses -o ./bin/$(EXE)
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
@@ -23,6 +23,9 @@ main.o: ./src/main.c
 
 HashTableAPI.o: ./src/HashTableAPI.c
 	$(CC) -c $(CFLAGS) ./src/HashTableAPI.c -I./include
+
+functions.o: ./src/functions.c
+	$(CC) -c $(CFLAGS) ./src/functions.c -I./include
 
 doxy: Doxyfile
 	doxygen
