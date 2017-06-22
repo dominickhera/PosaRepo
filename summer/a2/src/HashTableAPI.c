@@ -4,7 +4,7 @@ HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, char * ke
 {
 
     int i;
-    HTable * temp = malloc(sizeof(HTable));
+    HTable * temp = malloc(sizeof(*temp));
 
     if(temp == NULL)
     {
@@ -18,6 +18,7 @@ HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, char * ke
         temp->table[i] = NULL;
     }
 
+    temp->size = size;
     temp->destroyData = destroyData;
     temp->hashFunction = hashFunction;
     temp->printData = printData;
@@ -29,7 +30,7 @@ HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, char * ke
 Node *createNode(char * key, void *data)
 {
 
-    Node * temp = malloc(sizeof(Node));
+    Node * temp = malloc(sizeof(*temp));
 
     if(temp == NULL)
     {
@@ -63,9 +64,8 @@ void insertData(HTable *hashTable, char * key, void *data)
 
     if(hashTable != NULL)
     {
-    	int count = 0;
+        int count = 0;
         count = hashTable->hashFunction(hashTable->size, key);
-        printf("hashkey: %d\n", count);
         Node * temp = createNode(key, data);
         temp->next = hashTable->table[count];
         hashTable->table[count] = temp;
@@ -77,23 +77,23 @@ void removeData(HTable *hashTable, char * key)
 
     if (hashTable != NULL)
     {
-    	int tempKey = 0;
-
+        int tempKey = 0;
         tempKey = hashTable->hashFunction(hashTable->size, key);
-
         Node * temp = hashTable->table[tempKey];
+
         while(temp != NULL)
         {
-
             if(strcmp(temp->key, key) == 0) 
             {
-            	if(temp->next != NULL)
-            	{
-            		temp->next = temp->next->next;
-            	}
-                free(temp->data);
+                if(temp->next != NULL)
+                {
+                    temp->next = temp->next->next;
+                }
+
                 free(temp);
+                break;
             }
+
             temp = temp->next;
         }
     }
@@ -112,18 +112,35 @@ void *lookupData(HTable *hashTable, char * key)
     tempKey = hashTable->hashFunction(hashTable->size, key);
 
     Node * temp = hashTable->table[tempKey];
-    while(temp != NULL)
+    if(temp == NULL)
     {
+        // printf("\n\nYou don't seem to have any account with this website/program...\n\n");
+        return NULL;
+    }
+    // while(temp != NULL)
+    // {
 
-        if(strcmp(temp->key, key) == 0)
+    if(strcmp(temp->key, key) == 0)
+    {
+        if(strcmp(temp->data, "\0") == 0)
+        {
+            return NULL;
+        }
+        else
         {
             return temp->data;
         }
-
-        temp = temp->next;
+    }
+    else
+    {
+        return NULL;
     }
 
-    return NULL;
+    // temp = temp->next;
+    // }
+
+    // return NULL;
 
 }
+
 

@@ -8,7 +8,6 @@
 
 int main()
 {
-    // printf("hi\n");
 
     int userInput = 0;
     int passwordVaultSize = 0;
@@ -18,6 +17,7 @@ int main()
     char tempKey[256];
     char tempStr[256];
     FILE *fp;
+    // FILE *fo;
 
     HTable * hashTable = createTable(500, &hashData, &free, &printData);
 
@@ -44,33 +44,35 @@ int main()
 
                 break;
             case 2:
-                // printf("1: %s\n", tempStr);
                 memset(tempPass, 0, 256);
                 memset(tempKey, 0, 256);
-                // printf("2: %s\n", tempStr);
                 printf("what program/site is this for? : ");
                 scanf("%s", tempKey);
                 printf("enter new password into vault: ");
                 scanf("%s", tempPass);
-                // printf("3: %s\n", tempStr);
                 insertData(hashTable, tempKey, tempPass);
+                printf("key: %s, data: %s\n", tempKey, (char*)lookupData(hashTable, tempKey));
                 passwordVaultSize++;
-                // memset(tempStr, 0, sizeof(tempStr));
                 break;
             case 3:
-                printf("remove\n");
+                memset(tempPass, 0, 256);
+                memset(tempKey, 0, 256);
+                printf("what is the site/program you want to delete your info for? : ");
+                scanf("%s", tempKey);
+                removeData(hashTable, tempKey);
                 break;
             case 4:
                 memset(tempStr, 0, 256);
                 printf("what program/website is this password for? : ");
                 scanf("%s", tempStr);
+
                 if(lookupData(hashTable, tempStr) != NULL)
                 {
-                printf("\nFound it!\nYour %s Password is %s\n\n", tempStr,(char*)lookupData(hashTable, tempStr));
+                    printf("\nFound it!\nYour %s Password is %s\n\n", tempStr,(char*)lookupData(hashTable, tempStr));
                 }
                 else
                 {
-                    printf("\nSorry, but I couldn't find any password for your %s account...\n", tempStr);
+                    printf("\nSorry, but I couldn't find any password for your %s account...\n\n", tempStr);
                 }
                 // printf("Retrieve\n");
                 break;
@@ -78,21 +80,8 @@ int main()
                 printf("update\n");
                 break;
             case 6:
-                // printf("print list\n");
-                if(passwordVaultSize != 0)
-                {
-                    printf("List:\n\n");
-                for(int i = 0; i < passwordVaultSize+1; i++)
-                {
-                    // printf("%d: %s\n", i, (char*)lookupData(hashTable, i));
+                printf("print list\n");
 
-                }
-                printf("\n");
-                }
-                else
-                {
-                    printf("there currently are no passwords in your vault.\n\n");
-                }
                 break;
             case 7:
                 return 0;
