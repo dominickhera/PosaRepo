@@ -48,11 +48,18 @@ int main()
                 memset(tempKey, 0, 256);
                 printf("what program/site is this for? : ");
                 scanf("%s", tempKey);
-                printf("enter new password into vault: ");
-                scanf("%s", tempPass);
-                insertData(hashTable, tempKey, tempPass);
-                printf("key: %s, data: %s\n", tempKey, (char*)lookupData(hashTable, tempKey));
-                passwordVaultSize++;
+                if(lookupData(hashTable, tempKey) == NULL)
+                {
+                    printf("enter new password into vault: ");
+                    scanf("%s", tempPass);
+
+                    insertData(hashTable, tempKey, tempPass);
+                    passwordVaultSize++;
+                }
+                else
+                {
+                    printf("\n\nYou already have a password entered for %s, try removing it or updating it instead\n\n", tempKey);
+                }
                 break;
             case 3:
                 memset(tempPass, 0, 256);
@@ -66,24 +73,43 @@ int main()
                 printf("what program/website is this password for? : ");
                 scanf("%s", tempStr);
 
-                if(lookupData(hashTable, tempStr) != NULL)
-                {
+                // if(lookupData(hashTable, tempStr) != NULL)
+                // {
                     printf("\nFound it!\nYour %s Password is %s\n\n", tempStr,(char*)lookupData(hashTable, tempStr));
+                // }
+                // else
+                // {
+                    // printf("\nSorry, but I couldn't find any password for your %s account...\n\n", tempStr);
+                // }
+                break;
+            case 5:
+                memset(tempPass, 0, 256);
+                memset(tempKey, 0, 256);
+                printf("what program/site account info do you wanto to update? : ");
+                scanf("%s", tempKey);
+
+                if(lookupData(hashTable, tempKey) != NULL)
+                {
+
+                    printf("enter updated password into vault: ");
+                    scanf("%s", tempPass);
+                    insertData(hashTable, tempKey, tempPass);
+
                 }
                 else
                 {
-                    printf("\nSorry, but I couldn't find any password for your %s account...\n\n", tempStr);
+                    printf("\n\nYou haven't entered a password for %s yet, try adding one instead\n\n", tempKey);
                 }
-                // printf("Retrieve\n");
-                break;
-            case 5:
-                printf("update\n");
                 break;
             case 6:
                 printf("print list\n");
-
+                for(int i = 0; i < hashTable->size;i++)
+                {
+                    printf("key[%d], data[%s]\n", i, (char*)lookupData(hashTable, "facebook"));
+                }
                 break;
             case 7:
+                destroyTable(hashTable);
                 return 0;
             default:
                 printf("please enter a number between 1-7\n");

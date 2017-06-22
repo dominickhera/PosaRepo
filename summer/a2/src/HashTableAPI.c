@@ -4,7 +4,7 @@ HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, char * ke
 {
 
     int i;
-    HTable * temp = malloc(sizeof(*temp));
+    HTable * temp = malloc(sizeof(HTable));
 
     if(temp == NULL)
     {
@@ -30,7 +30,7 @@ HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, char * ke
 Node *createNode(char * key, void *data)
 {
 
-    Node * temp = malloc(sizeof(*temp));
+    Node * temp = malloc(sizeof(Node));
 
     if(temp == NULL)
     {
@@ -64,12 +64,24 @@ void insertData(HTable *hashTable, char * key, void *data)
 
     if(hashTable != NULL)
     {
+        // printf("data before insert: %s\n", (char *) temp->data);
+        printf("fb 1, data[%s]\n", (char*)lookupData(hashTable, "facebook"));
         int count = 0;
+         printf("fb 2, data[%s]\n", (char*)lookupData(hashTable, "facebook"));
         count = hashTable->hashFunction(hashTable->size, key);
+         printf("fb 3, data[%s]\n", (char*)lookupData(hashTable, "facebook"));
         Node * temp = createNode(key, data);
+         printf("fb 4, data[%s]\n", (char*)lookupData(hashTable, "facebook"));
+        // printf("data after insert: %s\n", (char *) temp->data);
         temp->next = hashTable->table[count];
+         printf("fb 5, data[%s]\n", (char*)lookupData(hashTable, "facebook"));
         hashTable->table[count] = temp;
-    }
+         printf("fb 6, data[%s]\n", (char*)lookupData(hashTable, "facebook"));
+        printf("insertKey: %d\n", count);
+         printf("fb 7, data[%s]\n", (char*)lookupData(hashTable, "facebook"));
+    
+    printf("data after insert: %s\n", (char *) temp->data);
+}
 }
 
 void removeData(HTable *hashTable, char * key)
@@ -91,6 +103,7 @@ void removeData(HTable *hashTable, char * key)
                 }
 
                 free(temp);
+                hashTable->table[tempKey] = NULL;
                 break;
             }
 
@@ -101,46 +114,47 @@ void removeData(HTable *hashTable, char * key)
 
 void *lookupData(HTable *hashTable, char * key)
 {
-
-    int tempKey = 0;
-
+    // printf("wtf\n");
     if (hashTable == NULL)
     {
         return NULL;
     }
 
+    // printf("1\n");
+    int tempKey = 0;
+    // printf("2\n");
     tempKey = hashTable->hashFunction(hashTable->size, key);
-
+    // printf("3\n");
+    // printf("tempkey: %d\n", tempKey);
     Node * temp = hashTable->table[tempKey];
-    if(temp == NULL)
+    // printf("4\n");
+    if(temp == NULL || key == NULL || temp->data == NULL)
     {
-        // printf("\n\nYou don't seem to have any account with this website/program...\n\n");
+        // printf("5\n");
         return NULL;
     }
+
+    // printf("6\n");
     // while(temp != NULL)
     // {
-
-    if(strcmp(temp->key, key) == 0)
-    {
-        if(strcmp(temp->data, "\0") == 0)
+        // printf("data: %s\n", (char *)temp->data);
+        // printf("7\n");
+        if(strcmp(temp->key, key) == 0)
         {
-            return NULL;
-        }
-        else
-        {
+            // printf("8\n");
             return temp->data;
         }
-    }
-    else
-    {
-        return NULL;
-    }
+        // temp = temp->next;
+        // printf("9\n");
 
-    // temp = temp->next;
     // }
-
-    // return NULL;
-
+    // printf("10\n");
+    return NULL;
 }
+
+// void printList(HTable * hashTable)
+// {
+//     Node * temp = hashTable->table[i];
+// }
 
 
