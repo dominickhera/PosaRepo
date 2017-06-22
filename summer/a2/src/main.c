@@ -16,6 +16,8 @@ int main()
     char tempPass[256];
     char tempKey[256];
     char tempStr[256];
+    char * parse;
+    char * tempStore;
     FILE *fp;
     // FILE *fo;
 
@@ -39,9 +41,32 @@ int main()
 
                 while(fgets(line, sizeof(line), fp) != NULL)
                 {
-                    printf("%s\n", line);
+                    // printf("%s\n", line);
+                    if(line[strlen(line) - 1] == '\n')
+                    {
+                        line[strlen(line) - 1] = '\0';
+                    }
+
+                    parse = strtok(line, ",");
+                    // tempStore = parse;
+                    strcpy(tempKey, parse);
+                    // printf("website: %s ", parse);
+                    while((parse = strtok(NULL, ",")) != NULL)
+                    {
+                        // tempStore = parse;
+                        strcpy(tempPass, parse);
+                        // printf("key: %s, data: %s\n", tempStore, parse);
+                        // printf("password: %s\n", tempStore);
+    
+                    }
+                    insertData(hashTable, tempKey, tempPass);
+                    passwordVaultSize++;
+
+                    // printf("key: %s, data: %s\n", parse, tempStore);
+
                 }
 
+                fclose(fp);
                 break;
             case 2:
                 memset(tempPass, 0, 256);
@@ -52,7 +77,6 @@ int main()
                 {
                     printf("enter new password into vault: ");
                     scanf("%s", tempPass);
-
                     insertData(hashTable, tempKey, tempPass);
                     passwordVaultSize++;
                 }
@@ -73,14 +97,14 @@ int main()
                 printf("what program/website is this password for? : ");
                 scanf("%s", tempStr);
 
-                // if(lookupData(hashTable, tempStr) != NULL)
-                // {
+                if(lookupData(hashTable, tempStr) != NULL)
+                {
                     printf("\nFound it!\nYour %s Password is %s\n\n", tempStr,(char*)lookupData(hashTable, tempStr));
-                // }
-                // else
-                // {
-                    // printf("\nSorry, but I couldn't find any password for your %s account...\n\n", tempStr);
-                // }
+                }
+                else
+                {
+                    printf("\nSorry, but I couldn't find any password for your %s account...\n\n", tempStr);
+                }
                 break;
             case 5:
                 memset(tempPass, 0, 256);
@@ -102,11 +126,12 @@ int main()
                 }
                 break;
             case 6:
-                printf("print list\n");
-                for(int i = 0; i < hashTable->size;i++)
-                {
-                    printf("key[%d], data[%s]\n", i, (char*)lookupData(hashTable, "facebook"));
-                }
+                printList(hashTable);
+                // printf("print list\n");
+                // for(int i = 0; i < hashTable->size;i++)
+                // {
+                //     printf("key[%d], data[%s]\n", i, (char*)lookupData(hashTable, "facebook"));
+                // }
                 break;
             case 7:
                 destroyTable(hashTable);
