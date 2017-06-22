@@ -1,6 +1,6 @@
 #include "HashTableAPI.h"
 
-HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, int key),void (*destroyData)(void *data),void (*printData)(void *toBePrinted))
+HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, char * key),void (*destroyData)(void *data),void (*printData)(void *toBePrinted))
 {
 
     int i;
@@ -26,7 +26,7 @@ HTable *createTable(size_t size, int (*hashFunction)(size_t tableSize, int key),
 
 }
 
-Node *createNode(int key, void *data)
+Node *createNode(char * key, void *data)
 {
 
     Node * temp = malloc(sizeof(Node));
@@ -58,20 +58,21 @@ void destroyTable(HTable *hashTable)
 
 }
 
-void insertData(HTable *hashTable, int key, void *data)
+void insertData(HTable *hashTable, char * key, void *data)
 {
 
     if(hashTable != NULL)
     {
     	int count = 0;
         count = hashTable->hashFunction(hashTable->size, key);
+        printf("hashkey: %d\n", count);
         Node * temp = createNode(key, data);
         temp->next = hashTable->table[count];
         hashTable->table[count] = temp;
     }
 }
 
-void removeData(HTable *hashTable, int key)
+void removeData(HTable *hashTable, char * key)
 {
 
     if (hashTable != NULL)
@@ -84,13 +85,12 @@ void removeData(HTable *hashTable, int key)
         while(temp != NULL)
         {
 
-            if(temp->key == tempKey)
+            if(strcmp(temp->key, key) == 0) 
             {
             	if(temp->next != NULL)
             	{
             		temp->next = temp->next->next;
             	}
-
                 free(temp->data);
                 free(temp);
             }
@@ -99,7 +99,7 @@ void removeData(HTable *hashTable, int key)
     }
 }
 
-void *lookupData(HTable *hashTable, int key)
+void *lookupData(HTable *hashTable, char * key)
 {
 
     int tempKey = 0;
@@ -115,10 +115,11 @@ void *lookupData(HTable *hashTable, int key)
     while(temp != NULL)
     {
 
-        if(temp->key == tempKey)
+        if(strcmp(temp->key, key) == 0)
         {
             return temp->data;
         }
+
         temp = temp->next;
     }
 

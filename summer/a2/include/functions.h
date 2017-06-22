@@ -6,6 +6,6 @@
 #include "HashTableAPI.h"
 
 void printData(void * data);
-int hashData(size_t hashSize, int dataKey);
+int hashData(size_t hashSize, char * dataKey);
 
 #endif

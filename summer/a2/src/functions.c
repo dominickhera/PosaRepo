@@ -5,7 +5,16 @@ void printData(void * data)
     printf("%s\n", (char *)data);
 }
 
-int hashData(size_t hashSize, int dataKey)
+int hashData(size_t hashSize, char * dataKey)
 {
-	return dataKey % hashSize;
+
+	int tempKey = 0;
+
+	while(*dataKey != '\0')
+	{
+		tempKey = tempKey + *dataKey;
+		dataKey++;
+	}
+
+	return tempKey % hashSize;
 }

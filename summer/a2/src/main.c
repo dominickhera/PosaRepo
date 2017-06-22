@@ -14,6 +14,8 @@ int main()
     int passwordVaultSize = 0;
     char fileName[256];
     char line[256];
+    char tempPass[256];
+    char tempKey[256];
     char tempStr[256];
     FILE *fp;
 
@@ -42,10 +44,16 @@ int main()
 
                 break;
             case 2:
-                memset(tempStr, 0, 256);
+                // printf("1: %s\n", tempStr);
+                memset(tempPass, 0, 256);
+                memset(tempKey, 0, 256);
+                // printf("2: %s\n", tempStr);
+                printf("what program/site is this for? : ");
+                scanf("%s", tempKey);
                 printf("enter new password into vault: ");
-                scanf("%s", tempStr);
-                insertData(hashTable, passwordVaultSize, tempStr);
+                scanf("%s", tempPass);
+                // printf("3: %s\n", tempStr);
+                insertData(hashTable, tempKey, tempPass);
                 passwordVaultSize++;
                 // memset(tempStr, 0, sizeof(tempStr));
                 break;
@@ -53,7 +61,18 @@ int main()
                 printf("remove\n");
                 break;
             case 4:
-                printf("Retrieve\n");
+                memset(tempStr, 0, 256);
+                printf("what program/website is this password for? : ");
+                scanf("%s", tempStr);
+                if(lookupData(hashTable, tempStr) != NULL)
+                {
+                printf("\nFound it!\nYour %s Password is %s\n\n", tempStr,(char*)lookupData(hashTable, tempStr));
+                }
+                else
+                {
+                    printf("\nSorry, but I couldn't find any password for your %s account...\n", tempStr);
+                }
+                // printf("Retrieve\n");
                 break;
             case 5:
                 printf("update\n");
@@ -63,10 +82,12 @@ int main()
                 if(passwordVaultSize != 0)
                 {
                     printf("List:\n\n");
-                for(int i = 0; i < passwordVaultSize; i++)
+                for(int i = 0; i < passwordVaultSize+1; i++)
                 {
-                    printf("%s\n", (char*)lookupData(hashTable, i));
+                    // printf("%d: %s\n", i, (char*)lookupData(hashTable, i));
+
                 }
+                printf("\n");
                 }
                 else
                 {
