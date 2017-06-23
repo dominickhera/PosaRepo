@@ -18,3 +18,11 @@ int hashData(size_t hashSize, char * dataKey)
 
 	return tempKey % hashSize;
 }
+
+
+void getPos(int * y, int * x)
+{
+    * y = getcury(stdscr);
+    * x = getcurx(stdscr);
+    return;
+}
