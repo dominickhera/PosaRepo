@@ -9,6 +9,7 @@
 
 void printData(void * data);
 int hashData(size_t hashSize, char * dataKey);
+void clearTextLine(int x, int y);
 void getPos(int *, int *);
 
 #endif

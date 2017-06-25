@@ -19,6 +19,12 @@ int hashData(size_t hashSize, char * dataKey)
 	return tempKey % hashSize;
 }
 
+void clearTextLine(int x, int y)
+{
+    move(x,y);
+    clrtoeol();
+}
+
 
 void getPos(int * y, int * x)
 {
