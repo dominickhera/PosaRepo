@@ -260,7 +260,7 @@ int main()
             {
                 echo();
                 clearMainMenu(maxX, maxY);
-                 passwordChecker(masterPassword, passwordCheck, maxX, maxY);
+                passwordChecker(masterPassword, passwordCheck, maxX, maxY);
                 memset(tempPass, 0, 256);
                 memset(tempKey, 0, 256);
                 clearTextLine((((maxY/3)*2) + 2),0);
