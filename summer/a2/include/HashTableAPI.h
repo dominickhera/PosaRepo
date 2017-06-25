@@ -84,8 +84,6 @@ void removeData(HTable *hashTable, char * key);
  **/
 void *lookupData(HTable *hashTable, char * key);
 
-void printList(HTable * hashTable);
-
 
 
 #endif

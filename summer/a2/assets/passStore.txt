@@ -1,4 +1,6 @@
 gmail,botNet1999
+apple,stuff
+weibo,china
 reddit,metaPassword
 twitter,tweetTweet
 facebook,bigBrother

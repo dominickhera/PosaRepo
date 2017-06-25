@@ -9,6 +9,7 @@
 
 void printData(void * data);
 int hashData(size_t hashSize, char * dataKey);
+void passwordChecker(char * masterPassword, char * passwordCheck, int maxX, int maxY);
 void clearTextLine(int x, int y);
 void makeMainMenu(int maxX, int maxY);
 void makeMainMenuOptions(int maxX, int maxY, int i, char * menuOptions);

@@ -20,9 +20,6 @@ int main()
     int prevX;
     int prevY;
     int passwordVaultSize = 0;
-    int configCount = 0;
-    int passCount = 3;
-    char line[256];
     char tempPass[256];
     char tempKey[256];
     char tempStr[256];
@@ -31,7 +28,7 @@ int main()
     char outputData[256];
     char masterPassword[256];
     char passwordCheck[256];
-    char * parse;
+    // char * parse;
     FILE *fp;
     FILE *config;
 
@@ -46,6 +43,7 @@ int main()
     HTable * hashTable = createTable(5000, &hashData, &free, &printData);
 
     strcpy(assetLocation, "./assets/");
+    strcpy(fileName, "");
     config = fopen("./assets/congfig.txt", "r");
 
     if(config == NULL)
@@ -64,6 +62,9 @@ int main()
     }
     else
     {
+        int configCount = 0;
+        char line[256];
+        // char * parse;
 
         while(fgets(line, sizeof(line), config) != NULL)
         {
@@ -84,6 +85,7 @@ int main()
 
         while(fgets(line, sizeof(line), fp) != NULL)
         {
+            char * parse;
 
             if(line[strlen(line) - 1] == '\n')
             {
@@ -113,48 +115,51 @@ int main()
 
     makeMainMenu(maxX, maxY);
 
-    while(strcmp(masterPassword, passwordCheck) != 0)
-    {
-        clearTextLine((((maxY/3)*2) + 2),0);
-        mvprintw((((maxY/3)*2) + 2) , 0, "%s", "enter master password: ");
-        getstr(passwordCheck);
+    passwordChecker(masterPassword, passwordCheck, maxX, maxY);
+
+    // while(strcmp(masterPassword, passwordCheck) != 0)
+    // {
+    //     clearTextLine(((maxY/6)*2),((maxX/6)*2) - 5);
+    //     mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s", "enter master password: ");
+    //     getstr(passwordCheck);
 
 
 
-        if (masterPassword[strlen(masterPassword) - 1] == '\n')
-        {
-            masterPassword[strlen(masterPassword) - 1] = '\0';
-        } 
-        else
-        {
-            masterPassword[strlen(masterPassword)] = '\0';
-        }
+    //     if (masterPassword[strlen(masterPassword) - 1] == '\n')
+    //     {
+    //         masterPassword[strlen(masterPassword) - 1] = '\0';
+    //     } 
+    //     else
+    //     {
+    //         masterPassword[strlen(masterPassword)] = '\0';
+    //     }
 
 
-        if(strcmp(masterPassword, passwordCheck) != 0)
-        {
-            passCount--;
-            if(passCount > 0)
-            {
-                mvprintw((((maxY/3)*2) + 16) , 0, "invalid password. %d tries remaining.", passCount);
-            }
-            else
-            {
-                mvprintw((((maxY/3)*2) + 15) , 0, "max limit of tries reached. exiting program now...");
-                destroyTable(hashTable);
-                endwin();
-            }
-        }
-        else
-        {
-            clearTextLine((((maxY/3)*2) + 2),0);
-            clearTextLine((((maxY/3)*2) + 16),0);
-            noecho();
-            break;
-        }
+    //     if(strcmp(masterPassword, passwordCheck) != 0)
+    //     {
+    //         passCount--;
+    //         if(passCount > 0)
+    //         {
+    //             mvprintw(((maxY/6)*2) + 4 , (((maxX/6) * 2) - 10), "invalid password. %d tries remaining.", passCount);
+    //         }
+    //         else
+    //         {
+    //             mvprintw((((maxY/3)*2) + 15) , 0, "max limit of tries reached. exiting program now...");
+    //             destroyTable(hashTable);
+    //             endwin();
+    //             return 0;
+    //         }
+    //     }
+    //     else
+    //     {
+    //         clearTextLine(((maxY/6)*2),((maxX/6)*2) - 5);
+    //         clearTextLine((((maxY/3)*2) + 16),0);
+    //         noecho();
+    //         break;
+    //     }
 
-        memset(passwordCheck, 0, 256);
-    }
+    //     memset(passwordCheck, 0, 256);
+    // }
 
 
 
@@ -226,7 +231,8 @@ int main()
                 memset(tempPass, 0, 256);
                 memset(tempKey, 0, 256);
                 clearMainMenu(maxX, maxY);
-                mvprintw((((maxY/3)*2) + 2) , 0, "%s", "what program/site is this for? : ");
+                passwordChecker(masterPassword, passwordCheck, maxX, maxY);
+                mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s", "what program/site is this for? : ");
                 getstr(tempKey);
                 if(lookupData(hashTable, tempKey) == NULL)
                 {
@@ -243,14 +249,22 @@ int main()
                     clearTextLine((((maxY/3)*2) + 2),0);
                     mvprintw((((maxY/3)*2) + 2) , 0, "You already have a password entered for %s, try removing it or updating it instead.", tempKey);
                 }
+
+                for(int i = 1; i < 6; i++)
+                {
+                    makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
+
+                }
             }
             else if(y == tempMenuNumb[2])
             {
                 echo();
+                clearMainMenu(maxX, maxY);
+                 passwordChecker(masterPassword, passwordCheck, maxX, maxY);
                 memset(tempPass, 0, 256);
                 memset(tempKey, 0, 256);
                 clearTextLine((((maxY/3)*2) + 2),0);
-                mvprintw((((maxY/3)*2) + 2) , 0, "%s","what is the site/program you want to delete your info for? : ");
+                mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s","what is the site/program you want to delete your info for? : ");
                 getstr(tempKey);
                 if(lookupData(hashTable, tempKey) != NULL)
                 {
@@ -263,15 +277,23 @@ int main()
                 else
                 {
                     clearTextLine((((maxY/3)*2) + 2),0);
-                    mvprintw((((maxY/3)*2) + 2) , 0, "%s","you don't seem to have any accounts for that site/program...");
+                    mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s","you don't seem to have any accounts for that site/program...");
+                }
+
+                for(int i = 1; i < 6; i++)
+                {
+                    makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
+
                 }
             }
             else if (y == tempMenuNumb[3])
             {
                 echo();
+                clearMainMenu(maxX, maxY);
+                passwordChecker(masterPassword, passwordCheck, maxX, maxY);
                 memset(tempStr, 0, 256);
                 clearTextLine((((maxY/3)*2) + 2),0);
-                mvprintw((((maxY/3)*2) + 2) , 0, "%s","what program/website is this password for? : ");
+                mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s","what program/website is this password for? : ");
                 getstr(tempStr);
 
                 if(lookupData(hashTable, tempStr) != NULL)
@@ -284,26 +306,34 @@ int main()
                     clearTextLine((((maxY/3)*2) + 2),0);
                     mvprintw((((maxY/3)*2) + 2) , 0,"\nSorry, but I couldn't find any password for your %s account...\n\n", tempStr);
                 }
+                for(int i = 1; i < 6; i++)
+                {
+                    makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
+
+                }
             }
             else if(y == tempMenuNumb[4])
             {
                 echo();
+                clearMainMenu(maxX, maxY);
+                passwordChecker(masterPassword, passwordCheck, maxX, maxY);
                 memset(tempPass, 0, 256);
                 memset(tempKey, 0, 256);
                 clearTextLine((((maxY/3)*2) + 2),0);
                 if(passwordVaultSize > 0)
                 {
-                    mvprintw((((maxY/3)*2) + 2) , 0,"what program/site account info do you want to to update? : ");
+                    mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5),"what program/site account info do you want to to update? : ");
                     getstr(tempKey);
 
                     if(lookupData(hashTable, tempKey) != NULL)
                     {
                         clearTextLine((((maxY/3)*2) + 2),0);
-                        mvprintw((((maxY/3)*2) + 2) , 0,"enter updated password into vault: ");
+                        mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5),"enter updated password into vault: ");
                         getstr(tempPass);
+                        removeData(hashTable, tempKey);
                         insertData(hashTable, tempKey, tempPass);
                         clearTextLine((((maxY/3)*2) + 2),0);
-                        mvprintw((((maxY/3)*2) + 2) , 0,"enter updated password into vault: ");
+                        // mvprintw((((maxY/3)*2) + 2) , 0,"enter updated password into vault: ");
 
                     }
                     else
@@ -316,6 +346,12 @@ int main()
                 {
                     clearTextLine((((maxY/3)*2) + 2),0);
                     mvprintw((((maxY/3)*2) + 2) , 0,"\n\nYou haven't entered any accounts to the vault, try doing that first..."); 
+                }
+
+                for(int i = 1; i < 6; i++)
+                {
+                    makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
+
                 }
             }
             else if(y == tempMenuNumb[5])
@@ -351,41 +387,6 @@ int main()
             mvprintw(prevY, prevX,character);
             move(prevY, prevX);
 
-        }
-        else if(c == 'r')
-        {
-
-            for(int i = 4; i <= ((maxY/3)*2); i++)
-            {
-                for(int k = 3; k <= (maxX - 4 ); k++)
-                {
-                    mvaddch(i - 2, k  , ' ');
-                }
-            }
-            // for(int i = 0; i <= ((maxX - 1)); i++)
-            // {
-            //     mvaddch(0,i,'1');
-            //     mvaddch(((maxY/3)*2),i,'2');
-            //     if(i > 1)
-            //     {
-            //         mvaddch(1, i , '3');
-            //         mvaddch((((maxY/3)*2) - 1), i - 1, '4');
-            //     }
-            // }
-
-            // for(int i = 0; i <= ((maxY/3)*2); i++)
-            // {
-            //     mvaddch(i,0,'5');
-            //     mvaddch(i,(maxX - 1),'6');
-            //     if(i > 1)
-            //     {
-            //         mvaddch(i - 1, 1, '7');
-            //         mvaddch(i - 1, (maxX - 2), '8');
-            //         mvaddch(i - 1, 2,'9');
-            //         mvaddch(i - 1, (maxX - 3),'4');
-            //     }
-
-            // }
         }
 
         refresh();

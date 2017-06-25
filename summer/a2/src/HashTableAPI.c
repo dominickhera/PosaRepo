@@ -138,21 +138,3 @@ void *lookupData(HTable *hashTable, char * key)
     return NULL;
 }
 
-void printList(HTable * hashTable)
-{
-
-    for(int i = 0; i < hashTable->size; i++)
-    {
-        Node * temp = hashTable->table[i];
-
-        while(temp != NULL)
-        {
-            printf("i[%d], key: %s, data: %s\n", i, (char *)temp->key, (char *)temp->data);
-
-            temp = temp->next;
-
-        }
-    }
-}
-
-

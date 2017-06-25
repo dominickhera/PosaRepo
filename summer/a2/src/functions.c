@@ -56,6 +56,56 @@ void makeMainMenu(int maxX, int maxY)
     move(1, ((maxX/3)) - 3);
 }
 
+void passwordChecker(char * masterPassword, char * passwordCheck, int maxX, int maxY)
+{
+
+	int passCount = 3;
+
+	while(strcmp(masterPassword, passwordCheck) != 0)
+    {
+        clearTextLine(((maxY/6)*2),((maxX/6)*2) - 5);
+        mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s", "enter master password: ");
+        getstr(passwordCheck);
+
+
+
+        if (masterPassword[strlen(masterPassword) - 1] == '\n')
+        {
+            masterPassword[strlen(masterPassword) - 1] = '\0';
+        } 
+        else
+        {
+            masterPassword[strlen(masterPassword)] = '\0';
+        }
+
+
+        if(strcmp(masterPassword, passwordCheck) != 0)
+        {
+            passCount--;
+            if(passCount > 0)
+            {
+                mvprintw(((maxY/6)*2) + 4 , (((maxX/6) * 2) - 10), "invalid password. %d tries remaining.", passCount);
+            }
+            else
+            {
+                mvprintw((((maxY/3)*2) + 15) , 0, "max limit of tries reached. exiting program now...");
+                // destroyTable(hashTable);
+                endwin();
+                exit(1);
+            }
+        }
+        else
+        {
+            clearTextLine(((maxY/6)*2),((maxX/6)*2) - 5);
+            clearTextLine((((maxY/3)*2) + 16),0);
+            noecho();
+            break;
+        }
+
+        memset(passwordCheck, 0, 256);
+    }
+}
+
 void clearMainMenu(int maxX, int maxY)
 {
     for(int i = 4; i <= ((maxY/3)*2); i++)
