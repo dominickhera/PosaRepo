@@ -1,6 +1,0 @@
-facebook,bigBrother
-twitter,tweetTweet
-instagram,instaPass
-reddit,metaPassword
-gmail,botNet1999
-xboxLive,halo4kux

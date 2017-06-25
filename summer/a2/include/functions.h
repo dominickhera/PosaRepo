@@ -12,6 +12,7 @@ int hashData(size_t hashSize, char * dataKey);
 void clearTextLine(int x, int y);
 void makeMainMenu(int maxX, int maxY);
 void makeMainMenuOptions(int maxX, int maxY, int i, char * menuOptions);
+void clearMainMenu(int maxX, int maxY);
 void getPos(int *, int *);
 
 #endif

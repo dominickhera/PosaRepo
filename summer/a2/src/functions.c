@@ -8,15 +8,15 @@ void printData(void * data)
 int hashData(size_t hashSize, char * dataKey)
 {
 
-	int tempKey = 0;
+    int tempKey = 0;
 
-	while(*dataKey != '\0')
-	{
-		tempKey = tempKey + *dataKey;
-		dataKey++;
-	}
+    while(*dataKey != '\0')
+    {
+        tempKey = tempKey + *dataKey;
+        dataKey++;
+    }
 
-	return tempKey % hashSize;
+    return tempKey % hashSize;
 }
 
 void clearTextLine(int x, int y)
@@ -27,7 +27,7 @@ void clearTextLine(int x, int y)
 
 void makeMainMenu(int maxX, int maxY)
 {
-	 for(int i = 0; i <= ((maxX - 1)); i++)
+    for(int i = 0; i <= ((maxX - 1)); i++)
     {
         mvaddch(0,i,'=');
         mvaddch(((maxY/3)*2),i,'=');
@@ -52,20 +52,31 @@ void makeMainMenu(int maxX, int maxY)
 
     }
 
-       mvprintw(1, (maxX / 2) - 7, " <~ iVault ~> ");
+    mvprintw(1, (maxX / 2) - 7, " <~ iVault ~> ");
     move(1, ((maxX/3)) - 3);
+}
+
+void clearMainMenu(int maxX, int maxY)
+{
+    for(int i = 4; i <= ((maxY/3)*2); i++)
+    {
+        for(int k = 3; k <= (maxX - 4 ); k++)
+        {
+            mvaddch(i - 2, k  , ' ');
+        }
+    }
 }
 
 void makeMainMenuOptions(int maxX, int maxY, int i, char * menuOptions)
 {
-		mvprintw(((maxY/10) * i), 4, "[");
-        move((maxY/10) * i, 4);
+    mvprintw(((maxY/8) * i), 4, "[");
+    move((maxY/8) * i, 4);
 
-        mvprintw(((maxY/10) * i), 6, "]");
-        move((maxY/10) * i, 6);
+    mvprintw(((maxY/8) * i), 6, "]");
+    move((maxY/8) * i, 6);
 
-        mvprintw((((maxY/10) * i)), 8, menuOptions);
-        move((((maxY/10) * i)), 8);
+    mvprintw((((maxY/8) * i)), 8, menuOptions);
+    move((((maxY/8) * i)), 8);
 }
 
 
@@ -73,5 +84,6 @@ void getPos(int * y, int * x)
 {
     * y = getcury(stdscr);
     * x = getcurx(stdscr);
+
     return;
 }

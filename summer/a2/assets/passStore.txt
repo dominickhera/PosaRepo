@@ -1,0 +1,6 @@
+gmail,botNet1999
+reddit,metaPassword
+twitter,tweetTweet
+facebook,bigBrother
+xboxLive,halo4kux
+instagram,instaPass
