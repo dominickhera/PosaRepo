@@ -293,13 +293,14 @@ int main()
                 passwordChecker(masterPassword, passwordCheck, maxX, maxY);
                 memset(tempStr, 0, 256);
                 clearTextLine((((maxY/3)*2) + 2),0);
-                mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s","what program/website is this password for? : ");
+                mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 6), "%s","what program/website is this password for? : ");
                 getstr(tempStr);
 
                 if(lookupData(hashTable, tempStr) != NULL)
                 {
                     clearTextLine((((maxY/3)*2) + 2),0);
-                    mvprintw((((maxY/3)*2) + 2) , 0,"Found it!\nYour %s Password is %s", tempStr,(char*)lookupData(hashTable, tempStr));
+                    clearTextLine(((maxY/6)*2) , (((maxX/6) * 2) - 6));
+                    mvprintw((((maxY/6)*2) + 4) , (((maxX/6)*2)-3),"Found it! Your %s Password is %s", tempStr,(char*)lookupData(hashTable, tempStr));
                 }
                 else
                 {
