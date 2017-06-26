@@ -15,8 +15,8 @@ int main()
     int c;
     int maxX;
     int maxY;
-    int y;
-    int x;
+    int y = 0;
+    int x = 0;
     int prevX;
     int prevY;
     int passwordVaultSize = 0;
@@ -33,8 +33,8 @@ int main()
     FILE *config;
 
 
-    y = 0;
-    x = 0;
+    // y = 0;
+    // x = 0;
 
 
     char * menuOptions[] = {"Add New Password", "Remove Password", "Retrieve a Password", "Update a Password", "Exit"}; 
@@ -117,52 +117,6 @@ int main()
 
     passwordChecker(masterPassword, passwordCheck, maxX, maxY);
 
-    // while(strcmp(masterPassword, passwordCheck) != 0)
-    // {
-    //     clearTextLine(((maxY/6)*2),((maxX/6)*2) - 5);
-    //     mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s", "enter master password: ");
-    //     getstr(passwordCheck);
-
-
-
-    //     if (masterPassword[strlen(masterPassword) - 1] == '\n')
-    //     {
-    //         masterPassword[strlen(masterPassword) - 1] = '\0';
-    //     } 
-    //     else
-    //     {
-    //         masterPassword[strlen(masterPassword)] = '\0';
-    //     }
-
-
-    //     if(strcmp(masterPassword, passwordCheck) != 0)
-    //     {
-    //         passCount--;
-    //         if(passCount > 0)
-    //         {
-    //             mvprintw(((maxY/6)*2) + 4 , (((maxX/6) * 2) - 10), "invalid password. %d tries remaining.", passCount);
-    //         }
-    //         else
-    //         {
-    //             mvprintw((((maxY/3)*2) + 15) , 0, "max limit of tries reached. exiting program now...");
-    //             destroyTable(hashTable);
-    //             endwin();
-    //             return 0;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         clearTextLine(((maxY/6)*2),((maxX/6)*2) - 5);
-    //         clearTextLine((((maxY/3)*2) + 16),0);
-    //         noecho();
-    //         break;
-    //     }
-
-    //     memset(passwordCheck, 0, 256);
-    // }
-
-
-
     for(int i = 1; i < 6; i++)
     {
         makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
@@ -231,25 +185,30 @@ int main()
                 memset(tempPass, 0, 256);
                 memset(tempKey, 0, 256);
                 clearMainMenu(maxX, maxY);
-                passwordChecker(masterPassword, passwordCheck, maxX, maxY);
-                mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s", "what program/site is this for? : ");
-                getstr(tempKey);
-                if(lookupData(hashTable, tempKey) == NULL)
+                if((passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions)) == 1)
                 {
-                    clearTextLine((((maxY/3)*2) + 2),0);
-                    mvprintw((((maxY/3)*2) + 2) , 0, "%s", "enter new password into vault : ");
-                    getstr(tempPass);
-                    insertData(hashTable, tempKey, tempPass);
-                    clearTextLine((((maxY/3)*2) + 2),0);
-                    mvprintw((((maxY/3)*2) + 2) , 0, "%s", "new password successfully entered.");
-                    passwordVaultSize++;
-                }
-                else
-                {
-                    clearTextLine((((maxY/3)*2) + 2),0);
-                    mvprintw((((maxY/3)*2) + 2) , 0, "You already have a password entered for %s, try removing it or updating it instead.", tempKey);
+                    echo();
+                    mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s", "what program/site is this for? : ");
+                    getstr(tempKey);
+                    if(lookupData(hashTable, tempKey) == NULL)
+                    {
+                        echo();
+                        clearTextLine(((maxY/6)*2) , (((maxX/6) * 2) - 5));
+                        mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s", "enter new password into vault : ");
+                        getstr(tempPass);
+                        insertData(hashTable, tempKey, tempPass);
+                        clearTextLine(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5));
+                        mvprintw(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5), "%s", "new password successfully entered.");
+                        passwordVaultSize++;
+                    }
+                    else
+                    {
+                        clearTextLine(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5));
+                        mvprintw(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5), "You already have a password entered for %s, try removing it or updating it instead.", tempKey);
+                    }
                 }
 
+                clearTextLine(((maxY/6)*2) , (((maxX/6) * 2) - 5));
                 for(int i = 1; i < 6; i++)
                 {
                     makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
@@ -260,93 +219,27 @@ int main()
             {
                 echo();
                 clearMainMenu(maxX, maxY);
-                passwordChecker(masterPassword, passwordCheck, maxX, maxY);
-                memset(tempPass, 0, 256);
-                memset(tempKey, 0, 256);
-                clearTextLine((((maxY/3)*2) + 2),0);
-                mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s","what is the site/program you want to delete your info for? : ");
-                getstr(tempKey);
-                if(lookupData(hashTable, tempKey) != NULL)
+                // passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions);
+                if((passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions)) == 1)
                 {
+                    memset(tempPass, 0, 256);
+                    memset(tempKey, 0, 256);
                     clearTextLine((((maxY/3)*2) + 2),0);
-                    removeData(hashTable, tempKey);
-                    mvprintw((((maxY/3)*2) + 2) , 0, "password successfully entered deleted.");
-                    passwordVaultSize--;
-
-                }
-                else
-                {
-                    clearTextLine((((maxY/3)*2) + 2),0);
-                    mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s","you don't seem to have any accounts for that site/program...");
-                }
-
-                for(int i = 1; i < 6; i++)
-                {
-                    makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
-
-                }
-            }
-            else if (y == tempMenuNumb[3])
-            {
-                echo();
-                clearMainMenu(maxX, maxY);
-                passwordChecker(masterPassword, passwordCheck, maxX, maxY);
-                memset(tempStr, 0, 256);
-                clearTextLine((((maxY/3)*2) + 2),0);
-                mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 6), "%s","what program/website is this password for? : ");
-                getstr(tempStr);
-
-                if(lookupData(hashTable, tempStr) != NULL)
-                {
-                    clearTextLine((((maxY/3)*2) + 2),0);
-                    clearTextLine(((maxY/6)*2) , (((maxX/6) * 2) - 6));
-                    mvprintw((((maxY/6)*2) + 4) , (((maxX/6)*2)-3),"Found it! Your %s Password is %s", tempStr,(char*)lookupData(hashTable, tempStr));
-                }
-                else
-                {
-                    clearTextLine((((maxY/3)*2) + 2),0);
-                    mvprintw((((maxY/3)*2) + 2) , 0,"\nSorry, but I couldn't find any password for your %s account...\n\n", tempStr);
-                }
-                for(int i = 1; i < 6; i++)
-                {
-                    makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
-
-                }
-            }
-            else if(y == tempMenuNumb[4])
-            {
-                echo();
-                clearMainMenu(maxX, maxY);
-                passwordChecker(masterPassword, passwordCheck, maxX, maxY);
-                memset(tempPass, 0, 256);
-                memset(tempKey, 0, 256);
-                clearTextLine((((maxY/3)*2) + 2),0);
-                if(passwordVaultSize > 0)
-                {
-                    mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5),"what program/site account info do you want to to update? : ");
+                    mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s","what is the site/program you want to delete your info for? : ");
                     getstr(tempKey);
-
                     if(lookupData(hashTable, tempKey) != NULL)
                     {
-                        clearTextLine((((maxY/3)*2) + 2),0);
-                        mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5),"enter updated password into vault: ");
-                        getstr(tempPass);
+                        clearTextLine(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5));
                         removeData(hashTable, tempKey);
-                        insertData(hashTable, tempKey, tempPass);
-                        clearTextLine((((maxY/3)*2) + 2),0);
-                        // mvprintw((((maxY/3)*2) + 2) , 0,"enter updated password into vault: ");
+                        mvprintw(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5), "password successfully entered deleted.");
+                        passwordVaultSize--;
 
                     }
                     else
                     {
                         clearTextLine((((maxY/3)*2) + 2),0);
-                        mvprintw((((maxY/3)*2) + 2) , 0,"\n\nYou haven't entered a password for %s yet, try adding one instead\n\n", tempKey);
+                        mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s","you don't seem to have any accounts for that site/program...");
                     }
-                }
-                else
-                {
-                    clearTextLine((((maxY/3)*2) + 2),0);
-                    mvprintw((((maxY/3)*2) + 2) , 0,"\n\nYou haven't entered any accounts to the vault, try doing that first..."); 
                 }
 
                 for(int i = 1; i < 6; i++)
@@ -354,6 +247,84 @@ int main()
                     makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
 
                 }
+                makeMainMenu(maxX, maxY);
+            }
+            else if (y == tempMenuNumb[3])
+            {
+                echo();
+                clearMainMenu(maxX, maxY);
+                if((passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions)) == 1)
+                {
+                    // passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions);
+                    memset(tempStr, 0, 256);
+                    clearTextLine((((maxY/3)*2) + 2),0);
+                    mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 6), "%s","what program/website is this password for? : ");
+                    getstr(tempStr);
+
+                    if(lookupData(hashTable, tempStr) != NULL)
+                    {
+                        clearTextLine((((maxY/3)*2) + 2),0);
+                        clearTextLine(((maxY/6)*2) , (((maxX/6) * 2) - 6));
+                        mvprintw((((maxY/6)*2) + 4) , (((maxX/6)*2)-3),"Found it! Your %s Password is %s", tempStr,(char*)lookupData(hashTable, tempStr));
+                    }
+                    else
+                    {
+                        clearTextLine((((maxY/3)*2) + 2),0);
+                        mvprintw((((maxY/6)*2) + 5) , (((maxX/6) * 2) - 5),"\nSorry, but I couldn't find any password for your %s account...\n\n", tempStr);
+                    }
+                }
+                for(int i = 1; i < 6; i++)
+                {
+                    makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
+
+                }
+                makeMainMenu(maxX, maxY);
+            }
+            else if(y == tempMenuNumb[4])
+            {
+                echo();
+                clearMainMenu(maxX, maxY);
+                if((passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions)) == 1)
+                {
+                    // passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions);
+                    memset(tempPass, 0, 256);
+                    memset(tempKey, 0, 256);
+                    clearTextLine((((maxY/3)*2) + 2),0);
+                    if(passwordVaultSize > 0)
+                    {
+                        mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5),"what program/site account info do you want to to update? : ");
+                        getstr(tempKey);
+
+                        if(lookupData(hashTable, tempKey) != NULL)
+                        {
+                            clearTextLine((((maxY/3)*2) + 2),0);
+                            mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5),"enter updated password into vault: ");
+                            getstr(tempPass);
+                            removeData(hashTable, tempKey);
+                            insertData(hashTable, tempKey, tempPass);
+                            clearTextLine((((maxY/3)*2) + 2),0);
+                            // mvprintw((((maxY/3)*2) + 2) , 0,"enter updated password into vault: ");
+
+                        }
+                        else
+                        {
+                            clearTextLine(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5));
+                            mvprintw(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5),"\n\nYou haven't entered a password for %s yet, try adding one instead\n\n", tempKey);
+                        }
+                    }
+                    else
+                    {
+                        clearTextLine(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5));
+                        mvprintw(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5),"\n\nYou haven't entered any accounts to the vault, try doing that first..."); 
+                    }
+                }
+
+                for(int i = 1; i < 6; i++)
+                {
+                    makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
+
+                }
+                makeMainMenu(maxX, maxY);
             }
             else if(y == tempMenuNumb[5])
             {
@@ -382,7 +353,10 @@ int main()
                 endwin();
                 break;
             }
-
+            else
+            {
+                printf("butts");
+            }
 
             noecho();
             mvprintw(prevY, prevX,character);

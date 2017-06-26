@@ -1,2 +1,2 @@
 password
-./assets/passStore.txt
+./assets/data.txt

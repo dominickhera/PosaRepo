@@ -1,8 +1,0 @@
-gmail,botNet1999
-apple,stuff
-weibo,china
-reddit,metaPassword
-twitter,tweetTweet
-facebook,bigBrother
-xboxLive,halo4kux
-instagram,instaPass
