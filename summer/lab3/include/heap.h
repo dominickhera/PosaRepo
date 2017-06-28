@@ -16,7 +16,7 @@ typedef struct heap
 {
 
 	size_t initialSize;
-	Node **heap;
+	Node **heapTable;
 	HEAP_TYPE type;
 	Node * lastPosition;
 	void (*destroyDataFP)(void *data);
