@@ -1,0 +1,54 @@
+We're not going to give you the test harness for lab 3.  However,  I will restrict the test harness to using cases selected from the list of cases below.   There will be no surprises.. the only cases I will test are represented in the descriptions shown below.
+
+I will also  try to write a short 'main'  that you can use to ensure that your ADT will compile with my setup.
+
+Because your own testing is more important for this lab (and harder)  we will allocate 2/5 marks for your own test harness and 3/5 for my test suite.    This means that I will be spending a bit more time actually looking at your testing and you won't get marks for just having something running.  It will actually have to be doing some testing of the ADT.
+
+Here's the list of possible test cases.
+
+*******************
+
+possible test cases for Lab 3
+
+*******************
+
+Basic function tests:
+
+Each function will be tested by calling the function multiple times and changing the parameters each time. Each function will be subjected to multiple tests.
+
+createHeap ()
+size parameters: negative number, 0, betweenn 10 and 50, larger than 300
+HEAP_TYPE parameters: MIN_HEAP, MAX_HEAP, negative number, large positive number
+function pointer parameters: NULL, proper funciton pointer
+
+createHeapNode()
+data parameter: NULL, properly allocated data
+
+insertHeapNode()
+heap parameter: NULL, empty Heap, heap with elements, full heap
+data parameter: NULL, properly allocated data
+
+deleteMinOrMax()
+heap parameter: NULL, empty Heap, heap with elements, full heap
+
+getMinOrMax()
+heap parameter: NULL, empty Heap, heap with elements, full heap
+
+changeHeapType()
+heap parameter: NULL, empty Heap, heap with elements, full heap
+
+deleteHeap()
+heap parameter: NULL, empty Heap, heap with elements, full heap
+
+Tests involving a sequence of actions:
+
+
+These tests may be conducted on a min heap, a max heap, or both. Each test might be run with multiple sets of data and different kinds of data.
+
+
+-insert unsorted elements into heap and test getMinOrMax for correctness
+-insert sorted elements into heap and test getMinOrMax for correctness
+-insert elements into heap, getMinOrMax to test correctness, change heap type, getMinOrMax to test correctness
+-insert elements into heap, delete minOrMax, getMinOrMax for correctness, insert deleted Element, check getMinOrMax or correctness
+-insert duplicate element into heap
+-delete heap with elements, check for memory leaks. We might check your heap ADT for memory leaks using valgrind.
