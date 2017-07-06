@@ -49,15 +49,20 @@ void insertHeapNode(Heap *heap, void *data)
  //    locate the next position in the heap (the left most position with no node)
  //    add the new node to the located position
  //    reheapify the heap to maintain the heap property
+
 	heap->initialSize++;
-	int tempSize = heap->initialSize;
+	// int tempSize = heap->initialSize;
 	Node * temp = createHeapNode(data);
 	heap->heapTable[heap->initialSize] = temp;
-	Node * tempParent = temp->parent;
-	while(temp->data > tempParent->data)
+
+
+	if(strcmp(temp->HEAP_TYPE, "MAX_HEAP") == 0)
 	{
-		heap->compareFP(temp->data, tempParent->data);
-		tempParent = tempParent->parent;
+		reheapifyMax(heap, temp);
+	}
+	else
+	{
+		reheapifyMin(heap, temp);
 	}
 }
 
@@ -73,7 +78,7 @@ void deleteMinOrMax(Heap *heap)
   //   }
   //   return tempNode->data
 
-	// Node * temp = heap->
+	Node * temp = heap->
 
 }
 
@@ -85,10 +90,23 @@ void *getMinOrMax(Heap *heap)
 void changeHeapType(Heap *heap)
 {
 
+	if(strcmp(heap->HEAP_TYPE, "MAX_HEAP") == 0)
+	{
+		heap->HEAP_TYPE = "MIN_HEAP";
+		reheapifyMin(heap, heap);
+	}
+	else
+	{
+		temp->HEAP_TYPE = "MAX_HEAP";
+		reheapifyMax(heap, heap);
+	}
 }
 
 void deleteHeap(Heap *heap)
 {
-
+	for(int i = 0; i < heap->initialSize; i++)
+	{
+		deleteMinOrMax(heap->heapTable[i]);
+	}
 }
 
