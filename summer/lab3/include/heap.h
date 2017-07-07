@@ -12,21 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "functions.h"
-
-typedef struct heap
-{
-
-	size_t initialSize;
-	Node **heapTable;
-	HEAP_TYPE type;
-	Node * lastPosition;
-	void (*destroyDataFP)(void *data);
-	void (*printNodeFP)(void *toBePrinted);
-	int (*compareFP)(const void *first, const void *second);
-//put your struct definition here
-//must contain function pointers for managing the data
-}Heap;
-
+ 
 typedef struct node
 {
 	void * data;
@@ -36,16 +22,30 @@ typedef struct node
 	//put your struct definition here
 }Node;
 
+typedef struct heap
+{
+
+	size_t initialSize;
+	Node **heapTable;
+	void * type;
+	Node * lastPosition;
+	void (*destroyDataFP)(void *data);
+	void (*printNodeFP)(void *toBePrinted);
+	int (*compareFP)(const void *first, const void *second);
+//put your struct definition here
+//must contain function pointers for managing the data
+}Heap;
+
 /**Function to allocate memory to the heap and point the heap to the appropriate functions. Allocates memory to the heap based on the size given.
  *@return pointer to the heap
  *@param initialSize initial size of the heap
- *@param htype flag to choose whether to start the heap as a min heap or max heap. Takes in values MIN_HEAP and MAX_HEAP
+ *@param htype flag to choose whether to start the heap as a min heap or max heap. Takes in values MIN_HEAP and 
  *@param compareFP function pointer to a function that compares two pieces of data.
  *@param destroyDataFP function pointer to a function to delete a single piece of data from the heap
  *@param printNodeFP function pointer to a function that prints out a data element of the heap
  *@return pointer to the heap
  **/
-Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void *data),void (*printNodeFP)(void *toBePrinted),int (*compareFP)(const void *first, const void *second));
+Heap *createHeap(size_t initialSize, void *htype, void (*destroyDataFP)(void *data),void (*printNodeFP)(void *toBePrinted),int (*compareFP)(const void *first, const void *second));
 
 /**Function for creating a node for a heap.
  *@pre Node must be cast to void pointer before being added.
@@ -95,6 +95,9 @@ void changeHeapType(Heap *heap);
  *@param heap Pointer of a heap to be deleted.
  **/
 void deleteHeap(Heap *heap);
+
+void reheapifyMax(Heap * heap, Node * newNode);
+void reheapifyMin(Heap * heap, Node * newNode);
 
 
 
