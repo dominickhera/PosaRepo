@@ -6,8 +6,8 @@ EXE = run
 
 all: $(EXE)
 
-$(EXE): main.o heap.o BIN OBJ
-	gcc main.o heap.o -o ./bin/$(EXE)
+$(EXE): main.o heap.o functions.o BIN OBJ
+	gcc main.o heap.o functions.o -o ./bin/$(EXE)
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
@@ -23,6 +23,9 @@ main.o: ./src/main.c
 
 heap.o: ./src/heap.c
 	$(CC) -c $(CFLAGS) ./src/heap.c -I./include
+
+functions.o: ./src/functions.c
+	$(CC) -c $(CFLAGS) ./src/functions.c -I./include
 
 doxy: Doxyfile
 	doxygen
