@@ -119,6 +119,9 @@ void deleteHeap(Heap *heap);
 
 void reheapifyMax(Heap * heap, Node * newNode);
 void reheapifyMin(Heap * heap, Node * newNode);
+int getParent(int tempInt);
+int getLeftChild(int tempInt);
+int getRightChild(int tempInt);
 
 
 

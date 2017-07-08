@@ -8,6 +8,14 @@ Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void
     {
         return NULL;
     }
+
+    temp->heapTable = malloc(sizeof(*temp->heapTable) * initialSize);
+
+    for(int i = 0; i < initialSize; i++)
+    {
+        temp->heapTable[i] = NULL;
+    }
+
     // temp->HEAP_TYPE = htype;
     // strcpy(temp->type, htype);
     temp->type = htype;
@@ -43,9 +51,9 @@ Node *createHeapNode(void *data)
     printf("6\n");
     temp->parent = NULL;
     printf("7\n");
-    // temp->data = data;
+    temp->data = data;
     // printf("8\n");
-    strcpy(temp->data, data);
+    // strcpy(temp->data, data);
     printf("8\n");
     return temp;
 }
@@ -53,28 +61,51 @@ Node *createHeapNode(void *data)
 void insertHeapNode(Heap *heap, void *data)
 {
     // create a node from the data
-    //    locate the next position in the heap (the left most position with no node)
-    //    add the new node to the located position
-    //    reheapify the heap to maintain the heap property
-	printf("9\n");
-    // heap->initialSize++;
-    printf("10\n");
-    int tempSize = heap->initialSize++;
+    // locate the next position in the heap (the left most position with no node)
+    // add the new node to the located position
+    // reheapify the heap to maintain the heap property
+	
+    // printf("9\n");
+    // printf("10\n");
+
     Node * temp = createHeapNode(data);
-    printf("11\n");
-    // heap->heapTable[tempSize	] = temp;
-    printf("12\n");
-
-
-    if(strcmp((char *)heap->type, "MAX_HEAP") == 0)
+    // heap->initialSize++;
+    // printf("11\n");
+    // printf("12\n");
+    int tempSize = (heap->initialSize)++;
+    
+    printf("data: %s\n", (char *)temp->data);
+    if(heap->type == 1)
     {
     	printf("13\n");
-        reheapifyMax(heap, temp);
+        printf("t1: %d, t2: %d\n", tempSize, getParent(tempSize));
+        printf("15b\n");
+        if(heap->heapTable[getParent(tempSize)]->data == NULL)
+        {
+            printf("butts\n");
+            // exit(1);
+        }
+        else
+        {
+            printf("not butt\n");
+        }
+        printf("b1: %s, b2: %s\n", temp->data, heap->heapTable[getParent(tempSize)]->data);
+        while(strcmp(temp->data, heap->heapTable[getParent(tempSize)]->data) > 0)
+        {
+            printf("14b\n");
+            heap->heapTable[tempSize] = heap->heapTable[getParent(tempSize)];
+            printf("15\n");
+            tempSize = getParent(tempSize);
+            printf("16\n");
+        }
+        heap->heapTable[tempSize] = temp;
+        printf("17\n");
+    //     reheapifyMax(heap, temp);
     }
     else
     {
     	printf("14\n");
-        reheapifyMin(heap, temp);
+    //     reheapifyMin(heap, temp);
     }
 }
 
@@ -102,16 +133,23 @@ void deleteMinOrMax(Heap *heap)
 void changeHeapType(Heap *heap)
 {
 
-    if(strcmp((char *)heap->type, "MAX_HEAP") == 0)
+    printf("23\n");
+    if(heap->type == 1)
     {
-        strcpy(heap->type, "MIN_HEAP");
+        printf("24\n");
+        heap->type = 0;
+        printf("25\n");
         reheapifyMin(heap, heap->heapTable[0]);
+        printf("26\n");
     }
     else
     {
-        strcpy(heap->type, "MAX_HEAP");
+        printf("27\n");
+        heap->type = 1;
+        printf("28\n");
         reheapifyMax(heap, heap->heapTable[heap->initialSize]);
     }
+    printf("29\n");
 }
 
 void deleteHeap(Heap *heap)
@@ -173,5 +211,26 @@ void reheapifyMin(Heap * heap, Node * newNode)
         tempParent = newNode->parent;
 
     }
+}
+
+int getParent(int tempInt)
+{
+
+    return ((tempInt - 1)/2);
+
+}
+
+int getLeftChild(int tempInt)
+{
+
+    return ((tempInt * 2) + 1);
+
+}
+
+int getRightChild(int tempInt)
+{
+
+    return ((tempInt * 2) + 2);
+
 }
 
