@@ -6,8 +6,8 @@ EXE = run
 
 all: $(EXE)
 
-$(EXE): main.o heap.o functions.o BIN OBJ
-	gcc main.o heap.o functions.o -o ./bin/$(EXE)
+$(EXE): BIN OBJ main.o heap.o functions.o
+	gcc ./obj/main.o ./obj/heap.o ./obj/functions.o -o $(OBJFILE)$(EXE)
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
@@ -19,16 +19,16 @@ cppcheck:
 	cppcheck --enable=all --language=c --std=c99 --inconclusive --suppress=missingInclude src/*.c -i ./include
 
 main.o: ./src/main.c
-	$(CC) -c $(CFLAGS) ./src/main.c -I./include
+	$(CC) -c $(CFLAGS) ./src/main.c -I./include -o ./obj/main.o
 
 heap.o: ./src/heap.c
-	$(CC) -c $(CFLAGS) ./src/heap.c -I./include
+	$(CC) -c $(CFLAGS) ./src/heap.c -I./include -o ./obj/heap.o
 
 functions.o: ./src/functions.c
-	$(CC) -c $(CFLAGS) ./src/functions.c -I./include
+	$(CC) -c $(CFLAGS) ./src/functions.c -I./include -o ./obj/functions.o
 
 doxy: Doxyfile
 	doxygen
 
 clean:
-	rm *.o
+	rm -rf bin obj
