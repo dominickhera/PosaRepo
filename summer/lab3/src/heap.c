@@ -1,6 +1,6 @@
 #include "heap.h"
 
-Heap *createHeap(size_t initialSize, void *htype, void (*destroyDataFP)(void *data),void (*printNodeFP)(void *toBePrinted),int (*compareFP)(const void *first, const void *second))
+Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void *data),void (*printNodeFP)(void *toBePrinted),int (*compareFP)(const void *first, const void *second))
 {
 
     Heap * temp = malloc(sizeof(Heap) * initialSize);

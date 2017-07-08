@@ -5,6 +5,27 @@
  * @brief File containing the function definitions of a heap
  */
 
+
+/* notes for students
+You must have a second .h file that you write that contains
+any extra functions you write for your heap.  You will need additional functions.
+
+In that .h file you MUST have a typedef that  defines the
+type "Heap"  and the type "Node".  Heap must be the 
+struct that is your main heap,  Node must be the type that is stored in the heap.
+
+typedef somestructhere Heap;
+typedef someotherstructhere Node;
+*/
+#ifndef _HEAPTYPES_
+#define _HEAPTYPES_
+#ifndef _HEAP_API_
+#define MIN_HEAP 0
+#define MAX_HEAP 1
+#define HEAP_TYPE unsigned char
+#endif
+#endif
+
 #ifndef _HEAP_API_
 #define _HEAP_API_
 
@@ -27,7 +48,7 @@ typedef struct heap
 
 	size_t initialSize;
 	Node **heapTable;
-	void * type;
+	HEAP_TYPE type;
 	Node * lastPosition;
 	void (*destroyDataFP)(void *data);
 	void (*printNodeFP)(void *toBePrinted);
@@ -45,7 +66,7 @@ typedef struct heap
  *@param printNodeFP function pointer to a function that prints out a data element of the heap
  *@return pointer to the heap
  **/
-Heap *createHeap(size_t initialSize, void *htype, void (*destroyDataFP)(void *data),void (*printNodeFP)(void *toBePrinted),int (*compareFP)(const void *first, const void *second));
+Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void *data),void (*printNodeFP)(void *toBePrinted),int (*compareFP)(const void *first, const void *second));
 
 /**Function for creating a node for a heap.
  *@pre Node must be cast to void pointer before being added.
