@@ -83,21 +83,21 @@ void insertHeapNode(Heap *heap, void *data)
 
     if(heap->type == 1)
     {
-        // for(int i = 0; i < heap->maxSize; i++)
-        // {
+        for(int i = 0; i < heap->maxSize; i++)
+        {
             reheapifyMax(heap, tempSize);
-        // }
+        }
     }
     else
     {
-        // for(int i = 0; i < heap->maxSize; i++)
-        // {
-            reheapifyMin(heap, tempSize);
-        // }
+        for(int i = 0; i < heap->maxSize; i++)
+        {
+            reheapifyMin(heap, i);
+        }
     	// printf("butts");
     }
 
-    printf("data: %s\n", temp->data);
+    // printf("data: %s\n", temp->data);
 
 }
 
@@ -117,7 +117,7 @@ void deleteMinOrMax(Heap *heap)
 
     for(int i = 0; i < heap->maxSize; i++)
     {
-        printf("I: %d, P: %d, L: %d, R: %d\n",i + 1, getParent(i), getLeftChild(i), getRightChild(i));
+        printf("I: %d, Parent: %d, Left: %d, Right: %d, Data: %s\n",i + 1, getParent(i) + 1, getLeftChild(i) + 1, getRightChild(i) + 1, heap->heapTable[i]->data);
     }
 
 }
@@ -275,14 +275,14 @@ int getParent(int tempInt)
 int getLeftChild(int tempInt)
 {
 
-    return ((tempInt * 2) + 2);
+    return ((tempInt * 2) + 1);
 
 }
 
 int getRightChild(int tempInt)
 {
 
-    return ((tempInt * 2) + 3);
+    return ((tempInt * 2) + 2);
 
 }
 
