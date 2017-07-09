@@ -115,7 +115,7 @@ void changeHeapType(Heap *heap);
 void deleteHeap(Heap *heap);
 
 void reheapifyMax(Heap * heap, int tempSize);
-void reheapifyMin(Heap * heap, Node * newNode);
+void reheapifyMin(Heap * heap, int tempSize);
 int getParent(int tempInt);
 int getLeftChild(int tempInt);
 int getRightChild(int tempInt);
