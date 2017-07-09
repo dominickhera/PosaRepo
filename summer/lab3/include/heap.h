@@ -39,13 +39,11 @@ typedef struct node
 	void * data;
 	struct node * left;
 	struct node * right;
-	struct node *parent;
-	//put your struct definition here
+	struct node * parent;
 }Node;
 
 typedef struct heap
 {
-
 	size_t initialSize;
 	Node **heapTable;
 	HEAP_TYPE type;
@@ -53,8 +51,6 @@ typedef struct heap
 	void (*destroyDataFP)(void *data);
 	void (*printNodeFP)(void *toBePrinted);
 	int (*compareFP)(const void *first, const void *second);
-//put your struct definition here
-//must contain function pointers for managing the data
 }Heap;
 
 /**Function to allocate memory to the heap and point the heap to the appropriate functions. Allocates memory to the heap based on the size given.
