@@ -96,63 +96,7 @@ void insertHeapNode(Heap *heap, void *data)
         // insertHeapNode(tempParent->left, data);
         heap->lastPosition = tempParent;
     }
-    // if(heap->lastPosition != NULL)
-    // {
-    //     Node * tempParent = heap->lastPosition;
-    //     printf("previous shit is %s\n", tempParent->data);
-    //     temp->parent = tempParent;
-    // }
-   
-    // if(temp->parent == NULL)
-    // {
-        // temp->parent = temp;
-    // }
-    // if(tempParent->left == NULL)
-    // {
-    //     temp->left = temp-;
-    //     // printf("lel: %s\n", temp->left->data);
-    // }
-    // heap->lastPosition = temp;
-    // printf("lol: %s\n", temp->parent->data);
-    // printf("lel: %s\n", temp->data);
-    // heap->initialSize++;
-    // printf("11\n");
-    // printf("12\n");
-    // int tempSize = (heap->initialSize)++;
 
-    // printf("data: %s\n", (char *)temp->data);
-    // if(heap->type == 1)
-    // {
-    // 	printf("13\n");
-    //     printf("t1: %d, t2: %d\n", tempSize, getParent(tempSize));
-    //     printf("15b\n");
-    //     if(heap->heapTable[getParent(tempSize)]->data == NULL)
-    //     {
-    //         printf("butts\n");
-    //         // exit(1);
-    //     }
-    //     else
-    //     {
-    //         printf("not butt\n");
-    //     }
-    //     printf("b1: %s, b2: %s\n", temp->data, heap->heapTable[getParent(tempSize)]->data);
-    //     while(strcmp(temp->data, heap->heapTable[getParent(tempSize)]->data) > 0)
-    //     {
-    //         printf("14b\n");
-    //         heap->heapTable[tempSize] = heap->heapTable[getParent(tempSize)];
-    //         printf("15\n");
-    //         tempSize = getParent(tempSize);
-    //         printf("16\n");
-    //     }
-    //     heap->heapTable[tempSize] = temp;
-    //     printf("17\n");
-    // //     reheapifyMax(heap, temp);
-    // }
-    // else
-    // {
-    // 	printf("14\n");
-    // //     reheapifyMin(heap, temp);
-    // }
 }
 
 void deleteMinOrMax(Heap *heap)
