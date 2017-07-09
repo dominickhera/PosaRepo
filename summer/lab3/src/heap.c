@@ -85,7 +85,12 @@ void insertHeapNode(Heap *heap, void *data)
         }
         else if(tempParent->right != NULL && tempParent->left != NULL)
         {
-            
+            tempParent->parent = tempParent->left;
+            insertHeapNode(tempParent->parent, data);
+            // if(tempParent->left->left == NULL)
+            // {
+            //     printf("sicko\n");
+            // }
         }
         // printf("previous shit is %s\n", tempParent->parent->data);
         // insertHeapNode(tempParent->left, data);
