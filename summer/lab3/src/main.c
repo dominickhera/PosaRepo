@@ -6,17 +6,30 @@
 int main()
 {
 
-	char * data[] = {"12", "23", "41", "55", "11", "42", "41", "99"};
+	char * data[] = {"12", "23", "48", "55", "11", "42", "99"};
 
-	Heap * heapThing = createHeap(10, 1, &free, &printData, &compareFunction);
+	Heap * heapThing = createHeap(7, 0, &free, &printData, &compareFunction);
 
-	// changeHeapType(heapThing);
-	for(int i = 0; i < 8; i++)
+	// printf("size: %lu\n", sizeof(data)/sizeof(data[0]));	
+	for(int i = 0; i < (sizeof(data)/sizeof(data[0])); i++)
 	{
 		insertHeapNode(heapThing, data[i]);
 	}
 
-	
+
+	for(int i = 0; i < (sizeof(data)/sizeof(data[0])); i++)
+	{
+		printf("heapInt[%d]: %s\n", i + 1, heapThing->heapTable[i]->data);
+	}
+
+	deleteMinOrMax(heapThing);
+	// changeHeapType(heapThing);
+
+	// printf("round 2:\n");
+	// for(int i = 0; i < (sizeof(data)/sizeof(data[0])); i++)
+	// {
+	// 	printf("heapInt[%d]: %s\n", i + 1, heapThing->heapTable[i]->data);
+	// }
 
 	return 0;
 
