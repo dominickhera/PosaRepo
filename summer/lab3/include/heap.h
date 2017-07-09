@@ -37,17 +37,18 @@ typedef someotherstructhere Node;
 typedef struct node
 {
 	void * data;
-	struct node * left;
-	struct node * right;
-	struct node * parent;
+	// struct node * left;
+	// struct node * right;
+	// struct node * parent;
 }Node;
 
 typedef struct heap
 {
 	size_t initialSize;
+	size_t maxSize;
 	Node **heapTable;
 	HEAP_TYPE type;
-	Node * lastPosition;
+	// Node * lastPosition;
 	void (*destroyDataFP)(void *data);
 	void (*printNodeFP)(void *toBePrinted);
 	int (*compareFP)(const void *first, const void *second);
@@ -113,7 +114,7 @@ void changeHeapType(Heap *heap);
  **/
 void deleteHeap(Heap *heap);
 
-void reheapifyMax(Heap * heap, Node * newNode);
+void reheapifyMax(Heap * heap, int tempSize);
 void reheapifyMin(Heap * heap, Node * newNode);
 int getParent(int tempInt);
 int getLeftChild(int tempInt);
