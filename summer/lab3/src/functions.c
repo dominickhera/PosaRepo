@@ -7,7 +7,7 @@ void printData(void * data)
 
 int compareFunction(const void *first,const void *second)
 {
-	int tempVal = 0;
+	
 
 	if(*(int *)first > *(int *)second || *(int *)first == *(int *)second)
 	{
@@ -15,6 +15,7 @@ int compareFunction(const void *first,const void *second)
 	}
 	else
 	{
+		int tempVal = 0;
 		tempVal = *(int *)first;
 		*(int *)first = *(int *)second;
 		*(int *)second = tempVal;

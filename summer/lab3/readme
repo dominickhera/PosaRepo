@@ -1,0 +1,32 @@
+======================
+l3
+4/7/17
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+
+./bin/run
+
+==========
+to compile
+==========
+
+type 'make' to run the makeFile
+
+=============
+description
+=============
+
+- the program is an array based heap stack implementation that will run through several potential situations and tests to see what will break it. It is designed to take both max and min heaps and change between the two. 
+
+
+====================
+known limitations
+====================
+- the program tends to miss a number or two when doing the min heapify despite all other numbers being in place
+- the program will take the number value if letters are attempted to be entered and sort them accordingly based on that value instead of the actual number.
