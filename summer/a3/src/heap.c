@@ -23,19 +23,11 @@ Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void
     temp->printNodeFP = printNodeFP;
     temp->compareFP = compareFP;
 
-    if(temp->type == 1)
-    {
-        printf("Max Heap sucessfully created with a max size of %lu\n\n", temp->maxSize);
-    }
-    else
-    {
-        printf("Min Heap Successfully created with a max size of %lu\n\n", temp->maxSize);
-    }
     return temp;
 
 }
 
-Node *createHeapNode(void *data)
+Node *createHeapNode(int priority, void *clientID, void *symptomCode)
 {
     // create a pointer to a new Node
     //     set new nodes left, right and parent pointers to NULL
@@ -48,17 +40,25 @@ Node *createHeapNode(void *data)
     // printf("1\n");
     Node * temp = malloc(sizeof(Node));
     // printf("2\n");
-    temp->data = malloc(sizeof(data));
+    // temp->data = malloc(sizeof(data));
+    temp->clientID = malloc(sizeof(clientID));
+    temp->symptomCode = malloc(sizeof(symptomCode));
     // printf("3\n");
     if(temp == NULL)
     {
         return NULL;
     }
 
-    temp->data = data;
+    // strcpy(temp->data, data);
+    temp->priority = priority;
+    strcpy(temp->clientID, clientID);
+    strcpy(temp->symptomCode, symptomCode);
+    // temp->data = data;
+    // temp->clientID = clientID;
+    // temp->symptomCode = symptomCode;
 
 
-    printf("Heap node Successfully created with data: %s\n", temp->data);
+    // printf("Heap node Successfully created with data: %s\n", temp->data);
     return temp;
     // }
     // else
@@ -68,7 +68,7 @@ Node *createHeapNode(void *data)
     // }
 }
 
-void insertHeapNode(Heap *heap, void *data)
+void insertHeapNode(Heap *heap, int priority, void *clientID, void *symptomCode)
 {
     // create a node from the data
     // locate the next position in the heap (the left most position with no node)
@@ -83,13 +83,13 @@ void insertHeapNode(Heap *heap, void *data)
     }
     else
     {
-        Node * temp = createHeapNode(data);
+        Node * temp = createHeapNode(priority, clientID, symptomCode);
 
         int tempSize = heap->initialSize;
 
         heap->initialSize++;
 
-        while(tempSize && temp->data > heap->heapTable[getParent(tempSize)]->data)
+        while(tempSize && temp->priority > heap->heapTable[getParent(tempSize)]->priority)
         {
             heap->heapTable[tempSize] = heap->heapTable[getParent(tempSize)];
             tempSize = getParent(tempSize);
@@ -97,60 +97,28 @@ void insertHeapNode(Heap *heap, void *data)
 
         heap->heapTable[tempSize] = temp;
 
-        if(heap->type == 1)
-        {
-            for(int i = 0; i < heap->maxSize; i++)
-            {
-                reheapifyMax(heap, tempSize);
-            }
+        // printf("ID: %s, Priority: %s, Symptom Code: %s\n", temp->clientID, temp->data, temp->symptomCode);
 
-        }
-        else
-        {
-            for(int i = 0; i < heap->maxSize; i++)
-            {
-                reheapifyMin(heap, i);
-            }
-        }
+            // for(int i = 0; i < heap->maxSize; i++)
+            // {
+                reheapifyMin(heap, 0);
+            // }
+
     }
 
 }
 
 void deleteMinOrMax(Heap *heap)
 {
-    //   tempNode = heap->rootNode
-    //   heap->rootNode = the node in the "last" position in the tree //the leftmost, bottom node
-    //   outOfPlacePtr = heap->rootNode  // keep track of the node that you're moving into place
-    //   remove the node in the last position //after copying it into the root
-    //   while ( outOfPlacePtr->data is less than either left or right child)  //or greater than for a min heap
-    //   {
-    //       swap outOfPlacePtr and child with greatest value
-    //   }
-    //   return tempNode->data
+
     if(heap != NULL)
     {
-
-
-        if(heap->type == 1)
-        {
-
-            Node * minVal = getMinOrMax(heap);
-            free(minVal);
-            // printf("size b: %zu\n", heap->maxSize);
-            heap->maxSize--;
-            // printf("size a: %zu\n", heap->maxSize);
-            reheapifyMax(heap, 0);
-            printf("Min Value successfully deleted\n");
-        }
-        else
-        {
 
             Node * minVal = getMinOrMax(heap);
             free(minVal);
             heap->maxSize--;
             reheapifyMin(heap, 0);
-            printf("Max Value successfully deleted\n");
-        }
+            // printf("Max Value successfully deleted\n");
     }
     else
     {
@@ -172,36 +140,6 @@ void *getMinOrMax(Heap *heap)
     }
 }
 
-void changeHeapType(Heap *heap)
-{
-
-    // printf("23\n");
-    if(heap != NULL)
-    {
-        if(heap->type == 1)
-        {
-
-            heap->type = MIN_HEAP;
-            reheapifyMin(heap, 0);
-            printf("Heap type change form Max Heap to Min Heap\n\n");
-
-        }
-        else
-        {
-            // printf("27\n");
-            // printf("minxheap before: %d\n", heap->type);
-            heap->type = MAX_HEAP;
-
-            reheapifyMax(heap, 0);
-            printf("Heap type change form Min Heap to Max Heap\n\nn");
-        }
-    }
-    else
-    {
-        printf("Heap either does not exist or has been created incorrectly.\n");
-    }
-    // printf("29\n");
-}
 
 void deleteHeap(Heap *heap)
 {
@@ -218,101 +156,44 @@ void deleteHeap(Heap *heap)
 
         heap->maxSize--;
         free(heap->heapTable);
-        printf("Heap has been successfully deleted\n");
+        // printf("Heap has been successfully deleted\n");
     }
     else
     {
         printf("Heap either does not exist or has been created incorrectly.\n");
     }
     // }
-}
-
-void reheapifyMax(Heap * heap, int tempSize)
-{
-    // parentNode = get parent node of newNode
-    // while(newNode->data is greater than parentNode->data  //or less than for a min heap
-    // {
-    //    swap positions of newNode and Parent Node
-    //    parentNode = get parent node of newNode (has changed because of the swap)
-    // }
-
-    if(heap != NULL)
-    {
-        int tempInt = 0;
-        // printf("3\n");
-        if(getLeftChild(tempSize) < heap->initialSize && heap->heapTable[getLeftChild(tempSize)]->data > heap->heapTable[tempSize]->data)
-        {
-            // printf("4\n");
-            tempInt = getLeftChild(tempSize);
-            // printf("5\n");
-        }
-        else
-        {
-            // printf("6\n");
-            tempInt = tempSize;
-            // printf("7\n");
-        }
-        // printf("8\n");
-        if( getRightChild(tempSize) < heap->initialSize && heap->heapTable[getRightChild(tempSize)]->data > heap->heapTable[tempInt]->data)
-        {
-            // printf("9\n");
-            tempInt = getRightChild(tempSize);
-            // printf("10\n");
-        }
-        // printf("11\n");
-        if(tempInt != tempSize)
-        {
-
-            Node * swapNode = heap->heapTable[tempSize];
-            // printf("13\n");
-            heap->heapTable[tempSize] = heap->heapTable[tempInt];
-            // printf("14\n");
-            heap->heapTable[tempInt] = swapNode;
-            // printf("15\n");
-            reheapifyMax(heap, tempInt);
-            // printf("16\n");
-
-        }
-    }
-    else
-    {
-
-        printf("Heap either does not exist or has been created incorrectly.\n");
-    }
 }
 
 void reheapifyMin(Heap * heap, int tempSize)
 {
-    // parentNode = get parent node of newNode
-    // while(newNode->data is greater than parentNode->data  //or less than for a min heap
-    // {
-    //    swap positions of newNode and Parent Node
-    //    parentNode = get parent node of newNode (has changed because of the swap)
-    // }
 
     if(heap != NULL)
     {
-
+    
         int tempInt = 0;
-        // printf("tempSize: %d\n", tempSize);
+        // printf("tempSize1: %d\n", tempSize);
         // printf("3\n");
-        if(getLeftChild(tempSize) < heap->initialSize && heap->heapTable[getLeftChild(tempSize)]->data < heap->heapTable[tempSize]->data)
+        if(getLeftChild(tempSize) < heap->initialSize && heap->heapTable[getLeftChild(tempSize)]->priority < heap->heapTable[tempSize]->priority)
         {
             // printf("4\n");
             tempInt = getLeftChild(tempSize);
+            // printf("tempSize2: %d\n", tempSize);
             // printf("5\n");
         }
         else
         {
             // printf("6\n");
             tempInt = tempSize;
+            // printf("tempSize3: %d\n", tempSize);
             // printf("7\n");
         }
         // printf("8\n");
-        if( getRightChild(tempSize) < heap->initialSize && heap->heapTable[getRightChild(tempSize)]->data < heap->heapTable[tempInt]->data)
+        if(getRightChild(tempSize) < heap->initialSize && heap->heapTable[getRightChild(tempSize)]->priority < heap->heapTable[tempInt]->priority)
         {
             // printf("9\n");
             tempInt = getRightChild(tempSize);
+            // printf("tempSize: %d\n", tempSize);
             // printf("10\n");
         }
         // printf("11\n");
@@ -321,8 +202,10 @@ void reheapifyMin(Heap * heap, int tempSize)
 
             Node * swapNode = heap->heapTable[tempSize];
             // printf("13\n");
+
             heap->heapTable[tempSize] = heap->heapTable[tempInt];
             // printf("14\n");
+
             heap->heapTable[tempInt] = swapNode;
             // printf("15\n");
             reheapifyMin(heap, tempInt);
@@ -330,7 +213,6 @@ void reheapifyMin(Heap * heap, int tempSize)
     }
     else
     {
-
         printf("Heap either does not exist or has been created incorrectly.\n");
     }
 }
@@ -360,9 +242,9 @@ void printHeap(Heap * heap)
 {
     if(heap != NULL)
     {
-        for(int i = 0; i < heap->maxSize; i++)
+        for(int i = 0; i < heap->initialSize; i++)
         {
-            printf("I: %d, Parent: %d, Left: %d, Right: %d, Data: %s\n",i + 1, getParent(i) + 1, getLeftChild(i) + 1, getRightChild(i) + 1, heap->heapTable[i]->data);
+            printf("I: %d ClientID: %s, Priority: %d, Symptom Code: %s\n",i + 1, heap->heapTable[i]->clientID, heap->heapTable[i]->priority, heap->heapTable[i]->symptomCode);
         }
     }
     else

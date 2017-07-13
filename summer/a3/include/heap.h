@@ -37,6 +37,9 @@ typedef someotherstructhere Node;
 typedef struct node
 {
 	void * data;
+	int priority;
+	void * clientID;
+	void * symptomCode;
 	// struct node * left;
 	// struct node * right;
 	// struct node * parent;
@@ -71,7 +74,7 @@ Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void
  *@param data is a generic pointer to any data type that is to be stored in the heap.
  *@return returns a node for a heap
  **/
-Node *createHeapNode(void *data);
+Node *createHeapNode(int priority, void *clientID, void *symptomCode);
 
 /**Inserts a Node into the heap. Uses createHeapNode to place the data in a Node structure, and then puts the newly
  *created Node in the heap by adding at the bottom and comparing it to each parent node until it fits the Heap structure.
@@ -80,7 +83,7 @@ Node *createHeapNode(void *data);
  *@param heap Pointer to a heap
  *@param data Pointer to generic data that is to be inserted into the heap
 **/
-void insertHeapNode(Heap *heap, void *data);
+void insertHeapNode(Heap *heap, int priority, void *clientID, void *symptomCode);
 
 /**Function to remove the maximum or minimum Node of the heap (depending on min heap or max heap).
  *Once the Node has been deleted, the Node at the deepest point in the Heap is placed in the min/max position.
@@ -99,14 +102,6 @@ void deleteMinOrMax(Heap *heap);
 void *getMinOrMax(Heap *heap);
 
 
-/**Function to switch the type of heap from min-to-max or max-to-min. This changes the htype flag from MIN_HEAP
- *to MAX_HEAP and vice versa. Once the flag has been changed, heapify is called on the heap to rearrange it to 
- *fit the new heap property.
- *@param heap Pointer to a heap to switch from min-to-max or max-to-min.
- **/
-void changeHeapType(Heap *heap);
-
-
 
 /**Function delete a heap. This function calls deleteMinOrMax the same amount of times as the size of the
  *heap, which heapifies after each deletion. Finally, it frees the Heap structure.
@@ -114,7 +109,6 @@ void changeHeapType(Heap *heap);
  **/
 void deleteHeap(Heap *heap);
 
-void reheapifyMax(Heap * heap, int tempSize);
 void reheapifyMin(Heap * heap, int tempSize);
 int getParent(int tempInt);
 int getLeftChild(int tempInt);
