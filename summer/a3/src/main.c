@@ -11,7 +11,8 @@ int main(int argc, char* argv[])
     char tempPriority[50];
     char tempSymptomCode[50];
     int parseCount = 0;
-    // int cycle = 0;
+    int cycle = 0;
+    int cycleCheck = 0;
     FILE *fp;
     FILE *fo;
 
@@ -110,15 +111,55 @@ int main(int argc, char* argv[])
                 deleteHeapNode(heap, tempID);
     			break;
     		case 3:
-    			printf("go through heap from top to bottom\n");
-    			break;
+    			// printf("go through heap from top to bottom\n");
+                // if(cycle >= heap->initialSize)
+                // {
+                    cycleCheck = 0;
+                // }
+                while(cycleCheck != 3)
+                {
+                    printf("<(1):(2)> Exit(3)\n\n/> ");
+                    scanf("%d", &cycleCheck);
+                switch(cycleCheck)
+                {
+                    // printf("<(1):(2)> Exit(3)\n\n");
+                    // scanf("%d", &cycleCheck);
+                    case 1:
+                        cycle--;
+                        if(cycle < 0)
+                        {
+                            cycle = heap->initialSize - 1;
+                        }
+                        // printf("cycle: %d\n", cycle);
+                        printf("[%d/%zu]: Client ID: %s, Priority: %d, Symptom Code: %s\n", cycle + 1, heap->initialSize, heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode);
+                        // cycle--;
+                        break;
+                    case 2:
+                        cycle++;
+                        if(cycle > heap->initialSize - 1)
+                        {
+                            cycle = 0;
+                        }
+                        // printf("cycle: %d\n", cycle);
+                        printf("[%d/%zu]: Client ID: %s, Priority: %d, Symptom Code: %s\n", cycle + 1, heap->initialSize, heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode);
+                        // cycle++;
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        break;
+                }
+            }
+                // printf("[%d/%zu]: Client ID: %s, Priority: %d, Symptom Code: %s\n", cycle + 1, heap->initialSize, heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode);
+    			// cycle++;
+                break;
     		case 4:
     			// printf("printing list\n");
                 printHeap(heap, fo, 0);
     			break;
     		case 5:
-    			printf("save\n");
-                
+    			printf("heaipfy\n");
+                reheapifyMin(heap, 0);
     			break;
     		case 6:
     			printf("Exiting...\n");

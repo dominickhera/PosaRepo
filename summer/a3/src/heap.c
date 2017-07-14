@@ -193,6 +193,41 @@ void reheapifyMin(Heap * heap, int tempSize)
     }
 }
 
+void heapify(Heap * heap, int tempSize)
+{
+
+    if(heap != NULL)
+    {
+
+        int tempInt = 0;
+        if(getLeftChild(tempSize) < heap->initialSize && heap->heapTable[getLeftChild(tempSize)]->priority < heap->heapTable[tempSize]->priority)
+        {
+            tempInt = getLeftChild(tempSize);
+        }
+        else
+        {
+            tempInt = tempSize;
+        }
+        if(getRightChild(tempSize) < heap->initialSize && heap->heapTable[getRightChild(tempSize)]->priority < heap->heapTable[tempInt]->priority)
+        {
+            tempInt = getRightChild(tempSize);
+        }
+        if(tempInt != tempSize)
+        {
+
+            Node * swapNode = heap->heapTable[tempSize];
+            heap->heapTable[tempSize] = heap->heapTable[tempInt];
+            heap->heapTable[tempInt] = swapNode;
+            heapify(heap, tempInt);
+        }
+    }
+    else
+    {
+        printf("Heap either does not exist or has been created incorrectly.\n");
+    }
+
+}
+
 int getParent(int tempInt)
 {
 
