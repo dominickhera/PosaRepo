@@ -143,47 +143,29 @@ void deleteHeap(Heap *heap)
 
 void reheapifyMin(Heap * heap, int tempSize)
 {
-
     if(heap != NULL)
     {
-
         int tempInt = 0;
-        // printf("tempSize1: %d\n", tempSize);
-        // printf("3\n");
         if(getLeftChild(tempSize) < heap->initialSize && heap->heapTable[getLeftChild(tempSize)]->priority < heap->heapTable[tempSize]->priority)
         {
-            // printf("4\n");
             tempInt = getLeftChild(tempSize);
-            // printf("tempSize2: %d\n", tempSize);
-            // printf("5\n");
         }
         else
         {
-            // printf("6\n");
             tempInt = tempSize;
-            // printf("tempSize3: %d\n", tempSize);
-            // printf("7\n");
         }
-        // printf("8\n");
+
         if(getRightChild(tempSize) < heap->initialSize && heap->heapTable[getRightChild(tempSize)]->priority < heap->heapTable[tempInt]->priority)
         {
-            // printf("9\n");
             tempInt = getRightChild(tempSize);
-            // printf("tempSize: %d\n", tempSize);
-            // printf("10\n");
         }
-        // printf("11\n");
+
         if(tempInt != tempSize)
         {
 
             Node * swapNode = heap->heapTable[tempSize];
-            // printf("13\n");
-
             heap->heapTable[tempSize] = heap->heapTable[tempInt];
-            // printf("14\n");
-
             heap->heapTable[tempInt] = swapNode;
-            // printf("15\n");
             reheapifyMin(heap, tempInt);
         }
     }
@@ -193,40 +175,48 @@ void reheapifyMin(Heap * heap, int tempSize)
     }
 }
 
-void heapify(Heap * heap, int tempSize)
-{
+// void heapify(Heap * heap, int tempSize)
+// {
 
-    if(heap != NULL)
-    {
+//     if(heap != NULL)
+//     {
 
-        int tempInt = 0;
-        if(getLeftChild(tempSize) < heap->initialSize && heap->heapTable[getLeftChild(tempSize)]->priority < heap->heapTable[tempSize]->priority)
-        {
-            tempInt = getLeftChild(tempSize);
-        }
-        else
-        {
-            tempInt = tempSize;
-        }
-        if(getRightChild(tempSize) < heap->initialSize && heap->heapTable[getRightChild(tempSize)]->priority < heap->heapTable[tempInt]->priority)
-        {
-            tempInt = getRightChild(tempSize);
-        }
-        if(tempInt != tempSize)
-        {
+//         int tempInt = 0;
+//         if(getLeftChild(tempSize) < heap->initialSize && heap->heapTable[getLeftChild(tempSize)]->priority < heap->heapTable[tempSize]->priority)
+//         {
+//             tempInt = getLeftChild(tempSize);
+//         }
+//         else
+//         {
+//             tempInt = tempSize;
+//         }
 
-            Node * swapNode = heap->heapTable[tempSize];
-            heap->heapTable[tempSize] = heap->heapTable[tempInt];
-            heap->heapTable[tempInt] = swapNode;
-            heapify(heap, tempInt);
-        }
-    }
-    else
-    {
-        printf("Heap either does not exist or has been created incorrectly.\n");
-    }
 
-}
+
+//         if(getRightChild(tempSize) < heap->initialSize && heap->heapTable[getRightChild(tempSize)]->priority < heap->heapTable[tempInt]->priority)
+//         {
+//             tempInt = getRightChild(tempSize);
+//         }
+//         else
+//         {
+//             tempInt = tempSize;
+//         }
+
+//         // if(tempInt != tempSize)
+//         // {
+
+//         //     Node * swapNode = heap->heapTable[tempSize];
+//         //     heap->heapTable[tempSize] = heap->heapTable[tempInt];
+//         //     heap->heapTable[tempInt] = swapNode;
+//         //     heapify(heap, tempInt);
+//         // }
+//     }
+//     else
+//     {
+//         printf("Heap either does not exist or has been created incorrectly.\n");
+//     }
+
+// }
 
 int getParent(int tempInt)
 {
@@ -307,7 +297,7 @@ void printHeap(Heap * heap, FILE * outputFile, int option)
                 }
             }
         }
-        else
+        else if(option == 2)
         {
 
             for(int i = 0; i < heap->initialSize; i++)
@@ -361,7 +351,23 @@ void printHeap(Heap * heap, FILE * outputFile, int option)
                     printf("ClientID: %s, Priority: %d, Symptom Code: Unknown\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
                 }
             }
-
+        }
+        else
+        {
+            // printf("triggered\n");
+            for(int i = 0; i < heap->initialSize; i++)
+            {
+                if(i + 1 != heap->initialSize)
+                {
+                    // printf("not last\n");
+                    fprintf(outputFile, "%s %d %s\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, heap->heapTable[i]->symptomCode);
+                }
+                else
+                {
+                    // printf("last\n");
+                    fprintf(outputFile, "%s %d %s", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, heap->heapTable[i]->symptomCode);
+                }
+            }
         }
 
     }
@@ -385,6 +391,5 @@ void deleteHeapNode(Heap *heap, void *clientID)
             reheapifyMin(heap, i);
         }
     }
-
 }
 

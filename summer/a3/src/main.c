@@ -155,16 +155,25 @@ int main(int argc, char* argv[])
                 break;
     		case 4:
     			// printf("printing list\n");
-                printHeap(heap, fo, 0);
+                printHeap(heap, fo, 2);
     			break;
     		case 5:
+                // char tempMaxorMin[256];
     			printf("heaipfy\n");
                 reheapifyMin(heap, 0);
+                // Node * tempMaxorMin = getMaxorMin(heap);
+                // printf("temp: %s\n", tempMaxorMin->clientID);
+                // getMaxorMin(heap);
+
     			break;
     		case 6:
+                fp = fopen(fileName, "w");
     			printf("Exiting...\n");
+                fprintf(fo, "Client List (in Order Processed)\n\n");
                 printHeap(heap, fo, 1);
+                printHeap(heap, fp, 0);
                 deleteHeap(heap);
+                fclose(fp);
                 fclose(fo);
     			exit(1);
     		default:

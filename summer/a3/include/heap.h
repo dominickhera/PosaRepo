@@ -115,7 +115,7 @@ int getLeftChild(int tempInt);
 int getRightChild(int tempInt);
 void printHeap(Heap * heap, FILE * outputFile, int option);
 void deleteHeapNode(Heap *heap, void *clientID);
-void heapify(Heap * heap, int tempSize);
+// void heapify(Heap * heap, int tempSize);
 
 
 
