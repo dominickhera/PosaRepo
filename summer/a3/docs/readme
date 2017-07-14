@@ -1,0 +1,36 @@
+======================
+a3
+13/7/17
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+
+./bin/run
+
+==========
+to compile
+==========
+
+type 'make' to run the makeFile
+
+=============
+description
+=============
+
+- the program is 
+
+
+====================
+known limitations
+====================
+- 
+
+=========
+testing
+=========
+- attempted making a function to return the full name for the symptom code but it kept bugging out so i just resorted to doing a messier if else if in the printing function checking the symptom code stright up

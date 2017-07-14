@@ -1,0 +1,4 @@
+ClientID: 23, Priority: 1, Symptom Code: Trauma
+ClientID: bob52e, Priority: 4, Symptom Code: Ears, mouth, throat, nose
+ClientID: sal45, Priority: 2, Symptom Code: Opthalmology
+ClientID: dom20, Priority: 5, Symptom Code: Mental Health

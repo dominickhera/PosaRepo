@@ -4,14 +4,16 @@
 int main(int argc, char* argv[])
 {
 
-    // int choice = 0;
+    int choice = 0;
     char * fileName = argv[1];
     char line[256];
     char tempID[256];
     char tempPriority[50];
     char tempSymptomCode[50];
     int parseCount = 0;
+    // int cycle = 0;
     FILE *fp;
+    FILE *fo;
 
     if(argc != 2)
     {
@@ -21,6 +23,7 @@ int main(int argc, char* argv[])
 
 
     fp = fopen(fileName, "r");
+    fo = fopen("./assets/report.txt", "w");
 
     if(fp == NULL)
     {
@@ -75,39 +78,58 @@ int main(int argc, char* argv[])
 
     }
 
+    fclose(fp);
 
-    printHeap(heap);
+    // printHeap(heap);
 
-    // while(choice != 6)
-    // {
+    while(choice != 6)
+    {
 
-    // 	scanf("%d", &choice);
-    // 	switch(choice)
-    // 	{
-    // 		case 1:
-    // 			// printf("num is 1\n");
-    // 			break;
-    // 		case 2:
-    // 			// printf("num is 2\n");
-    // 			break;
-    // 		case 3:
-    // 			// printf("num is 3\n");
-    // 			break;
-    // 		case 4:
-    // 			// printf("num is 4\n");
-    // 			break;
-    // 		case 5:
-    // 			// printf("num is 5\n");
-    // 			break;
-    // 		case 6:
-    // 			printf("Exiting...\n");
-    // 			exit(1);
-    // 		default:
-    // 			printf("enter a number between 1-6\n");
-    // 			break;
+        printf("\n1.add new client\n2.remove old client\n3.cycle through heap\n4.print list\n5.save\n6.exit\n\n/> ");
+    	scanf("%d", &choice);
+    	switch(choice)
+    	{
+    		case 1:
+                memset(tempID, 0, strlen(line));
+                memset(tempPriority, 0, strlen(line));
+                memset(tempSymptomCode, 0, strlen(line));
+    			printf("enter client ID: ");
+                scanf("%s", tempID);
+                printf("enter Priority (1-5): ");
+                scanf("%s", tempPriority);
+                printf("enter symptom code: ");
+                scanf("%s", tempSymptomCode);
+                insertHeapNode(heap, atoi(tempPriority), tempID, tempSymptomCode);
+                // printf("heapID: %d, ID: %s, Priority: ")
+    			break;
+    		case 2:
+                memset(tempID, 0, strlen(line));
+    			// printf("remove old client\n");
+                printf("enter client ID: ");
+                scanf("%s", tempID);
+                deleteHeapNode(heap, tempID);
+    			break;
+    		case 3:
+    			printf("go through heap from top to bottom\n");
+    			break;
+    		case 4:
+    			// printf("printing list\n");
+                printHeap(heap, fo, 0);
+    			break;
+    		case 5:
+    			printf("save\n");
+                
+    			break;
+    		case 6:
+    			printf("Exiting...\n");
+                printHeap(heap, fo, 1);
+    			exit(1);
+    		default:
+    			printf("enter a number between 1-6\n");
+    			break;
 
-    // 	} 
-    // }
+    	} 
+    }
 
     return 0;
 }

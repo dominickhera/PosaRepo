@@ -113,7 +113,9 @@ void reheapifyMin(Heap * heap, int tempSize);
 int getParent(int tempInt);
 int getLeftChild(int tempInt);
 int getRightChild(int tempInt);
-void printHeap(Heap * heap);
+void printHeap(Heap * heap, FILE * outputFile, int option);
+void deleteHeapNode(Heap *heap, void *clientID);
+// void *getSymptomCode(Heap *heap, int location);
 
 
 

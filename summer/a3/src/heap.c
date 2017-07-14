@@ -29,18 +29,8 @@ Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void
 
 Node *createHeapNode(int priority, void *clientID, void *symptomCode)
 {
-    // create a pointer to a new Node
-    //     set new nodes left, right and parent pointers to NULL
-    //     set the node's data to the parameter data value
-    //     return the pointer to the new Node
 
-    // Heap * tempHeap = Heap;
-    // if(tempHeap != NULL)
-    // {
-    // printf("1\n");
     Node * temp = malloc(sizeof(Node));
-    // printf("2\n");
-    // temp->data = malloc(sizeof(data));
     temp->clientID = malloc(sizeof(clientID));
     temp->symptomCode = malloc(sizeof(symptomCode));
     // printf("3\n");
@@ -57,23 +47,13 @@ Node *createHeapNode(int priority, void *clientID, void *symptomCode)
     // temp->clientID = clientID;
     // temp->symptomCode = symptomCode;
 
-
-    // printf("Heap node Successfully created with data: %s\n", temp->data);
     return temp;
-    // }
-    // else
-    // {
-    //     printf("Heap either does not exist or has been created incorrectly.\n");
-    //     return NULL;
-    // }
+
 }
 
 void insertHeapNode(Heap *heap, int priority, void *clientID, void *symptomCode)
 {
-    // create a node from the data
-    // locate the next position in the heap (the left most position with no node)
-    // add the new node to the located position
-    // reheapify the heap to maintain the heap property
+
 
 
     if(heap == NULL)
@@ -97,12 +77,8 @@ void insertHeapNode(Heap *heap, int priority, void *clientID, void *symptomCode)
 
         heap->heapTable[tempSize] = temp;
 
-        // printf("ID: %s, Priority: %s, Symptom Code: %s\n", temp->clientID, temp->data, temp->symptomCode);
+        reheapifyMin(heap, 0);
 
-            // for(int i = 0; i < heap->maxSize; i++)
-            // {
-                reheapifyMin(heap, 0);
-            // }
 
     }
 
@@ -114,11 +90,11 @@ void deleteMinOrMax(Heap *heap)
     if(heap != NULL)
     {
 
-            Node * minVal = getMinOrMax(heap);
-            free(minVal);
-            heap->maxSize--;
-            reheapifyMin(heap, 0);
-            // printf("Max Value successfully deleted\n");
+        Node * minVal = getMinOrMax(heap);
+        free(minVal);
+        heap->maxSize--;
+        reheapifyMin(heap, 0);
+        // printf("Max Value successfully deleted\n");
     }
     else
     {
@@ -129,7 +105,7 @@ void deleteMinOrMax(Heap *heap)
 
 void *getMinOrMax(Heap *heap)
 {
-    if(heap == NULL)
+    if(heap != NULL)
     {
         return heap->heapTable[heap->maxSize - 1];
     }
@@ -170,7 +146,7 @@ void reheapifyMin(Heap * heap, int tempSize)
 
     if(heap != NULL)
     {
-    
+
         int tempInt = 0;
         // printf("tempSize1: %d\n", tempSize);
         // printf("3\n");
@@ -238,19 +214,142 @@ int getRightChild(int tempInt)
 
 }
 
-void printHeap(Heap * heap)
+void printHeap(Heap * heap, FILE * outputFile, int option)
 {
     if(heap != NULL)
     {
-        for(int i = 0; i < heap->initialSize; i++)
+        if(option == 1)
         {
-            printf("I: %d ClientID: %s, Priority: %d, Symptom Code: %s\n",i + 1, heap->heapTable[i]->clientID, heap->heapTable[i]->priority, heap->heapTable[i]->symptomCode);
+            for(int i = 0; i < heap->initialSize; i++)
+            {
+                if(strcmp(heap->heapTable[i]->symptomCode, "CV") == 0)
+                {
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Cardiovascular\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "HN") == 0)
+                {
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Ears, mouth, throat, nose\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "EV") == 0)
+                {
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Environmental\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "GI") == 0)
+                {
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Gastrointestinal\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "MH") == 0)
+                {
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Mental Health\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "NC") == 0)
+                {
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Neurological\n",heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "EC") == 0)
+                {
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Opthalmology\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "RC") == 0)
+                {
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Respiratory\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "SK") == 0)
+                {
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Skin\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "SA") == 0)
+                {
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Substance Abuse\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "TR") == 0)
+                {
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Trauma\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else
+                {
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Unknown\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+            }
         }
+        else
+        {
+
+            for(int i = 0; i < heap->initialSize; i++)
+            {
+                if(strcmp(heap->heapTable[i]->symptomCode, "CV") == 0)
+                {
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Cardiovascular\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "HN") == 0)
+                {
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Ears, mouth, throat, nose\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "EV") == 0)
+                {
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Environmental\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "GI") == 0)
+                {
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Gastrointestinal\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "MH") == 0)
+                {
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Mental Health\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "NC") == 0)
+                {
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Neurological\n",heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "EC") == 0)
+                {
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Opthalmology\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "RC") == 0)
+                {
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Respiratory\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "SK") == 0)
+                {
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Skin\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "SA") == 0)
+                {
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Substance Abuse\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else if(strcmp(heap->heapTable[i]->symptomCode, "TR") == 0)
+                {
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Trauma\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+                else
+                {
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Unknown\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                }
+            }
+
+        }
+
     }
     else
     {
 
         printf("Heap either does not exist or has been created incorrectly.\n");
     }
+}
+
+void deleteHeapNode(Heap *heap, void *clientID)
+{
+
+    for(int i = 0; i < heap->initialSize; i++)
+    {
+        if(strcmp(heap->heapTable[i]->clientID, clientID) == 0)
+        {
+            printf("clientID: %s\n", heap->heapTable[i]->clientID);
+            free(heap->heapTable[i]);
+            heap->initialSize--;
+            reheapifyMin(heap, i);
+        }
+    }
+
 }
 
