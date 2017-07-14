@@ -123,6 +123,8 @@ int main(int argc, char* argv[])
     		case 6:
     			printf("Exiting...\n");
                 printHeap(heap, fo, 1);
+                deleteHeap(heap);
+                fclose(fo);
     			exit(1);
     		default:
     			printf("enter a number between 1-6\n");
