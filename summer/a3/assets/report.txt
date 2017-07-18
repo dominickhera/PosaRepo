@@ -1,6 +1,7 @@
 Client List (in Order Processed)
 
 ClientID: 23, Priority: 1, Symptom Code: Trauma
-ClientID: dom20, Priority: 5, Symptom Code: Mental Health
 ClientID: bob52e, Priority: 4, Symptom Code: Ears, mouth, throat, nose
-ClientID: sal45, Priority: 2, Symptom Code: Opthalmology
+ClientID: sal45, Priority: 3, Symptom Code: Opthalmology
+ClientID: dom20, Priority: 5, Symptom Code: Mental Health
+ClientID: jim30, Priority: 2, Symptom Code: Gastrointestinal
