@@ -34,3 +34,11 @@ known limitations
 testing
 =========
 - attempted making a function to return the full name for the symptom code but it kept bugging out so i just resorted to doing a messier if else if in the printing function checking the symptom code stright up
+- reheapify algorithm works for the most part but is still very wonky, it'll swap around for the most part but leave every couple of entries. 
+- ran provided test data file through program and the heapify funciton is definitely broekn so i need to figure out a way to hotfix this intime for submission
+
+
+================
+priority queue
+================
+- the priority queue that is used for this project takes the minimum heap function that was written for lab 3 in the same class and attempts to repurpose it into the priority queue that is required by properly reheaping until the smalled value are at the top of the tree and the right and left children of each parent are less than eachother, but then I attempted to use another priority function to reorder any children within the tree to make sure that they are in numerical order despite the fact that they are correctly inserted and swapped around into the tree. This makes sure that the clients are processed according to the priority number that they are given in the data file.

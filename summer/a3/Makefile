@@ -7,7 +7,7 @@ EXE = run
 all: $(EXE)
 
 $(EXE): BIN OBJ main.o heap.o functions.o
-	gcc ./obj/main.o ./obj/heap.o ./obj/functions.o -o $(OBJFILE)$(EXE)
+	gcc ./obj/main.o ./obj/heap.o ./obj/functions.o -lncurses -o $(OBJFILE)$(EXE)
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
