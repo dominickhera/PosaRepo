@@ -214,8 +214,8 @@ int main(int argc, char* argv[])
                 // passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions);
                 // if((passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions)) == 1)
                 // {
-                    memset(tempPass, 0, 256);
-                    memset(tempKey, 0, 256);
+                    memset(tempID, 0, 256);
+                    // memset(tempKey, 0, 256);
                     clearTextLine((((maxY/3)*2) + 2),0);
                     mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5), "%s","enter clientID you'd like to delete from the list. : ");
                     getstr(tempID);
@@ -244,21 +244,21 @@ int main(int argc, char* argv[])
             }
             else if (y == tempMenuNumb[3])
             {
-                echo();
-                clearMainMenu(maxX, maxY);
+                // echo();
+                // clearMainMenu(maxX, maxY);
                 // if((passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions)) == 1)
                 // {
                     // passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions);
-                    memset(tempStr, 0, 256);
-                    clearTextLine((((maxY/3)*2) + 2),0);
-                    mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 6), "%s","what program/website is this password for? : ");
-                    getstr(tempStr);
+                    // memset(tempStr, 0, 256);
+                    // clearTextLine((((maxY/3)*2) + 2),0);
+                    // mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 6), "%s","what program/website is this password for? : ");
+                    // getstr(tempStr);
 
                     // if(lookupData(hashTable, tempStr) != NULL)
                     // {
-                        clearTextLine((((maxY/3)*2) + 2),0);
-                        clearTextLine(((maxY/6)*2) , (((maxX/6) * 2) - 6));
-                        mvprintw((((maxY/6)*2) + 4) , (((maxX/6)*2)-3),"Found it! Your %s Password is %s", tempStr,(char*)lookupData(hashTable, tempStr));
+                        // clearTextLine((((maxY/3)*2) + 2),0);
+                        // clearTextLine(((maxY/6)*2) , (((maxX/6) * 2) - 6));
+                        // mvprintw((((maxY/6)*2) + 4) , (((maxX/6)*2)-3),"Found it! Your %s Password is %s", tempStr,(char*)lookupData(hashTable, tempStr));
                     // }
                     // else
                     // {
@@ -292,13 +292,13 @@ int main(int argc, char* argv[])
                         // {
                             clearTextLine((((maxY/3)*2) + 2),0);
                             mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5),"enter updated password into vault: ");
-                            getstr(tempPass);
-                            removeData(hashTable, tempKey);
-                            insertData(hashTable, tempKey, tempPass);
+                            getstr(tempID);
+                            // removeData(hashTable, tempKey);
+                            // insertData(hashTable, tempKey, tempPass);
                             clearTextLine((((maxY/3)*2) + 2),0);
                             // mvprintw((((maxY/3)*2) + 2) , 0,"enter updated password into vault: ");
 
-                        // }
+                        // }y
                         // else
                         // {
                             // clearTextLine(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5));
