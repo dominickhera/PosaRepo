@@ -39,6 +39,8 @@ testing
 - currently using a switch case and a while loop to simulate a menu system while i get all the other functions working before i proceed to creating a proper and full menu stystem to satisfy extra requirements.
 - the heap function is taking up alot more time than anticipated so im moving forward and coming back to that later and proceeding to work on the menu system instead and coming back to the heapify before i submit the entire project
 - attempting to repurpose the menu system i had incorporated for the previous assignment because it was really nice and the person grading my project liked it. have to go one step further though to incorporate the cycling through of the patients but it shouldnt be too hard
+- fixed parsing so that empty spaces wouldn't cause the program to segfault anymore, now we're working, if the textfile ends with an empty line or has empty lines in the middle, it shouldn't provide any issues anymore.
+- got menu entirely working now with the cycling and everything, but im now just realising that I need to figure out how long all these people were waiting for, well that's gonna be unfortunate, im gonna go fix that now
 
 
 ============
@@ -47,6 +49,8 @@ test files
 - the test files i provided with the application are sufficient as to what may potentially be entered into the program so that it is able to handle any issues that it faces
 - the first test file throws the program a softball in which was originally provided on the assignment specs page with an additional entry that the program should be able to handle with minimal effort.
 - the second test file gives the program an actual data file also provided by the professor with many entries which makes use of the starvation method and makes sure that all functions are properly working
+- the third test file is similar to the seocnd test file as it provides many lines of data for the program to assess as well as blank lines to see it it'll break the parsing and the program as a whole.
+- the fourth test file attempts to test the priority and symptom code entry to make sure that they are properly being interpreted by the program so that it doesnt cause 
 
 ================
 priority queue

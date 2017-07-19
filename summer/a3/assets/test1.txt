@@ -1,3 +1,4 @@
-sal45  2  EC
-bob52e  1 HN
-23 5 TR
+23 1 TR
+bob52e 4 HN
+sal45 2 EC
+dom20 5 MH

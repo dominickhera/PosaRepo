@@ -1,5 +1,5 @@
 TJdU 5 NC
-cTF4 2 EV
+cTF4 2 LL
 EeOJ 5 HN
 7q6Y74GDXL 2 MH
 kFCj 3 GI
@@ -12,7 +12,9 @@ bBoc 5 GI
 CSCqg6CwRc 1 HN
 1zFQHwcSxd 2 NC
 9FuZ 4 SA
-hRik 1 TR
+hRik 1 QQ
+
+
 ex17 2 GI
 vBhA 3 EC
 Px5UCmiSrQ 3 EC
@@ -28,7 +30,8 @@ g5gbi4aFti 1 EV
 kpWQqurSNb 3 MH
 akj87ITAHQ 4 SK
 4xW2yQ0u77wSagHT 2 EV
-ddnC 5 EV
+
+ddnC B EV
 5rOP 4 EV
 7Kn6 1 SA
 QE2b 4 RC
@@ -53,3 +56,4 @@ RYfn 4 RC
 NNw9ODKNegSAHCbd 1 HN
 kklz7cPvMWuWpcT6 1 EC
 FtBp 5 TR
+

@@ -14,6 +14,8 @@ int main(int argc, char* argv[])
     char tempSymptomCode[50];
     int parseCount = 0;
     int c;
+    int v;
+    int cycle = 0;
     int maxX;
     int maxY;
     int y = 0;
@@ -31,7 +33,6 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-
     fp = fopen(fileName, "r");
     fo = fopen("./assets/report.txt", "w");
 
@@ -41,26 +42,19 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-
-
     Heap * heap = createHeap(500, MIN_HEAP, &free, &printData, &compareFunction);
 
     while(fgets(line, sizeof(line), fp) != NULL)
     {
         char * parse;
-        // printf("1\n");
 
         if(line[strlen(line) - 1] == '\n')
         {
-            // printf("2\n");
             line[strlen(line) - 1] = '\0';
         }
-        // printf("3\n");
 
         if(strcmp(line, "\0") != 0)
         {
-            // printf("bootay\n");
-
 
             parse = strtok(line, " ");
 
@@ -69,27 +63,22 @@ int main(int argc, char* argv[])
 
             while((parse = strtok(NULL, " ")) != NULL)
             {
-                // printf("6\n");
                 if(parseCount == 0)
                 {
-                    // printf("7\n");
                     strcpy(tempPriority, parse);
                     parseCount++;
                 }
                 else
                 {
-                    // printf("9\n");
                     strcpy(tempSymptomCode, parse);
-                    // printf("10\n");
                     parseCount--;
-                    // printf("11\n");
                 }
 
             }
 
             insertHeapNode(heap, atoi(tempPriority), tempID, tempSymptomCode);
         }
-        // printf("13\n");
+
         memset(tempID, 0, strlen(line));
         memset(tempPriority, 0, strlen(line));
         memset(tempSymptomCode, 0, strlen(line));
@@ -98,15 +87,12 @@ int main(int argc, char* argv[])
 
     fclose(fp);
 
-    // printHeap(heap);
 
     initscr();
     noecho();
     getmaxyx(stdscr,maxY,maxX);
 
     makeMainMenu(maxX, maxY);
-
-    // passwordChecker(masterPassword, passwordCheck, maxX, maxY);
 
     for(int i = 1; i < 6; i++)
     {
@@ -217,67 +203,62 @@ int main(int argc, char* argv[])
             }
             else if (y == tempMenuNumb[3])
             {
-                echo();
-                clearMainMenu(maxX, maxY);
-                // memset(tempStr, 0, 256);
-                // clearTextLine((((maxY/3)*2) + 2),0);
-                // mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 6), "%s","what program/website is this password for? : ");
-                // getstr(tempStr);
-                // clearTextLine((((maxY/3)*2) + 2),0);
-                // clearTextLine(((maxY/6)*2) , (((maxX/6) * 2) - 6));
-                // mvprintw((((maxY/6)*2) + 4) , (((maxX/6)*2)-3),"Found it! Your %s Password is %s", tempStr,(char*)lookupData(hashTable, tempStr));
-                // }
-                // else
-                // {
-                // clearTextLine((((maxY/3)*2) + 2),0);
-                // mvprintw((((maxY/6)*2) + 5) , (((maxX/6) * 2) - 5),"\nSorry, but I couldn't find any password for your %s account...\n\n", tempStr);
-                // }
-                // }
+               echo();
+               clearMainMenu(maxX, maxY);
+			   mvprintw(5, (maxX / 2) - 7, "Client %d of %zu", cycle + 1, heap->initialSize);
+			   mvprintw(3, (maxX / 2) - 18, "< A | D >   X - return to main menu");
+               mvprintw(((maxY/6)*2) , (((maxX/6) * 2)), "Client ID: %s, Priority: %d, Symptom Code: %s\n", heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode);
+               
+                v = getch();
+
+                while(v != 'x')
+                {
+                	if(v == 'd')
+                	{
+                		cycle++;
+            	        if(cycle > heap->initialSize - 1)
+                	    {
+                    	    cycle = 0;
+                    	}
+                    	mvprintw(5, (maxX / 2) - 7, "Client %d of %zu", cycle + 1, heap->initialSize);
+                    	mvprintw(((maxY/6)*2) , (((maxX/6) * 2)), "Client ID: %s, Priority: %d, Symptom Code: %s\n",  heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode);
+                	}
+                	else if(v == 'a')
+                	{
+                		cycle--;
+            	        if(cycle < 0)
+                	    {
+                    	    cycle = heap->initialSize - 1;
+                    	}
+                    	mvprintw(5, (maxX / 2) - 7, "Client %d of %zu", cycle + 1, heap->initialSize);
+                		mvprintw(((maxY/6)*2) , (((maxX/6) * 2)), "Client ID: %s, Priority: %d, Symptom Code: %s\n",  heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode);
+                	}
+                	else
+                	{
+                		noecho();
+                	}
+
+                	refresh();
+                	v = getch();
+
+                }
+                clearTextLine(((maxY/6)*2) , (((maxX/6) * 2)));
+                clearTextLine(5, (maxX / 2) - 7);
+                clearTextLine(3, (maxX / 2) - 18);
+
                 for(int i = 1; i < 6; i++)
                 {
                     makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
 
                 }
+                
                 makeMainMenu(maxX, maxY);
     }
     else if(y == tempMenuNumb[4])
     {
         echo();
         clearMainMenu(maxX, maxY);
-        // if((passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions)) == 1)
-        // {
-        // passwordCheckerMainMenu(masterPassword, passwordCheck, maxX, maxY, menuOptions);
-        // memset(tempPass, 0, 256);
-        // memset(tempKey, 0, 256);
-        // clearTextLine((((maxY/3)*2) + 2),0);
-        // // if(passwordVaultSize > 0)
-        // // {
-        //     mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5),"what program/site account info do you want to to update? : ");
-        //     getstr(tempKey);
 
-        //     // if(lookupData(hashTable, tempKey) != NULL)
-        //     // {
-        //         clearTextLine((((maxY/3)*2) + 2),0);
-        //         mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 5),"enter updated password into vault: ");
-        //         getstr(tempID);
-        //         // removeData(hashTable, tempKey);
-        //         // insertData(hashTable, tempKey, tempPass);
-        //         clearTextLine((((maxY/3)*2) + 2),0);
-        //         // mvprintw((((maxY/3)*2) + 2) , 0,"enter updated password into vault: ");
-
-        // }y
-        // else
-        // {
-        // clearTextLine(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5));
-        // mvprintw(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5),"\n\nYou haven't entered a password for %s yet, try adding one instead\n\n", tempKey);
-        // }
-        // }
-        // else
-        // {
-        // clearTextLine(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5));
-        // mvprintw(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5),"\n\nYou haven't entered any accounts to the vault, try doing that first..."); 
-        // }
-        // }
 
         for(int i = 1; i < 6; i++)
         {
