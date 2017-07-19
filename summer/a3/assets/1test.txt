@@ -3,3 +3,5 @@ bob52e 4 HN
 sal45 3 EC
 dom20 5 MH
 jim30 2 GI
+jim30 3 GI
+johnd12 3 GI

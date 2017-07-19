@@ -41,6 +41,13 @@ testing
 - attempting to repurpose the menu system i had incorporated for the previous assignment because it was really nice and the person grading my project liked it. have to go one step further though to incorporate the cycling through of the patients but it shouldnt be too hard
 
 
+============
+test files
+============
+- the test files i provided with the application are sufficient as to what may potentially be entered into the program so that it is able to handle any issues that it faces
+- the first test file throws the program a softball in which was originally provided on the assignment specs page with an additional entry that the program should be able to handle with minimal effort.
+- the second test file gives the program an actual data file also provided by the professor with many entries which makes use of the starvation method and makes sure that all functions are properly working
+
 ================
 priority queue
 ================

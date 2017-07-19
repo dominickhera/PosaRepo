@@ -147,42 +147,42 @@ void reheapifyMin(Heap * heap, int tempSize)
 // printf("lol\n");
     if(heap != NULL)
     {
-        printf("1\n");
+        // printf("1\n");
         int tempInt = 0;
-        printf("entering clientID: %s, priority: %d\n", heap->heapTable[tempSize]->clientID, heap->heapTable[tempSize]->priority);
+        // printf("entering clientID: %s, priority: %d\n", heap->heapTable[tempSize]->clientID, heap->heapTable[tempSize]->priority);
         if(getLeftChild(tempSize) < heap->initialSize && heap->heapTable[getLeftChild(tempSize)]->priority < heap->heapTable[tempSize]->priority)
         {
-            printf("priority: %d, left Priority: %d\n", heap->heapTable[tempSize]->priority, heap->heapTable[getLeftChild(tempSize)]->priority);
-            printf("2\n");
+            // printf("priority: %d, left Priority: %d\n", heap->heapTable[tempSize]->priority, heap->heapTable[getLeftChild(tempSize)]->priority);
+            // printf("2\n");
             tempInt = getLeftChild(tempSize);
         }
         else
         {
-            printf("3\n");
+            // printf("3\n");
             tempInt = tempSize;
         }
 
-        printf("4\n");
+        // printf("4\n");
 
         if(getRightChild(tempSize) < heap->initialSize && heap->heapTable[getRightChild(tempSize)]->priority < heap->heapTable[tempInt]->priority)
         {
-            printf("5\n");
+            // printf("5\n");
             tempInt = getRightChild(tempSize);
         }
 
         if(tempInt != tempSize)
         {
-            printf("6\n");
+            // printf("6\n");
             Node * swapNode = heap->heapTable[tempSize];
-            printf("7\n");
+            // printf("7\n");
             heap->heapTable[tempSize] = heap->heapTable[tempInt];
-            printf("8\n");
+            // printf("8\n");
             heap->heapTable[tempInt] = swapNode;
-            printf("9\n");
+            // printf("9\n");
             reheapifyMin(heap, tempInt);
-            printf("10\n");
+            // printf("10\n");
         }
-        printf("11\n");
+        // printf("11\n");
     }
     else
     {
