@@ -25,8 +25,8 @@ int main(int argc, char* argv[])
     FILE *fp;
     FILE *fo;
 
-    char * menuOptions[] = {"Add New Client", "Remove Client", "Cycle through Clients", "Print List", "Exit"}; 
-    int tempMenuNumb[7];
+    char * menuOptions[] = {"Add New Client", "Remove Client", "Cycle through Clients", "Exit"}; 
+    int tempMenuNumb[6];
     if(argc != 2)
     {
         printf("wrong amount of arguements entered\n");
@@ -46,7 +46,6 @@ int main(int argc, char* argv[])
 
     while(fgets(line, sizeof(line), fp) != NULL)
     {
-        char * parse;
 
         if(line[strlen(line) - 1] == '\n')
         {
@@ -55,6 +54,7 @@ int main(int argc, char* argv[])
 
         if(strcmp(line, "\0") != 0)
         {
+        	char * parse;
 
             parse = strtok(line, " ");
 
@@ -94,10 +94,9 @@ int main(int argc, char* argv[])
 
     makeMainMenu(maxX, maxY);
 
-    for(int i = 1; i < 6; i++)
+    for(int i = 1; i < 5; i++)
     {
         makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
-
     }
 
     mvprintw((maxY/8),5,character);
@@ -111,7 +110,6 @@ int main(int argc, char* argv[])
 
         if(c == 'w') 
         {
-            // clearTextLine(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5));
             getPos(&y,&x);
             if(y > 1) 
             {
@@ -127,11 +125,10 @@ int main(int argc, char* argv[])
         }
         else if(c == 's')
         {
-            // clearTextLine(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5));
             getPos(&y,&x);
             if(y < (maxY - (maxY/8)))
             {
-                if((y + (maxY/8)) < ((maxY/3) * 2))
+                if((y + (maxY/8)) < ((maxY/8) * 5))
                 {
                     printw(" ");
                     mvprintw((y+(maxY/8)), x,character);
@@ -147,7 +144,7 @@ int main(int argc, char* argv[])
 
             prevY = y;
             prevX = x;
-            for(int i = 1; i < 7; i++)
+            for(int i = 1; i < 6; i++)
             {
                 tempMenuNumb[i] = (maxY/8) * i;
             }
@@ -177,7 +174,7 @@ int main(int argc, char* argv[])
                 insertHeapNode(heap, atoi(tempPriority), tempID, tempSymptomCode);
                 clearTextLine(((maxY/6)*2) , (((maxX/6) * 2) - 5));
 
-                for(int i = 1; i < 6; i++)
+                for(int i = 1; i < 5; i++)
                 {
                     makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
 
@@ -194,7 +191,7 @@ int main(int argc, char* argv[])
                 clearTextLine(((maxY/6)*2) + 5 , (((maxX/6) * 2) - 5));
                 deleteHeapNode(heap, tempID);
 
-                for(int i = 1; i < 6; i++)
+                for(int i = 1; i < 5; i++)
                 {
                     makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
 
@@ -203,154 +200,86 @@ int main(int argc, char* argv[])
             }
             else if (y == tempMenuNumb[3])
             {
-               echo();
-               clearMainMenu(maxX, maxY);
-			   mvprintw(5, (maxX / 2) - 7, "Client %d of %zu", cycle + 1, heap->initialSize);
-			   mvprintw(3, (maxX / 2) - 18, "< A | D >   X - return to main menu");
-               mvprintw(((maxY/6)*2) , (((maxX/6) * 2)), "Client ID: %s, Priority: %d, Symptom Code: %s\n", heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode);
-               
+                echo();
+                clearMainMenu(maxX, maxY);
+                mvprintw(5, (maxX / 2) - 7, "Client %d of %zu", cycle + 1, heap->initialSize);
+                mvprintw(3, (maxX / 2) - 18, "< A | D >   X - return to main menu");
+                mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 25), "Client ID: %s, Priority: %d, Symptom Code: %s, Estimated time to get Processed: %d minutes\n", heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode,cycle * 30);
+
                 v = getch();
 
                 while(v != 'x')
                 {
-                	if(v == 'd')
-                	{
-                		cycle++;
-            	        if(cycle > heap->initialSize - 1)
-                	    {
-                    	    cycle = 0;
-                    	}
-                    	mvprintw(5, (maxX / 2) - 7, "Client %d of %zu", cycle + 1, heap->initialSize);
-                    	mvprintw(((maxY/6)*2) , (((maxX/6) * 2)), "Client ID: %s, Priority: %d, Symptom Code: %s\n",  heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode);
-                	}
-                	else if(v == 'a')
-                	{
-                		cycle--;
-            	        if(cycle < 0)
-                	    {
-                    	    cycle = heap->initialSize - 1;
-                    	}
-                    	mvprintw(5, (maxX / 2) - 7, "Client %d of %zu", cycle + 1, heap->initialSize);
-                		mvprintw(((maxY/6)*2) , (((maxX/6) * 2)), "Client ID: %s, Priority: %d, Symptom Code: %s\n",  heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode);
-                	}
-                	else
-                	{
-                		noecho();
-                	}
+                    if(v == 'd')
+                    {
+                        cycle++;
+                        if(cycle > heap->initialSize - 1)
+                        {
+                            cycle = 0;
+                        }
+                        mvprintw(5, (maxX / 2) - 7, "Client %d of %zu", cycle + 1, heap->initialSize);
+                        mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 25), "Client ID: %s, Priority: %d, Symptom Code: %s, Estimated time to get Processed: %d minutes\n",  heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode, cycle * 30);
+                    }
+                    else if(v == 'a')
+                    {
+                        cycle--;
+                        if(cycle < 0)
+                        {
+                            cycle = heap->initialSize - 1;
+                        }
+                        mvprintw(5, (maxX / 2) - 7, "Client %d of %zu", cycle + 1, heap->initialSize);
+                        mvprintw(((maxY/6)*2) , (((maxX/6) * 2) - 25), "Client ID: %s, Priority: %d, Symptom Code: %s, Estimated time to get Processed: %d\n",  heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode, cycle * 30);
+                    }
+                    else
+                    {
+                        noecho();
+                    }
 
-                	refresh();
-                	v = getch();
+                    refresh();
+                    v = getch();
 
                 }
-                clearTextLine(((maxY/6)*2) , (((maxX/6) * 2)));
+                clearTextLine(((maxY/6)*2) , (((maxX/6) * 2)) - 25);
                 clearTextLine(5, (maxX / 2) - 7);
                 clearTextLine(3, (maxX / 2) - 18);
 
-                for(int i = 1; i < 6; i++)
+                for(int i = 1; i < 5; i++)
                 {
                     makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
 
                 }
-                
+
                 makeMainMenu(maxX, maxY);
-    }
-    else if(y == tempMenuNumb[4])
-    {
-        echo();
-        clearMainMenu(maxX, maxY);
+            }
+            else if(y == tempMenuNumb[4])
+            {
 
+                fp = fopen(fileName, "w");
+                printf("Exiting...\n");
+                fprintf(fo, "Client List (in Order Processed)\n\n");
+                printHeap(heap, fo, 1);
+                printHeap(heap, fp, 0);
+                deleteHeap(heap);
+                fclose(fp);
+                fclose(fo);
+                endwin();
+                break;
+            }
+            else
+            {
+                printf("error");
+            }
 
-        for(int i = 1; i < 6; i++)
-        {
-            makeMainMenuOptions(maxX, maxY, i, menuOptions[i - 1]);
+            noecho();
+            mvprintw(prevY, prevX,character);
+            move(prevY, prevX);
 
         }
-        makeMainMenu(maxX, maxY);
+
+        refresh();
+        c = getch();
     }
-    else if(y == tempMenuNumb[5])
-    {
+    endwin();
 
-        fp = fopen(fileName, "w");
-        printf("Exiting...\n");
-        fprintf(fo, "Client List (in Order Processed)\n\n");
-        printHeap(heap, fo, 1);
-        printHeap(heap, fp, 0);
-        deleteHeap(heap);
-        fclose(fp);
-        fclose(fo);
-        endwin();
-        break;
-    }
-    else
-    {
-        printf("error");
-    }
-
-    noecho();
-    mvprintw(prevY, prevX,character);
-    move(prevY, prevX);
-
-}
-
-refresh();
-c = getch();
-}
-endwin();
-
-// 		case 3:
-// 			// printf("go through heap from top to bottom\n");
-//             // if(cycle >= heap->initialSize)
-//             // {
-//                 cycleCheck = 0;
-//             // }
-//             while(cycleCheck != 3)
-//             {
-//                 printf("<(1):(2)> Exit(3)\n\n/> ");
-//                 scanf("%d", &cycleCheck);
-//             switch(cycleCheck)
-//             {
-//                 // printf("<(1):(2)> Exit(3)\n\n");
-//                 // scanf("%d", &cycleCheck);
-//                 case 1:
-//                     cycle--;
-//                     if(cycle < 0)
-//                     {
-//                         cycle = heap->initialSize - 1;
-//                     }
-//                     // printf("cycle: %d\n", cycle);
-//                     printf("[%d/%zu]: Client ID: %s, Priority: %d, Symptom Code: %s\n", cycle + 1, heap->initialSize, heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode);
-//                     // cycle--;
-//                     break;
-//                 case 2:
-//                     cycle++;
-//                     if(cycle > heap->initialSize - 1)
-//                     {
-//                         cycle = 0;
-//                     }
-//                     // printf("cycle: %d\n", cycle);
-//                     printf("[%d/%zu]: Client ID: %s, Priority: %d, Symptom Code: %s\n", cycle + 1, heap->initialSize, heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode);
-//                     // cycle++;
-//                     break;
-//                 case 3:
-//                     break;
-//                 default:
-//                     break;
-//             }
-//         }
-//             // printf("[%d/%zu]: Client ID: %s, Priority: %d, Symptom Code: %s\n", cycle + 1, heap->initialSize, heap->heapTable[cycle]->clientID, heap->heapTable[cycle]->priority, heap->heapTable[cycle]->symptomCode);
-// 			// cycle++;
-//             break;
-// 		case 4:
-// 			// printf("printing list\n");
-//             printHeap(heap, fo, 2);
-// 			break;
-// 		case 5:
-//             // char tempMaxorMin[256];
-// 			printf("heaipfy\n");
-//             reheapifyMin(heap, 0);
-//             // Node * tempMaxorMin = getMaxorMin(heap);
-//             // printf("temp: %s\n", tempMaxorMin->clientID);
-//             // getMaxorMin(heap);
-
-return 0;
+    return 0;
 }

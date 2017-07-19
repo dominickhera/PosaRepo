@@ -40,9 +40,6 @@ typedef struct node
 	int priority;
 	void * clientID;
 	void * symptomCode;
-	// struct node * left;
-	// struct node * right;
-	// struct node * parent;
 }Node;
 
 typedef struct heap
@@ -115,8 +112,6 @@ int getLeftChild(int tempInt);
 int getRightChild(int tempInt);
 void printHeap(Heap * heap, FILE * outputFile, int option);
 void deleteHeapNode(Heap *heap, void *clientID);
-// void heapify(Heap * heap, int tempSize);
-
 
 
 #endif

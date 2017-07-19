@@ -22,7 +22,7 @@ Heap *createHeap(size_t initialSize, HEAP_TYPE htype, void (*destroyDataFP)(void
     temp->destroyDataFP = destroyDataFP;
     temp->printNodeFP = printNodeFP;
     temp->compareFP = compareFP;
-
+    
     return temp;
 
 }
@@ -39,13 +39,10 @@ Node *createHeapNode(int priority, void *clientID, void *symptomCode)
         return NULL;
     }
 
-    // strcpy(temp->data, data);
     temp->priority = priority;
     strcpy(temp->clientID, clientID);
     strcpy(temp->symptomCode, symptomCode);
-    // temp->data = data;
-    // temp->clientID = clientID;
-    // temp->symptomCode = symptomCode;
+
 
     return temp;
 
@@ -54,8 +51,6 @@ Node *createHeapNode(int priority, void *clientID, void *symptomCode)
 void insertHeapNode(Heap *heap, int priority, void *clientID, void *symptomCode)
 {
 
-
-
     if(heap == NULL)
     {
         printf("Heap either does not exist or has been created incorrectly.\n");
@@ -63,6 +58,7 @@ void insertHeapNode(Heap *heap, int priority, void *clientID, void *symptomCode)
     }
     else
     {
+
         Node * temp = createHeapNode(priority, clientID, symptomCode);
 
         int tempSize = heap->initialSize;
@@ -190,48 +186,6 @@ void reheapifyMin(Heap * heap, int tempSize)
     }
 }
 
-// void heapify(Heap * heap, int tempSize)
-// {
-
-//     if(heap != NULL)
-//     {
-
-//         int tempInt = 0;
-//         if(getLeftChild(tempSize) < heap->initialSize && heap->heapTable[getLeftChild(tempSize)]->priority < heap->heapTable[tempSize]->priority)
-//         {
-//             tempInt = getLeftChild(tempSize);
-//         }
-//         else
-//         {
-//             tempInt = tempSize;
-//         }
-
-
-
-//         if(getRightChild(tempSize) < heap->initialSize && heap->heapTable[getRightChild(tempSize)]->priority < heap->heapTable[tempInt]->priority)
-//         {
-//             tempInt = getRightChild(tempSize);
-//         }
-//         else
-//         {
-//             tempInt = tempSize;
-//         }
-
-//         // if(tempInt != tempSize)
-//         // {
-
-//         //     Node * swapNode = heap->heapTable[tempSize];
-//         //     heap->heapTable[tempSize] = heap->heapTable[tempInt];
-//         //     heap->heapTable[tempInt] = swapNode;
-//         //     heapify(heap, tempInt);
-//         // }
-//     }
-//     else
-//     {
-//         printf("Heap either does not exist or has been created incorrectly.\n");
-//     }
-
-// }
 
 int getParent(int tempInt)
 {
@@ -264,51 +218,51 @@ void printHeap(Heap * heap, FILE * outputFile, int option)
             {
                 if(strcmp(heap->heapTable[i]->symptomCode, "CV") == 0)
                 {
-                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Cardiovascular\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Cardiovascular, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "HN") == 0)
                 {
-                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Ears, mouth, throat, nose\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Ears, mouth, throat, nose, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "EV") == 0)
                 {
-                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Environmental\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Environmental, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "GI") == 0)
                 {
-                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Gastrointestinal\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Gastrointestinal, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "MH") == 0)
                 {
-                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Mental Health\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Mental Health, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "NC") == 0)
                 {
-                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Neurological\n",heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Neurological, Time to get Processed: %d minutes\n",heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "EC") == 0)
                 {
-                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Opthalmology\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Opthalmology, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "RC") == 0)
                 {
-                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Respiratory\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Respiratory, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "SK") == 0)
                 {
-                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Skin\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Skin, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "SA") == 0)
                 {
-                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Substance Abuse\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Substance Abuse, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "TR") == 0)
                 {
-                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Trauma\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Trauma, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else
                 {
-                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Unknown\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    fprintf(outputFile, "ClientID: %s, Priority: %d, Symptom Code: Unknown, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
             }
         }
@@ -319,51 +273,51 @@ void printHeap(Heap * heap, FILE * outputFile, int option)
             {
                 if(strcmp(heap->heapTable[i]->symptomCode, "CV") == 0)
                 {
-                    printf("ClientID: %s, Priority: %d, Symptom Code: Cardiovascular\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Cardiovascular, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "HN") == 0)
                 {
-                    printf("ClientID: %s, Priority: %d, Symptom Code: Ears, mouth, throat, nose\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Ears, mouth, throat, nose, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "EV") == 0)
                 {
-                    printf("ClientID: %s, Priority: %d, Symptom Code: Environmental\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Environmental, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "GI") == 0)
                 {
-                    printf("ClientID: %s, Priority: %d, Symptom Code: Gastrointestinal\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Gastrointestinal, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "MH") == 0)
                 {
-                    printf("ClientID: %s, Priority: %d, Symptom Code: Mental Health\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Mental Health, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "NC") == 0)
                 {
-                    printf("ClientID: %s, Priority: %d, Symptom Code: Neurological\n",heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Neurological, Time to get Processed: %d minutes\n",heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "EC") == 0)
                 {
-                    printf("ClientID: %s, Priority: %d, Symptom Code: Opthalmology\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Opthalmology, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "RC") == 0)
                 {
-                    printf("ClientID: %s, Priority: %d, Symptom Code: Respiratory\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Respiratory, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "SK") == 0)
                 {
-                    printf("ClientID: %s, Priority: %d, Symptom Code: Skin\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Skin, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "SA") == 0)
                 {
-                    printf("ClientID: %s, Priority: %d, Symptom Code: Substance Abuse\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Substance Abuse, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else if(strcmp(heap->heapTable[i]->symptomCode, "TR") == 0)
                 {
-                    printf("ClientID: %s, Priority: %d, Symptom Code: Trauma\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Trauma, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
                 else
                 {
-                    printf("ClientID: %s, Priority: %d, Symptom Code: Unknown\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority);
+                    printf("ClientID: %s, Priority: %d, Symptom Code: Unknown, Time to get Processed: %d minutes\n", heap->heapTable[i]->clientID, heap->heapTable[i]->priority, (i * 30));
                 }
             }
         }
