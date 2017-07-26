@@ -7,10 +7,40 @@ CHANGE NOTHING IN THIS FILE!!!!
 Tree *createBalancedBinTree(int (*compareFP) (void *data1, void *data2), void (*destroyFP) (void *toBeDeleted),void *(*copyFP)(void *toBeCopy))
 {
 
+	Tree * temp = malloc(sizeof(Tree));
+
+	if(temp == NULL)
+	{
+		return NULL;
+	}
+
+	temp->root = NULL;
+	temp->compareFP = compareFP;
+	temp->destroyFP = destroyFP;
+	temp->copyFP = copyFP;
+
+	return temp;
+
 }
 
 TreeNode *createBalancedBinNode(void *data)
 {
+
+	TreeNode * temp = malloc(sizeof(TreeNode));
+	temp->data = malloc(sizeof(data));
+
+	if(temp == NULL)
+	{
+		return NULL;
+	}
+
+	strcpy(temp->data, data);
+	temp->left = NULL;
+	temp->right = NULL;
+	temp->height = 1;
+	temp->frequency = 1;
+
+	return temp;
 
 }
 
