@@ -6,8 +6,8 @@ EXE = run
 
 all: $(EXE)
 
-$(EXE): BIN OBJ main.o tree.o balancedTreeAPI.o
-	gcc ./obj/main.o ./obj/tree.o ./obj/balancedTreeAPI.o -o $(OBJFILE)$(EXE)
+$(EXE): BIN OBJ main.o tree.o balancedTreeAPI.o functions.o
+	gcc ./obj/main.o ./obj/tree.o ./obj/balancedTreeAPI.o ./obj/functions.o -o $(OBJFILE)$(EXE)
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
@@ -26,6 +26,9 @@ tree.o: ./src/tree.c
 
 balancedTreeAPI.o: ./src/balancedTreeAPI.c
 	$(CC) -c $(CFLAGS) ./src/balancedTreeAPI.c -I./include -o ./obj/balancedTreeAPI.o
+
+functions.o: ./src/functions.c
+	$(CC) -c $(CFLAGS) ./src/functions.c -I./include -o ./obj/functions.o
 
 doxy: Doxyfile
 	doxygen

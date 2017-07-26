@@ -1,4 +1,5 @@
 #include "balancedTreeAPI.h"
+#include "tree.h"
 
 /*-----------------------------
 CHANGE NOTHING IN THIS FILE!!!!
