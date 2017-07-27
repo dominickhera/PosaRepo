@@ -1,6 +1,7 @@
 #ifndef STUDENT_TREE_API_
 #define STUDENT_TREE_API_
-#include "balancedTreeAPI.h"
+// #include "balancedTreeAPI.h"
+#include "functions.h"
 
 /*You may add anything to this .h file that you need to add to your tree ADT*/
 

@@ -22,7 +22,7 @@ main.o: ./src/main.c
 	$(CC) -c $(CFLAGS) ./src/main.c -I./include -o ./obj/main.o
 
 tree.o: ./src/tree.c
-	$(CC) -c $(CFLAGS) ./src/heap.c -I./include -o ./obj/tree.o
+	$(CC) -c $(CFLAGS) ./src/tree.c -I./include -o ./obj/tree.o
 
 balancedTreeAPI.o: ./src/balancedTreeAPI.c
 	$(CC) -c $(CFLAGS) ./src/balancedTreeAPI.c -I./include -o ./obj/balancedTreeAPI.o
