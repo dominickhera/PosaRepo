@@ -38,7 +38,10 @@ struct BalancedBinTreeNode{
 
 //add function prototypes as necessary
 
-
+treeNode * leftRotation(treeNode * node);
+treeNode * rightRotation(treeNode * node);
+treeNode * leftRightRotation(treeNode * node);
+treeNode * rightLeftRotation(treeNode * node);
 
 
 

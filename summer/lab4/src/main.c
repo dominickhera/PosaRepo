@@ -14,42 +14,31 @@ int main()
     Tree *tree = createBalancedBinTree(compareFunction, &free, &copyFunction);
     // insert(tree, "");
 
-    while(userInput != 7)
+    while(userInput != 5)
     {
-        printf("1. Initialization\n2. Find\n3. Insert\n4. Remove\n5. Check Height and Size\n6. Find All (above a given frequency)\n7. Exit\n\navl/> ");
+        printf("1. Insert\n2. Remove\n3. idk yet\n4. idk yet\n5. Exit\n\ntree/> ");
         scanf("%d", &userInput);
         switch(userInput)
         { 
             case 1:
-
-                printf("filename: ");
-                scanf("%s", fileName); 
-               	
-                break;
-            case 2:
-                printf("find key: ");
-                
-                break;
-            case 3:
                 printf("insert key: ");
                 scanf("%s", keyInsert);
                 treeInsertNode(tree, keyInsert);
                 break;
-            case 4:
+            case 2:
                 printf("remove key: ");
                 scanf("%s", keyRemove);
                 treeDeleteNode(tree, keyRemove);
-                // delete(tree, keyRemove);
                 break;
-            case 5:
-                printf("could not figure out how to implement in time.\n");
+            case 3:
+                printf("idk yet\n");
                 break;
-            case 6:
-                printf("frequency: ");
+            case 4:
+                printf("idk yet: ");
                 scanf("%d", &frequencyCompare);
                 
                 break;
-            case 7:
+            case 5:
                 printf("goodbye!\n"); 
                 exit(1);
                 break;
