@@ -1,0 +1,48 @@
+======================
+a4
+28/7/17
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+
+./bin/run
+
+==========
+to compile
+==========
+
+type 'make' to run the makeFile
+
+=============
+description
+=============
+
+- the program is 
+
+
+====================
+known limitations
+====================
+- 
+
+=========
+testing
+=========
+- adding a node to the avl binary tree, removing it and then trying to readd the same node causes a segfault, can't figure out why, i need to fix my delete function.
+-program segfaults after adding more than one node, hm... strange.
+
+
+============
+test files
+============
+- 
+
+=================
+avl binary tree 
+=================
+- 

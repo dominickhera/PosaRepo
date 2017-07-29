@@ -8,7 +8,7 @@
 Tree *createBalancedBinTree(int (*compareFP) (void *data1, void *data2), void (*destroyFP) (void *toBeDeleted),void *(*copyFP)(void *toBeCopy))
 {
 
-    Tree * temp = malloc(sizeof(Tree));
+    Tree * temp = malloc(sizeof(Tree)*500);
 
     if(temp == NULL)
     {
@@ -46,58 +46,81 @@ TreeNode *createBalancedBinNode(void *data)
 
 void destroyBalancedBinTree(Tree *toBeDeleted)
 {
+    // oid free_tree(node* p)
+    // {
+    //     if ( !p )
+    //         return;
 
+    //     free_tree(p -> left);
+    //     free_tree(p -> right);
+    //     free(p);
+    // }
+
+
+    // TreeNode *temp 
 }
 
 void treeInsertNode(Tree *theTree, void *toBeInserted)
 {
 
-    TreeNode *tempNode = createBalancedBinNode(toBeInserted);
-    TreeNode *next = NULL;
-
-    if(theTree->root != NULL)
+    if(treeFindNode(theTree, toBeInserted) == NULL)
     {
-        next = theTree->root;
+        TreeNode *tempNode = createBalancedBinNode(toBeInserted);
+        TreeNode *next = NULL;
 
-        while(next != NULL)
+        if(theTree->root != NULL)
         {
+            next = theTree->root;
+
+            while(next != NULL)
+            {
+                if(strcmp(toBeInserted, next->data) > 0)
+                {
+                    next = next->right;
+                }
+                else if(strcmp(toBeInserted, next->data) < 0)
+                {
+                    next = next->left;
+                }		
+            }
+
             if(strcmp(toBeInserted, next->data) > 0)
             {
-                next = next->right;
+                next->right = tempNode;
             }
             else if(strcmp(toBeInserted, next->data) < 0)
             {
-                next = next->left;
-            }		
-        }
+                next->left = tempNode;
+            }
 
-        if(strcmp(toBeInserted, next->data) > 0)
-        {
-            next->right = tempNode;
         }
-        else if(strcmp(toBeInserted, next->data) < 0)
+        else
         {
-            next->left = tempNode;
+            theTree->root = tempNode;
         }
-
     }
     else
     {
-        theTree->root = tempNode;
+        printf("node already exists...\n");
     }
 
 }
 
 void treeDeleteNode(Tree *theTree, void *toBeDeleted)
 {
+    TreeNode *tempNode = treeFindNode(theTree, toBeDeleted);
 
-	TreeNode *tempNode = treeFindNode(theTree, toBeDeleted);
-
-	free(&tempNode->height);
-	free(&tempNode->data);
-	free(tempNode);
-
-	//balancetree
+    if(tempNode != NULL)
+    {
+        // free(&tempNode->height);
+        free(tempNode->data);
+        free(tempNode);
+    }
+    else
+    {
+        printf("node doesnt exist...\n");
+    }
+    //balancetree
 
 }
 
@@ -150,6 +173,7 @@ void *treeFindNode(Tree *theTree, void *data)
         }
     }
 
+    printf("couldnt find shit\n");
     return NULL;
 
 }
@@ -157,7 +181,7 @@ void *treeFindNode(Tree *theTree, void *data)
 void *treeFindMin(Tree *theTree)
 {
 
-	TreeNode *tempSearch = theTree->root;
+    TreeNode *tempSearch = theTree->root;
 
     while(tempSearch != NULL)
     {
@@ -171,9 +195,9 @@ void *treeFindMin(Tree *theTree)
 void *treeFindMax(Tree *theTree)
 {
 
-	TreeNode *tempSearch = theTree->root;
+    TreeNode *tempSearch = theTree->root;
 
-     while(tempSearch != NULL)
+    while(tempSearch != NULL)
     {
         tempSearch = tempSearch->right;
     }
