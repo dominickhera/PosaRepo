@@ -39,7 +39,6 @@ TreeNode *createBalancedBinNode(void *data)
     temp->left = NULL;
     temp->right = NULL;
     temp->height = 1;
-    temp->frequency = 1;
 
     return temp;
 
@@ -53,53 +52,133 @@ void destroyBalancedBinTree(Tree *toBeDeleted)
 void treeInsertNode(Tree *theTree, void *toBeInserted)
 {
 
-	Tree *theTree = createBalancedBinNode(toBeInserted);
-	Tree *next = NULL;
-	Tree *last = NULL;
+    TreeNode *tempNode = createBalancedBinNode(toBeInserted);
+    TreeNode *next = NULL;
 
-	// if(theTree->root != NULL)
-	// {
-	// 	next = theTree->root;
+    if(theTree->root != NULL)
+    {
+        next = theTree->root;
 
-	// 	while(next != NULL)
-	// 	{
-	// 		last = next;
-			
-	// 	}
+        while(next != NULL)
+        {
+            if(strcmp(toBeInserted, next->data) > 0)
+            {
+                next = next->right;
+            }
+            else if(strcmp(toBeInserted, next->data) < 0)
+            {
+                next = next->left;
+            }		
+        }
 
-	// }
+        if(strcmp(toBeInserted, next->data) > 0)
+        {
+            next->right = tempNode;
+        }
+        else if(strcmp(toBeInserted, next->data) < 0)
+        {
+            next->left = tempNode;
+        }
 
-
+    }
+    else
+    {
+        theTree->root = tempNode;
+    }
 
 }
 
 void treeDeleteNode(Tree *theTree, void *toBeDeleted)
 {
 
+	TreeNode *tempNode = treeFindNode(theTree, toBeDeleted);
+
+	free(&tempNode->height);
+	free(&tempNode->data);
+	free(tempNode);
+
+	//balancetree
+
 }
 
 int treeIsEmpty(Tree *theTree)
 {
-
+    if(theTree->root == NULL)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 int treeHasTwoChildren(TreeNode *root)
 {
+
+    if(root->left != NULL && root->right != NULL)
+    {
+        return 0;
+    }
+    else if(root->left != NULL || root->right != NULL)
+    {
+        return 1;
+    }
+
+    return 3;
 
 }
 
 void *treeFindNode(Tree *theTree, void *data)
 {
 
+    TreeNode *tempSearch = theTree->root;
+
+    while(tempSearch != NULL)
+    {
+        if(strcmp(data, tempSearch->data) > 0)
+        {
+            tempSearch = tempSearch->right;
+        }
+        else if(strcmp(data, tempSearch->data) < 0)
+        {
+            tempSearch = tempSearch->left;
+        }
+        else if(strcmp(data, tempSearch->data) == 0)
+        {
+            return tempSearch;
+        }
+    }
+
+    return NULL;
+
 }
 
 void *treeFindMin(Tree *theTree)
 {
 
+	TreeNode *tempSearch = theTree->root;
+
+    while(tempSearch != NULL)
+    {
+        tempSearch = tempSearch->left;
+    }
+
+    return tempSearch;
+
 }
 
 void *treeFindMax(Tree *theTree)
 {
+
+	TreeNode *tempSearch = theTree->root;
+
+     while(tempSearch != NULL)
+    {
+        tempSearch = tempSearch->right;
+    }
+
+    return tempSearch;
 
 }
 
