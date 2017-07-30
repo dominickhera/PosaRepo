@@ -3,16 +3,22 @@
 treeNode * leftRotation(treeNode * node)
 {
 
+	treeNode *b = node;
+	treeNode *c = b->right;
+	
+	c = b;
+	b = c->left;
+
 }
 
 treeNode * rightRotation(treeNode * node)
 {
 
-	treeNode *c = node;
-	treeNode *b = c->left;
-	treeNode *temp = NULL;
-
-	b->right = c;
+	treeNode *b = node;
+	treeNode *c = b->left;
+	
+	c = b;
+	b = c->right;
 
 }
 
