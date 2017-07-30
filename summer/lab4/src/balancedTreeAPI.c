@@ -65,44 +65,72 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
 
     if(treeFindNode(theTree, toBeInserted) == NULL)
     {
-        TreeNode *tempNode = createBalancedBinNode(toBeInserted);
-        TreeNode *next = NULL;
+	printf("1\n");
+    TreeNode *tempNode = NULL;
+    
+    printf("2\n");
+    TreeNode *next = NULL;
+printf("3\n");
+	TreeNode *end = NULL;
+    if(theTree->root == NULL)
+    {
+    	printf("4\n");
+    	tempNode = createBalancedBinNode(toBeInserted);
+        theTree->root = tempNode;
 
-        if(theTree->root != NULL)
-        {
-            next = theTree->root;
-
-            while(next != NULL)
-            {
-                if(strcmp(toBeInserted, next->data) > 0)
-                {
-                    next = next->right;
-                }
-                else if(strcmp(toBeInserted, next->data) < 0)
-                {
-                    next = next->left;
-                }		
-            }
-
-            if(strcmp(toBeInserted, next->data) > 0)
-            {
-                next->right = tempNode;
-            }
-            else if(strcmp(toBeInserted, next->data) < 0)
-            {
-                next->left = tempNode;
-            }
-
-        }
-        else
-        {
-            theTree->root = tempNode;
-        }
     }
     else
     {
-        printf("node already exists...\n");
+    	printf("5\n");
+        next = theTree->root;
+        printf("6\n");
+        while(next != NULL)
+        {
+        	end = next;
+        	printf("7\n");
+            if(strcmp(toBeInserted, next->data) > 0)
+            {
+            	printf("8\n");
+                next = next->right;
+            }
+            else if(strcmp(toBeInserted, next->data) < 0)
+            {
+            	printf("9\n");
+                next = next->left;
+            }		
+        }
+
+        tempNode = createBalancedBinNode(toBeInserted);
+        printf("10\n");
+        if(strcmp(toBeInserted, end->data) > 0)
+        {
+        	printf("11\n");
+            end->right = tempNode;
+        }
+        else if(strcmp(toBeInserted, end->data) < 0)
+        {
+        	printf("12\n");
+        	printf("a: %s, b: %s\n", toBeInserted, end->data);
+        	if(end->left == NULL)
+        	{
+        		printf("peeeeee");
+        	}
+        	else
+        	{
+        		printf("buuuuu");
+        	}
+            end->left = tempNode;
+        }
+       
+
     }
+    balanceTree(theTree);
+    printf("14\n");
+}
+else
+{
+    printf("node already exists...\n");
+}
 
 }
 
@@ -128,11 +156,11 @@ int treeIsEmpty(Tree *theTree)
 {
     if(theTree->root == NULL)
     {
-        return 0;
+        return 1;
     }
     else
     {
-        return 1;
+        return 0;
     }
 }
 
@@ -143,12 +171,8 @@ int treeHasTwoChildren(TreeNode *root)
     {
         return 0;
     }
-    else if(root->left != NULL || root->right != NULL)
-    {
-        return 1;
-    }
 
-    return 3;
+    return 1;
 
 }
 
@@ -173,7 +197,7 @@ void *treeFindNode(Tree *theTree, void *data)
         }
     }
 
-    printf("couldnt find shit\n");
+    // printf("couldnt find shit\n");
     return NULL;
 
 }

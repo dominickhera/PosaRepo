@@ -1,6 +1,9 @@
 #ifndef STUDENT_TREE_API_
 #define STUDENT_TREE_API_
 // #include "balancedTreeAPI.h"
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
 
 /*You may add anything to this .h file that you need to add to your tree ADT*/
 
@@ -37,12 +40,16 @@ struct BalancedBinTreeNode{
 };
 
 //add function prototypes as necessary
-
-treeNode * leftRotation(treeNode * node);
-treeNode * rightRotation(treeNode * node);
-treeNode * leftRightRotation(treeNode * node);
-treeNode * rightLeftRotation(treeNode * node);
-
+int getHeight(TreeNode *node);
+TreeNode * balanceTreeNode(TreeNode * node);
+void balanceTree(Tree *theTree);
+TreeNode * leftRotation(TreeNode * node);
+TreeNode * rightRotation(TreeNode * node);
+TreeNode * leftRightRotation(TreeNode * node);
+TreeNode * rightLeftRotation(TreeNode * node);
+void printData(void * data);
+int compareFunction(void *first,void *second);
+void *copyFunction(void *toBeCopy);
 
 
 #endif

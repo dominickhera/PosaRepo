@@ -5,7 +5,7 @@ int main()
 {
 	
     int userInput = 0;
-    char fileName[256];
+    // char fileName[256];
     int frequencyCompare = 0;
     char keyRemove[25];
     char keyInsert[25];
@@ -24,11 +24,13 @@ int main()
                 printf("insert key: ");
                 scanf("%s", keyInsert);
                 treeInsertNode(tree, keyInsert);
+                printf("root is now: %s\n", tree->root->data);
                 break;
             case 2:
                 printf("remove key: ");
                 scanf("%s", keyRemove);
                 treeDeleteNode(tree, keyRemove);
+                // printf("root is now: %s\n", tree->root->data);
                 break;
             case 3:
                 printf("idk yet\n");

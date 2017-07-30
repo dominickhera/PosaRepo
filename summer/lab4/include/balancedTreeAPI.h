@@ -12,7 +12,6 @@
  #include <stdlib.h>
  #include <string.h>
  #include "tree.h"
- #include "functions.h"
 
 /*-----------------------------
 CHANGE NOTHING IN THIS FILE!!!!
