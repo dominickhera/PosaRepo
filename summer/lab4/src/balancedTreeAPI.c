@@ -163,6 +163,8 @@ int treeHasTwoChildren(TreeNode *root)
 void *treeFindNode(Tree *theTree, void *data)
 {
 
+    if(theTree != NULL)
+    {
     TreeNode *tempSearch = theTree->root;
 
     while(tempSearch != NULL)
@@ -181,7 +183,7 @@ void *treeFindNode(Tree *theTree, void *data)
             return tempSearch;
         }
     }
-
+}
     // printf("Could not find Node %s :c\n", (char *)data);
     return NULL;
 
