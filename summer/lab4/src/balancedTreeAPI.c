@@ -51,79 +51,63 @@ TreeNode *createBalancedBinNode(void *data)
 void destroyBalancedBinTree(Tree *toBeDeleted)
 {
 
-    // TreeNode *temp = treeFindMin(toBeDeleted);
-
-    // free(toBeDeleted);
-    // while(treeIsEmpty(toBeDeleted) != 1)
-    // {
-    //     free(temp);
-    // }
-
-    // destroyTree(toBeDeleted->root);
-    //     if ( !p )
-    //         return;
-
-    //     free_tree(p -> left);
-    //     free_tree(p -> right);
-    //     free(p);
-
+    free(toBeDeleted);
 }
 
 void treeInsertNode(Tree *theTree, void *toBeInserted)
 {
 
-     if(theTree != NULL)
+    if(theTree != NULL)
     {
-    
-    TreeNode *tempNode = createBalancedBinNode(toBeInserted);;
-    TreeNode *next = NULL;
-    TreeNode *end = NULL;
-    // if(theTree != NULL)
-    // {
-    if(treeIsEmpty(theTree) == 1)
-    {
-        theTree->root = tempNode;
 
-    }
-    else
-    {
-        if(treeFindNode(theTree, toBeInserted) == NULL)
+        TreeNode *tempNode = createBalancedBinNode(toBeInserted);;
+        TreeNode *next = NULL;
+        TreeNode *end = NULL;
+
+        if(treeIsEmpty(theTree) == 1)
         {
-            next = theTree->root;
-            while(next != NULL)
-            {
-                end = next;
-                if(strcmp(toBeInserted, next->data) > 0)
-                {
-                    next = next->right;
-                }
-                else if(strcmp(toBeInserted, next->data) < 0)
-                {
-                    next = next->left;
-                }		
-            }
+            theTree->root = tempNode;
 
-            if(strcmp(toBeInserted, end->data) > 0)
-            {
-                end->right = tempNode;
-            }
-            else if(strcmp(toBeInserted, end->data) < 0)
-            {
-                end->left = tempNode;
-            }
-
-            balanceTree(theTree);
         }
         else
         {
-            printf("node already exists...\n");
+            if(treeFindNode(theTree, toBeInserted) == NULL)
+            {
+                next = theTree->root;
+                while(next != NULL)
+                {
+                    end = next;
+                    if(strcmp(toBeInserted, next->data) > 0)
+                    {
+                        next = next->right;
+                    }
+                    else if(strcmp(toBeInserted, next->data) < 0)
+                    {
+                        next = next->left;
+                    }		
+                }
+
+                if(strcmp(toBeInserted, end->data) > 0)
+                {
+                    end->right = tempNode;
+                }
+                else if(strcmp(toBeInserted, end->data) < 0)
+                {
+                    end->left = tempNode;
+                }
+
+                balanceTree(theTree);
+            }
+            else
+            {
+                printf("node already exists...\n");
+            }
         }
     }
-}
-else
-{
-    printf("Tree does not exist\n");
-}
+    else
+    {
+        printf("Tree does not exist\n");
+    }
 
 }
 
@@ -151,12 +135,12 @@ int treeIsEmpty(Tree *theTree)
 {
     if(theTree->root == NULL)
     {
-    	printf("Tree is currently empty\n");
+        printf("Tree is currently empty\n");
         return 1;
     }
     else
     {
-    	printf("Tree is not currently empty\n");
+        printf("Tree is not currently empty\n");
         return 0;
     }
 }
@@ -166,7 +150,7 @@ int treeHasTwoChildren(TreeNode *root)
 
     if(root->left != NULL && root->right != NULL)
     {
-    	printf("Node has both a left and a right child\n");
+        printf("Node has both a left and a right child\n");
         return 0;
     }
 
@@ -192,7 +176,7 @@ void *treeFindNode(Tree *theTree, void *data)
         }
         else if(strcmp(data, tempSearch->data) == 0)
         {
-        	printf("Found Node %s!\n", (char *)tempSearch->data);
+            printf("Found Node %s!\n", (char *)tempSearch->data);
             return tempSearch;
         }
     }
@@ -236,28 +220,28 @@ void *treeFindMax(Tree *theTree)
 
 void treeInOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
-    if(treeIsEmpty(theTree) != 1)
+    if(theTree != NULL)
     {
-	   printf("InOrder: ");
+        printf("InOrder: ");
         inorder(theTree->root);
     }
 }
 
 void treePreOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
-    if(treeIsEmpty(theTree) != 1)
+    if(theTree != NULL)
     {
-	   printf("PreOrder: ");
-       preorder(theTree->root);
+        printf("PreOrder: ");
+        preorder(theTree->root);
     }
 }
 
 void treePostOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
-    if(treeIsEmpty(theTree) != 1)
+    if(theTree != NULL)
     {
-	   printf("PostOrder: ");
-       postorder(theTree->root);
+        printf("PostOrder: ");
+        postorder(theTree->root);
     }
 }
 
