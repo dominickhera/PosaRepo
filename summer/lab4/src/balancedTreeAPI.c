@@ -72,10 +72,14 @@ void destroyBalancedBinTree(Tree *toBeDeleted)
 void treeInsertNode(Tree *theTree, void *toBeInserted)
 {
 
+     if(theTree != NULL)
+    {
+    
     TreeNode *tempNode = createBalancedBinNode(toBeInserted);;
     TreeNode *next = NULL;
     TreeNode *end = NULL;
-
+    // if(theTree != NULL)
+    // {
     if(treeIsEmpty(theTree) == 1)
     {
         theTree->root = tempNode;
@@ -115,6 +119,11 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
             printf("node already exists...\n");
         }
     }
+}
+else
+{
+    printf("Tree does not exist\n");
+}
 
 }
 
