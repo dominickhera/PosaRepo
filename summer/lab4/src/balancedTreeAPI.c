@@ -235,13 +235,6 @@ void treeInOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 
 	inorder(theTree->root);
 
-    // if(TreeNode != NULL)
-    //    {
-    //        treeInOrderPrint(TreeNode->left);
-    //        printf("%s ", TreeNode->data);
-    //        treeInOrderPrint(TreeNode->right,printData);
-    //    }
-
 }
 
 void treePreOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
@@ -249,26 +242,12 @@ void treePreOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 
 	preorder(theTree->root);
 
-    // if(theTree != NULL)
-    //    {
-    //        printf("%s .", theTree->root->data);
-    //        treePreOrderPrint( , printData());
-    //        treePreOrderPrint( , printData());
-    //    }
-
 }
 
 void treePostOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
 
 	postorder(theTree->root);
-
-    // if(TreeNode != NULL)
-    //    {
-    //        treePostOrderPrint(TreeNode->left);
-    //        treePostOrderPrint(TreeNode->right);
-    //        printf("%s ", TreeNode->data);
-    //    }
 
 }
 

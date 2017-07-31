@@ -55,67 +55,49 @@ int getHeight(TreeNode *node)
 
 TreeNode * balanceTreeNode(TreeNode * node)
 {
-    // printf("20\n");
+
     TreeNode *temp = NULL;
-    // int heightCheck = 0;
-    // printf("21\n");
 
     if(node->left != NULL)
     {
-        // printf("24\n");
         node->left = balanceTreeNode(node->left);
-        // printf("24.b\n");
     }
 
     if(node->right != NULL)
     {
-        // printf("23\n");
         node->right = balanceTreeNode(node->right);
-        // printf("23.b\n");
     }
-
-    // printf("25.a\n");
 
     int heightCheck = getHeight(node);
 
-
     if(heightCheck >= 2)
     {
-        printf("28\n");
+        // printf("28\n");
         if(getHeight(node->left) <= -1)
         {
-            // printf("29\n");
             temp = leftRightRotation(node);
         }
         else
         {
-            // printf("30\n");
             temp = rightRotation(node);
         }
     }
     else if(heightCheck <= -2)
     {
-        // printf("25\n");
         if(getHeight(node->right) >= 1)
         {
-            // printf("26\n");
             temp = rightLeftRotation(node);
         }
         else
         {
-            // printf("27\n");
             temp = leftRotation(node);
-            // printf("27.b\n");
         }
 
     }
     else
     {
-        // printf("31\n");
         temp = node;
     }
-
-    // printf("tempF Data: %s\n", temp->data);
 
     return temp;
 }
@@ -124,26 +106,18 @@ TreeNode * balanceTreeNode(TreeNode * node)
 void balanceTree(Tree *theTree)
 {
 
-    // printf("15\n");
-    TreeNode *temp = NULL;
-    // printf("16\n");
-    temp = balanceTreeNode(theTree->root);
-    // printf("root: %s, temp: %s\n", theTree->root->data, temp->data);
-    // printf("17\n");
+    TreeNode *temp = balanceTreeNode(theTree->root);
+
     if(temp != theTree->root)
     {
-        // printf("18\n");
         theTree->root = temp;
-        // printf("buuttttt\n");
-        // printf("temp is: %s\n", theTree->root->data);
     }
-    // printf("19\n");
 }
 
 
 TreeNode * leftRotation(TreeNode * node)
 {
-    printf("l\n");
+    // printf("l\n");
 
     TreeNode *pivot = node;
     TreeNode *temp = pivot->right;
@@ -151,18 +125,14 @@ TreeNode * leftRotation(TreeNode * node)
     pivot->right = temp->left;
     temp->left = pivot;
 
-    // pivot->height = getHeight(pivot);
-    // temp->height = getHeight(temp);
-
-    // printf("pivotH: %d, tempH: %d\n", pivot->height, temp->height);
-
+   
     return temp;
 
 }
 
 TreeNode * rightRotation(TreeNode * node)
 {
-    printf("r\n");
+    // printf("r\n");
 
     TreeNode *pivot = node;
     TreeNode *temp = pivot->left;
@@ -170,18 +140,14 @@ TreeNode * rightRotation(TreeNode * node)
     pivot->left = temp->right;
     temp->right = pivot;
 
-    // pivot->height = getHeight(pivot);
-    // temp->height = getHeight(temp);
-
-    // printf("pivotH: %d, tempH: %d\n", pivot->height, temp->height);
-
+   
     return temp;	
 
 }
 
 TreeNode * leftRightRotation(TreeNode * node)
 {
-    printf("lr\n");
+    // printf("lr\n");
 
     TreeNode *a = node;
     TreeNode *b = a->left;
@@ -192,19 +158,13 @@ TreeNode * leftRightRotation(TreeNode * node)
     c->left = b;
     c->right = a;
 
-    // a->height = getHeight(a);
-    // b->height = getHeight(b);
-    // c->height = getHeight(c);
-
-    // printf("aH: %d, bH: %d, cH: %d\n", a->height, b->height, c->height);
-
     return c;
 
 }
 
 TreeNode * rightLeftRotation(TreeNode * node)
 {
-    printf("rl\n");
+    // printf("rl\n");
     TreeNode *a = node;
     TreeNode *b = a->right;
     TreeNode *c = b->left;
@@ -213,9 +173,6 @@ TreeNode * rightLeftRotation(TreeNode * node)
     b->left = c->right;
     c->right = b;
     c->left = a;
-
-    // printf("aH: %d, bH: %d, cH: %d\n", a->height, b->height, c->height);
-
 
     return c;
 
