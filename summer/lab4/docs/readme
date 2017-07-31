@@ -35,6 +35,8 @@ testing
 =========
 - adding a node to the avl binary tree, removing it and then trying to readd the same node causes a segfault, can't figure out why, i need to fix my delete function.
 -program segfaults after adding more than one node, hm... strange.
+-fixed segfault when adding more than one node by adding another temp node that would be set to the node right before it hits null so my insert function isnt trying to insert right/left into NULL->right/left but rather end(last before null)->right/left
+-program doesnt seem to recognise any of the rotations...
 
 
 ============

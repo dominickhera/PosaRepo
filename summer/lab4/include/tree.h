@@ -40,6 +40,7 @@ struct BalancedBinTreeNode{
 };
 
 //add function prototypes as necessary
+int balanceHeight(TreeNode * node);
 int getHeight(TreeNode *node);
 TreeNode * balanceTreeNode(TreeNode * node);
 void balanceTree(Tree *theTree);
@@ -50,6 +51,5 @@ TreeNode * rightLeftRotation(TreeNode * node);
 void printData(void * data);
 int compareFunction(void *first,void *second);
 void *copyFunction(void *toBeCopy);
-
 
 #endif

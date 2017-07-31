@@ -16,7 +16,7 @@ int main()
 
     while(userInput != 5)
     {
-        printf("1. Insert\n2. Remove\n3. idk yet\n4. idk yet\n5. Exit\n\ntree/> ");
+        printf("1. Insert\n2. Remove\n3. pre order\n4. idk yet\n5. Exit\n\ntree/> ");
         scanf("%d", &userInput);
         switch(userInput)
         { 
@@ -24,7 +24,7 @@ int main()
                 printf("insert key: ");
                 scanf("%s", keyInsert);
                 treeInsertNode(tree, keyInsert);
-                printf("root is now: %s\n", tree->root->data);
+                // printf("root is now: %s\n", tree->root->data);
                 break;
             case 2:
                 printf("remove key: ");
@@ -33,7 +33,9 @@ int main()
                 // printf("root is now: %s\n", tree->root->data);
                 break;
             case 3:
-                printf("idk yet\n");
+                // printf("idk yet\n");
+                treePreOrderPrint(tree, &printData);
+                printf("\n");
                 break;
             case 4:
                 printf("idk yet: ");
