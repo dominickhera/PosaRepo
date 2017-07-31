@@ -64,23 +64,25 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
 {
     // if(treeIsEmpty(theTree) == 1)
     // {
-    if(treeFindNode(theTree, toBeInserted) == NULL)
+    // if(treeFindNode(theTree, toBeInserted) == NULL)
+    // {
+    // printf("1\n");
+    TreeNode *tempNode = createBalancedBinNode(toBeInserted);;
+
+    // printf("2\n");
+    TreeNode *next = NULL;
+    // printf("3\n");
+    TreeNode *end = NULL;
+    if(treeIsEmpty(theTree) == 1)
     {
-        // printf("1\n");
-        TreeNode *tempNode = createBalancedBinNode(toBeInserted);;
+        // printf("4\n");
+        // tempNode = createBalancedBinNode(toBeInserted);
+        theTree->root = tempNode;
 
-        // printf("2\n");
-        TreeNode *next = NULL;
-        // printf("3\n");
-        TreeNode *end = NULL;
-        if(treeIsEmpty(theTree) == 1)
-        {
-            // printf("4\n");
-            // tempNode = createBalancedBinNode(toBeInserted);
-            theTree->root = tempNode;
-
-        }
-        else
+    }
+    else
+    {
+        if(treeFindNode(theTree, toBeInserted) == NULL)
         {
             // printf("5\n");
             next = theTree->root;
@@ -115,16 +117,15 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
             }
 
             // printf("13.b\n");
+
+            // printf("14.a\n");
+            balanceTree(theTree);
         }
-        // printf("14.a\n");
-        balanceTree(theTree);
-        // printf("14\n");
+        else
+        {
+            printf("node already exists...\n");
+        }
     }
-    else
-    {
-        printf("node already exists...\n");
-    }
-    // }
     // else
     // {
     // 	printf("tree is empty\n");
@@ -232,36 +233,42 @@ void *treeFindMax(Tree *theTree)
 void treeInOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
 
-	// if(TreeNode != NULL)
- //    {
- //        treeInOrderPrint(TreeNode->left);
- //        printf("%s ", TreeNode->data);
- //        treeInOrderPrint(TreeNode->right);
- //    }
+	inorder(theTree->root);
+
+    // if(TreeNode != NULL)
+    //    {
+    //        treeInOrderPrint(TreeNode->left);
+    //        printf("%s ", TreeNode->data);
+    //        treeInOrderPrint(TreeNode->right,printData);
+    //    }
 
 }
 
 void treePreOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
 
-	// if(TreeNode != NULL)
- //    {
- //        printf("%s ", TreeNode->data);
- //        treePreOrderPrint(TreeNode->left);
- //        treePreOrderPrint(TreeNode->right);
- //    }
+	preorder(theTree->root);
+
+    // if(theTree != NULL)
+    //    {
+    //        printf("%s .", theTree->root->data);
+    //        treePreOrderPrint( , printData());
+    //        treePreOrderPrint( , printData());
+    //    }
 
 }
 
 void treePostOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
 
-	// if(TreeNode != NULL)
- //    {
- //        treePostOrderPrint(TreeNode->left);
- //        treePostOrderPrint(TreeNode->right);
- //        printf("%s ", TreeNode->data);
- //    }
+	postorder(theTree->root);
+
+    // if(TreeNode != NULL)
+    //    {
+    //        treePostOrderPrint(TreeNode->left);
+    //        treePostOrderPrint(TreeNode->right);
+    //        printf("%s ", TreeNode->data);
+    //    }
 
 }
 

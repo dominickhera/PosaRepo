@@ -9,26 +9,27 @@ int balanceHeight(TreeNode * node)
 
     if(node->right != NULL)
     {
-        rHeight = getHeight(node->right);
+        rHeight = balanceHeight(node->right);
     }
     if(node->left != NULL)
     {
-        lHeight = getHeight(node->left);
+        lHeight = balanceHeight(node->left);
     }
 
-    // if(rHeight > lHeight)
-    // {
-    //     rHeight++;
-    //     tempReturn = rHeight;
-    // }
-    // else
-    // {
-    //     lHeight++;
-    //     tempReturn = lHeight;
-    // }
+    if(rHeight > lHeight)
+    {
+        rHeight++;
+        tempReturn = rHeight;
+    }
+    else
+    {
+        lHeight++;
+        tempReturn = lHeight;
+    }
 
 
-    return rHeight > lHeight ? ++rHeight : ++lHeight;
+    return tempReturn;
+
 }
 
 int getHeight(TreeNode *node)
@@ -39,7 +40,7 @@ int getHeight(TreeNode *node)
 
     if(node->right != NULL)
     {
-        tempInt = tempInt + balanceHeight(node->right);
+        tempInt = tempInt - balanceHeight(node->right);
     }
 
     if(node->left != NULL)
@@ -58,12 +59,6 @@ TreeNode * balanceTreeNode(TreeNode * node)
     TreeNode *temp = NULL;
     // int heightCheck = 0;
     // printf("21\n");
-    if(node->right != NULL)
-    {
-        // printf("23\n");
-        node->right = balanceTreeNode(node->right);
-        // printf("23.b\n");
-    }
 
     if(node->left != NULL)
     {
@@ -72,47 +67,51 @@ TreeNode * balanceTreeNode(TreeNode * node)
         // printf("24.b\n");
     }
 
+    if(node->right != NULL)
+    {
+        // printf("23\n");
+        node->right = balanceTreeNode(node->right);
+        // printf("23.b\n");
+    }
+
     // printf("25.a\n");
 
     int heightCheck = getHeight(node);
-
-    // printf("heightCheck: %d\n", heightCheck);
 
 
     if(heightCheck >= 2)
     {
         printf("28\n");
-        printf("buuuuut");
-        // printf("h: %d\n", getHeight(node->left));
         if(getHeight(node->left) <= -1)
         {
-            printf("29\n");
+            // printf("29\n");
             temp = leftRightRotation(node);
         }
         else
         {
-            printf("30\n");
-            temp = leftRotation(node);
+            // printf("30\n");
+            temp = rightRotation(node);
         }
     }
     else if(heightCheck <= -2)
     {
-        printf("25\n");
+        // printf("25\n");
         if(getHeight(node->right) >= 1)
         {
-            printf("26\n");
+            // printf("26\n");
             temp = rightLeftRotation(node);
         }
         else
         {
-            printf("27\n");
-            temp = rightRotation(node);
+            // printf("27\n");
+            temp = leftRotation(node);
+            // printf("27.b\n");
         }
 
     }
     else
     {
-        printf("31\n");
+        // printf("31\n");
         temp = node;
     }
 
@@ -251,4 +250,40 @@ void *copyFunction(void *toBeCopy)
     printf("this is supposed to copy stuff i think\n");
 
     return toBeCopy;
+}
+
+void inorder(TreeNode *node)
+{
+
+	if(node != NULL)
+       {
+           inorder(node->left);
+           printf("%s ", node->data);
+           inorder(node->right);
+       }
+
+}
+
+void preorder(TreeNode *node)
+{
+
+		if(node != NULL)
+       {
+       	   printf("%s ", node->data);
+           preorder(node->left);
+           preorder(node->right);
+       }
+
+}
+
+void postorder(TreeNode *node)
+{
+
+		if(node != NULL)
+       {
+           postorder(node->left);
+           postorder(node->right);
+           printf("%s ", node->data);
+       }
+
 }

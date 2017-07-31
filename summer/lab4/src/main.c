@@ -6,7 +6,7 @@ int main()
 	
     int userInput = 0;
     // char fileName[256];
-    int frequencyCompare = 0;
+    // int frequencyCompare = 0;
     char keyRemove[25];
     char keyInsert[25];
     // char keySearch[25];
@@ -14,9 +14,9 @@ int main()
     Tree *tree = createBalancedBinTree(compareFunction, &free, &copyFunction);
     // insert(tree, "");
 
-    while(userInput != 5)
+    while(userInput != 6)
     {
-        printf("1. Insert\n2. Remove\n3. pre order\n4. idk yet\n5. Exit\n\ntree/> ");
+        printf("1. Insert\n2. Remove\n3. pre order\n4. inorder\n5. postorder\n6. exit\n\ntree/> ");
         scanf("%d", &userInput);
         switch(userInput)
         { 
@@ -38,11 +38,16 @@ int main()
                 printf("\n");
                 break;
             case 4:
-                printf("idk yet: ");
-                scanf("%d", &frequencyCompare);
-                
+                // printf("idk yet: ");
+                treeInOrderPrint(tree, &printData);
+                // scanf("%d", &frequencyCompare);
+                printf("\n");
                 break;
             case 5:
+                treePostOrderPrint(tree, &printData);
+                printf("\n");
+                break;
+            case 6:
                 printf("goodbye!\n"); 
                 exit(1);
                 break;

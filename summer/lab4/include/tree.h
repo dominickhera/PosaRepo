@@ -51,5 +51,9 @@ TreeNode * rightLeftRotation(TreeNode * node);
 void printData(void * data);
 int compareFunction(void *first,void *second);
 void *copyFunction(void *toBeCopy);
+void inorder(TreeNode *node);
+void preorder(TreeNode *node);
+void postorder(TreeNode *node);
+
 
 #endif
