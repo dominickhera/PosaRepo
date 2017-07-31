@@ -22,13 +22,14 @@ type 'make' to run the makeFile
 description
 =============
 
-- the program is a basic balanced binary search tree that balances itself that runs several test cases to test all the functions within the project
+- the program is a basic balanced binary search tree that balances itself that runs several test cases to test all the functions within the project with the larger values being sent to the right side and the lesser values being sent to the left side.
 
 
 ====================
 known limitations
 ====================
-- 
+- only partially frees the entire tree, some memory does leak
+- the pre, post, and inorder printing is wonky and doesnt 100% match up with the provided orders in the .h file 
 
 =========
 testing
@@ -36,13 +37,14 @@ testing
 - adding a node to the avl binary tree, removing it and then trying to readd the same node causes a segfault, can't figure out why, i need to fix my delete function.
 -program segfaults after adding more than one node, hm... strange.
 -fixed segfault when adding more than one node by adding another temp node that would be set to the node right before it hits null so my insert function isnt trying to insert right/left into NULL->right/left but rather end(last before null)->right/left
--program doesnt seem to recognise any of the rotations...
+-program doesnt seem to recognise any of the rotations..., fixed it, forgot what i did though sos
+- searching if the tree was empty actually caused my tree to segfault while running my test cases, was fixed by directly checking if the tree is null instead
 
 
 =================
 avl binary tree 
 =================
-- 
+- this lab utilised the data structure of the binary tree which is designed to automatically balance itself out. it's similar to the min heap in which the values are organized with the lower values on the left and the higher values on the right but with more rotations which it shifts parent values to their own child values and then their child values to parent values in the act of balancing itself. If i'm correct, when searching through the tree, it has a complexity of O(n) considering it searches through the entire tree but it's able to divide the amount of values it has to search through by 2 everytime it gets a number based on how the tree is oganized. The binary search tree has four different rotations in which there's a right, left, rightleft, and leftright rotation in which values are rotated in their respective direction in order to balance the tree out so that each node doesnt have a value outside of -1,0, or 1.
 
 ============
 references
