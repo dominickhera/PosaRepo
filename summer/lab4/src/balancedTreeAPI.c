@@ -188,7 +188,7 @@ void *treeFindNode(Tree *theTree, void *data)
         }
     }
 
-    printf("Could not find Node %s :c\n", (char *)tempSearch->data);
+    // printf("Could not find Node %s :c\n", (char *)data);
     return NULL;
 
 }

@@ -20,20 +20,15 @@ int main()
     // printf("size: %lu\n", sizeof(data)/sizeof(data[0])); 
     for(int i = 0; i < (sizeof(data)/sizeof(data[0])); i++)
     {
-        printf("1\n");
         treeInsertNode(tree, data[i]);
     }
     printf("\n\n");
- printf("2\n");
     treePreOrderPrint(tree, &printData);
     printf("\n");
-     printf("3\n");
     treeInOrderPrint(tree, &printData);
     printf("\n");
-     printf("4\n");
     treePostOrderPrint(tree, &printData);
     printf("\n\n");
-     printf("5\n");
     destroyBalancedBinTree(tree);
     printf("\n------------------------------\n\n");
 
