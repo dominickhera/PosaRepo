@@ -50,6 +50,16 @@ TreeNode *createBalancedBinNode(void *data)
 
 void destroyBalancedBinTree(Tree *toBeDeleted)
 {
+
+    // TreeNode *temp = treeFindMin(toBeDeleted);
+
+    // free(toBeDeleted);
+    // while(treeIsEmpty(toBeDeleted) != 1)
+    // {
+    //     free(temp);
+    // }
+
+    // destroyTree(toBeDeleted->root);
     //     if ( !p )
     //         return;
 
@@ -117,7 +127,7 @@ void treeDeleteNode(Tree *theTree, void *toBeDeleted)
         // free(&tempNode->height);
         free(tempNode->data);
         free(tempNode);
-        printf("Node %d successfully deleted\n", (char *)toBeDeleted);
+        printf("Node %s successfully deleted\n", (char *)toBeDeleted);
     }
     else
     {
@@ -173,12 +183,12 @@ void *treeFindNode(Tree *theTree, void *data)
         }
         else if(strcmp(data, tempSearch->data) == 0)
         {
-        	printf("Found Node %d!\n", (char *)tempSearch->data);
+        	printf("Found Node %s!\n", (char *)tempSearch->data);
             return tempSearch;
         }
     }
 
-    printf("Could not find Node %d :c\n", (char *)tempSearch->data);
+    printf("Could not find Node %s :c\n", (char *)tempSearch->data);
     return NULL;
 
 }
@@ -217,20 +227,29 @@ void *treeFindMax(Tree *theTree)
 
 void treeInOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
-	printf("InOrder: ");
-    inorder(theTree->root);
+    if(treeIsEmpty(theTree) != 1)
+    {
+	   printf("InOrder: ");
+        inorder(theTree->root);
+    }
 }
 
 void treePreOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
-	printf("PreOrder: ");
-    preorder(theTree->root);
+    if(treeIsEmpty(theTree) != 1)
+    {
+	   printf("PreOrder: ");
+       preorder(theTree->root);
+    }
 }
 
 void treePostOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
-	printf("PostOrder: ");
-    postorder(theTree->root);
+    if(treeIsEmpty(theTree) != 1)
+    {
+	   printf("PostOrder: ");
+       postorder(theTree->root);
+    }
 }
 
 

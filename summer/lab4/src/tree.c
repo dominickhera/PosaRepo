@@ -181,7 +181,6 @@ int compareFunction(void *first, void *second)
 
 void *copyFunction(void *toBeCopy)
 {
-    printf("this is supposed to copy stuff i think\n");
 
     return toBeCopy;
 }
@@ -221,3 +220,4 @@ void postorder(TreeNode *node)
     }
 
 }
+
