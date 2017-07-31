@@ -3,16 +3,31 @@
 
 int main()
 {
-	
+
     int userInput = 0;
-    // char fileName[256];
-    // int frequencyCompare = 0;
     char keyRemove[25];
     char keyInsert[25];
-    // char keySearch[25];
+
+    // Tree *tree = createBalancedBinTree(compareFunction, &free, &copyFunction);
+
     
+    printf("Case 1: Inserting 7 numbers into binary tree and deleting them after\n\n");
+
+    char * data[] = {"5", "3", "1", "12", "2", "20", "11"};
+
     Tree *tree = createBalancedBinTree(compareFunction, &free, &copyFunction);
-    // insert(tree, "");
+
+    // printf("size: %lu\n", sizeof(data)/sizeof(data[0])); 
+    for(int i = 0; i < (sizeof(data)/sizeof(data[0])); i++)
+    {
+        insertHeapNode(heapThing, data[i]);
+    }
+    printf("\n\n");
+
+    printHeap(heapThing);
+    printf("\n\n");
+    deleteHeap(heapThing);
+    printf("\n------------------------------\n\n");
 
     while(userInput != 6)
     {

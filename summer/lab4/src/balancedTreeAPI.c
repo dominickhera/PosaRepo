@@ -20,6 +20,8 @@ Tree *createBalancedBinTree(int (*compareFP) (void *data1, void *data2), void (*
     temp->destroyFP = destroyFP;
     temp->copyFP = copyFP;
 
+    printf("Binary Tree successfully created\n\n");
+
     return temp;
 
 }
@@ -40,43 +42,32 @@ TreeNode *createBalancedBinNode(void *data)
     temp->right = NULL;
     temp->height = 1;
 
+    printf("Binary Tree Node successfully created with data: %s\n", (char *)temp->data);
+
     return temp;
 
 }
 
 void destroyBalancedBinTree(Tree *toBeDeleted)
 {
-    // oid free_tree(node* p)
-    // {
     //     if ( !p )
     //         return;
 
     //     free_tree(p -> left);
     //     free_tree(p -> right);
     //     free(p);
-    // }
 
-
-    // TreeNode *temp 
 }
 
 void treeInsertNode(Tree *theTree, void *toBeInserted)
 {
-    // if(treeIsEmpty(theTree) == 1)
-    // {
-    // if(treeFindNode(theTree, toBeInserted) == NULL)
-    // {
-    // printf("1\n");
-    TreeNode *tempNode = createBalancedBinNode(toBeInserted);;
 
-    // printf("2\n");
+    TreeNode *tempNode = createBalancedBinNode(toBeInserted);;
     TreeNode *next = NULL;
-    // printf("3\n");
     TreeNode *end = NULL;
+
     if(treeIsEmpty(theTree) == 1)
     {
-        // printf("4\n");
-        // tempNode = createBalancedBinNode(toBeInserted);
         theTree->root = tempNode;
 
     }
@@ -84,41 +75,29 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
     {
         if(treeFindNode(theTree, toBeInserted) == NULL)
         {
-            // printf("5\n");
             next = theTree->root;
-            // printf("6\n");
             while(next != NULL)
             {
                 end = next;
-                // printf("7\n");
                 if(strcmp(toBeInserted, next->data) > 0)
                 {
-                    // printf("8\n");
                     next = next->right;
                 }
                 else if(strcmp(toBeInserted, next->data) < 0)
                 {
-                    // printf("9\n");
                     next = next->left;
                 }		
             }
 
-            // tempNode = createBalancedBinNode(toBeInserted);
-            // printf("10\n");
             if(strcmp(toBeInserted, end->data) > 0)
             {
-                // printf("11\n");
                 end->right = tempNode;
             }
             else if(strcmp(toBeInserted, end->data) < 0)
             {
                 end->left = tempNode;
-                // printf("12.b\n");
             }
 
-            // printf("13.b\n");
-
-            // printf("14.a\n");
             balanceTree(theTree);
         }
         else
@@ -126,10 +105,6 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
             printf("node already exists...\n");
         }
     }
-    // else
-    // {
-    // 	printf("tree is empty\n");
-    // }
 
 }
 
@@ -142,6 +117,7 @@ void treeDeleteNode(Tree *theTree, void *toBeDeleted)
         // free(&tempNode->height);
         free(tempNode->data);
         free(tempNode);
+        printf("Node %d successfully deleted\n", (char *)toBeDeleted);
     }
     else
     {
@@ -149,7 +125,6 @@ void treeDeleteNode(Tree *theTree, void *toBeDeleted)
     }
 
     balanceTree(theTree);
-    //balancetree
 
 }
 
@@ -157,10 +132,12 @@ int treeIsEmpty(Tree *theTree)
 {
     if(theTree->root == NULL)
     {
+    	printf("Tree is currently empty\n");
         return 1;
     }
     else
     {
+    	printf("Tree is not currently empty\n");
         return 0;
     }
 }
@@ -170,9 +147,11 @@ int treeHasTwoChildren(TreeNode *root)
 
     if(root->left != NULL && root->right != NULL)
     {
+    	printf("Node has both a left and a right child\n");
         return 0;
     }
 
+    printf("Node does not have two children\n");
     return 1;
 
 }
@@ -194,10 +173,12 @@ void *treeFindNode(Tree *theTree, void *data)
         }
         else if(strcmp(data, tempSearch->data) == 0)
         {
+        	printf("Found Node %d!\n", (char *)tempSearch->data);
             return tempSearch;
         }
     }
 
+    printf("Could not find Node %d :c\n", (char *)tempSearch->data);
     return NULL;
 
 }
@@ -211,6 +192,8 @@ void *treeFindMin(Tree *theTree)
     {
         tempSearch = tempSearch->left;
     }
+
+    printf("Minimum Node Value: %s\n", (char *)tempSearch->data);
 
     return tempSearch;
 
@@ -226,29 +209,28 @@ void *treeFindMax(Tree *theTree)
         tempSearch = tempSearch->right;
     }
 
+    printf("Maxmium Node Value: %s\n", (char *)tempSearch->data);
+
     return tempSearch;
 
 }
 
 void treeInOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
-
-	inorder(theTree->root);
-
+	printf("InOrder: ");
+    inorder(theTree->root);
 }
 
 void treePreOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
-
-	preorder(theTree->root);
-
+	printf("PreOrder: ");
+    preorder(theTree->root);
 }
 
 void treePostOrderPrint(Tree *theTree, void (*printNodeFP) (void *data))
 {
-
-	postorder(theTree->root);
-
+	printf("PostOrder: ");
+    postorder(theTree->root);
 }
 
 

@@ -27,15 +27,12 @@ int balanceHeight(TreeNode * node)
         tempReturn = lHeight;
     }
 
-
     return tempReturn;
 
 }
 
 int getHeight(TreeNode *node)
 {
-    // printf("lol\n");
-
     int tempInt = 0;
 
     if(node->right != NULL)
@@ -47,7 +44,6 @@ int getHeight(TreeNode *node)
     {
         tempInt = tempInt + balanceHeight(node->left);
     }
-    // printf("tempint: %d\n", tempInt);
 
     return tempInt;
 }
@@ -72,7 +68,6 @@ TreeNode * balanceTreeNode(TreeNode * node)
 
     if(heightCheck >= 2)
     {
-        // printf("28\n");
         if(getHeight(node->left) <= -1)
         {
             temp = leftRightRotation(node);
@@ -92,7 +87,6 @@ TreeNode * balanceTreeNode(TreeNode * node)
         {
             temp = leftRotation(node);
         }
-
     }
     else
     {
@@ -117,64 +111,47 @@ void balanceTree(Tree *theTree)
 
 TreeNode * leftRotation(TreeNode * node)
 {
-    // printf("l\n");
 
-    TreeNode *pivot = node;
-    TreeNode *temp = pivot->right;
+    TreeNode *a = node->right;
+    TreeNode *b = a->left;
 
-    pivot->right = temp->left;
-    temp->left = pivot;
+    a->left = node;
+    node->right = b;
 
-   
-    return temp;
+
+    return a;
 
 }
 
 TreeNode * rightRotation(TreeNode * node)
 {
-    // printf("r\n");
 
-    TreeNode *pivot = node;
-    TreeNode *temp = pivot->left;
+    TreeNode *a = node->left;
+    TreeNode *b = a->right;
 
-    pivot->left = temp->right;
-    temp->right = pivot;
+    a->right = node;
+    node->left = b;
 
-   
-    return temp;	
+
+    return a;	
 
 }
 
 TreeNode * leftRightRotation(TreeNode * node)
 {
-    // printf("lr\n");
 
-    TreeNode *a = node;
-    TreeNode *b = a->left;
-    TreeNode *c = b->right;
+    node->left = leftRotation(node->left);
 
-    a->left = c->right;
-    b->right = c->left;
-    c->left = b;
-    c->right = a;
-
-    return c;
+    return rightRotation(node);
 
 }
 
 TreeNode * rightLeftRotation(TreeNode * node)
 {
-    // printf("rl\n");
-    TreeNode *a = node;
-    TreeNode *b = a->right;
-    TreeNode *c = b->left;
 
-    a->right = c->left;
-    b->left = c->right;
-    c->right = b;
-    c->left = a;
+    node->right = rightRotation(node->right);
 
-    return c;
+    return leftRotation(node);
 
 }
 
@@ -212,35 +189,35 @@ void *copyFunction(void *toBeCopy)
 void inorder(TreeNode *node)
 {
 
-	if(node != NULL)
-       {
-           inorder(node->left);
-           printf("%s ", node->data);
-           inorder(node->right);
-       }
+    if(node != NULL)
+    {
+        inorder(node->left);
+        printf("%s ", node->data);
+        inorder(node->right);
+    }
 
 }
 
 void preorder(TreeNode *node)
 {
 
-		if(node != NULL)
-       {
-       	   printf("%s ", node->data);
-           preorder(node->left);
-           preorder(node->right);
-       }
+    if(node != NULL)
+    {
+        printf("%s ", node->data);
+        preorder(node->left);
+        preorder(node->right);
+    }
 
 }
 
 void postorder(TreeNode *node)
 {
 
-		if(node != NULL)
-       {
-           postorder(node->left);
-           postorder(node->right);
-           printf("%s ", node->data);
-       }
+    if(node != NULL)
+    {
+        postorder(node->left);
+        postorder(node->right);
+        printf("%s ", node->data);
+    }
 
 }

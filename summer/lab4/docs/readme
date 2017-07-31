@@ -1,5 +1,5 @@
 ======================
-a4
+lab4
 28/7/17
 dominick hera
 0943778
@@ -22,7 +22,7 @@ type 'make' to run the makeFile
 description
 =============
 
-- the program is 
+- the program is a basic balanced binary search tree that balances itself that runs several test cases to test all the functions within the project
 
 
 ====================
@@ -38,11 +38,6 @@ testing
 -fixed segfault when adding more than one node by adding another temp node that would be set to the node right before it hits null so my insert function isnt trying to insert right/left into NULL->right/left but rather end(last before null)->right/left
 -program doesnt seem to recognise any of the rotations...
 
-
-============
-test files
-============
-- 
 
 =================
 avl binary tree 
