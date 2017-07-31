@@ -52,6 +52,7 @@ void destroyBalancedBinTree(Tree *toBeDeleted)
 {
 
     free(toBeDeleted);
+
 }
 
 void treeInsertNode(Tree *theTree, void *toBeInserted)
