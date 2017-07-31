@@ -191,7 +191,7 @@ void inorder(TreeNode *node)
     if(node != NULL)
     {
         inorder(node->left);
-        printf("%s ", node->data);
+        printf("%s ", (char *)node->data);
         inorder(node->right);
     }
 
@@ -202,7 +202,7 @@ void preorder(TreeNode *node)
 
     if(node != NULL)
     {
-        printf("%s ", node->data);
+        printf("%s ", (char *)node->data);
         preorder(node->left);
         preorder(node->right);
     }
@@ -216,7 +216,7 @@ void postorder(TreeNode *node)
     {
         postorder(node->left);
         postorder(node->right);
-        printf("%s ", node->data);
+        printf("%s ", (char *)node->data);
     }
 
 }

@@ -4,9 +4,9 @@
 int main()
 {
 
-    int userInput = 0;
-    char keyRemove[25];
-    char keyInsert[25];
+    // int userInput = 0;
+    // char keyRemove[25];
+    // char keyInsert[25];
 
     // Tree *tree = createBalancedBinTree(compareFunction, &free, &copyFunction);
 
