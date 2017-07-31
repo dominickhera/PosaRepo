@@ -115,18 +115,22 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
 void treeDeleteNode(Tree *theTree, void *toBeDeleted)
 {
     TreeNode *tempNode = treeFindNode(theTree, toBeDeleted);
-
+    printf("1\n");
     if(tempNode != NULL)
     {
+        printf("2\n");
         // free(&tempNode->height);
         free(tempNode->data);
+        printf("3\n");
         free(tempNode);
+        printf("4\n");
         printf("Node %s successfully deleted\n", (char *)toBeDeleted);
     }
     else
     {
         printf("node doesnt exist...\n");
     }
+    printf("5\n");
 
     balanceTree(theTree);
 
@@ -165,27 +169,30 @@ void *treeFindNode(Tree *theTree, void *data)
 
     if(theTree != NULL)
     {
-    TreeNode *tempSearch = theTree->root;
+        TreeNode *tempSearch = theTree->root;
 
-    while(tempSearch != NULL)
-    {
-        if(strcmp(data, tempSearch->data) > 0)
+        while(tempSearch != NULL)
         {
-            tempSearch = tempSearch->right;
-        }
-        else if(strcmp(data, tempSearch->data) < 0)
-        {
-            tempSearch = tempSearch->left;
-        }
-        else if(strcmp(data, tempSearch->data) == 0)
-        {
-            printf("Found Node %s!\n", (char *)tempSearch->data);
-            return tempSearch;
+            if(strcmp(data, tempSearch->data) > 0)
+            {
+                tempSearch = tempSearch->right;
+            }
+            else if(strcmp(data, tempSearch->data) < 0)
+            {
+                tempSearch = tempSearch->left;
+            }
+            else if(strcmp(data, tempSearch->data) == 0)
+            {
+                printf("Found Node %s!\n", (char *)tempSearch->data);
+                return tempSearch;
+            }
         }
     }
-}
     // printf("Could not find Node %s :c\n", (char *)data);
     return NULL;
+
+
+    
 
 }
 

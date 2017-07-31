@@ -36,8 +36,8 @@ int main()
     }
 
     treeDeleteNode(tree2, data2[2]);
-    treeDeleteNode(tree2, data2[1]);
-    // treeDeleteNode(tree2, data2[5]);
+    // treeDeleteNode(tree2, data2[1]);
+    // // treeDeleteNode(tree2, data2[5]);
     printf("\n\n");
     treePreOrderPrint(tree2, &printData);
     printf("\n");
