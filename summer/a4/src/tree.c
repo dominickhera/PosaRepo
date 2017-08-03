@@ -185,13 +185,44 @@ void *copyFunction(void *toBeCopy)
     return toBeCopy;
 }
 
+int hashData(size_t hashSize, char * dataKey)
+{
+
+    int tempKey = 0;
+
+    while(*dataKey != '\0')
+    {
+        tempKey = tempKey + *dataKey;
+        dataKey++;
+    }
+
+
+    printf("%lu\n", tempKey % hashSize);
+    return tempKey % hashSize;
+}
+
+void stockCheck(TreeNode *node)
+{
+
+    if(node != NULL)
+    {
+        // printf("tits\n");
+        stockCheck(node->left);
+        printf("%s, Quantity: %d\n", (char *)node->prodName, node->quantity);
+        stockCheck(node->right);
+    }
+
+}
+
+
 void inorder(TreeNode *node)
 {
 
     if(node != NULL)
     {
+        // printf("butt\n");
         inorder(node->left);
-        printf("%s ", (char *)node->proID);
+        printf("%s\n", (char *)node->prodName);
         inorder(node->right);
     }
 
@@ -202,7 +233,7 @@ void preorder(TreeNode *node)
 
     if(node != NULL)
     {
-        printf("%s ", (char *)node->proID);
+        printf("%s\n", (char *)node->proID);
         preorder(node->left);
         preorder(node->right);
     }

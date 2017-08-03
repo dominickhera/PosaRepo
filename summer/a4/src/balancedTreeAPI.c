@@ -28,11 +28,11 @@ TreeNode *createBalancedBinNode(void *proID, void *prodName, void *publisher, vo
 {
 
     TreeNode * temp = malloc(sizeof(TreeNode));
-    temp->proID = malloc(sizeof(proID));
-    temp->prodName = malloc(sizeof(prodName));
-    temp->publisher = malloc(sizeof(publisher));
-    temp->genre = malloc(sizeof(genre));
-    temp->price = malloc(sizeof(price));
+    temp->proID = malloc(sizeof(proID) * 100);
+    temp->prodName = malloc(sizeof(prodName) * 100);
+    temp->publisher = malloc(sizeof(publisher) * 100);
+    temp->genre = malloc(sizeof(genre) * 100);
+    temp->price = malloc(sizeof(price) * 100);
 
 
     if(temp == NULL)
@@ -85,30 +85,30 @@ void treeInsertNode(Tree *theTree, void *proID, void *prodName, void *publisher,
                 while(next != NULL)
                 {
                     end = next;
-                    if(strcmp(proID, next->proID) > 0)
+                    if(strcmp(prodName, next->prodName) > 0)
                     {
                         next = next->right;
                     }
-                    else if(strcmp(proID, next->proID) < 0)
+                    else if(strcmp(prodName, next->prodName) < 0)
                     {
                         next = next->left;
                     }
-                    else if(strcmp(proID, next->proID) == 0)
+                    else if(strcmp(prodName, next->prodName) == 0)
                     {
                         next->quantity++;
                         return;
                     }		
                 }
 
-                if(strcmp(proID, end->proID) > 0)
+                if(strcmp(prodName, end->prodName) > 0)
                 {
                     end->right = tempNode;
                 }
-                else if(strcmp(proID, end->proID) < 0)
+                else if(strcmp(prodName, end->prodName) < 0)
                 {
                     end->left = tempNode;
                 }
-                else if(strcmp(proID, end->proID) == 0)
+                else if(strcmp(prodName, end->prodName) == 0)
                 {
                     end->quantity++;
                     return;
@@ -184,15 +184,15 @@ void *treeFindNode(Tree *theTree, void *data)
 
         while(tempSearch != NULL)
         {
-            if(strcmp(data, tempSearch->proID) > 0)
+            if(strcmp(data, tempSearch->prodName) > 0)
             {
                 tempSearch = tempSearch->right;
             }
-            else if(strcmp(data, tempSearch->proID) < 0)
+            else if(strcmp(data, tempSearch->prodName) < 0)
             {
                 tempSearch = tempSearch->left;
             }
-            else if(strcmp(data, tempSearch->proID) == 0)
+            else if(strcmp(data, tempSearch->prodName) == 0)
             {
                 return tempSearch;
             }
@@ -200,9 +200,6 @@ void *treeFindNode(Tree *theTree, void *data)
     }
 
     return NULL;
-
-
-    
 
 }
 

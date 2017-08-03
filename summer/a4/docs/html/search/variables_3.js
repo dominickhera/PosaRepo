@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['proid',['proID',['../structBalancedBinTreeNode.html#a3b64b6f3d4b672cff8b57258857aedf9',1,'BalancedBinTreeNode']]]
+  ['key',['key',['../structNode.html#ad88c9a757bfafd5ff265e0837b150056',1,'Node']]]
 ];

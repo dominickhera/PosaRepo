@@ -6,8 +6,8 @@ EXE = run
 
 all: $(EXE)
 
-$(EXE): BIN OBJ main.o tree.o balancedTreeAPI.o
-	gcc ./obj/main.o ./obj/tree.o ./obj/balancedTreeAPI.o -o $(OBJFILE)$(EXE)
+$(EXE): BIN OBJ main.o tree.o balancedTreeAPI.o HashTableAPI.o LinkedListAPI.o
+	gcc ./obj/main.o ./obj/tree.o ./obj/balancedTreeAPI.o ./obj/HashTableAPI.o ./obj/LinkedListAPI.o -o $(OBJFILE)$(EXE)
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
@@ -26,6 +26,12 @@ tree.o: ./src/tree.c
 
 balancedTreeAPI.o: ./src/balancedTreeAPI.c
 	$(CC) -c $(CFLAGS) ./src/balancedTreeAPI.c -I./include -o ./obj/balancedTreeAPI.o
+
+HashTableAPI.o: ./src/HashTableAPI.c
+	$(CC) -c $(CFLAGS) ./src/HashTableAPI.c -I./include -o ./obj/HashTableAPI.o
+
+LinkedListAPI.o: ./src/HashTableAPI.c
+	$(CC) -c $(CFLAGS) ./src/LinkedListAPI.c -I./include -o ./obj/LinkedListAPI.o
 
 doxy: Doxyfile
 	doxygen
