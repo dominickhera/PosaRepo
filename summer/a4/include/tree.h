@@ -1,5 +1,9 @@
 #ifndef STUDENT_TREE_API_
 #define STUDENT_TREE_API_
+
+#define TAXABLE 1
+#define NONTAXABLE 0
+#define TAX_TYPE unsigned char
 // #include "balancedTreeAPI.h"
  #include <stdio.h>
  #include <stdlib.h>
@@ -31,7 +35,14 @@ struct BalancedBinTree {
 
 
 struct BalancedBinTreeNode{
-    void *data; ///< pointer to generic data that is to be stored in the heap
+    void *proID; ///< pointer to generic data that is to be stored in the heap
+    void *prodName;
+    void *publisher;
+    void *genre;
+    TAX_TYPE taxType;
+    void *price;
+    // void *quantity
+
     TreeNode *left; ///< pointer to left tree node of current node. Null if empty.
     TreeNode *right; ///< pointer to right tree node of current node. Null if empty.
     

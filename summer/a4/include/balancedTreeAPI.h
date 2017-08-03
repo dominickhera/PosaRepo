@@ -31,7 +31,7 @@ Tree *createBalancedBinTree(int (*compareFP) (void *data1, void *data2), void (*
 /**This function creates a tree node for a self-balancing binary tree.
  *@param data pointer to data that is to be added to a self-balancing binary tree.
  **/
-TreeNode *createBalancedBinNode(void *data);
+TreeNode *createBalancedBinNode(void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType,void *price, int quantity);
 
 /**This function destroys a binary tree and all data that is in the tree
  *when destroy is called.
@@ -43,13 +43,13 @@ void destroyBalancedBinTree(Tree *toBeDeleted);
  *@param theTree pointer to a self-balancing binary tree
  *@param toBeInserted pointer to generic data that is to be inserted into the self-balancing binary tree
  **/
-void treeInsertNode(Tree *theTree, void *toBeInserted);
+void treeInsertNode(Tree *theTree, void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType,void *price, int quantity);
 
 /**Function to delete a node from a self-balancing binary tree.
  *@param theTree pointer to a self-balancing binary tree
  *@param toBeDeleted pointer to generic data that is to be deleted from the self-balancing binary tree
  **/
-void treeDeleteNode(Tree *theTree, void *toBeDeleted);
+void treeDeleteNode(Tree *theTree, void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType, void *price, int quantity);
 
 /**Function to determine if a binary tree is empty.
  *@param theTree pointer to a self-balancing binary tree

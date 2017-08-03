@@ -24,18 +24,29 @@ Tree *createBalancedBinTree(int (*compareFP) (void *data1, void *data2), void (*
 
 }
 
-TreeNode *createBalancedBinNode(void *data)
+TreeNode *createBalancedBinNode(void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType,void *price, int quantity)
 {
 
     TreeNode * temp = malloc(sizeof(TreeNode));
-    temp->data = malloc(sizeof(data));
+    temp->proID = malloc(sizeof(proID));
+    temp->prodName = malloc(sizeof(prodName));
+    temp->publisher = malloc(sizeof(publisher));
+    temp->genre = malloc(sizeof(genre));
+    temp->price = malloc(sizeof(price));
+
 
     if(temp == NULL)
     {
         return NULL;
     }
 
-    strcpy(temp->data, data);
+    strcpy(temp->proID, proID);
+    strcpy(temp->prodName, prodName);
+    strcpy(temp->publisher, publisher);
+    strcpy(temp->genre, genre);
+    strcpy(temp->price, price);
+    temp->quantity = quantity;
+    temp->taxType = taxType;
     temp->left = NULL;
     temp->right = NULL;
     temp->height = 1;
@@ -52,13 +63,13 @@ void destroyBalancedBinTree(Tree *toBeDeleted)
 
 }
 
-void treeInsertNode(Tree *theTree, void *toBeInserted)
+void treeInsertNode(Tree *theTree, void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType,void *price, int quantity)
 {
 
     if(theTree != NULL)
     {
 
-        TreeNode *tempNode = createBalancedBinNode(toBeInserted);;
+        TreeNode *tempNode = createBalancedBinNode(proID, prodName, publisher, genre, taxType, price, quantity);
         TreeNode *next = NULL;
         TreeNode *end = NULL;
 
@@ -74,30 +85,30 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
                 while(next != NULL)
                 {
                     end = next;
-                    if(strcmp(toBeInserted, next->data) > 0)
+                    if(strcmp(proID, next->proID) > 0)
                     {
                         next = next->right;
                     }
-                    else if(strcmp(toBeInserted, next->data) < 0)
+                    else if(strcmp(proID, next->proID) < 0)
                     {
                         next = next->left;
                     }
-                    else if(strcmp(toBeInserted, next->data) == 0)
+                    else if(strcmp(proID, next->proID) == 0)
                     {
                         next->quantity++;
                         return;
                     }		
                 }
 
-                if(strcmp(toBeInserted, end->data) > 0)
+                if(strcmp(proID, end->proID) > 0)
                 {
                     end->right = tempNode;
                 }
-                else if(strcmp(toBeInserted, end->data) < 0)
+                else if(strcmp(proID, end->proID) < 0)
                 {
                     end->left = tempNode;
                 }
-                else if(strcmp(toBeInserted, end->data) == 0)
+                else if(strcmp(proID, end->proID) == 0)
                 {
                     end->quantity++;
                     return;
@@ -113,17 +124,22 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
 
 }
 
-void treeDeleteNode(Tree *theTree, void *toBeDeleted)
+void treeDeleteNode(Tree *theTree, void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType, void *price, int quantity)
 {
-    TreeNode *tempNode = treeFindNode(theTree, toBeDeleted);
-    printf("1\n");
+    TreeNode *tempNode = treeFindNode(theTree, proID);
+    // printf("1\n");
     if(tempNode != NULL)
     {
-        printf("2\n");
-        free(tempNode->data);
-        printf("3\n");
+        // printf("2\n");
+        free(tempNode->proID);
+        free(tempNode->prodName);
+        free(tempNode->publisher);
+        free(tempNode->genre);
+        // free(tempNode->taxType);
+        free(tempNode->price);
+        // printf("3\n");
         free(tempNode);
-        printf("4\n");
+        // printf("4\n");
 
     }
     else
@@ -168,15 +184,15 @@ void *treeFindNode(Tree *theTree, void *data)
 
         while(tempSearch != NULL)
         {
-            if(strcmp(data, tempSearch->data) > 0)
+            if(strcmp(data, tempSearch->proID) > 0)
             {
                 tempSearch = tempSearch->right;
             }
-            else if(strcmp(data, tempSearch->data) < 0)
+            else if(strcmp(data, tempSearch->proID) < 0)
             {
                 tempSearch = tempSearch->left;
             }
-            else if(strcmp(data, tempSearch->data) == 0)
+            else if(strcmp(data, tempSearch->proID) == 0)
             {
                 return tempSearch;
             }

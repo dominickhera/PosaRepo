@@ -5,7 +5,9 @@ int main(int argc, char ** argv)
 {
 
     FILE * fp;
-    char * items[6];
+    char * items[7];
+    char line[500];
+    int titleCheck = 0;
 
     fp = fopen(argv[1], "r");
 
@@ -24,11 +26,13 @@ int main(int argc, char ** argv)
 
         if(line[strlen(line) - 1] == '\n')
         {
-            line[strlent(line) - 1] = '\0';
+            line[strlen(line) - 1] = '\0';
         }
 
         word = strtok(line, ",");
 
+        if(titleCheck > 0)
+        {
         items[index++] = word;
 
         while((word = strtok(NULL, ",")) != NULL)
@@ -36,8 +40,15 @@ int main(int argc, char ** argv)
             items[index++] = word;
         }
 
-        treeInsertNode(tree, items[0],items[1],items[2],items[3],items[4],items[5], items[6]);
 
+        word = strtok(items[5], "$");
+        printf("%s %s %s %s %s %s %s\n", items[0], items[1],items[2],items[3],items[4],word, items[6]);
+        // treeInsertNode(tree, items[0],items[1],items[2],items[3],items[4],items[5], items[6]);
+        }
+        else
+        {
+            titleCheck++;
+        }
 
     }
 
