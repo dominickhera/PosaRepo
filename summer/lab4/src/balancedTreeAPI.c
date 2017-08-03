@@ -61,7 +61,7 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
     if(theTree != NULL)
     {
 
-        TreeNode *tempNode = createBalancedBinNode(toBeInserted);;
+        TreeNode *tempNode = createBalancedBinNode(toBeInserted);
         TreeNode *next = NULL;
         TreeNode *end = NULL;
 

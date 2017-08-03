@@ -37,6 +37,7 @@ struct BalancedBinTreeNode{
     
     //Add additional structure elements here
     int height;
+    int quantity;
 };
 
 //add function prototypes as necessary

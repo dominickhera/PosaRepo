@@ -5,6 +5,7 @@ int main(int argc, char ** argv)
 {
 
     FILE * fp;
+    char * items[6];
 
     fp = fopen(argv[1], "r");
 
@@ -13,15 +14,33 @@ int main(int argc, char ** argv)
         printf("could not find file\n");
         return 0;
     }
-    
-    // char * data[] = {"5", "3", "6", "12", "2", "20", "11"};
 
-    // Tree *tree = createBalancedBinTree(compareFunction, &free, &copyFunction);
+    Tree *tree = createBalancedBinTree(compareFunction, &free, &copyFunction);
 
-    // for(int i = 0; i < (sizeof(data)/sizeof(data[0])); i++)
-    // {
-    //     treeInsertNode(tree, data[i]);
-    // }
+    while(fgets(line, sizeof(line), fp) != NULL)
+    {
+        int index = 0;
+        char * word;
+
+        if(line[strlen(line) - 1] == '\n')
+        {
+            line[strlent(line) - 1] = '\0';
+        }
+
+        word = strtok(line, ",");
+
+        items[index++] = word;
+
+        while((word = strtok(NULL, ",")) != NULL)
+        {
+            items[index++] = word;
+        }
+
+        treeInsertNode(tree, items[0],items[1],items[2],items[3],items[4],items[5], items[6]);
+
+
+    }
+
     // printf("\n\n");
     // treePreOrderPrint(tree, &printData);
     // printf("\n");

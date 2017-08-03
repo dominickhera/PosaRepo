@@ -69,8 +69,7 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
         }
         else
         {
-            if(treeFindNode(theTree, toBeInserted) == NULL)
-            {
+            
                 next = theTree->root;
                 while(next != NULL)
                 {
@@ -82,6 +81,11 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
                     else if(strcmp(toBeInserted, next->data) < 0)
                     {
                         next = next->left;
+                    }
+                    else if(strcmp(toBeInserted, next->data) == 0)
+                    {
+                        next->quantity++;
+                        return;
                     }		
                 }
 
@@ -93,13 +97,13 @@ void treeInsertNode(Tree *theTree, void *toBeInserted)
                 {
                     end->left = tempNode;
                 }
+                else if(strcmp(toBeInserted, end->data) == 0)
+                {
+                    end->quantity++;
+                    return;
+                }
 
                 balanceTree(theTree);
-            }
-            else
-            {
-                printf("node already exists...\n");
-            }
         }
     }
     else
