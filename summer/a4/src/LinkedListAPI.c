@@ -19,10 +19,11 @@ List *initializeList(void (*printFunction)(void *tobePrinted),void (*deleteFunct
     return temp;
 }
 
-CustomerNode *initializeNode(void *data)
+CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType)
 {
 
     CustomerNode * temp = malloc(sizeof(CustomerNode));
+    temp->data = malloc(sizeof(temp->data));
 
     if(temp == NULL)
     {
@@ -31,59 +32,37 @@ CustomerNode *initializeNode(void *data)
 
     temp->next = NULL;
     temp->previous = NULL;
-    temp->data = data;
+    // temp->data = data;
+    strcpy(temp->data, data);
+    temp->quantity = quantity;
+    temp->taxType = taxType;
 
     return temp;
 
 }
 
-void insertFront(List *list, void *toBeAdded)
+void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType)
 {
-    CustomerNode * tempNode;
+    CustomerNode * tempNode = initializeNode(toBeAdded, quantity, taxType);
     tempNode = list->head;
     
     if(tempNode == NULL)
     {
-        tempNode = malloc(sizeof(CustomerNode));
-        tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
-        tempNode->next = NULL;  
+        // tempNode = malloc(sizeof(CustomerNode));
+        // tempNode->previous = NULL;
+        // tempNode->data = toBeAdded;
+        // tempNode->next = NULL;  
         list->head = tempNode;
         list->tail = tempNode;
     }
     else
     {
-        tempNode = malloc(sizeof(CustomerNode));
-        tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
+        // tempNode = malloc(sizeof(CustomerNode));
+        // tempNode->previous = NULL;
+        // tempNode->data = toBeAdded;
         tempNode->next = list->head;
         list->head = tempNode;
     }
-}
-
-void insertBack(List *list, void *toBeAdded)
-{
-    CustomerNode * tempNode = NULL;
-    tempNode = (CustomerNode*)malloc(sizeof(Node));
-    tempNode = list->head;
-    if(tempNode!= NULL)
-    {
-        tempNode = malloc(sizeof(CustomerNode));
-        tempNode->previous = list->tail;
-        tempNode->next = NULL;
-        tempNode->data = toBeAdded;
-        list->tail = tempNode; 
-    }
-    else
-    {
-        tempNode = malloc(sizeof(CustomerNode));
-        tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
-        tempNode->next = NULL;
-        list->head = tempNode;
-        list->tail = tempNode;
-    }
-
 }
 
 
@@ -107,34 +86,8 @@ void deleteList(List *list)
     } 
 }
 
-void insertSorted(List *list, void *toBeAdded)
-{
-    List * temp;
-    temp = list;
 
-    CustomerNode * tempNode;
-    tempNode = list->head;
-    if(tempNode == NULL)
-    {
-        tempNode = malloc(sizeof(CustomerNode));
-        tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
-        tempNode->next = NULL;  
-        list->head = tempNode;
-        list->tail = tempNode;
-    }
-    else
-    {
-        tempNode = malloc(sizeof(CustomerNode));
-        tempNode->previous = NULL;
-        tempNode->data = toBeAdded;
-        tempNode->next = list->head;
-        list->head = tempNode;
-    }
-
-}
-
-int deleteDataFromList(List *list, void *toBeDeleted)
+int deleteDataFromList(List *list, void *toBeDeleted, int quantity, TAX_TYPE taxType)
 {
 
     List * temp;
@@ -182,19 +135,6 @@ void *getFromFront(List *list)
 
 }
 
-void *getFromBack(List *list)
-{
-
-    List * temp;
-    temp = list;
-
-    CustomerNode * tempNode;
-    tempNode = temp->tail;
-
-
-    return tempNode->data;
-}
-
 void printForward(List *list)
 {
 
@@ -210,24 +150,6 @@ void printForward(List *list)
         tempNode = tempNode->next;
         tempNode->previous = tempNode;
     }
-}
-
-void printBackwards(List *list)
-{
-
-    List * temp;
-    temp = list;
-
-    CustomerNode * tempNode = NULL;
-    tempNode = list->tail;
-
-    while(tempNode != NULL)
-    {
-        temp->printData(tempNode->data);
-        tempNode = tempNode->previous;
-        tempNode->next = tempNode->previous;
-    }
-
 }
 
 

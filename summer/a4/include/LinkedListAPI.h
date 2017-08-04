@@ -8,6 +8,10 @@
 #ifndef _LIST_API_
 #define _LIST_API_
 
+#define TAXABLE 1
+#define NONTAXABLE 0
+#define TAX_TYPE unsigned char
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "tree.h"
@@ -21,6 +25,8 @@ of it, as well as the node immediately behind it.
 **/
 typedef struct listNode{
     void *data;
+    int quantity;
+    TAX_TYPE taxType;
     struct listNode *previous;
     struct listNode *next;
 } CustomerNode;
@@ -52,21 +58,15 @@ other notes in a list.
 *@return On success returns a node that can be added to a linked list. On failure, returns NULL.
 *@param data - is a generic pointer to any data type.
 **/
-CustomerNode *initializeNode(void *data);
+CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType);
 
 /**Inserts a Node to the front of a linked list. The list then updates accordingly to adhere to the ADT.
 *@pre 'List' type must exist and be used in order to keep track of the linked list.
 *@param list pointer to the dummy head of the list
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
-void insertFront(List *list, void *toBeAdded);
+void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType);
 
-/**Inserts a Node to the back of a linked list. The list then updates accordingly to adhere to the ADT.
-*@pre 'List' type must exist and be used in order to keep track of the linked list.
-*@param list pointer to the dummy head of the list
-*@param toBeAdded a pointer to data that is to be added to the linked list
-**/
-void insertBack(List *list, void *toBeAdded);
 
 /** Deletes the entire linked list head to tail, starting with the nodes, followed by the list itself.
 *@pre 'List' type must exist and be used in order to keep track of the linked list.
@@ -92,7 +92,7 @@ void insertSorted(List *list, void *toBeAdded);
  *@param toBeDeleted pointer to data that is to be removed from the list
  *@return returns EXIT_SUCCESS on success, and EXIT_FAILURE when empty. Returns -1 when the node cannot be found.
  **/
-int deleteDataFromList(List *list, void *toBeDeleted);
+int deleteDataFromList(List *list, void *toBeDeleted, int quantity, TAX_TYPE taxType);
 
 /**Function to return the data at the front of the list.
  *@pre The list exists and has memory allocated to it
@@ -101,31 +101,12 @@ int deleteDataFromList(List *list, void *toBeDeleted);
  **/
 void *getFromFront(List *list);
 
-/**Function to return the data at the back of the list.
- *@pre The list exists and has memory allocated to it
- *@param list pointer to the dummy head of the list containing the tail of the list
- *@return pointer to the data located at the tail of the list
- **/
-void *getFromBack(List *list);
 
 /**Function to print list from head to tail. This will utilize the list's printData function pointer to print.
  *@pre List must exist, but does not have to have elements.
  *@param list Pointer to linked list dummy head.
  **/
 void printForward(List *list);
-
-/**Function to print list from tail to head. This will utilize the list's printData function pointer to print.
- *@pre List must exist, but does not have to have elements.
- *@param list Pointer to linked list dummy head.
- **/
-void printBackwards(List *list);
-
-
-
-
-
-
-
 
 
 #endif

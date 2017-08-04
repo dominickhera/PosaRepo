@@ -12,6 +12,7 @@ int main(int argc, char ** argv)
     // char tempString[256];
     int titleCheck = 0;
     int userChoice = 0;
+    int addToBasketCheck = 0;
 
     fp = fopen(argv[1], "r");
 
@@ -21,8 +22,8 @@ int main(int argc, char ** argv)
         return 0;
     }
 
-    Tree *tree = createBalancedBinTree(compareFunction, &free, &copyFunction);
-    HTable * hashTable = createHashTable(50000, &hashData, &free, &printData);
+    Tree * tree = createBalancedBinTree(compareFunction, &free, &copyFunction);
+    HTable * hashTable = createHashTable(5000, &hashData, &free, &printData);
     List * customerInvoice = initializeList(&printData, &free, &compareFunction);
 
     while(fgets(line, sizeof(line), fp) != NULL)
@@ -46,8 +47,6 @@ int main(int argc, char ** argv)
                 items[index++] = word;
             }
 
-            // insertData(hashTable, items[0], items[1]);
-
             word = strtok(items[5], "$");
 
             if(items[0] != NULL)
@@ -65,7 +64,7 @@ int main(int argc, char ** argv)
 
                 insertData(hashTable, items[0], items[1]);
                 // printf("%s\n%s\n\n\n", items[0], items[1]);
-                
+
             }
         }
         else
@@ -97,6 +96,37 @@ int main(int argc, char ** argv)
                 {
                     printf("\n\nFound: %s,Product ID: %s, Publisher: %s, Price: $%s, Genre: %s, Amount in Stock: %d\n", (char *)tempNode->prodName, (char *)tempNode->proID, (char *)tempNode->publisher, (char *)tempNode->price, (char *)tempNode->genre, tempNode->quantity);
 
+                    while(addToBasketCheck != 1 || addToBasketCheck != 2)
+                    {
+                        printf("would you like to add this to your cart? (1) yes, (2) no\n");
+                        scanf("%d", &addToBasketCheck);
+                        if(addToBasketCheck == 1 || addToBasketCheck == 2)
+                        {
+                            break;
+                        }
+
+                        printf("please enter either 1 or 2\n");
+                    }
+
+                    if(addToBasketCheck == 1)
+                    {
+                        printf("how many copies would you like to add? (Amount in Stock: %d): ", tempNode->quantity);
+                        scanf("%d", amountCheck);
+
+                        insertFront(customerInvoice, tempNode->prodName, tempNode->quantity, tempNode->taxType);
+
+                        tempNode->quantity--;
+                        if(tempNode->quantity <= 0)
+                        {
+                            treeDeleteNode(tree, tempNode->proID, tempNode->prodName, tempNode->publisher, tempNode->genre, tempNode->taxType, tempNode->price, tempNode->quantity);
+                        }
+
+                        addToBasketCheck = 0;
+                    }
+                    else if(addToBasketCheck == 2)
+                    {
+                        addToBasketCheck = 0;
+                    }
 
                 }
                 else
@@ -119,13 +149,30 @@ int main(int argc, char ** argv)
 
                     if(tempNode != NULL)
                     {
-                       printf("\nFound: %s, Publisher: %s, Price: $%s, Genre: %s, Amount in Stock: %d\n", (char *)tempNode->prodName, (char *)tempNode->publisher, (char *)tempNode->price, (char *)tempNode->genre, tempNode->quantity);
+                        printf("\nFound: %s, Publisher: %s, Price: $%s, Genre: %s, Amount in Stock: %d\n", (char *)tempNode->prodName, (char *)tempNode->publisher, (char *)tempNode->price, (char *)tempNode->genre, tempNode->quantity);
 
-                     }
-                        else
-                {
-                    printf("could not find %s in our system...\n", tempString);
-                }
+                        if(addToBasketCheck == 1)
+                        {
+
+                            insertFront(customerInvoice, tempNode->prodName, tempNode->quantity, tempNode->taxType);
+                            tempNode->quantity--;
+
+                            if(tempNode->quantity <= 0)
+                            {
+                                treeDeleteNode(tree, tempNode->proID, tempNode->prodName, tempNode->publisher, tempNode->genre, tempNode->taxType, tempNode->price, tempNode->quantity);
+                            }
+
+                            addToBasketCheck = 0;
+                        }
+                        else if(addToBasketCheck == 2)
+                        {
+                            addToBasketCheck = 0;
+                        }
+                    }
+                    else
+                    {
+                        printf("could not find %s in our system...\n", tempString);
+                    }
                 }
                 else
                 {

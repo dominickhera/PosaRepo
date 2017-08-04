@@ -10,7 +10,7 @@ dhera@mail.uoguelph.ca
 to run
 ======
 
-./bin/run
+./bin/run ./assets/games.csv
 
 ==========
 to compile
