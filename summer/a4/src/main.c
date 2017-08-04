@@ -13,6 +13,7 @@ int main(int argc, char ** argv)
     int titleCheck = 0;
     int userChoice = 0;
     int addToBasketCheck = 0;
+    int amountCheck = 0;
 
     fp = fopen(argv[1], "r");
 
@@ -110,15 +111,28 @@ int main(int argc, char ** argv)
 
                     if(addToBasketCheck == 1)
                     {
-                        printf("how many copies would you like to add? (Amount in Stock: %d): ", tempNode->quantity);
-                        scanf("%d", amountCheck);
+                        amountCheck = tempNode->quantity + 1;
+                        while(amountCheck >= tempNode->quantity)
+                        {
 
-                        insertFront(customerInvoice, tempNode->prodName, tempNode->quantity, tempNode->taxType);
+                            printf("how many copies would you like to add? (Amount in Stock: %d): ", tempNode->quantity);
+                            scanf("%d", &amountCheck);
+                            if(amountCheck <= tempNode->quantity)
+                            {
+                                break;
+                            }
+                            printf("There are only %d copies in stock, you can't buy that many.\n", tempNode->quantity);
 
-                        tempNode->quantity--;
+                        }
+                        // printf("hi\n");
+
+                        insertFront(customerInvoice, tempNode->prodName, amountCheck, tempNode->taxType);
+
+                        tempNode->quantity = tempNode->quantity - amountCheck;
                         if(tempNode->quantity <= 0)
                         {
                             treeDeleteNode(tree, tempNode->proID, tempNode->prodName, tempNode->publisher, tempNode->genre, tempNode->taxType, tempNode->price, tempNode->quantity);
+                            removeData(hashTable, tempNode->prodName);
                         }
 
                         addToBasketCheck = 0;
@@ -127,6 +141,7 @@ int main(int argc, char ** argv)
                     {
                         addToBasketCheck = 0;
                     }
+                    amountCheck = 0;
 
                 }
                 else
@@ -135,7 +150,7 @@ int main(int argc, char ** argv)
                 }
                 break;
             case 2:
-                printf("enter name of product you're searching for: ");
+                printf("enter product ID of product you're adding: ");
                 fgets(tempString, 100, stdin);
 
                 if(tempString[strlen(tempString) - 1] == '\n')
@@ -145,21 +160,47 @@ int main(int argc, char ** argv)
 
                 if(lookupData(hashTable, tempString) != NULL)
                 {
-                    TreeNode * tempNode = treeFindNode(tree, (char *)lookupData(hashTable, tempString));
+
+                    TreeNode * tempNode = treeFindNode(tree, lookupData(hashTable, tempString));
 
                     if(tempNode != NULL)
                     {
+                        
                         printf("\nFound: %s, Publisher: %s, Price: $%s, Genre: %s, Amount in Stock: %d\n", (char *)tempNode->prodName, (char *)tempNode->publisher, (char *)tempNode->price, (char *)tempNode->genre, tempNode->quantity);
+
+
+                         while(addToBasketCheck != 1 || addToBasketCheck != 2)
+                    {
+                        printf("would you like to add this to your cart? (1) yes, (2) no\n");
+                        scanf("%d", &addToBasketCheck);
+                        if(addToBasketCheck == 1 || addToBasketCheck == 2)
+                        {
+                            break;
+                        }
+
+                        printf("please enter either 1 or 2\n");
+                    }
 
                         if(addToBasketCheck == 1)
                         {
 
+                            amountCheck = tempNode->quantity + 1;
+                            while(amountCheck >= tempNode->quantity)
+                            {
+                                printf("how many copies would you like to add? (Amount in Stock: %d): ", tempNode->quantity);
+                                scanf("%d", &amountCheck);
+                                if(amountCheck <= tempNode->quantity)
+                                {
+                                    break;
+                                }
+                                printf("There are only %d copies in stock, you can't buy that many.\n", tempNode->quantity);
+                            }
                             insertFront(customerInvoice, tempNode->prodName, tempNode->quantity, tempNode->taxType);
-                            tempNode->quantity--;
-
+                            tempNode->quantity = tempNode->quantity - amountCheck;
                             if(tempNode->quantity <= 0)
                             {
                                 treeDeleteNode(tree, tempNode->proID, tempNode->prodName, tempNode->publisher, tempNode->genre, tempNode->taxType, tempNode->price, tempNode->quantity);
+                                removeData(hashTable, tempNode->prodName);
                             }
 
                             addToBasketCheck = 0;
@@ -168,6 +209,7 @@ int main(int argc, char ** argv)
                         {
                             addToBasketCheck = 0;
                         }
+                        amountCheck = 0;
                     }
                     else
                     {
@@ -188,6 +230,8 @@ int main(int argc, char ** argv)
                 printf("\n");
                 break;
             case 5:
+                // printf("hi\n");
+                printForward(customerInvoice);
                 break;
             case 6:
                 treeInOrderPrint(tree, &printData);

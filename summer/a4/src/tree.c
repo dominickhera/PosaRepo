@@ -152,7 +152,6 @@ TreeNode * rightLeftRotation(TreeNode * node)
     node->right = rightRotation(node->right);
 
     return leftRotation(node);
-
 }
 
 
@@ -197,7 +196,7 @@ int hashData(size_t hashSize, char * dataKey)
     }
 
 
-    printf("%lu\n", tempKey % hashSize);
+    // printf("%lu\n", tempKey % hashSize);
     return tempKey % hashSize;
 }
 

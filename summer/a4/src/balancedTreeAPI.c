@@ -126,7 +126,7 @@ void treeInsertNode(Tree *theTree, void *proID, void *prodName, void *publisher,
 
 void treeDeleteNode(Tree *theTree, void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType, void *price, int quantity)
 {
-    TreeNode *tempNode = treeFindNode(theTree, proID);
+    TreeNode *tempNode = treeFindNode(theTree, prodName);
     // printf("1\n");
     if(tempNode != NULL)
     {

@@ -23,7 +23,7 @@ CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType)
 {
 
     CustomerNode * temp = malloc(sizeof(CustomerNode));
-    temp->data = malloc(sizeof(temp->data));
+    temp->data = malloc(sizeof(data)*100);
 
     if(temp == NULL)
     {
@@ -36,6 +36,7 @@ CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType)
     strcpy(temp->data, data);
     temp->quantity = quantity;
     temp->taxType = taxType;
+    // temp->taxType = taxType;
 
     return temp;
 
@@ -44,9 +45,9 @@ CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType)
 void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType)
 {
     CustomerNode * tempNode = initializeNode(toBeAdded, quantity, taxType);
-    tempNode = list->head;
+    // tempNode = list->head;
     
-    if(tempNode == NULL)
+    if(list->head == NULL)
     {
         // tempNode = malloc(sizeof(CustomerNode));
         // tempNode->previous = NULL;
@@ -63,6 +64,8 @@ void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType)
         tempNode->next = list->head;
         list->head = tempNode;
     }
+
+    printf("Title: %s, quantity: %d, taxType: %c\n", (char *)tempNode->data, tempNode->quantity, tempNode->taxType);
 }
 
 
@@ -146,7 +149,8 @@ void printForward(List *list)
 
     while(tempNode != NULL)
     {
-        temp->printData(tempNode->data);
+        printf("%s\n", tempNode->data);
+        // temp->printData(tempNode->data);
         tempNode = tempNode->next;
         tempNode->previous = tempNode;
     }

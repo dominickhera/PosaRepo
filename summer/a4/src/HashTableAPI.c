@@ -31,8 +31,8 @@ Node *createHashNode(char * key, void *data)
 {
 
     Node * temp = malloc(sizeof(Node));
-    temp->key = malloc(sizeof(key)*2);
-    temp->data = malloc(sizeof(data)*2);
+    temp->key = malloc(sizeof(key)*256);
+    temp->data = malloc(sizeof(data)*256);
 
     if(temp == NULL)
     {
@@ -128,7 +128,7 @@ void *lookupData(HTable *hashTable, char * key)
         if(strcmp(temp->key, key) == 0)
         {
             return temp->data;
-            break;
+            // break;
         }
 
         temp = temp->next;
