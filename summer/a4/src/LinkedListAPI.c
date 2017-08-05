@@ -44,26 +44,33 @@ CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType)
 
 void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType)
 {
-    CustomerNode * tempNode = initializeNode(toBeAdded, quantity, taxType);
-    // tempNode = list->head;
-    
+    CustomerNode * tempNode = NULL;
+    CustomerNode * duplicateNode = list->head;
+    int duplicateFlag = 0;
+
     if(list->head == NULL)
     {
-        // tempNode = malloc(sizeof(CustomerNode));
-        // tempNode->previous = NULL;
-        // tempNode->data = toBeAdded;
-        // tempNode->next = NULL;  
+        tempNode = initializeNode(toBeAdded, quantity, taxType);
         list->head = tempNode;
-        // list->tail = tempNode;
     }
     else
     {
-        // tempNode = malloc(sizeof(CustomerNode));
-        // tempNode->previous = NULL;
-        // tempNode->data = toBeAdded;
-        // list->previous = tempNode;
-        tempNode->next = list->head;
-        list->head = tempNode;
+        while(duplicateNode != NULL)
+        {
+            if(strcmp(duplicateNode->data, toBeAdded) == 0)
+            {
+                duplicateNode->quantity = duplicateNode->quantity + quantity;
+                duplicateFlag++;
+            }
+            duplicateNode = duplicateNode->next;   
+        }
+
+        if(duplicateFlag == 0)
+        {
+            tempNode = initializeNode(toBeAdded, quantity, taxType);
+            tempNode->next = list->head;
+            list->head = tempNode;
+        }
     }
 
     // printf("Title: %s, quantity: %d, taxType: %u\n", (char *)tempNode->data, tempNode->quantity, (unsigned)tempNode->taxType);
@@ -178,19 +185,41 @@ void *getFromFront(List *list)
 void printForward(List *list)
 {
 
-    List * temp;
-    temp = list;
+    // List * temp;
+    // temp = list;
 
     CustomerNode * tempNode;
     tempNode = list->head;
 
+    printf("Customer Invoice\n=================\n\nTaxable Items\n=============\n");
+
     while(tempNode != NULL)
     {
-        printf("%s, Quantity: %d\n", tempNode->data, tempNode->quantity);
+        if(tempNode->taxType == 0)
+        {
+            printf("%s, Quantity: %d\n", tempNode->data, tempNode->quantity);
+        }
         // temp->printData(tempNode->data);
         tempNode = tempNode->next;
         // tempNode->previous = tempNode;
     }
+
+    tempNode = list->head;
+
+    printf("\n\nNon-Taxable Items\n================\n");
+
+    while(tempNode != NULL)
+    {
+        if(tempNode->taxType == 1)
+        {
+            printf("%s, Quantity: %d\n", tempNode->data, tempNode->quantity);
+        }
+        // temp->printData(tempNode->data);
+        tempNode = tempNode->next;
+        // tempNode->previous = tempNode;
+    }
+
+
 }
 
 
