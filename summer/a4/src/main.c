@@ -84,7 +84,7 @@ int main(int argc, char ** argv)
         switch(userChoice)
         {
             case 1:
-                printf("enter name of product you're searching for: ");
+                printf("\n\nenter name of product you're searching for: ");
                 fgets(tempString, 100, stdin);
 
                 if(tempString[strlen(tempString) - 1] == '\n')
@@ -150,7 +150,7 @@ int main(int argc, char ** argv)
                 }
                 break;
             case 2:
-                printf("enter product ID of product you're adding: ");
+                printf("\n\nenter product ID of product you're adding: ");
                 fgets(tempString, 100, stdin);
 
                 if(tempString[strlen(tempString) - 1] == '\n')
@@ -226,14 +226,17 @@ int main(int argc, char ** argv)
             case 3:
                 break;
             case 4:
+                printf("\n\n");
                 stockCheck(tree->root);
                 printf("\n");
                 break;
             case 5:
-                // printf("hi\n");
+                printf("\n\n");
                 printForward(customerInvoice);
+                printf("\n\n");
                 break;
             case 6:
+                printf("\n\n");
                 treeInOrderPrint(tree, &printData);
                 break;
             case 7:

@@ -54,18 +54,19 @@ void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType)
         // tempNode->data = toBeAdded;
         // tempNode->next = NULL;  
         list->head = tempNode;
-        list->tail = tempNode;
+        // list->tail = tempNode;
     }
     else
     {
         // tempNode = malloc(sizeof(CustomerNode));
         // tempNode->previous = NULL;
         // tempNode->data = toBeAdded;
+        // list->previous = tempNode;
         tempNode->next = list->head;
         list->head = tempNode;
     }
 
-    printf("Title: %s, quantity: %d, taxType: %c\n", (char *)tempNode->data, tempNode->quantity, tempNode->taxType);
+    // printf("Title: %s, quantity: %d, taxType: %u\n", (char *)tempNode->data, tempNode->quantity, (unsigned)tempNode->taxType);
 }
 
 
@@ -99,23 +100,59 @@ int deleteDataFromList(List *list, void *toBeDeleted, int quantity, TAX_TYPE tax
     CustomerNode * tempNode;
     tempNode = list->head;
 
-    while(tempNode->next != NULL)
-    {
-        if(tempNode->data == toBeDeleted)
-        {
-            if(tempNode->next != NULL)
-            {
-                tempNode->next->previous = tempNode->previous;
-            } 
+    // while(tempNode->next != NULL)
+    // {
+    //     if(tempNode->data == toBeDeleted)
+    //     {
+    //         if(tempNode->next != NULL)
+    //         {
+    //             tempNode->next->previous = tempNode->previous;
+    //         } 
 
-            if(tempNode->previous != NULL)
-            {
-                tempNode->previous->next = tempNode->next;
-            }
-            free(tempNode);
+    //         if(tempNode->previous != NULL)
+    //         {
+    //             tempNode->previous->next = tempNode->next;
+    //         }
+    //         free(tempNode);
+    //     }
+    //     tempNode = tempNode->next;
+    // }
+
+    while(strcmp(tempNode->data, toBeDeleted) != 0)
+    {
+        if(tempNode->next == NULL)
+        {
+            return 0;
         }
-        tempNode = tempNode->next;
+        else
+        {
+            tempNode->previous = tempNode;
+            tempNode = tempNode->next;
+        }
     }
+
+    if(tempNode == temp->head)
+    {
+        temp->head = tempNode->next;
+    }
+    else
+    {
+        tempNode->previous->next = tempNode->next;
+    }
+
+    if(tempNode == temp->tail)
+    {
+        temp->tail = tempNode->previous;
+    }
+    else
+    {
+        tempNode->next->previous = tempNode->previous;
+    }
+
+    free(tempNode->data);
+    free(&tempNode->quantity);
+    free(&tempNode->taxType);
+    free(tempNode);
 
     return 0;
 }
@@ -149,10 +186,10 @@ void printForward(List *list)
 
     while(tempNode != NULL)
     {
-        printf("%s\n", tempNode->data);
+        printf("%s, Quantity: %d\n", tempNode->data, tempNode->quantity);
         // temp->printData(tempNode->data);
         tempNode = tempNode->next;
-        tempNode->previous = tempNode;
+        // tempNode->previous = tempNode;
     }
 }
 
