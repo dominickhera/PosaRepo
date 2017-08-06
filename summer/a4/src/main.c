@@ -29,7 +29,7 @@ int main(int argc, char ** argv)
 
     while(fgets(line, sizeof(line), fp) != NULL)
     {
-        int index = 0;
+        // int index = 0;
         char * word;
 
         if(line[strlen(line) - 1] == '\n')
@@ -41,6 +41,7 @@ int main(int argc, char ** argv)
 
         if(titleCheck > 0)
         {
+            int index = 0;
             items[index++] = word;
 
             while((word = strtok(NULL, ",")) != NULL)
@@ -75,11 +76,13 @@ int main(int argc, char ** argv)
 
     }
 
+    fclose(fp);
+
     stockCheck(tree->root);
     printf("\n\n");
-    while(userChoice != 8)
+    while(userChoice != 7)
     {
-        printf("1.search for product\n2.add item to customer invoice using product number to identify the item, adjust the inventory as neccessary, user may purchase multiples\n3. remove product from inventory(removes all copies)\n4. print report to screen that gives quantity, alphabettically by product name with one item per line of the report\n5.print report of customers invoice, show taxable items in a seperate list from non taxable items\n6.edit invoice\n7.inorder print\n8.exit\n\n");
+        printf("1.search for product\n2.add item to customer invoice using product number to identify the item, adjust the inventory as neccessary, user may purchase multiples\n3. remove product from inventory(removes all copies)\n4. print report to screen that gives quantity, alphabettically by product name with one item per line of the report\n5.print report of customers invoice, show taxable items in a seperate list from non taxable items\n6.edit invoice\n7.exit\n\n");
         scanf("%d", &userChoice);
         char tempString[256];
         getchar();
@@ -128,7 +131,7 @@ int main(int argc, char ** argv)
                         }
                         // printf("hi\n");
 
-                        insertFront(customerInvoice, tempNode->prodName, amountCheck, tempNode->taxType, tempNode->price);
+                        insertFront(customerInvoice, tempNode->proID, tempNode->prodName, tempNode->publisher, tempNode->genre, tempNode->taxType, tempNode->price, amountCheck);
 
                         tempNode->quantity = tempNode->quantity - amountCheck;
                         if(tempNode->quantity <= 0)
@@ -167,21 +170,21 @@ int main(int argc, char ** argv)
 
                     if(tempNode != NULL)
                     {
-                        
+
                         printf("\nFound: %s, Publisher: %s, Price: $%s, Genre: %s, Amount in Stock: %d\n\n", (char *)tempNode->prodName, (char *)tempNode->publisher, (char *)tempNode->price, (char *)tempNode->genre, tempNode->quantity);
 
 
-                         while(addToBasketCheck != 1 || addToBasketCheck != 2)
-                    {
-                        printf("would you like to add this to your cart? (1) yes, (2) no\n");
-                        scanf("%d", &addToBasketCheck);
-                        if(addToBasketCheck == 1 || addToBasketCheck == 2)
+                        while(addToBasketCheck != 1 || addToBasketCheck != 2)
                         {
-                            break;
-                        }
+                            printf("would you like to add this to your cart? (1) yes, (2) no\n");
+                            scanf("%d", &addToBasketCheck);
+                            if(addToBasketCheck == 1 || addToBasketCheck == 2)
+                            {
+                                break;
+                            }
 
-                        printf("please enter either 1 or 2\n");
-                    }
+                            printf("please enter either 1 or 2\n");
+                        }
 
                         if(addToBasketCheck == 1)
                         {
@@ -197,7 +200,8 @@ int main(int argc, char ** argv)
                                 }
                                 printf("There are only %d copies in stock, you can't buy that many.\n", tempNode->quantity);
                             }
-                            insertFront(customerInvoice, tempNode->prodName, tempNode->quantity, tempNode->taxType, tempNode->price);
+                            // insertFront(customerInvoice, tempNode->prodName, tempNode->quantity, tempNode->taxType, tempNode->price);
+                            insertFront(customerInvoice, tempNode->proID, tempNode->prodName, tempNode->publisher, tempNode->genre, tempNode->taxType, tempNode->price, amountCheck);
                             tempNode->quantity = tempNode->quantity - amountCheck;
                             if(tempNode->quantity <= 0)
                             {
@@ -243,19 +247,176 @@ int main(int argc, char ** argv)
                 break;
             case 5:
                 printf("\n\n");
-                printForward(customerInvoice);
+                printInvoice(customerInvoice);
                 printf("\n\n");
                 break;
             case 6:
                 printf("\n\n");
+                printForward(customerInvoice);
+                printf("\n\nenter name of product to edit/delete: ");
+                fgets(tempString, 100, stdin);
+
+                if(tempString[strlen(tempString) - 1] == '\n')
+                {
+                    tempString[strlen(tempString) - 1] = '\0';
+                }
+
+                CustomerNode * tempCustomerNode = findItem(customerInvoice, tempString);
+                TreeNode * tempPutBackNode = treeFindNode(tree, tempString);
+
+                if(tempCustomerNode != NULL)
+                {
+                    int editInt = 0;
+                    int addDeleteChoice = 0;
+                    while(editInt != 1 || editInt != 2 || editInt != 3)
+                    {
+                        printf("do you want to delete %s or edit the amount of copies (%d in Invoice)?\n (edit 1/ delete 2/ return to main menu 3): ", (char *)tempCustomerNode->prodName, tempNode->quantity);
+                        scanf("%d", &editInt);
+                        if(editInt == 1|| editInt == 2 || editInt == 3)
+                        {
+                            break;
+                        }
+                        printf("please enter a number between 1 - 3\n");
+                    }
+
+                    if(editInt == 1)
+                    {
+                        // printf("1hole\n");
+
+                        amountCheck = tempCustomerNode->quantity + 1;
+
+                        if(tempPutBackNode == NULL)
+                        {
+                            while(amountCheck > tempCustomerNode->quantity)
+                            {
+                                printf("How many would you like to remove from your invoice? (Amount in Invoice: %d)/(Amount in Stock: 0): ", tempCustomerNode->quantity);
+                                scanf("%d", &amountCheck);
+
+                                if(amountCheck < tempCustomerNode->quantity)
+                                {
+                                    break;
+                                }
+                                printf("There are only %d copies in invoice, you can't remove that many.\n", tempCustomerNode->quantity);
+                            }
+
+                            if(amountCheck == tempCustomerNode->quantity)
+                            {
+                                treeInsertNode(tree, tempCustomerNode->proID, tempCustomerNode->prodName, tempCustomerNode->publisher, tempCustomerNode->genre, tempCustomerNode->taxType, tempCustomerNode->price, tempCustomerNode->quantity);
+                                deleteDataFromList(customerInvoice, tempString);
+                            }
+                            else
+                            {
+                                tempCustomerNode->quantity -= amountCheck;
+                                treeInsertNode(tree, tempCustomerNode->proID, tempCustomerNode->prodName, tempCustomerNode->publisher, tempCustomerNode->genre, tempCustomerNode->taxType, tempCustomerNode->price, amountCheck);
+                            }
+
+                        }
+                        else
+                        {
+                            while(addDeleteChoice != 1 || addDeleteChoice != 2)
+                            {
+                                printf("Would you like to add(1) or remove(2) copies of %s?: ", (char *)tempCustomerNode->prodName);
+                                scanf("%d", &addDeleteChoice);
+                                if(addDeleteChoice == 1 || addDeleteChoice ==2)
+                                {
+                                    break;
+                                }
+                                printf("you can only add(1) or remove(2) copies of %s\n", (char *)tempCustomerNode->prodName);
+
+                            }
+
+                            if(addDeleteChoice == 1)
+                            {
+                                while(amountCheck >= tempPutBackNode->quantity)
+                                {
+
+                                    printf("how many copies would you like to add? (Amount in Invoice: %d)/(Amount in Stock: %d) : ", tempCustomerNode->quantity, tempPutBackNode->quantity);
+                                    scanf("%d", &amountCheck);
+
+
+                                    if(amountCheck <= tempPutBackNode->quantity)
+                                    {
+                                        break;
+                                    }
+                                    printf("There are only %d copies in stock, you can't add that many.\n", tempPutBackNode->quantity);
+                                }
+
+                                if(amountCheck == tempPutBackNode->quantity)
+                                {
+                                    tempCustomerNode->quantity += tempPutBackNode->quantity;
+                                    treeDeleteNode(tree, tempString);
+                                }
+                                else
+                                {
+                                    tempCustomerNode->quantity += amountCheck;
+                                    tempPutBackNode->quantity -= amountCheck;
+                                }
+                            }
+                            else if(addDeleteChoice == 2)
+                            {
+
+                                while(amountCheck > tempCustomerNode->quantity)
+                                {
+
+                                    printf("how many copies would you like to remove? (Amount in Invoice: %d)/(Amount in Stock: %d) : ", tempCustomerNode->quantity, tempPutBackNode->quantity);
+                                    scanf("%d", &amountCheck);
+
+
+                                    if(amountCheck <= tempCustomerNode->quantity)
+                                    {
+                                        break;
+                                    }
+                                    printf("There are only %d copies in invoice, you can't remove that many.\n", tempCustomerNode->quantity);
+                                }
+
+
+                                if(amountCheck == tempCustomerNode->quantity)
+                                {
+                                    tempPutBackNode->quantity += tempCustomerNode->quantity;
+                                    // deleteDataFromList(customerInvoice, tempString);
+                                }
+                                else
+                                {
+
+                                    tempPutBackNode->quantity = tempPutBackNode->quantity + amountCheck;
+                                    // printf("butthole\n");
+                                    tempCustomerNode->quantity = tempCustomerNode->quantity - amountCheck;
+                                }
+
+                            }
+                            addDeleteChoice = 0;
+                            amountCheck = 0;
+                        }
+                    }
+                    else if(editInt == 2)
+                    {
+                        // printf("2hole\n");
+
+                        if(tempPutBackNode != NULL)
+                        {
+                            tempPutBackNode->quantity += tempCustomerNode->quantity;
+                        }
+                        else
+                        {
+                            treeInsertNode(tree, tempCustomerNode->proID, tempCustomerNode->prodName, tempCustomerNode->publisher, tempCustomerNode->genre, tempCustomerNode->taxType, tempCustomerNode->price, tempCustomerNode->quantity);
+                        }
+
+                        deleteDataFromList(customerInvoice, tempString);
+                    }
+                    else if(editInt == 3)
+                    {
+                        // printf("3hole\n");
+                        break;
+                    }
+                }
+                else
+                {
+                    printf("%s does not exist in your invoice....\n\n", tempString);
+                }
+
                 break;
             case 7:
-                printf("\n\n");
-                treeInOrderPrint(tree, &printData);
-                break;
-            case 8:
-                // printf("7\n");
-                userChoice = 8;
+                userChoice = 7;
                 exit(1);
                 break;
             default:

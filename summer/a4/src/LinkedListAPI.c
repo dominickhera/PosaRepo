@@ -2,8 +2,7 @@
 
 List *initializeList(void (*printFunction)(void *tobePrinted),void (*deleteFunction)(void *toBeDeleted),int (*compareFunction)(void *first, void *second))
 {
-    List * temp = NULL;
-    temp = (List*)malloc(sizeof(List));
+    List * temp = (List*)malloc(sizeof(List));
 
     if(temp == NULL)
     {
@@ -19,47 +18,55 @@ List *initializeList(void (*printFunction)(void *tobePrinted),void (*deleteFunct
     return temp;
 }
 
-CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType, void *price)
+CustomerNode *initializeNode(void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType,void *price, int quantity)
 {
 
     CustomerNode * temp = malloc(sizeof(CustomerNode));
-    temp->data = malloc(sizeof(data)*100);
+    temp->proID = malloc(sizeof(proID) * 100);
+    temp->prodName = malloc(sizeof(prodName) * 100);
+    temp->publisher = malloc(sizeof(publisher) * 100);
+    temp->genre = malloc(sizeof(genre) * 100);
     temp->price = malloc(sizeof(price) * 100);
+
 
     if(temp == NULL)
     {
         return NULL;
     }
-
     temp->next = NULL;
     temp->previous = NULL;
-    // temp->data = data;
-    strcpy(temp->data, data);
+    strcpy(temp->proID, proID);
+    strcpy(temp->prodName, prodName);
+    strcpy(temp->publisher, publisher);
+    strcpy(temp->genre, genre);
     strcpy(temp->price, price);
     temp->quantity = quantity;
     temp->taxType = taxType;
-    // temp->taxType = taxType;
+    // temp->left = NULL;
+    // temp->right = NULL;
 
     return temp;
 
 }
 
-void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType, void *price)
+void insertFront(List *list, void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType,void *price, int quantity)
 {
     CustomerNode * tempNode = NULL;
     CustomerNode * duplicateNode = list->head;
-    int duplicateFlag = 0;
+    // int duplicateFlag = 0;
 
     if(list->head == NULL)
     {
-        tempNode = initializeNode(toBeAdded, quantity, taxType, price);
+        tempNode = initializeNode(proID, prodName, publisher, genre, taxType, price, quantity);
         list->head = tempNode;
     }
     else
     {
+        int duplicateFlag = 0;
+
         while(duplicateNode != NULL)
         {
-            if(strcmp(duplicateNode->data, toBeAdded) == 0)
+            if(strcmp(duplicateNode->prodName, prodName) == 0)
             {
                 duplicateNode->quantity = duplicateNode->quantity + quantity;
                 duplicateFlag++;
@@ -69,7 +76,7 @@ void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType, vo
 
         if(duplicateFlag == 0)
         {
-            tempNode = initializeNode(toBeAdded, quantity, taxType, price);
+            tempNode = initializeNode(proID, prodName, publisher, genre, taxType, price, quantity);
             tempNode->next = list->head;
             list->head = tempNode;
         }
@@ -82,9 +89,6 @@ void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType, vo
 void deleteList(List *list)
 {
 
-    List * temp;
-    temp = list;
-
     CustomerNode * tempNode;
     tempNode = list->head;
 
@@ -92,26 +96,61 @@ void deleteList(List *list)
     {
         while(tempNode->next != NULL)
         {
-             tempNode = tempNode->next;
-             free(tempNode);
+            tempNode = tempNode->next;
+            free(tempNode);
         }
         free(list);
     } 
 }
 
 
-int deleteDataFromList(List *list, void *toBeDeleted, int quantity, TAX_TYPE taxType)
+int deleteDataFromList(List *list, void *toBeDeleted)
 {
 
     List * temp;
     temp = list;
 
-    CustomerNode * tempNode;
-    tempNode = list->head;
+    // printf("1\n");
+    CustomerNode * tempNode = findItem(list, toBeDeleted);
+    // printf("2\n");
+    if(tempNode != NULL)
+    {
+        // printf("3\n");
+        if(tempNode == temp->head)
+        { 
+           // printf("4\n");
+            temp->head = tempNode->next;
+        }
+            // printf("5\n");
+        // else
+        // {
+            // tempNode = tempNode->next;
+        // }
 
+        if(tempNode == temp->tail)
+        {
+            // printf("6\n");
+            temp->tail = tempNode->previous;
+        }
+
+        tempNode->previous = tempNode->next;
+        
+        // printf("18\n");
+        free(tempNode);
+        // printf("19\n");
+        // else
+        // {
+            // tempNode = tempNode->previous;
+        // }
+
+    }
+    else
+    {
+        printf("Item does not exist...\n");
+    }
     // while(tempNode->next != NULL)
     // {
-    //     if(tempNode->data == toBeDeleted)
+    //     if(tempNode->prodName == toBeDeleted)
     //     {
     //         if(tempNode->next != NULL)
     //         {
@@ -127,42 +166,45 @@ int deleteDataFromList(List *list, void *toBeDeleted, int quantity, TAX_TYPE tax
     //     tempNode = tempNode->next;
     // }
 
-    while(strcmp(tempNode->data, toBeDeleted) != 0)
-    {
-        if(tempNode->next == NULL)
-        {
-            return 0;
-        }
-        else
-        {
-            tempNode->previous = tempNode;
-            tempNode = tempNode->next;
-        }
-    }
 
-    if(tempNode == temp->head)
-    {
-        temp->head = tempNode->next;
-    }
-    else
-    {
-        tempNode->previous->next = tempNode->next;
-    }
 
-    if(tempNode == temp->tail)
-    {
-        temp->tail = tempNode->previous;
-    }
-    else
-    {
-        tempNode->next->previous = tempNode->previous;
-    }
+    // while(strcmp(tempNode->prodName, toBeDeleted) != 0)
+    // {
+    //     if(tempNode->next == NULL)
+    //     {
+    //         return 0;
+    //     }
+    //     else
+    //     {
+    //         tempNode->previous = tempNode;
+    //         tempNode = tempNode->next;
+    //     }
+    // }
 
-    free(tempNode->data);
-    free(&tempNode->quantity);
-    free(&tempNode->taxType);
-    free(&tempNode->price);
-    free(tempNode);
+    // if(tempNode == temp->head)
+    // {
+    //     temp->head = tempNode->next;
+    // }
+    // else
+    // {
+    //     tempNode->previous->next = tempNode->next;
+    // }
+
+    // if(tempNode == temp->tail)
+    // {
+    //     temp->tail = tempNode->previous;
+    // }
+    // else
+    // {
+    //     tempNode->next->previous = tempNode->previous;
+    // }
+
+    // free(tempNode->prodName);
+    // free(temp)
+    // free(&tempNode->quantity);
+    // free(&tempNode->taxType);
+    // free(&tempNode->price);
+    // free(tempNode);
 
     return 0;
 }
@@ -181,15 +223,29 @@ void *getFromFront(List *list)
         printf("error\n");
     }
 
-    return tempNode->data;
+    return tempNode->prodName;
 
 }
 
 void printForward(List *list)
 {
 
-    // List * temp;
-    // temp = list;
+    CustomerNode * tempNode;
+    tempNode = list->head;
+
+    while(tempNode != NULL)
+    {
+
+        printf("%s, Quantity: %d\n", (char *)tempNode->prodName, tempNode->quantity);
+
+        tempNode = tempNode->next;
+    }
+
+}
+
+
+void printInvoice(List *list)
+{
 
     CustomerNode * tempNode;
     tempNode = list->head;
@@ -203,17 +259,10 @@ void printForward(List *list)
     {
         if(tempNode->taxType == 0)
         {
-            printf("%s, Quantity: %d, Price: $%.2f\n", tempNode->data, tempNode->quantity, (atof(tempNode->price) * tempNode->quantity));
+            printf("%s, Quantity: %d, Price per: $%s, Total Price: $%.2f\n", (char *)tempNode->prodName, tempNode->quantity, (char *)tempNode->price, (atof(tempNode->price) * tempNode->quantity));
             totalTax += (atof(tempNode->price) * tempNode->quantity);
         }
-        // temp->printData(tempNode->data);
         tempNode = tempNode->next;
-        // tempNode->previous = tempNode;
-    }
-
-    if(totalTax != 0.00)
-    {
-        printf("\n\nTotal Price of Non-Taxable Games: $%.2f\n\n", totalTax);
     }
 
     tempNode = list->head;
@@ -224,19 +273,45 @@ void printForward(List *list)
     {
         if(tempNode->taxType == 1)
         {
-            printf("%s, Quantity: %d, Price: $%.2f\n", tempNode->data, tempNode->quantity, (atof(tempNode->price) * tempNode->quantity));
+            printf("%s, Quantity: %d, Price per: $%s, Total Price: $%.2f\n", (char *)tempNode->prodName, tempNode->quantity, (char *)tempNode->price, (atof(tempNode->price) * tempNode->quantity));
             totalNonTax += (atof(tempNode->price) * tempNode->quantity);
         }
         tempNode = tempNode->next;
     }
-    if(totalNonTax != 0.00)
-    {
-        printf("\n\nTotal Price of Non-Taxable Games: $%.2f\n", totalNonTax);
-    }
+    printf("\n\nTotal Price of Taxable Games: $%.2f\n", totalTax);
+    printf("Total Price of Non-Taxable Games: $%.2f\n\n", totalNonTax);
     totalFinal = totalTax + totalNonTax;
 
     printf("Total Price of Taxable and Non-Taxable Games: $%.2f\n", totalFinal);
 
+
+}
+
+void *findItem(List *list, void *toBeFound)
+{
+
+    CustomerNode * tempNode;
+    tempNode = list->head;
+    if(tempNode == NULL)
+    {
+        // printf("shit doesnt exist\n");
+        return NULL;
+    }
+
+    while(strcmp(tempNode->prodName, toBeFound) != 0)
+    {
+        if(tempNode->next == NULL)
+        {
+            return NULL;
+        }
+        else
+        {
+            tempNode->previous = tempNode;
+            tempNode = tempNode->next;
+        }
+    }
+
+    return tempNode;
 
 }
 

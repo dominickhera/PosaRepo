@@ -206,9 +206,19 @@ void stockCheck(TreeNode *node)
     if(node != NULL)
     {
         // printf("tits\n");
+        // if(node->left != NULL)
+        // {
         stockCheck(node->left);
         printf("%s, Quantity: %d\n", (char *)node->prodName, node->quantity);
         stockCheck(node->right);
+        // }
+
+        // if(node->right != NULL)
+        // {
+             // stockCheck(node->left);
+        // printf("%s, Quantity: %d\n", (char *)node->prodName, node->quantity);
+        // stockCheck(node->right);
+        // }
     }
 
 }

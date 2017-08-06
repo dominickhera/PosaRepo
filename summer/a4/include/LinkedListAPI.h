@@ -24,10 +24,13 @@
 of it, as well as the node immediately behind it.
 **/
 typedef struct listNode{
-    void *data;
-    int quantity;
+    void *proID; ///< pointer to generic data that is to be stored in the heap
+    void *prodName;
+    void *publisher;
+    void *genre;
     TAX_TYPE taxType;
     void *price;
+    int quantity;
     struct listNode *previous;
     struct listNode *next;
 } CustomerNode;
@@ -59,14 +62,14 @@ other notes in a list.
 *@return On success returns a node that can be added to a linked list. On failure, returns NULL.
 *@param data - is a generic pointer to any data type.
 **/
-CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType, void *price);
+CustomerNode *initializeNode(void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType,void *price, int quantity);
 
 /**Inserts a Node to the front of a linked list. The list then updates accordingly to adhere to the ADT.
 *@pre 'List' type must exist and be used in order to keep track of the linked list.
 *@param list pointer to the dummy head of the list
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
-void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType, void *price);
+void insertFront(List *list, void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType,void *price, int quantity);
 
 
 /** Deletes the entire linked list head to tail, starting with the nodes, followed by the list itself.
@@ -93,7 +96,7 @@ void insertSorted(List *list, void *toBeAdded);
  *@param toBeDeleted pointer to data that is to be removed from the list
  *@return returns EXIT_SUCCESS on success, and EXIT_FAILURE when empty. Returns -1 when the node cannot be found.
  **/
-int deleteDataFromList(List *list, void *toBeDeleted, int quantity, TAX_TYPE taxType);
+int deleteDataFromList(List *list, void *toBeDeleted);
 
 /**Function to return the data at the front of the list.
  *@pre The list exists and has memory allocated to it
@@ -108,6 +111,8 @@ void *getFromFront(List *list);
  *@param list Pointer to linked list dummy head.
  **/
 void printForward(List *list);
+void printInvoice(List *list);
+void *findItem(List *list, void *toBeFound);
 
 
 #endif

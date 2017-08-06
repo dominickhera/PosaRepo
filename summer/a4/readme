@@ -33,7 +33,7 @@ known limitations
 =========
 testing
 =========
-- 
+- had major issues with binary tree deletion and had to completely rewrite the deletion function to accomodate all four cases  (2 children/ 1 l/r child/ no children), had originally used findNode function to do this but it was much easier if i had the parent of the node i want to delete so I wrote part of the findNode function into the delete function to do the same thing but also find the parent of that same node
 
 
 =================
