@@ -19,11 +19,12 @@ List *initializeList(void (*printFunction)(void *tobePrinted),void (*deleteFunct
     return temp;
 }
 
-CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType)
+CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType, void *price)
 {
 
     CustomerNode * temp = malloc(sizeof(CustomerNode));
     temp->data = malloc(sizeof(data)*100);
+    temp->price = malloc(sizeof(price) * 100);
 
     if(temp == NULL)
     {
@@ -34,6 +35,7 @@ CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType)
     temp->previous = NULL;
     // temp->data = data;
     strcpy(temp->data, data);
+    strcpy(temp->price, price);
     temp->quantity = quantity;
     temp->taxType = taxType;
     // temp->taxType = taxType;
@@ -42,7 +44,7 @@ CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType)
 
 }
 
-void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType)
+void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType, void *price)
 {
     CustomerNode * tempNode = NULL;
     CustomerNode * duplicateNode = list->head;
@@ -50,7 +52,7 @@ void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType)
 
     if(list->head == NULL)
     {
-        tempNode = initializeNode(toBeAdded, quantity, taxType);
+        tempNode = initializeNode(toBeAdded, quantity, taxType, price);
         list->head = tempNode;
     }
     else
@@ -67,7 +69,7 @@ void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType)
 
         if(duplicateFlag == 0)
         {
-            tempNode = initializeNode(toBeAdded, quantity, taxType);
+            tempNode = initializeNode(toBeAdded, quantity, taxType, price);
             tempNode->next = list->head;
             list->head = tempNode;
         }
@@ -159,6 +161,7 @@ int deleteDataFromList(List *list, void *toBeDeleted, int quantity, TAX_TYPE tax
     free(tempNode->data);
     free(&tempNode->quantity);
     free(&tempNode->taxType);
+    free(&tempNode->price);
     free(tempNode);
 
     return 0;
@@ -190,6 +193,9 @@ void printForward(List *list)
 
     CustomerNode * tempNode;
     tempNode = list->head;
+    float totalNonTax;
+    float totalTax;
+    float totalFinal;
 
     printf("Customer Invoice\n=================\n\nTaxable Items\n=============\n");
 

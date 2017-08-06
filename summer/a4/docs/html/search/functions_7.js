@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['treedeletenode',['treeDeleteNode',['../balancedTreeAPI_8h.html#ad7389ce8aa2e7d54aeec86abb8f0fe1a',1,'balancedTreeAPI.c']]],
-  ['treefindmax',['treeFindMax',['../balancedTreeAPI_8h.html#aa60a5fd0f6e263bc2ad8be9a83675ce1',1,'balancedTreeAPI.c']]],
-  ['treefindmin',['treeFindMin',['../balancedTreeAPI_8h.html#a3bdbbebdedf6e4a4b782b79e8da849fe',1,'balancedTreeAPI.c']]],
+  ['treedeletenode',['treeDeleteNode',['../balancedTreeAPI_8h.html#a9e7afb343a6e90301c677995b2cf80ff',1,'balancedTreeAPI.c']]],
+  ['treefindmax',['treeFindMax',['../balancedTreeAPI_8h.html#ad13470266c2e2f8aaf00e108222dc5db',1,'balancedTreeAPI.c']]],
+  ['treefindmin',['treeFindMin',['../balancedTreeAPI_8h.html#ac181110745b61a333ac8eefc44c1add6',1,'balancedTreeAPI.c']]],
   ['treefindnode',['treeFindNode',['../balancedTreeAPI_8h.html#acccfb57183ab643ecb0f4a22f33d9b65',1,'balancedTreeAPI.c']]],
   ['treehastwochildren',['treeHasTwoChildren',['../balancedTreeAPI_8h.html#aff810699a02179aeabe9d5ab799dc766',1,'balancedTreeAPI.c']]],
   ['treeinorderprint',['treeInOrderPrint',['../balancedTreeAPI_8h.html#a46434e742f064d38f81b38924101ab2d',1,'balancedTreeAPI.c']]],

@@ -49,7 +49,7 @@ void treeInsertNode(Tree *theTree, void *proID, void *prodName, void *publisher,
  *@param theTree pointer to a self-balancing binary tree
  *@param toBeDeleted pointer to generic data that is to be deleted from the self-balancing binary tree
  **/
-void treeDeleteNode(Tree *theTree, void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType, void *price, int quantity);
+void treeDeleteNode(Tree *theTree, void *prodName);
 
 /**Function to determine if a binary tree is empty.
  *@param theTree pointer to a self-balancing binary tree
@@ -74,13 +74,13 @@ void *treeFindNode(Tree *theTree, void *data);
  *@param theTree pointer to a self-balancing binary tree's root
  *@return pointer to the min found. If tree is empty, return NULL.
  **/
-void *treeFindMin(Tree *theTree);
+void *treeFindMin(TreeNode *tempNode);
 
 /**Function to return the largest value of a tree, dependant on the compare function pointer parameters.
  *@param theTree pointer to a self-balancing binary tree's root
  *@return pointer to the maximum value  found. If tree is empty, return NULL.
  **/
-void *treeFindMax(Tree *theTree);
+void *treeFindMax(TreeNode *tempNode);
 
 /**function to print a tree in-order. EG 
  *              A

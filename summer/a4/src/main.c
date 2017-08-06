@@ -131,7 +131,7 @@ int main(int argc, char ** argv)
                         tempNode->quantity = tempNode->quantity - amountCheck;
                         if(tempNode->quantity <= 0)
                         {
-                            treeDeleteNode(tree, tempNode->proID, tempNode->prodName, tempNode->publisher, tempNode->genre, tempNode->taxType, tempNode->price, tempNode->quantity);
+                            treeDeleteNode(tree, tempNode->prodName);
                             removeData(hashTable, tempNode->prodName);
                         }
 
@@ -199,7 +199,7 @@ int main(int argc, char ** argv)
                             tempNode->quantity = tempNode->quantity - amountCheck;
                             if(tempNode->quantity <= 0)
                             {
-                                treeDeleteNode(tree, tempNode->proID, tempNode->prodName, tempNode->publisher, tempNode->genre, tempNode->taxType, tempNode->price, tempNode->quantity);
+                                treeDeleteNode(tree, tempNode->prodName);
                                 removeData(hashTable, tempNode->prodName);
                             }
 
@@ -224,6 +224,14 @@ int main(int argc, char ** argv)
                 // 
                 break;
             case 3:
+                printf("\n\nenter name of product you're removing from inventory: ");
+                fgets(tempString, 100, stdin);
+
+                if(tempString[strlen(tempString) - 1] == '\n')
+                {
+                    tempString[strlen(tempString) - 1] = '\0';
+                }
+                treeDeleteNode(tree, tempString);
                 break;
             case 4:
                 printf("\n\n");

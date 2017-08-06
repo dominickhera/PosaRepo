@@ -124,22 +124,69 @@ void treeInsertNode(Tree *theTree, void *proID, void *prodName, void *publisher,
 
 }
 
-void treeDeleteNode(Tree *theTree, void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType, void *price, int quantity)
+void treeDeleteNode(Tree *theTree, void *prodName)
 {
+
     TreeNode *tempNode = treeFindNode(theTree, prodName);
-    // printf("1\n");
+    TreeNode *tempDeleteNode = tempNode->right;
+    TreeNode *tempDeleteNodeParent = tempNode;
+    
     if(tempNode != NULL)
     {
-        // printf("2\n");
-        free(tempNode->proID);
-        free(tempNode->prodName);
-        free(tempNode->publisher);
-        free(tempNode->genre);
-        // free(tempNode->taxType);
-        free(tempNode->price);
-        // printf("3\n");
-        free(tempNode);
-        // printf("4\n");
+        if(treeHasTwoChildren(tempNode) == 0)
+        {
+
+            //left and right are BOTH NOT NULL
+
+            while(tempDeleteNode->left != NULL)
+            {
+                tempDeleteNodeParent = tempDeleteNode;
+                tempDeleteNode = tempDeleteNode->left;
+            }
+
+            strcpy(tempNode->proID, tempDeleteNode->proID);
+            strcpy(tempNode->prodName, tempDeleteNode->prodName);
+            strcpy(tempNode->price, tempDeleteNode->price);
+            strcpy(tempNode->genre, tempDeleteNode->genre);
+            strcpy(tempNode->publisher, tempDeleteNode->publisher);
+            tempNode->taxType = tempDeleteNode->taxType;
+            tempNode->quantity = tempDeleteNode->quantity;
+
+            tempNode = tempDeleteNode;
+
+        }
+        else if(treeHasTwoChildren(tempNode) == 3)
+        {
+            tempNode = NULL;
+            free(tempNode);
+        }
+        else if(treeHasTwoChildren(tempNode) == 2)
+        {
+         
+            //right is null, left is NOT
+            // tempDeleteNode = treeFindMin(tempNode);
+
+
+
+        }
+        else if(treeHasTwoChildren(tempNode) == 1)
+        {
+            //left is null, Right is NOT
+
+            // strcpy(tempNode->proID, tempDeleteNode->proID);
+            // strcpy(tempNode->prodName, tempDeleteNode->prodName);
+            // strcpy(tempNode->price, tempDeleteNode->price);
+            // strcpy(tempNode->genre, tempDeleteNode->genre);
+            // strcpy(tempNode->publisher, tempDeleteNode->publisher);
+            // tempNode->taxType = tempDeleteNode->taxType;
+            // tempNode->quantity = tempDeleteNode->quantity;
+
+            // tempNode->right = tempDeleteNode->left;
+
+            // free(tempDeleteNode);
+            
+        }
+
 
     }
     else
@@ -170,8 +217,20 @@ int treeHasTwoChildren(TreeNode *root)
     {
         return 0;
     }
+    else if(root->left == NULL && root->right != NULL)
+    {
+        return 1;
+    }
+    else if(root->left != NULL && root->right == NULL)
+    {
+        return 2;
+    }
+    else if(root->left == NULL && root->right == NULL)
+    {
+        return 3;
+    }
 
-    return 1;
+    return 4;
 
 }
 
@@ -203,10 +262,10 @@ void *treeFindNode(Tree *theTree, void *data)
 
 }
 
-void *treeFindMin(Tree *theTree)
+void *treeFindMin(TreeNode *tempNode)
 {
 
-    TreeNode *tempSearch = theTree->root;
+    TreeNode *tempSearch = tempNode;
 
     while(tempSearch != NULL)
     {
@@ -217,10 +276,10 @@ void *treeFindMin(Tree *theTree)
 
 }
 
-void *treeFindMax(Tree *theTree)
+void *treeFindMax(TreeNode *tempNode)
 {
 
-    TreeNode *tempSearch = theTree->root;
+    TreeNode *tempSearch = tempNode;
 
     while(tempSearch != NULL)
     {
