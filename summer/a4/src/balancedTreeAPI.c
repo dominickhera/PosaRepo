@@ -127,15 +127,18 @@ void treeInsertNode(Tree *theTree, void *proID, void *prodName, void *publisher,
 void treeDeleteNode(Tree *theTree, void *prodName)
 {
 
-    TreeNode *tempNode = treeFindNode(theTree, prodName);
-    TreeNode *tempDeleteNode = tempNode->right;
-    TreeNode *tempDeleteNodeParent = tempNode;
-    
-    if(tempNode != NULL)
+    TreeNode *tempNode = NULL;
+    if((tempNode = treeFindNode(theTree, prodName)) != NULL)
     {
+
+        TreeNode *tempDeleteNodeParent = NULL;
+        TreeNode *tempDeleteNode = NULL;
+        // printf("tempnode exists\n");
         if(treeHasTwoChildren(tempNode) == 0)
         {
-
+            printf("butthole\n");
+            tempDeleteNodeParent = tempNode;
+            tempDeleteNode = tempNode->left;
             //left and right are BOTH NOT NULL
 
             while(tempDeleteNode->left != NULL)
@@ -153,26 +156,90 @@ void treeDeleteNode(Tree *theTree, void *prodName)
             tempNode->quantity = tempDeleteNode->quantity;
 
             tempNode = tempDeleteNode;
+            // free(tempDeleteNode);
+            // return ;
 
         }
-        else if(treeHasTwoChildren(tempNode) == 3)
+        
+
+        if(treeHasTwoChildren(tempNode) == 3)
         {
-            tempNode = NULL;
+            printf("lolol\n");
+            // if(tempDeleteNodeParent->right == tempNode)
+            // {
+                // printf("shit's the same nigga\n");
+                // tempDeleteNodeParent->right = NULL;
+            // }
+            // else
+            // {
+                // printf("shit aint the same\n");
+                // tempDeleteNodeParent->left = NULL;
+            // }
+            printf("1\n");
+            free(tempNode->proID);
+            printf("2\n");
+            free(tempNode->prodName);
+            printf("3\n");
+            free(tempNode->price);
+            printf("4\n");
+            free(tempNode->genre);
+            printf("5\n");
+            free(tempNode->publisher);
+            printf("6\n");
+            // free(&tempNode->taxType);
+            // printf("7\n");
+            // free(&tempNode->quantity);
+            // printf("8\n");
             free(tempNode);
+            // printf("8\n");
+            // tempNode = NULL;
+            // printf("8\n");
+            // tempNode->proID = NULL;
+            // printf("8\n");
+            // tempNode->prodName = NULL;
+            // printf("8\n");
+            // tempNode->price = NULL;
+            // printf("8\n");
+            // tempNode->genre = NULL;
+            // printf("8\n");
+            // tempNode->publisher = NULL;
+            // printf("8\n");
+            // balanceTree(theTree);
+            // printf("10\n");
+            return;
         }
-        else if(treeHasTwoChildren(tempNode) == 2)
+        // else 
+
+        if(treeHasTwoChildren(tempNode) == 2)
         {
          
             //right is null, left is NOT
+
+            printf("suck a b00ty\n");
             // tempDeleteNode = treeFindMin(tempNode);
 
+            if(tempDeleteNodeParent->left == tempNode)
+            {
+                printf("shit's the same nigga\n");
+                tempDeleteNodeParent->left = tempNode->left;
+            }
+            else
+            {
+                printf("shit aint the same\n");
+                tempDeleteNodeParent->right = tempNode->left;
+            }
+
+            free(tempNode);
 
 
         }
-        else if(treeHasTwoChildren(tempNode) == 1)
+        if(treeHasTwoChildren(tempNode) == 1)
         {
             //left is null, Right is NOT
 
+            printf("left null tithole\n");
+            // tempDeleteNodeParent = tempNode;
+            // tempDeleteNode = tempNode->right;
             // strcpy(tempNode->proID, tempDeleteNode->proID);
             // strcpy(tempNode->prodName, tempDeleteNode->prodName);
             // strcpy(tempNode->price, tempDeleteNode->price);
@@ -181,11 +248,27 @@ void treeDeleteNode(Tree *theTree, void *prodName)
             // tempNode->taxType = tempDeleteNode->taxType;
             // tempNode->quantity = tempDeleteNode->quantity;
 
-            // tempNode->right = tempDeleteNode->left;
+        //     // tempNode->right = tempDeleteNode->left;
 
+            // tempNode = tempDeleteNode;
             // free(tempDeleteNode);
+
+            if(tempDeleteNodeParent->left == tempNode)
+            {
+                printf("shit's the same nigga\n");
+                tempDeleteNodeParent->left = tempNode->right;
+            }
+            else
+            {
+                printf("shit aint the same\n");
+                tempDeleteNodeParent->right = tempNode->right;
+            }
+
+            free(tempNode);
+
             
         }
+        // free(tempDeleteNode);
 
 
     }
