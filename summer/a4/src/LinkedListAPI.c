@@ -121,12 +121,7 @@ int deleteDataFromList(List *list, void *toBeDeleted)
            // printf("4\n");
             temp->head = tempNode->next;
         }
-            // printf("5\n");
-        // else
-        // {
-            // tempNode = tempNode->next;
-        // }
-
+        
         if(tempNode == temp->tail)
         {
             // printf("6\n");
@@ -135,76 +130,14 @@ int deleteDataFromList(List *list, void *toBeDeleted)
 
         tempNode->previous = tempNode->next;
         
-        // printf("18\n");
         free(tempNode);
-        // printf("19\n");
-        // else
-        // {
-            // tempNode = tempNode->previous;
-        // }
 
     }
     else
     {
         printf("Item does not exist...\n");
     }
-    // while(tempNode->next != NULL)
-    // {
-    //     if(tempNode->prodName == toBeDeleted)
-    //     {
-    //         if(tempNode->next != NULL)
-    //         {
-    //             tempNode->next->previous = tempNode->previous;
-    //         } 
 
-    //         if(tempNode->previous != NULL)
-    //         {
-    //             tempNode->previous->next = tempNode->next;
-    //         }
-    //         free(tempNode);
-    //     }
-    //     tempNode = tempNode->next;
-    // }
-
-
-
-    // while(strcmp(tempNode->prodName, toBeDeleted) != 0)
-    // {
-    //     if(tempNode->next == NULL)
-    //     {
-    //         return 0;
-    //     }
-    //     else
-    //     {
-    //         tempNode->previous = tempNode;
-    //         tempNode = tempNode->next;
-    //     }
-    // }
-
-    // if(tempNode == temp->head)
-    // {
-    //     temp->head = tempNode->next;
-    // }
-    // else
-    // {
-    //     tempNode->previous->next = tempNode->next;
-    // }
-
-    // if(tempNode == temp->tail)
-    // {
-    //     temp->tail = tempNode->previous;
-    // }
-    // else
-    // {
-    //     tempNode->next->previous = tempNode->previous;
-    // }
-
-    // free(tempNode->prodName);
-    // free(temp)
-    // free(&tempNode->quantity);
-    // free(&tempNode->taxType);
-    // free(&tempNode->price);
-    // free(tempNode);
 
     return 0;
 }
