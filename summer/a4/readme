@@ -22,7 +22,7 @@ type 'make' to run the makeFile
 description
 =============
 
-- the program is a 
+- the program is a basic Point of Sale system that utilizes a binary search tree for storing all the primary information which the program pulls all the information from, using a hash table to store only the Product ID's when the user attempts to add a product by that ID in which the program will call back to the binary search tree to find the information regarding that product ID and pulling it up. A doubly linked list is used to handle the users shopping cart or invoice which they can add to or remove from without any issues.
 
 
 ====================
@@ -39,6 +39,16 @@ testing
 =================
 avl binary tree 
 =================
+- the binary tree in this project 
+
+============
+hash table
+============
+- 
+
+====================
+doubly linked list
+====================
 - 
 
 ============

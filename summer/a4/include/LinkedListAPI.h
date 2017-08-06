@@ -27,6 +27,7 @@ typedef struct listNode{
     void *data;
     int quantity;
     TAX_TYPE taxType;
+    void *price;
     struct listNode *previous;
     struct listNode *next;
 } CustomerNode;
@@ -58,14 +59,14 @@ other notes in a list.
 *@return On success returns a node that can be added to a linked list. On failure, returns NULL.
 *@param data - is a generic pointer to any data type.
 **/
-CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType);
+CustomerNode *initializeNode(void *data, int quantity, TAX_TYPE taxType, void *price);
 
 /**Inserts a Node to the front of a linked list. The list then updates accordingly to adhere to the ADT.
 *@pre 'List' type must exist and be used in order to keep track of the linked list.
 *@param list pointer to the dummy head of the list
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
-void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType);
+void insertFront(List *list, void *toBeAdded, int quantity, TAX_TYPE taxType, void *price);
 
 
 /** Deletes the entire linked list head to tail, starting with the nodes, followed by the list itself.

@@ -193,9 +193,9 @@ void printForward(List *list)
 
     CustomerNode * tempNode;
     tempNode = list->head;
-    float totalNonTax;
-    float totalTax;
-    float totalFinal;
+    float totalNonTax = 0.0;
+    float totalTax = 0.0;
+    float totalFinal = 0.0;
 
     printf("Customer Invoice\n=================\n\nTaxable Items\n=============\n");
 
@@ -203,11 +203,17 @@ void printForward(List *list)
     {
         if(tempNode->taxType == 0)
         {
-            printf("%s, Quantity: %d\n", tempNode->data, tempNode->quantity);
+            printf("%s, Quantity: %d, Price: $%.2f\n", tempNode->data, tempNode->quantity, (atof(tempNode->price) * tempNode->quantity));
+            totalTax += (atof(tempNode->price) * tempNode->quantity);
         }
         // temp->printData(tempNode->data);
         tempNode = tempNode->next;
         // tempNode->previous = tempNode;
+    }
+
+    if(totalTax != 0.00)
+    {
+        printf("\n\nTotal Price of Non-Taxable Games: $%.2f\n\n", totalTax);
     }
 
     tempNode = list->head;
@@ -218,12 +224,18 @@ void printForward(List *list)
     {
         if(tempNode->taxType == 1)
         {
-            printf("%s, Quantity: %d\n", tempNode->data, tempNode->quantity);
+            printf("%s, Quantity: %d, Price: $%.2f\n", tempNode->data, tempNode->quantity, (atof(tempNode->price) * tempNode->quantity));
+            totalNonTax += (atof(tempNode->price) * tempNode->quantity);
         }
-        // temp->printData(tempNode->data);
         tempNode = tempNode->next;
-        // tempNode->previous = tempNode;
     }
+    if(totalNonTax != 0.00)
+    {
+        printf("\n\nTotal Price of Non-Taxable Games: $%.2f\n", totalNonTax);
+    }
+    totalFinal = totalTax + totalNonTax;
+
+    printf("Total Price of Taxable and Non-Taxable Games: $%.2f\n", totalFinal);
 
 
 }

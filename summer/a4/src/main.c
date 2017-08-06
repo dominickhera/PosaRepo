@@ -77,7 +77,7 @@ int main(int argc, char ** argv)
 
     while(userChoice != 7)
     {
-        printf("1.search for product\n2.add item to customer invoice using product number to identify the item, adjust the inventory as neccessary, user may purchase multiples\n3. remove product from inventory(removes all copies)\n4. print report to screen that gives quantity, alphabettically by product name with one item per line of the report\n5.print report of customers invoice, show taxable items in a seperate list from non taxable items\n6.inorder print\n7.exit\n\n");
+        printf("1.search for product\n2.add item to customer invoice using product number to identify the item, adjust the inventory as neccessary, user may purchase multiples\n3. remove product from inventory(removes all copies)\n4. print report to screen that gives quantity, alphabettically by product name with one item per line of the report\n5.print report of customers invoice, show taxable items in a seperate list from non taxable items\n6.edit invoice\n7.inorder print\n8.exit\n\n");
         scanf("%d", &userChoice);
         char tempString[256];
         getchar();
@@ -95,7 +95,7 @@ int main(int argc, char ** argv)
                 TreeNode * tempNode = treeFindNode(tree, tempString);
                 if(tempNode != NULL)
                 {
-                    printf("\n\nFound: %s,Product ID: %s, Publisher: %s, Price: $%s, Genre: %s, Amount in Stock: %d\n", (char *)tempNode->prodName, (char *)tempNode->proID, (char *)tempNode->publisher, (char *)tempNode->price, (char *)tempNode->genre, tempNode->quantity);
+                    printf("\n\nFound: %s,Product ID: %s, Publisher: %s, Price: $%s, Genre: %s, Amount in Stock: %d\n\n", (char *)tempNode->prodName, (char *)tempNode->proID, (char *)tempNode->publisher, (char *)tempNode->price, (char *)tempNode->genre, tempNode->quantity);
 
                     while(addToBasketCheck != 1 || addToBasketCheck != 2)
                     {
@@ -126,7 +126,7 @@ int main(int argc, char ** argv)
                         }
                         // printf("hi\n");
 
-                        insertFront(customerInvoice, tempNode->prodName, amountCheck, tempNode->taxType);
+                        insertFront(customerInvoice, tempNode->prodName, amountCheck, tempNode->taxType, tempNode->price);
 
                         tempNode->quantity = tempNode->quantity - amountCheck;
                         if(tempNode->quantity <= 0)
@@ -166,7 +166,7 @@ int main(int argc, char ** argv)
                     if(tempNode != NULL)
                     {
                         
-                        printf("\nFound: %s, Publisher: %s, Price: $%s, Genre: %s, Amount in Stock: %d\n", (char *)tempNode->prodName, (char *)tempNode->publisher, (char *)tempNode->price, (char *)tempNode->genre, tempNode->quantity);
+                        printf("\nFound: %s, Publisher: %s, Price: $%s, Genre: %s, Amount in Stock: %d\n\n", (char *)tempNode->prodName, (char *)tempNode->publisher, (char *)tempNode->price, (char *)tempNode->genre, tempNode->quantity);
 
 
                          while(addToBasketCheck != 1 || addToBasketCheck != 2)
@@ -195,7 +195,7 @@ int main(int argc, char ** argv)
                                 }
                                 printf("There are only %d copies in stock, you can't buy that many.\n", tempNode->quantity);
                             }
-                            insertFront(customerInvoice, tempNode->prodName, tempNode->quantity, tempNode->taxType);
+                            insertFront(customerInvoice, tempNode->prodName, tempNode->quantity, tempNode->taxType, tempNode->price);
                             tempNode->quantity = tempNode->quantity - amountCheck;
                             if(tempNode->quantity <= 0)
                             {
@@ -210,6 +210,7 @@ int main(int argc, char ** argv)
                             addToBasketCheck = 0;
                         }
                         amountCheck = 0;
+                        printf("\n\n");
                     }
                     else
                     {
@@ -245,11 +246,13 @@ int main(int argc, char ** argv)
                 break;
             case 6:
                 printf("\n\n");
-                treeInOrderPrint(tree, &printData);
                 break;
             case 7:
+                printf("\n\n");
+                treeInOrderPrint(tree, &printData);
+            case 8:
                 // printf("7\n");
-                userChoice = 7;
+                userChoice = 8;
                 exit(1);
                 break;
             default:
