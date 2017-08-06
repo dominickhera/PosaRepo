@@ -252,6 +252,7 @@ int main(int argc, char ** argv)
             case 7:
                 printf("\n\n");
                 treeInOrderPrint(tree, &printData);
+                break;
             case 8:
                 // printf("7\n");
                 userChoice = 8;

@@ -165,6 +165,9 @@ void treeDeleteNode(Tree *theTree, void *prodName)
         if(treeHasTwoChildren(tempNode) == 3)
         {
             printf("lolol\n");
+            // tempNode->right = NULL;
+            // tempNode->left = NULL;
+            // tempNode = NULL;
             // if(tempDeleteNodeParent->right == tempNode)
             // {
                 // printf("shit's the same nigga\n");
@@ -176,15 +179,15 @@ void treeDeleteNode(Tree *theTree, void *prodName)
                 // tempDeleteNodeParent->left = NULL;
             // }
             printf("1\n");
-            free(tempNode->proID);
+            // free(tempNode->proID);
             printf("2\n");
-            free(tempNode->prodName);
+            // free(tempNode->prodName);
             printf("3\n");
-            free(tempNode->price);
+            // free(tempNode->price);
             printf("4\n");
-            free(tempNode->genre);
+            // free(tempNode->genre);
             printf("5\n");
-            free(tempNode->publisher);
+            // free(tempNode->publisher);
             printf("6\n");
             // free(&tempNode->taxType);
             // printf("7\n");
@@ -230,6 +233,7 @@ void treeDeleteNode(Tree *theTree, void *prodName)
             }
 
             free(tempNode);
+            return;
 
 
         }
@@ -265,7 +269,7 @@ void treeDeleteNode(Tree *theTree, void *prodName)
             }
 
             free(tempNode);
-
+            return;
             
         }
         // free(tempDeleteNode);
