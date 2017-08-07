@@ -28,12 +28,15 @@ description
 ====================
 known limitations
 ====================
-- none
+- if there's an empty line in the data file, the program will skip the line following that empty line
 
 =========
 testing
 =========
 - had major issues with binary tree deletion and had to completely rewrite the deletion function to accomodate all four cases  (2 children/ 1 l/r child/ no children), had originally used findNode function to do this but it was much easier if i had the parent of the node i want to delete so I wrote part of the findNode function into the delete function to do the same thing but also find the parent of that same node
+-had initial issues towards the end of the inventory file where the last fully filled out games line was constantly being repeated due to all the empty commas but was fixed by checking to see if the first item stroked is null to make sure that it doesnt add duplicates unintentionally
+-tried figuring out what was causing the program to skip lines if there's an empty line before it, i was unable to find a solution in time
+-attempted to design a better ncurses menu but previous attempts have been met with messy issues and things not clearing properly, so I made a decision to use a simple switch case while loop that works alot easier and makes everything better for clearing information and prevents information from overlapping and looking sloppy.
 
 
 ====================

@@ -55,17 +55,14 @@ int main(int argc, char ** argv)
             {
                 if(strcmp(items[4], "0") == 0)
                 {
-                    // printf("%s\n%s\n%s\n%s\n%s\n%s\n%s\n\n\n", items[0], items[1],items[2],items[3],items[4], word, items[6]);
                     treeInsertNode(tree, items[0],items[1],items[2],items[3],TAXABLE, word, atoi(items[6]));
                 }
                 else if(strcmp(items[4], "1") == 0)
                 {
-                    // printf("%s\n%s\n%s\n%s\n%s\n%s\n%s\n\n\n", items[0], items[1],items[2],items[3],items[4], word, items[6]);
                     treeInsertNode(tree, items[0],items[1],items[2],items[3],NONTAXABLE, word, atoi(items[6]));
                 }
 
                 insertData(hashTable, items[0], items[1]);
-                // printf("%s\n%s\n\n\n", items[0], items[1]);
 
             }
         }
