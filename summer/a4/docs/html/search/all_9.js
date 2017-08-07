@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['printdata',['printData',['../structHTable.html#a573abbe70757c842d491ff15d827c002',1,'HTable']]],
-  ['printforward',['printForward',['../LinkedListAPI_8h.html#a3f8bda02985d59886112a079d7778a04',1,'LinkedListAPI.c']]],
-  ['proid',['proID',['../structlistNode.html#a17a3d02a8a9899f9c737ca00891c5a18',1,'listNode::proID()'],['../structBalancedBinTreeNode.html#a3b64b6f3d4b672cff8b57258857aedf9',1,'BalancedBinTreeNode::proID()']]]
+  ['removedata',['removeData',['../HashTableAPI_8h.html#a18cc8f1a1a49cf9f0db185d9d44e3d40',1,'HashTableAPI.c']]],
+  ['right',['right',['../structBalancedBinTreeNode.html#a6bb5c0f6c7098ba3b003846e8fc739ca',1,'BalancedBinTreeNode']]],
+  ['root',['root',['../structBalancedBinTree.html#a79eb6910645b1a28d977e59b69d89972',1,'BalancedBinTree']]]
 ];

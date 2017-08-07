@@ -7,9 +7,9 @@ int main(int argc, char ** argv)
 {
 
     FILE * fp;
+    FILE * fo;
     char * items[7];
     char line[500];
-    // char tempString[256];
     int titleCheck = 0;
     int userChoice = 0;
     int addToBasketCheck = 0;
@@ -80,9 +80,9 @@ int main(int argc, char ** argv)
 
     stockCheck(tree->root);
     printf("\n\n");
-    while(userChoice != 7)
+    while(userChoice != 8)
     {
-        printf("1.search for product\n2.add item to customer invoice using product number to identify the item, adjust the inventory as neccessary, user may purchase multiples\n3. remove product from inventory(removes all copies)\n4. print report to screen that gives quantity, alphabettically by product name with one item per line of the report\n5.print report of customers invoice, show taxable items in a seperate list from non taxable items\n6.edit invoice\n7.exit\n\n");
+        printf("1.search for product\n2.add item to customer invoice using product number to identify the item, adjust the inventory as neccessary, user may purchase multiples\n3. remove product from inventory(removes all copies)\n4. print report to screen that gives quantity, alphabettically by product name with one item per line of the report\n5.print report of customers invoice, show taxable items in a seperate list from non taxable items\n6.edit invoice\n7.import addition inventory file.\n8.exit\n\n:/> ");
         scanf("%d", &userChoice);
         char tempString[256];
         getchar();
@@ -129,7 +129,6 @@ int main(int argc, char ** argv)
                             printf("There are only %d copies in stock, you can't buy that many.\n", tempNode->quantity);
 
                         }
-                        // printf("hi\n");
 
                         insertFront(customerInvoice, tempNode->proID, tempNode->prodName, tempNode->publisher, tempNode->genre, tempNode->taxType, tempNode->price, amountCheck);
 
@@ -147,12 +146,12 @@ int main(int argc, char ** argv)
                         addToBasketCheck = 0;
                     }
                     amountCheck = 0;
-
                 }
                 else
                 {
                     printf("could not find %s in our system...\n", tempString);
                 }
+                printf("\n\n");
                 break;
             case 2:
                 printf("\n\nenter product ID of product you're adding: ");
@@ -200,7 +199,7 @@ int main(int argc, char ** argv)
                                 }
                                 printf("There are only %d copies in stock, you can't buy that many.\n", tempNode->quantity);
                             }
-                            // insertFront(customerInvoice, tempNode->prodName, tempNode->quantity, tempNode->taxType, tempNode->price);
+
                             insertFront(customerInvoice, tempNode->proID, tempNode->prodName, tempNode->publisher, tempNode->genre, tempNode->taxType, tempNode->price, amountCheck);
                             tempNode->quantity = tempNode->quantity - amountCheck;
                             if(tempNode->quantity <= 0)
@@ -228,7 +227,7 @@ int main(int argc, char ** argv)
                     printf("could not find %s in our system...\n", tempString);
                 }
 
-                // 
+                printf("\n\n");
                 break;
             case 3:
                 printf("\n\nenter name of product you're removing from inventory: ");
@@ -239,11 +238,12 @@ int main(int argc, char ** argv)
                     tempString[strlen(tempString) - 1] = '\0';
                 }
                 treeDeleteNode(tree, tempString);
+                printf("%s has successfully been deleted from inventory\n\n", tempString);
                 break;
             case 4:
                 printf("\n\n");
                 stockCheck(tree->root);
-                printf("\n");
+                printf("\n\n");
                 break;
             case 5:
                 printf("\n\n");
@@ -281,7 +281,6 @@ int main(int argc, char ** argv)
 
                     if(editInt == 1)
                     {
-                        // printf("1hole\n");
 
                         amountCheck = tempCustomerNode->quantity + 1;
 
@@ -373,13 +372,12 @@ int main(int argc, char ** argv)
                                 if(amountCheck == tempCustomerNode->quantity)
                                 {
                                     tempPutBackNode->quantity += tempCustomerNode->quantity;
-                                    // deleteDataFromList(customerInvoice, tempString);
+                                    deleteDataFromList(customerInvoice, tempString);
                                 }
                                 else
                                 {
 
                                     tempPutBackNode->quantity = tempPutBackNode->quantity + amountCheck;
-                                    // printf("butthole\n");
                                     tempCustomerNode->quantity = tempCustomerNode->quantity - amountCheck;
                                 }
 
@@ -390,7 +388,6 @@ int main(int argc, char ** argv)
                     }
                     else if(editInt == 2)
                     {
-                        // printf("2hole\n");
 
                         if(tempPutBackNode != NULL)
                         {
@@ -411,12 +408,79 @@ int main(int argc, char ** argv)
                 }
                 else
                 {
-                    printf("%s does not exist in your invoice....\n\n", tempString);
+                    printf("%s does not exist in your invoice....", tempString);
                 }
-
+                printf("\n\n");
                 break;
             case 7:
-                userChoice = 7;
+                printf("enter name of additional inventory file: ");
+                fgets(tempString, 100, stdin);
+
+                if(tempString[strlen(tempString) - 1] == '\n')
+                {
+                    tempString[strlen(tempString) - 1] = '\0';
+                }
+
+                fo = fopen(tempString, "r");
+
+                if(fo == NULL)
+                {
+                    printf("could not find file\n");
+                    break;
+                }
+
+                while(fgets(line, sizeof(line), fo) != NULL)
+                {
+                    char * word;
+
+                    if(line[strlen(line) - 1] == '\n')
+                    {
+                        line[strlen(line) - 1] = '\0';
+                    }
+
+                    word = strtok(line, ",");
+
+                    if(titleCheck > 0)
+                    {
+                        int index = 0;
+                        items[index++] = word;
+
+                        while((word = strtok(NULL, ",")) != NULL)
+                        {
+                            items[index++] = word;
+                        }
+
+                        word = strtok(items[5], "$");
+
+                        if(items[0] != NULL)
+                        {
+                            if(strcmp(items[4], "0") == 0)
+                            {
+                                treeInsertNode(tree, items[0],items[1],items[2],items[3],TAXABLE, word, atoi(items[6]));
+                            }
+                            else if(strcmp(items[4], "1") == 0)
+                            {
+                                treeInsertNode(tree, items[0],items[1],items[2],items[3],NONTAXABLE, word, atoi(items[6]));
+                            }
+
+                            insertData(hashTable, items[0], items[1]);
+
+                        }
+                    }
+                    else
+                    {
+                        titleCheck++;
+                    }
+                }
+                fclose(fo);
+                printf("%s has successfully been imported.\n\n", tempString);
+                break;
+            case 8:
+                destroyTable(hashTable);
+                destroyBalancedBinTree(tree);
+                deleteList(customerInvoice);
+                printf("bye!\n\n");
+                userChoice = 8;
                 exit(1);
                 break;
             default:

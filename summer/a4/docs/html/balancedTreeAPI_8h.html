@@ -92,20 +92,8 @@ Functions</h2></td></tr>
 <tr class="separator:a9e7afb343a6e90301c677995b2cf80ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59f1af69a351e89867db66987a0666e0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="balancedTreeAPI_8h.html#a59f1af69a351e89867db66987a0666e0">treeIsEmpty</a> (<a class="el" href="structBalancedBinTree.html">Tree</a> *theTree)</td></tr>
 <tr class="separator:a59f1af69a351e89867db66987a0666e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff810699a02179aeabe9d5ab799dc766"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="balancedTreeAPI_8h.html#aff810699a02179aeabe9d5ab799dc766">treeHasTwoChildren</a> (<a class="el" href="structBalancedBinTreeNode.html">TreeNode</a> *root)</td></tr>
-<tr class="separator:aff810699a02179aeabe9d5ab799dc766"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acccfb57183ab643ecb0f4a22f33d9b65"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="balancedTreeAPI_8h.html#acccfb57183ab643ecb0f4a22f33d9b65">treeFindNode</a> (<a class="el" href="structBalancedBinTree.html">Tree</a> *theTree, void *data)</td></tr>
 <tr class="separator:acccfb57183ab643ecb0f4a22f33d9b65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac181110745b61a333ac8eefc44c1add6"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="balancedTreeAPI_8h.html#ac181110745b61a333ac8eefc44c1add6">treeFindMin</a> (<a class="el" href="structBalancedBinTreeNode.html">TreeNode</a> *tempNode)</td></tr>
-<tr class="separator:ac181110745b61a333ac8eefc44c1add6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad13470266c2e2f8aaf00e108222dc5db"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="balancedTreeAPI_8h.html#ad13470266c2e2f8aaf00e108222dc5db">treeFindMax</a> (<a class="el" href="structBalancedBinTreeNode.html">TreeNode</a> *tempNode)</td></tr>
-<tr class="separator:ad13470266c2e2f8aaf00e108222dc5db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46434e742f064d38f81b38924101ab2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="balancedTreeAPI_8h.html#a46434e742f064d38f81b38924101ab2d">treeInOrderPrint</a> (<a class="el" href="structBalancedBinTree.html">Tree</a> *theTree, void(*printNodeFP)(void *data))</td></tr>
-<tr class="separator:a46434e742f064d38f81b38924101ab2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a016871075d74c03a9a7a9e1a1b9b786c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="balancedTreeAPI_8h.html#a016871075d74c03a9a7a9e1a1b9b786c">treePreOrderPrint</a> (<a class="el" href="structBalancedBinTree.html">Tree</a> *theTree, void(*printNodeFP)(void *data))</td></tr>
-<tr class="separator:a016871075d74c03a9a7a9e1a1b9b786c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c42e5d760518c090eb6eb8b9bff62f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="balancedTreeAPI_8h.html#a6c42e5d760518c090eb6eb8b9bff62f8">treePostOrderPrint</a> (<a class="el" href="structBalancedBinTree.html">Tree</a> *theTree, void(*printNodeFP)(void *data))</td></tr>
-<tr class="separator:a6c42e5d760518c090eb6eb8b9bff62f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing the functions that communicate with a self-balancing binary tree. </p>
@@ -278,56 +266,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad13470266c2e2f8aaf00e108222dc5db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad13470266c2e2f8aaf00e108222dc5db">&sect;&nbsp;</a></span>treeFindMax()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void* treeFindMax </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structBalancedBinTreeNode.html">TreeNode</a> *&#160;</td>
-          <td class="paramname"><em>tempNode</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Function to return the largest value of a tree, dependant on the compare function pointer parameters. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">theTree</td><td>pointer to a self-balancing binary tree's root </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>pointer to the maximum value found. If tree is empty, return NULL. </dd></dl>
-
-</div>
-</div>
-<a id="ac181110745b61a333ac8eefc44c1add6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac181110745b61a333ac8eefc44c1add6">&sect;&nbsp;</a></span>treeFindMin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void* treeFindMin </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structBalancedBinTreeNode.html">TreeNode</a> *&#160;</td>
-          <td class="paramname"><em>tempNode</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Function to return the smallest value of a tree, dependant on the compare function pointer parameters. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">theTree</td><td>pointer to a self-balancing binary tree's root </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>pointer to the min found. If tree is empty, return NULL. </dd></dl>
-
-</div>
-</div>
 <a id="acccfb57183ab643ecb0f4a22f33d9b65"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acccfb57183ab643ecb0f4a22f33d9b65">&sect;&nbsp;</a></span>treeFindNode()</h2>
 
@@ -353,31 +291,6 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function to return a given value in the tree, dependant on the compare function pointer parameters. Compares nodes, until compare function returns zero, or the tree is exhausted. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">theTree</td><td>pointer to a self-balancing binary tree's root </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>pointer to the data found. If tree is empty or data is not found, return NULL. </dd></dl>
-
-</div>
-</div>
-<a id="aff810699a02179aeabe9d5ab799dc766"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff810699a02179aeabe9d5ab799dc766">&sect;&nbsp;</a></span>treeHasTwoChildren()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int treeHasTwoChildren </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structBalancedBinTreeNode.html">TreeNode</a> *&#160;</td>
-          <td class="paramname"><em>root</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
 <p>Function to determine if a binary tree node has two children. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">root</td><td>pointer to a self-balancing binary tree's root </td></tr>
@@ -385,41 +298,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>If tree is empty, or does not exist, return 1. Otherwise, return 0. </dd></dl>
-
-</div>
-</div>
-<a id="a46434e742f064d38f81b38924101ab2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a46434e742f064d38f81b38924101ab2d">&sect;&nbsp;</a></span>treeInOrderPrint()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void treeInOrderPrint </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structBalancedBinTree.html">Tree</a> *&#160;</td>
-          <td class="paramname"><em>theTree</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void(*)(void *data)&#160;</td>
-          <td class="paramname"><em>printNodeFP</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function to print a tree in-order. EG A / \ B C / \ / \ D F G E would print nodes thusly: D-&gt;B-&gt;F-&gt;A-&gt;G-&gt;C-&gt;E </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">theTree</td><td>pointer to a self-balancing binary tree </td></tr>
-    <tr><td class="paramname">printNodeFP</td><td>pointer to a function to print void pointer data. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -516,76 +394,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>If tree is empty, return 1. Otherwise, return 0. </dd></dl>
-
-</div>
-</div>
-<a id="a6c42e5d760518c090eb6eb8b9bff62f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c42e5d760518c090eb6eb8b9bff62f8">&sect;&nbsp;</a></span>treePostOrderPrint()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void treePostOrderPrint </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structBalancedBinTree.html">Tree</a> *&#160;</td>
-          <td class="paramname"><em>theTree</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void(*)(void *data)&#160;</td>
-          <td class="paramname"><em>printNodeFP</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Function to print a tree in post-order. EG A / \ B C / \ / \ D F G E would print nodes thusly: D-&gt;F-&gt;B-&gt;G-&gt;C-&gt;E-&gt;A </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">theTree</td><td>pointer to a self-balancing binary tree's root </td></tr>
-    <tr><td class="paramname">printNodeFP</td><td>pointer to a function to print void pointer data. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a016871075d74c03a9a7a9e1a1b9b786c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a016871075d74c03a9a7a9e1a1b9b786c">&sect;&nbsp;</a></span>treePreOrderPrint()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void treePreOrderPrint </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structBalancedBinTree.html">Tree</a> *&#160;</td>
-          <td class="paramname"><em>theTree</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void(*)(void *data)&#160;</td>
-          <td class="paramname"><em>printNodeFP</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Function to print a tree pre-order. EG A / \ B C / \ / \ D F G E would print nodes thusly: A-&gt;B-&gt;D-&gt;F-&gt;C-&gt;G-&gt;E </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">theTree</td><td>pointer to a self-balancing binary tree </td></tr>
-    <tr><td class="paramname">printNodeFP</td><td>pointer to a function to print void pointer data. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>

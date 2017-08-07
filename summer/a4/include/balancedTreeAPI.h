@@ -61,61 +61,13 @@ int treeIsEmpty(Tree *theTree);
  *@param root pointer to a self-balancing binary tree's root
  *@return If tree is empty, or does not exist, return 1. Otherwise, return 0.
  **/
-int treeHasTwoChildren(TreeNode *root);
 
-/**Function to return a given value in the tree, dependant on the compare function pointer parameters.
- *Compares nodes, until compare function returns zero, or the tree is exhausted.
- *@param theTree pointer to a self-balancing binary tree's root
- *@return pointer to the data found. If tree is empty or data is not found, return NULL.
- **/
 void *treeFindNode(Tree *theTree, void *data);
 
 /**Function to return the smallest value of a tree, dependant on the compare function pointer parameters.
  *@param theTree pointer to a self-balancing binary tree's root
  *@return pointer to the min found. If tree is empty, return NULL.
  **/
-void *treeFindMin(TreeNode *tempNode);
 
-/**Function to return the largest value of a tree, dependant on the compare function pointer parameters.
- *@param theTree pointer to a self-balancing binary tree's root
- *@return pointer to the maximum value  found. If tree is empty, return NULL.
- **/
-void *treeFindMax(TreeNode *tempNode);
-
-/**function to print a tree in-order. EG 
- *              A
- *            /    \
- *          B       C
- *         / \     / \
- *        D   F   G   E
- *would print nodes thusly: D->B->F->A->G->C->E
- *@param theTree pointer to a self-balancing binary tree
- *@param printNodeFP pointer to a function to print void pointer data.
- **/
-void treeInOrderPrint(Tree *theTree, void (*printNodeFP) (void *data));
-
-/**Function to print a tree pre-order. EG 
- *              A
- *            /   \
- *          B       C
- *         / \     / \
- *        D   F   G   E
- *would print nodes thusly: A->B->D->F->C->G->E
- *@param theTree pointer to a self-balancing binary tree
- *@param printNodeFP pointer to a function to print void pointer data.
- **/
-void treePreOrderPrint(Tree *theTree, void (*printNodeFP) (void *data));
-
-/**Function to print a tree in post-order. EG 
- *              A
- *            /   \
- *          B       C
- *         / \     / \
- *        D   F   G   E
- *would print nodes thusly: D->F->B->G->C->E->A
- *@param theTree pointer to a self-balancing binary tree's root
- *@param printNodeFP pointer to a function to print void pointer data.
- **/
-void treePostOrderPrint(Tree *theTree, void (*printNodeFP) (void *data));
 
 #endif

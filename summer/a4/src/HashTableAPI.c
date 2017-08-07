@@ -30,15 +30,15 @@ HTable *createHashTable(size_t size, int (*hashFunction)(size_t tableSize, char 
 Node *createHashNode(char * key, void *data)
 {
 
-    Node * temp = malloc(sizeof(Node));
-    temp->key = malloc(sizeof(key)*256);
-    temp->data = malloc(sizeof(data)*256);
+    Node * temp = NULL;
 
-    if(temp == NULL)
+    if((temp = malloc(sizeof(Node))) == NULL)
     {
         return NULL;
     }
 
+    temp->key = malloc(sizeof(key)*256);
+    temp->data = malloc(sizeof(data)*256);
 
     strcpy(temp->key, key);
     strcpy(temp->data, data);
@@ -67,11 +67,14 @@ void insertData(HTable *hashTable, char * key, void *data)
 
     if(hashTable != NULL)
     {
-        int count = 0;
-        count = hashTable->hashFunction(hashTable->size, key);
-        Node * temp = createHashNode(key, data);
-        temp->next = hashTable->table[count];
-        hashTable->table[count] = temp;
+        if(lookupData(hashTable, key) == NULL)
+        {
+            int count = 0;
+            count = hashTable->hashFunction(hashTable->size, key);
+            Node * temp = createHashNode(key, data);
+            temp->next = hashTable->table[count];
+            hashTable->table[count] = temp;
+        }
     }
 }
 
@@ -112,7 +115,7 @@ void *lookupData(HTable *hashTable, char * key)
     }
 
     int tempKey = 0;
-    
+
     tempKey = hashTable->hashFunction(hashTable->size, key);
     Node * temp = hashTable->table[tempKey];
 

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['printforward',['printForward',['../LinkedListAPI_8h.html#a3f8bda02985d59886112a079d7778a04',1,'LinkedListAPI.c']]]
+  ['removedata',['removeData',['../HashTableAPI_8h.html#a18cc8f1a1a49cf9f0db185d9d44e3d40',1,'HashTableAPI.c']]]
 ];

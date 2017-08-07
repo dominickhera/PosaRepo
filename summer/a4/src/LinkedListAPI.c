@@ -2,9 +2,9 @@
 
 List *initializeList(void (*printFunction)(void *tobePrinted),void (*deleteFunction)(void *toBeDeleted),int (*compareFunction)(void *first, void *second))
 {
-    List * temp = (List*)malloc(sizeof(List));
+    List * temp = NULL;
 
-    if(temp == NULL)
+    if((temp = (List*)malloc(sizeof(List))) == NULL)
     {
         return NULL;
     }
@@ -21,18 +21,19 @@ List *initializeList(void (*printFunction)(void *tobePrinted),void (*deleteFunct
 CustomerNode *initializeNode(void *proID, void *prodName, void *publisher, void *genre, TAX_TYPE taxType,void *price, int quantity)
 {
 
-    CustomerNode * temp = malloc(sizeof(CustomerNode));
+    CustomerNode * temp = NULL;
+
+    if((temp = malloc(sizeof(CustomerNode))) == NULL)
+    {
+        return NULL;
+    }
+
     temp->proID = malloc(sizeof(proID) * 100);
     temp->prodName = malloc(sizeof(prodName) * 100);
     temp->publisher = malloc(sizeof(publisher) * 100);
     temp->genre = malloc(sizeof(genre) * 100);
     temp->price = malloc(sizeof(price) * 100);
 
-
-    if(temp == NULL)
-    {
-        return NULL;
-    }
     temp->next = NULL;
     temp->previous = NULL;
     strcpy(temp->proID, proID);
@@ -42,8 +43,6 @@ CustomerNode *initializeNode(void *proID, void *prodName, void *publisher, void 
     strcpy(temp->price, price);
     temp->quantity = quantity;
     temp->taxType = taxType;
-    // temp->left = NULL;
-    // temp->right = NULL;
 
     return temp;
 
@@ -53,7 +52,6 @@ void insertFront(List *list, void *proID, void *prodName, void *publisher, void 
 {
     CustomerNode * tempNode = NULL;
     CustomerNode * duplicateNode = list->head;
-    // int duplicateFlag = 0;
 
     if(list->head == NULL)
     {
@@ -89,17 +87,9 @@ void insertFront(List *list, void *proID, void *prodName, void *publisher, void 
 void deleteList(List *list)
 {
 
-    CustomerNode * tempNode;
-    tempNode = list->head;
-
     if(list != NULL)
     {
-        while(tempNode->next != NULL)
-        {
-            tempNode = tempNode->next;
-            free(tempNode);
-        }
-        free(list);
+         free(list);
     } 
 }
 
@@ -110,21 +100,18 @@ int deleteDataFromList(List *list, void *toBeDeleted)
     List * temp;
     temp = list;
 
-    // printf("1\n");
     CustomerNode * tempNode = findItem(list, toBeDeleted);
-    // printf("2\n");
+
     if(tempNode != NULL)
     {
-        // printf("3\n");
+
         if(tempNode == temp->head)
         { 
-           // printf("4\n");
             temp->head = tempNode->next;
         }
         
         if(tempNode == temp->tail)
         {
-            // printf("6\n");
             temp->tail = tempNode->previous;
         }
 
@@ -140,24 +127,6 @@ int deleteDataFromList(List *list, void *toBeDeleted)
 
 
     return 0;
-}
-
-void *getFromFront(List *list)
-{
-
-    List * temp;
-    temp = list;
-
-    CustomerNode * tempNode;
-    tempNode = temp->head; 
-
-    if(list == NULL)
-    {
-        printf("error\n");
-    }
-
-    return tempNode->prodName;
-
 }
 
 void printForward(List *list)

@@ -98,14 +98,6 @@ void insertSorted(List *list, void *toBeAdded);
  **/
 int deleteDataFromList(List *list, void *toBeDeleted);
 
-/**Function to return the data at the front of the list.
- *@pre The list exists and has memory allocated to it
- *@param list pointer to the dummy head of the list containing the head of the list
- *@return pointer to the data located at the head of the list
- **/
-void *getFromFront(List *list);
-
-
 /**Function to print list from head to tail. This will utilize the list's printData function pointer to print.
  *@pre List must exist, but does not have to have elements.
  *@param list Pointer to linked list dummy head.
