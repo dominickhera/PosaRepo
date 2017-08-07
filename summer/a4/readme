@@ -54,6 +54,14 @@ doubly linked list
 ====================
 - the doubly linked list in this program is utilized to manage the user's shopping cart/invoice in which they are able to add games to the head of the linked list while other items on the list are shifted down with the addition of any new games the user decides to add. I believe that the doubly linked list was the best data structure to manage the customer invoice due to the fact that while it doesn't have the fastest search in terms of time complexity, the list is not going to be traversed as often as the main inventory data structure is, and when the customer invoice linked list does get traversed, it won't ever be as long as the inventory data structure would be and even then any insertion or deletion would be even faster than in a binary search tree due to the fact that every new product is inserted into the head without traversing the list with the exception of duplicates.
 
+
+============
+Complexity
+============
+- Binary Search Tree - /Insert - O(log n)/Delete - O(log n)/Search - O(log n) - The binary search tree essentially divides the data it needs to search through every time a value is looked at making it one of the quickest and most efficent data structures avaliable, this applies to all of the different ways of accessing the data structure
+- Hash Table - /Insert - O(1)/Delete - O(1)/Search - O(1) - The hash table is the most efficient and least complex data structure considering it doesnt have to search through any information at all, it's given a hash key which is a one size fits all deal where it directly goes to the information provided it exists, this applies to all the different ways of accessing the data structure
+- Doubly Linked List - /Insert - O(1)/O(n)/Delete - O(1)/Search - O(n)/ - doubly linked list is the least efficient of the data structures used because it has to go through the entire data structure until it finds the information that you're searching for and where it is in the list is a total crap shoot so it can increase exponentially based on it's location in the data structure, but considering the list in the program is going to be very small, the complexity in searching through the structure is not as relevant but would be a bigger issue for larger linked lists. Insert would normally just insert on the top but considering it has to search through the list for duplicates, it could potentially reach O(n) since it has to go through the list every time.
+
 ===========
 additions
 ===========
