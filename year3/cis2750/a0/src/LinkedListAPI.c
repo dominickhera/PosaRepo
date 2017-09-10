@@ -190,6 +190,19 @@ void* getFromBack(List *list)
 char* toString(List list)
 {
 
+	List * temp;
+    temp = list;
+
+    Node * tempNode;
+    tempNode = list->head;
+
+    while(tempNode != NULL)
+    {
+        temp->printData(tempNode->data);
+        tempNode = tempNode->next;
+        tempNode->previous = tempNode;
+    }
+
 }
 
 ListIterator createIterator(List list)
