@@ -5,10 +5,10 @@ List initializeList(char* (*printFunction)(void *toBePrinted),void (*deleteFunct
 
 	List * temp = NULL;
 
-    if((temp = (List*)malloc(sizeof(List))) == NULL)
+    if((temp = (List*)malloc(sizeof(List))) != NULL)
     {
-        return NULL;
-    }
+        // return NULL;
+    
 
     temp->head = NULL;
     temp->tail = NULL;
@@ -16,7 +16,9 @@ List initializeList(char* (*printFunction)(void *toBePrinted),void (*deleteFunct
     temp->deleteData = deleteFunction;
     temp->compare = compareFunction;
 
-    return temp;
+    // return *temp;
+	}
+	return *temp;
 }
 
 
@@ -46,12 +48,12 @@ void insertFront(List *list, void *toBeAdded)
 
     if(list->head == NULL)
     {
-        tempNode = initializeNode(data);
+        tempNode = initializeNode(toBeAdded);
         list->head = tempNode;
     }
     else
     {
-        tempNode = initializeNode(data);
+        tempNode = initializeNode(toBeAdded);
         tempNode->next = list->head;
         list->head = tempNode;
     }
@@ -67,13 +69,13 @@ void insertBack(List *list, void *toBeAdded)
 
     if(tempNode != NULL)
     {
-        tempNode = initializeNode(data);
+        tempNode = initializeNode(toBeAdded);
         tempNode->previous = list->tail;
         list->tail = tempNode; 
     }
     else
     {
-    	tempNode = initializeNode(data);
+    	tempNode = initializeNode(toBeAdded);
         list->head = tempNode;
         list->tail = tempNode;
     }
@@ -110,7 +112,7 @@ void* deleteDataFromList(List *list, void *toBeDeleted)
         return NULL;
     }
 
-    while(strcmp(tempNode->prodName, toBeDeleted) != 0)
+    while(strcmp(tempNode->data, toBeDeleted) != 0)
     {
         if(tempNode->next == NULL)
         {
@@ -190,11 +192,9 @@ void* getFromBack(List *list)
 char* toString(List list)
 {
 
-	List * temp;
-    temp = list;
+	List * temp = &list;
 
-    Node * tempNode;
-    tempNode = list->head;
+    Node * tempNode = temp->head;
 
     while(tempNode != NULL)
     {
@@ -208,9 +208,22 @@ char* toString(List list)
 ListIterator createIterator(List list)
 {
 
+	ListIterator * iter = list->head;
+	return iter;
+
 }
 
 void* nextElement(ListIterator* iter)
 {
+
+	Node * tempNode = iter;
+
+	tempNode->previous = tempNode;
+	tempNode = tempNode->next;
+
+	iter = tempNode;
+
+	return iter;
+
 
 }
