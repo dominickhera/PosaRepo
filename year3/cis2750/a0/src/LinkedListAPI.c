@@ -203,13 +203,15 @@ char* toString(List list)
         tempNode->previous = tempNode;
     }
 
+    return (char *)tempNode->data;
+
 }
 
 ListIterator createIterator(List list)
 {
 
-	ListIterator * iter = list->head;
-	return iter;
+	ListIterator * tempIter = list->head;
+	return tempIter;
 
 }
 
