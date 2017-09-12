@@ -22,7 +22,7 @@ List initializeList(char* (*printFunction)(void *toBePrinted),void (*deleteFunct
 }
 
 
-Node *initializeNode(void *data)
+Node* initializeNode(void *data)
 {
 
 	 Node * temp = NULL;
@@ -41,7 +41,7 @@ Node *initializeNode(void *data)
 
 }
 
-void insertFront(List *list, void *toBeAdded)
+void insertFront(List* list, void *toBeAdded)
 {
 
 	Node * tempNode = NULL;
@@ -60,7 +60,7 @@ void insertFront(List *list, void *toBeAdded)
 
 }
 
-void insertBack(List *list, void *toBeAdded)
+void insertBack(List* list, void *toBeAdded)
 {
 
     Node * tempNode = NULL;
@@ -82,7 +82,7 @@ void insertBack(List *list, void *toBeAdded)
 
 }
 
-void clearList(List *list)
+void clearList(List* list)
 {
 
 	if(list != NULL)
@@ -92,12 +92,12 @@ void clearList(List *list)
 
 }
 
-void insertSorted(List *list, void *toBeAdded)
+void insertSorted(List* list, void *toBeAdded)
 {
 
 }
 
-void* deleteDataFromList(List *list, void *toBeDeleted)
+void* deleteDataFromList(List* list, void *toBeDeleted)
 {
 
 	List * temp;
@@ -153,16 +153,15 @@ void* deleteDataFromList(List *list, void *toBeDeleted)
 
 }
 
-void* getFromFront(List *list)
+void* getFromFront(List list)
 {
 
-	List * temp;
-    temp = list;
+	List * temp = &list;
 
     Node * tempNode;
     tempNode = temp->head; 
 
-    if(list == NULL)
+    if(temp == NULL)
     {
         printf("error\n");
     }
@@ -171,16 +170,15 @@ void* getFromFront(List *list)
 
 }
 
-void* getFromBack(List *list)
+void* getFromBack(List list)
 {
 
-	List * temp;
-    temp = list;
+	List * temp = &list;
 
     Node * tempNode;
     tempNode = temp->tail;
 
-    if(list == NULL)
+    if(temp == NULL)
     {
         printf("error\n");
     }
@@ -209,16 +207,17 @@ char* toString(List list)
 
 ListIterator createIterator(List list)
 {
+	List * temp = &list;
 
-	ListIterator * tempIter = list->head;
-	return tempIter;
+	ListIterator * tempIter = temp->head;
+	return *tempIter;
 
 }
 
 void* nextElement(ListIterator* iter)
 {
 
-	Node * tempNode = iter;
+	Node* tempNode = iter;
 
 	tempNode->previous = tempNode;
 	tempNode = tempNode->next;
