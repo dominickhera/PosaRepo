@@ -95,6 +95,22 @@ void clearList(List* list)
 void insertSorted(List* list, void *toBeAdded)
 {
 
+	/*FIX LATER PLEASE*/
+
+	Node * tempNode = NULL;
+
+    if(list->head == NULL)
+    {
+        tempNode = initializeNode(toBeAdded);
+        list->head = tempNode;
+    }
+    else
+    {
+        tempNode = initializeNode(toBeAdded);
+        tempNode->next = list->head;
+        list->head = tempNode;
+    }
+
 }
 
 void* deleteDataFromList(List* list, void *toBeDeleted)
@@ -207,24 +223,34 @@ char* toString(List list)
 
 ListIterator createIterator(List list)
 {
-	List * temp = &list;
+	// printf("create shit\n");
 
-	ListIterator * tempIter = temp->head;
-	return *tempIter;
+	printf("1\n");
+	List temp = list;
+	printf("1\n");
+	ListIterator tempIter = malloc(sizeof(ListIterator));
 
+	printf("1\n");
+	tempIter.current = temp.head;
+
+	printf("1\n");
+	return tempIter;
+	
 }
 
 void* nextElement(ListIterator* iter)
 {
+	// printf("hi\n");
 
-	Node* tempNode = iter;
+	printf("a\n");
+	ListIterator tempIter = *iter;
+	printf("b\n");
+	tempIter.current->previous = tempIter.current;
+	printf("c\n");
+	tempIter.current = tempIter.current->next;
+	printf("d\n");
 
-	tempNode->previous = tempNode;
-	tempNode = tempNode->next;
-
-	iter = tempNode;
-
-	return iter;
+	return tempIter.current;
 
 
 }
