@@ -132,7 +132,7 @@ int main(void){
 	//Create an iterator - again, the iterator is allocated on the stack
 	ListIterator iter = createIterator(list);
 // printf("21\n");
-	printf("bye %s\n", (char*)iter.current->data);
+	// printf("bye %s\n", (char*)iter->current->data);
 	/*
 	Traverse the list using an iterator.  
 	nextElement() returns NULL ones we reach the end of the list

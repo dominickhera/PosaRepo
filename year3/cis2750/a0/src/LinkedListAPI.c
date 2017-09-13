@@ -228,13 +228,13 @@ ListIterator createIterator(List list)
 	printf("1\n");
 	List temp = list;
 	printf("1\n");
-	ListIterator tempIter = malloc(sizeof(ListIterator));
+	ListIterator * tempIter = malloc(sizeof(ListIterator));
 
 	printf("1\n");
-	tempIter.current = temp.head;
+	tempIter->current = temp.head;
 
 	printf("1\n");
-	return tempIter;
+	return *tempIter;
 	
 }
 
