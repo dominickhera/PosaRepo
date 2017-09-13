@@ -85,6 +85,8 @@ void insertBack(List* list, void *toBeAdded)
 void clearList(List* list)
 {
 
+
+//THIS IS CAUSING THE MEMORY ALLOCATION ERROR, YOU HAVE TO FIX THIS
 	if(list != NULL)
     {
     	printf("hi");
