@@ -87,8 +87,13 @@ void clearList(List* list)
 
 	if(list != NULL)
     {
+    	printf("hi");
          free(list);
     } 
+    else
+    {
+    	printf("butts\n");
+    }
 
 }
 
@@ -223,17 +228,11 @@ char* toString(List list)
 
 ListIterator createIterator(List list)
 {
-	// printf("create shit\n");
 
-	printf("1\n");
 	List temp = list;
-	printf("1\n");
-	ListIterator * tempIter = malloc(sizeof(ListIterator));
-
-	printf("1\n");
+	ListIterator * tempIter = malloc(sizeof(ListIterator)*1000);
 	tempIter->current = temp.head;
 
-	printf("1\n");
 	return *tempIter;
 	
 }
@@ -242,15 +241,20 @@ void* nextElement(ListIterator* iter)
 {
 	// printf("hi\n");
 
+	//THIS IS THE FUNCTION THAT IS FUCKING UP//
+
 	printf("a\n");
-	ListIterator tempIter = *iter;
+	ListIterator * tempIter = iter;
+	// ListIterator * tempIter = malloc(sizeof(ListIterator)*1000);
+	// tempIter = iter;
 	printf("b\n");
-	tempIter.current->previous = tempIter.current;
+	tempIter->current->previous = tempIter->current;
 	printf("c\n");
-	tempIter.current = tempIter.current->next;
+	tempIter->current = tempIter->current->next;
+	printf("current: %p\n", (void*)tempIter);
 	printf("d\n");
 
-	return tempIter.current;
+	return tempIter->current;
 
 
 }
