@@ -82,66 +82,66 @@ void deleteFunc(void *toBeDeleted){
 
 int main(void){
 	
-	printf("1\n");
+	// printf("1\n");
 	Name* tmpName;
-	printf("2\n");
+	// printf("2\n");
 	char tmpStr[100];
-	printf("3\n");
+	// printf("3\n");
 	int memLen;
-	printf("4\n");
+	// printf("4\n");
 	/* 
 	Create the list.  The list is allocated on the stack, and initializeList returns the list struct.
 	*/
 	List list = initializeList(&printFunc, &deleteFunc, &compareFunc);
-	printf("5\n");
+	// printf("5\n");
 	//Populate the list
 	for (int i = 0; i < 4; i++){
-		printf("6\n");
+		// printf("6\n");
 		tmpName = (Name*)malloc(sizeof(Name));
-		printf("7\n");
+		// printf("7\n");
 		tmpName->age = (i+1)*10;
-		printf("8\n");
+		// printf("8\n");
 		sprintf(tmpStr, "Name%d", i);
-		printf("9\n");	
+		// printf("9\n");	
 		memLen = strlen(tmpStr)+2;
-		printf("10\n");
+		// printf("10\n");
 		tmpName->firstName = (char*)malloc(sizeof(char)*memLen);
-		printf("11\n");
+		// printf("11\n");
 		strcpy(tmpName->firstName, tmpStr);
-		printf("12\n");
+		// printf("12\n");
 		
 		sprintf(tmpStr, "Lastname%d", i);
-		printf("13\n");
+		// printf("13\n");
 		memLen = strlen(tmpStr)+2;
-		printf("14\n");
+		// printf("14\n");
 		tmpName->lastName = (char*)malloc(sizeof(char)*memLen);
-		printf("15\n");
+		// printf("15\n");
 		strcpy(tmpName->lastName, tmpStr);
-		printf("16\n");
+		// printf("16\n");
 
 	
 		insertBack(&list, (void*)tmpName);
-		printf("17\n");
+		// printf("17\n");
 		printf("%p\n", tmpName);
-		printf("18\n");
-		printf("hi %s - %s\n", tmpName->firstName, tmpName->lastName);
+		// printf("18\n");
+		// printf("hi %s - %s\n", tmpName->firstName, tmpName->lastName);
 	}
-		printf("19\n");
+		// printf("19\n");
 	void* elem;
-	printf("20\n");
+	// printf("20\n");
 	//Create an iterator - again, the iterator is allocated on the stack
 	ListIterator iter = createIterator(list);
 	// printf("iter: %p\n", (void*)iter.current);
-printf("21\n");
+// printf("21\n");
 	// printf("bye %s\n", (char*)iter->current->data);
 	/*
 	Traverse the list using an iterator.  
 	nextElement() returns NULL ones we reach the end of the list
 	*/
 	while ((elem = nextElement(&iter)) != NULL){
-		printf("22\n");
+		// printf("22\n");
 		Name* tmpName = (Name*)elem;
-		printf("23\n");
+		// printf("23\n");
 		/*
 		We use the printData function that we created to return a string representation 
 		of the data associated with the current node
@@ -150,7 +150,7 @@ printf("21\n");
 
 
 		//THIS LINE BELOW FUCKS EVERYTHING UP
-		printf("hi %s - %s<-\n", tmpName->firstName, tmpName->lastName);
+		// printf("hi %s - %s<-\n", tmpName->firstName, tmpName->lastName);
 
 		char* str = list.printData(tmpName);
 
@@ -160,22 +160,22 @@ printf("21\n");
 
 
 
-		printf("24\n");
+		// printf("24\n");
 		printf("%s\n", str);
-		printf("25\n");
+		// printf("25\n");
 		//Since list.printData dynamically allocates the string, we must free it
 		free(str);
-		printf("26\n");
+		// printf("26\n");
 	}
-	printf("27\n");
-	printf("28\n");
+	// printf("27\n");
+	// printf("28\n");
 	
 	/*
 	Crear list contents - free each node, including its contents
 	Since the list is created in the stack, we don't need to free it. 
 	*/
 	clearList(&list);	
-	printf("29\n");
+	// printf("29\n");
 	return 0;		
 }
 

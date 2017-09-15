@@ -22,22 +22,22 @@
 List initializeList(char* (*printFunction)(void *toBePrinted),void (*deleteFunction)(void *toBeDeleted),int (*compareFunction)(const void *first,const void *second))
 {
 
-	List * temp = NULL;
+	// List * temp = NULL;
 
-    if((temp = (List*)malloc(sizeof(List))) != NULL)
-    {
-        // return NULL;
-    
+    // if((temp = (List*)malloc(sizeof(List))) == NULL)
+    // {
+    //     return NULL;
+    // }
 
-    temp->head = NULL;
-    temp->tail = NULL;
-    temp->printData = printFunction;
-    temp->deleteData = deleteFunction;
-    temp->compare = compareFunction;
+    List temp = *(List*)malloc(sizeof(List));
 
-    // return *temp;
-	}
-	return *temp;
+    temp.head = NULL;
+    temp.tail = NULL;
+    temp.printData = printFunction;
+    temp.deleteData = deleteFunction;
+    temp.compare = compareFunction;
+
+    return temp;
 }
 
 
