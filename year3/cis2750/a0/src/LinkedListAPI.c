@@ -1,3 +1,22 @@
+/*
+
+ * CIS2750 F2017
+
+ * Assignment 0
+
+ * Dominick Hera 0943778
+
+ * This file contains the implementation of the linked List API
+
+ * This implementation is based on the List API that I implemented in my Assignment 1 for CIS2520, whcih I took
+
+ * in the summer of 2017 with professor Judi McCuaig.  The permission to use my CIS2520 code in CIS2750 was obtained on my behalf by
+
+ * my current CIS2750 professor, Denis Nikitenko.
+
+ */
+
+
 #include "LinkedListAPI.h"
 
 List initializeList(char* (*printFunction)(void *toBePrinted),void (*deleteFunction)(void *toBeDeleted),int (*compareFunction)(const void *first,const void *second))
@@ -89,7 +108,7 @@ void clearList(List* list)
 //THIS IS CAUSING THE MEMORY ALLOCATION ERROR, YOU HAVE TO FIX THIS
 	if(list != NULL)
     {
-    	printf("hi");
+    	printf("free SHEET\n");
          free(list);
     } 
     else
@@ -250,7 +269,7 @@ void* nextElement(ListIterator* iter)
 	// ListIterator * tempIter = malloc(sizeof(ListIterator)*1000);
 	// tempIter = iter;
 	printf("b\n");
-	tempIter->current->previous = tempIter->current;
+	// tempIter->current->previous = tempIter->current;
 	printf("c\n");
 	tempIter->current = tempIter->current->next;
 	printf("current: %p\n", (void*)tempIter);
