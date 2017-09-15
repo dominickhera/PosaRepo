@@ -1,7 +1,7 @@
 cc = gcc
 FILE = src/
 OBJFILE = bin/
-CFLAGS = -std=c11 -Wall
+CFLAGS = -std=c11 -Wall -g -pedantic
 EXE = test
 
 all: $(EXE)1 $(EXE)2
