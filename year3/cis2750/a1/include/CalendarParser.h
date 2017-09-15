@@ -107,4 +107,6 @@ char* printCalendar(const Calendar* obj);
 **/
 const char* printError(ErrorCode err);   
 
-#endif	
+#endif
+
+	
