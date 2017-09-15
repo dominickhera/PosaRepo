@@ -108,8 +108,18 @@ void clearList(List* list)
 //THIS IS CAUSING THE MEMORY ALLOCATION ERROR, YOU HAVE TO FIX THIS
 	if(list != NULL)
     {
-    	printf("free SHEET\n");
-         free(list);
+
+        Node * tempNode = list->head;
+        while(tempNode != NULL)
+        {
+
+            free(tempNode);
+            tempNode = tempNode->next;
+
+        }
+
+    	// printf("free SHEET\n");
+         // free(list);
     } 
     else
     {

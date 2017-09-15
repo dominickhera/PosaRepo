@@ -4,7 +4,7 @@ OBJFILE = bin/
 CFLAGS = -std=c11 -Wall
 EXE = test
 
-all: $(EXE)1
+all: $(EXE)1 $(EXE)2
 
 $(EXE)1: BIN OBJ StructListDemo.o LinkedListAPI.o
 	gcc ./obj/StructListDemo.o ./obj/LinkedListAPI.o -o $(OBJFILE)$(EXE)1
