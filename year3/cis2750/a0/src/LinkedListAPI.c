@@ -293,10 +293,11 @@ void* nextElement(ListIterator* iter)
 	// tempIter->current = tempIter->current->next;
 	// printf("current: %p\n", (void*)tempIter);
 	// printf("d\n");
+        return iter->current->data;
     }
 
 
-	return iter->current;
+	return NULL;
 
 
 }
