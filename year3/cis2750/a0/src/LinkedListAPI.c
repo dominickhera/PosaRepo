@@ -259,7 +259,7 @@ char* toString(List list)
 
 ListIterator createIterator(List list)
 {
-
+	printf("create iter\n");
 	List temp = list;
 	ListIterator * tempIter = malloc(sizeof(ListIterator)*100);
 	tempIter->current = temp.head;
@@ -270,7 +270,7 @@ ListIterator createIterator(List list)
 
 void* nextElement(ListIterator* iter)
 {
-	// printf("hi\n");
+	printf("next element \n");
 
 	//THIS IS THE FUNCTION THAT IS FUCKING UP//
 
