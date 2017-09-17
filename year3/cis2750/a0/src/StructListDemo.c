@@ -100,7 +100,8 @@ int main(void){
 	
 		insertBack(&list, (void*)tmpName);
 	}
-		
+	
+	printf("fuck\n");
 	char* tmp = list.printData(getFromFront(list));
 	printf("First element in the list is: %s\n", tmp);
 	free(tmp);

@@ -8,7 +8,7 @@
 
  * This file contains the implementation of the linked List API
 
- * This implementation is based on the List API that I implemented in my Assignment 1 for CIS2520, whcih I took
+ * This implementation is based on the List API that I implemented in my Assignment 1 for CIS2520, which I took
 
  * in the summer of 2017 with professor Judi McCuaig.  The permission to use my CIS2520 code in CIS2750 was obtained on my behalf by
 
@@ -22,22 +22,22 @@
 List initializeList(char* (*printFunction)(void *toBePrinted),void (*deleteFunction)(void *toBeDeleted),int (*compareFunction)(const void *first,const void *second))
 {
 
-	// List * temp = NULL;
+	List * temp = NULL;
 
-    // if((temp = (List*)malloc(sizeof(List))) == NULL)
-    // {
-    //     return NULL;
-    // }
+    if((temp = malloc(sizeof(List))) != NULL)
+    {
+        // return NULL;
+    
 
-    List temp = *(List*)malloc(sizeof(List));
+    temp->head = NULL;
+    temp->tail = NULL;
+    temp->printData = printFunction;
+    temp->deleteData = deleteFunction;
+    temp->compare = compareFunction;
 
-    temp.head = NULL;
-    temp.tail = NULL;
-    temp.printData = printFunction;
-    temp.deleteData = deleteFunction;
-    temp.compare = compareFunction;
-
-    return temp;
+    // return *temp;
+	}
+	return *temp;
 }
 
 
@@ -54,7 +54,8 @@ Node* initializeNode(void *data)
     temp->data = malloc(sizeof(data) * 100);
     temp->next = NULL;
     temp->previous = NULL;
-    strcpy(temp->data, data);
+    temp->data = data;
+    // strcpy(temp->data, data);
 
     return temp;
 
@@ -217,13 +218,12 @@ void* getFromFront(List list)
 
     Node * tempNode;
     tempNode = temp->head; 
-
     if(temp == NULL)
     {
         printf("error\n");
     }
 
-    return tempNode;
+    return tempNode->data;
 
 }
 
@@ -264,7 +264,7 @@ char* toString(List list)
 
 ListIterator createIterator(List list)
 {
-	printf("create iter\n");
+	// printf("create iter\n");
 	List temp = list;
 	ListIterator * tempIter = malloc(sizeof(ListIterator)*100);
 	tempIter->current = temp.head;
