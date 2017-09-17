@@ -29,15 +29,15 @@ List initializeList(char* (*printFunction)(void *toBePrinted),void (*deleteFunct
     //     return NULL;
     // }
 
-    List * temp = (List*)malloc(sizeof(List));
+    List temp = *(List*)malloc(sizeof(List));
 
-    temp->head = NULL;
-    temp->tail = NULL;
-    temp->printData = printFunction;
-    temp->deleteData = deleteFunction;
-    temp->compare = compareFunction;
+    temp.head = NULL;
+    temp.tail = NULL;
+    temp.printData = printFunction;
+    temp.deleteData = deleteFunction;
+    temp.compare = compareFunction;
 
-    return *temp;
+    return temp;
 }
 
 
