@@ -82,15 +82,20 @@ void insertFront(List* list, void *toBeAdded)
 void insertBack(List* list, void *toBeAdded)
 {
 
-    Node * tempNode = NULL;
-
-    tempNode = list->head;
+    Node * tempNode = list->head;
 
     if(tempNode != NULL)
     {
-        tempNode = initializeNode(toBeAdded);
-        tempNode->previous = list->tail;
-        list->tail = tempNode; 
+        // tempNode = initializeNode(toBeAdded);
+        while(tempNode->next != NULL)
+        {
+        	tempNode = tempNode->next;
+        }
+
+        tempNode->next = initializeNode(toBeAdded);
+        list->tail = tempNode->next;
+        tempNode->next->previous = tempNode;
+
     }
     else
     {
@@ -218,7 +223,7 @@ void* getFromFront(List list)
         printf("error\n");
     }
 
-    return tempNode->data;
+    return tempNode;
 
 }
 
