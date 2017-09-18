@@ -248,17 +248,20 @@ char* toString(List list)
 {
 
 	List temp = list;
-
     Node * tempNode = temp.head;
+    char * listString = malloc(sizeof(char)*10000);
 
     while(tempNode != NULL)
     {
-        temp.printData(tempNode->data);
+        // listString = temp.printData(tempNode->data);
+        strcat(listString, "\n");
+        strcat(listString, temp.printData(tempNode->data));
+        // strcat(listString, "\n");
         tempNode = tempNode->next;
         // tempNode->previous = tempNode;
     }
 
-    return (char *)tempNode->data;
+    return listString;
 
 }
 
