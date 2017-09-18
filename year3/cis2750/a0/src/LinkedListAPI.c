@@ -201,7 +201,7 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
                 tempNode->previous->next = tempNode->next;
             }
             //    // temp.deleteData(tempNode->data);
-            // free(tempNode);
+            free(tempNode);
 
             return tempReturnNode->data;
         }
