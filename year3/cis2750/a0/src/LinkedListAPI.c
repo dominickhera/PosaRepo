@@ -166,7 +166,10 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
     // Node * tempNode;
     // tempNode = list->head;
 
-    // Node * tempReturnNode;
+    
+   void* tempDataThing = toBeDeleted;
+
+    // printf("tbd: %s\n", tempDataThing);
 
     if(tempNode == NULL)
     {
@@ -177,11 +180,19 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
     {
     	// if(tempNode->next != NULL)
     	// {
-    	if(strcmp(tempNode->data, (char *)toBeDeleted) == 0)
+    	if(temp.compare(tempNode->data, tempDataThing) == 0)
     	{
-    		printf("found shit\n");
+    		// printf("found shit\n");
+    		break;
     	}
-    		printf("Data to Delete: %p, current data: %p\n", toBeDeleted, tempNode->data);
+
+
+    		// int idkThing = temp.compare(tempNode->data, tempDataThing);
+    		
+
+    		// printf("tbd: %d\n", idkThing);
+    		// printf("real tbd is %p\n", tempDataThing);
+    		// printf("Data to Delete: %p, current data: %p\n", toBeDeleted, tempNode->data);
         	tempNode = tempNode->next;
     	// }
     	// else
@@ -197,22 +208,38 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
 
         if(tempNode == temp.head)
         { 
+        	printf("h1\n");
             temp.head = tempNode->next;
         }
         
         if(tempNode == temp.tail)
         {
+        	printf("t1\n");
             temp.tail = tempNode->previous;
         }
 
-        tempNode->previous = tempNode->next;
+        if(tempNode->next != NULL)
+        {
+        	tempNode->next->previous = tempNode->previous;
+        }
+
+        if(tempNode->previous != NULL)
+        {
+        	tempNode->previous->next = tempNode->next;
+        }
+
+		// Node * tempReturnNode = tempNode->previous;
+
+		// tempReturnNode->next = tempNode->next;
+
+        // tempNode->previous = tempNode->next;
         
         // tempReturnNode = tempNode;
-        printf("buuuut");
-        list->deleteData(tempNode);
-        // free(tempNode);
+        // printf("buuuut\n");
+        // temp.deleteData(tempNode->data);
+        free(tempNode->data);
 
-        return tempNode;
+        return tempNode->data;
 
     }
     else
