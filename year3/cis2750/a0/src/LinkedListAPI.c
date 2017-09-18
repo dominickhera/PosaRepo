@@ -182,10 +182,14 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
             { 
                 // printf("h1\n");
                 printf("1\n");
+                tempReturnNode = temp.head;
+                // free(temp.head);
                 temp.head = tempNode->next;
                 printf("2\n");
                 temp.head->previous = NULL;
+                // free(tempNode->datasssss\\);
                 printf("3\n");
+                // tempReturnNode = temp.head;
             }
             
             if(tempNode->next != NULL)
@@ -262,20 +266,28 @@ void* getFromBack(List list)
 char* toString(List list)
 {
 
+	printf("fuck\n\n");
     List temp = list;
+    printf("1\n");
     Node * tempNode = temp.head;
+    printf("2\n");
     char * listString = malloc(sizeof(char)*10000);
-
+    char * newListString = malloc(sizeof(char)*10000);
+printf("3\n");
     while(tempNode != NULL)
     {
-        // listString = temp.printData(tempNode->data);
+    	printf("4\n");
+        newListString = temp.printData(tempNode->data);
         strcat(listString, "\n");
-        strcat(listString, temp.printData(tempNode->data));
+        printf("5\n");
+        strcat(listString,newListString);
+        printf("6\n");
         // strcat(listString, "\n");
         tempNode = tempNode->next;
+        printf("7\n");
         // tempNode->previous = tempNode;
     }
-
+printf("8\n");
     return listString;
 
 }
