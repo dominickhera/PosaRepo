@@ -205,7 +205,8 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
 
     if(tempNode != NULL)
     {
-
+	// temp.deleteData(tempNode->data);
+    	free(tempNode->data);
         if(tempNode == temp.head)
         { 
         	printf("h1\n");
@@ -237,7 +238,7 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
         // tempReturnNode = tempNode;
         // printf("buuuut\n");
         // temp.deleteData(tempNode->data);
-        free(tempNode->data);
+        // free(tempNode->data);
 
         return tempNode->data;
 
