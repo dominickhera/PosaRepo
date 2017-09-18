@@ -51,7 +51,7 @@ Node* initializeNode(void *data)
         return NULL;
     }
 
-    temp->data = malloc(sizeof(data) * 100);
+    // temp->data = malloc(sizeof(data) * 100);
     temp->next = NULL;
     temp->previous = NULL;
     temp->data = data;
@@ -173,29 +173,24 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
         return NULL;
     }
 
-    while(strcmp(tempNode->data, toBeDeleted) != 0)
+    while(tempNode != NULL)
     {
-        if(strcmp(tempNode->data, toBeDeleted) == 0)
-        {
-        	printf("butthole\n");
-        }
-        if(tempNode->next == NULL)
-        {
-        	printf("2\n");
-            return NULL;
-        }
-        else
-        {
-        	printf("1\n");
-        	// temp.printData(tempNode->data);
-        	// temp.printData(toBeDeleted);
-        	printf("%s\n", toBeDeleted);
-            tempNode->previous = tempNode;
-            tempNode = tempNode->next;
-        }
+    	// if(tempNode->next != NULL)
+    	// {
+    	if(strcmp(tempNode->data, (char *)toBeDeleted) == 0)
+    	{
+    		printf("found shit\n");
+    	}
+    		printf("Data to Delete: %p, current data: %p\n", toBeDeleted, tempNode->data);
+        	tempNode = tempNode->next;
+    	// }
+    	// else
+    	// {
+    	// 	return NULL;
+    	// }
     }
 
-    printf("found something\n");
+    // printf("found something\n");
 
     if(tempNode != NULL)
     {
