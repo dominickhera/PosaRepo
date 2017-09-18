@@ -205,7 +205,7 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
 
     if(tempNode != NULL)
     {
-	// temp.deleteData(tempNode->data);
+		// temp.deleteData(tempNode->data);
     	// free(tempNode->data);
         // if(tempNode == temp.head)
         // { 
@@ -219,15 +219,15 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
         //     temp.tail = tempNode->previous;
         // }
 
-        // if(tempNode->next != NULL)
-        // {
-        // 	tempNode->next->previous = tempNode->previous;
-        // }
+        if(tempNode->next != NULL)
+        {
+        	tempNode->next->previous = tempNode->previous;
+        }
 
-        // if(tempNode->previous != NULL)
-        // {
-        // 	tempNode->previous->next = tempNode->next;
-        // }
+        if(tempNode->previous != NULL)
+        {
+        	tempNode->previous->next = tempNode->next;
+        }
 
 		// Node * tempReturnNode = tempNode->previous;
 
