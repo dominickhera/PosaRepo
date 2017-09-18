@@ -14,14 +14,18 @@ typedef struct name {
 //printFunc will return a string that contains a humanly readable copy of the list contents
 char* printFunc(void *toBePrinted){
 	
+	// printf("3\n");
 	char* tmpStr;
+	// printf("3\n");
 	Name* tmpName;
+	// printf("3\n");
 	int len;
 	
+	// printf("3\n");
 	if (toBePrinted == NULL){
 		return NULL;
 	}
-	
+	// printf("3\n");
 	tmpName = (Name*)toBePrinted;
 		
 	/*
@@ -31,8 +35,9 @@ char* printFunc(void *toBePrinted){
 	An int is 8 bytes on 64-bit system, and needs up to 20 chars to represent it
 	If we don't do this, our code will crash if age is uninitialized	
 	*/
-	
+	// printf("3\n");
 	len = strlen(tmpName->firstName)+strlen(tmpName->lastName)+28;
+	// printf("3\n");
 	tmpStr = (char*)malloc(sizeof(char)*len);
 	
 	sprintf(tmpStr, "%s %s Age: %d", tmpName->firstName, tmpName->lastName, tmpName->age);

@@ -161,7 +161,7 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
 
 	List temp = *list;
     Node * tempNode = temp.head;
-
+    Node * tempReturnNode;
     // Node * tempNode = findItem(list, toBeDeleted);
     // Node * tempNode;
     // tempNode = list->head;
@@ -176,15 +176,37 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
         return NULL;
     }
 
-    while(tempNode != NULL)
+    while(tempNode->next != NULL)
     {
     	// if(tempNode->next != NULL)
     	// {
     	if(temp.compare(tempNode->data, tempDataThing) == 0)
     	{
-    		// printf("found shit\n");
-    		break;
-    	}
+    		tempReturnNode = tempNode;
+	        if(tempNode == temp.head)
+	        { 
+	        	// printf("h1\n");
+	            temp.head = tempNode->next;
+	        }
+	        else
+	        {
+
+	        	tempNode->previous->next = tempNode->next;
+	        }
+	        
+	        if(tempNode == temp.tail)
+	        {
+	        	// printf("t1\n");
+	            temp.tail = tempNode->previous;
+	        }
+	        else
+	        {
+	        	tempNode->next->previous = tempNode->previous;
+	        }
+	        temp.deleteData(tempNode->data);
+
+	        return tempNode->data;
+	    }
 
 
     		// int idkThing = temp.compare(tempNode->data, tempDataThing);
@@ -201,64 +223,68 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
     	// }
     }
 
+    // free(tempReturnNode);
+    // temp.deleteData(tempReturnNode->data);
+	// return tempReturnNode->data;
     // printf("found something\n");
 
-    if(tempNode != NULL)
-    {
-		// temp.deleteData(tempNode->data);
-    	// free(tempNode->data);
-    	Node * tempReturnNode = tempNode->data;
-        if(tempNode == temp.head)
-        { 
-        	printf("h1\n");
-            temp.head = tempNode->next;
-        }
-        else
-        {
+  //   if(tempNode != NULL)
+  //   {
+		// // temp.deleteData(tempNode->data);
+  //   	// free(tempNode->data);
+  //   	Node * tempReturnNode = tempNode->data;
+  //       if(tempNode == temp.head)
+  //       { 
+  //       	// printf("h1\n");
+  //           temp.head = tempNode->next;
+  //       }
+  //       else
+  //       {
 
-        	tempNode->previous->next = tempNode->next;
-        }
+  //       	tempNode->previous->next = tempNode->next;
+  //       }
         
-        if(tempNode == temp.tail)
-        {
-        	printf("t1\n");
-            temp.tail = tempNode->previous;
-        }
-        else
-        {
-        	tempNode->next->previous = tempNode->previous;
-        }
+  //       if(tempNode == temp.tail)
+  //       {
+  //       	// printf("t1\n");
+  //           temp.tail = tempNode->previous;
+  //       }
+  //       else
+  //       {
+  //       	tempNode->next->previous = tempNode->previous;
+  //       }
 
-        // if(tempNode->next != NULL)
-        // {
-        // 	printf("3\n");
-        // 	tempNode->next->previous = tempNode->previous;
-        // }
+  //       // if(tempNode->next != NULL)
+  //       // {
+  //       // 	printf("3\n");
+  //       // 	tempNode->next->previous = tempNode->previous;
+  //       // }
 
-        // if(tempNode->previous != NULL)
-        // {
-        // 	printf("4\n");
-        // 	tempNode->previous->next = tempNode->next;
-        // }
-        printf("5\n");
-		// Node * tempReturnNode = tempNode->previous;
+  //       // if(tempNode->previous != NULL)
+  //       // {
+  //       // 	printf("4\n");
+  //       // 	tempNode->previous->next = tempNode->next;
+  //       // }
+  //       // printf("5\n");
+		// // Node * tempReturnNode = tempNode->previous;
 
-		// tempReturnNode->next = tempNode->next;
+		// // tempReturnNode->next = tempNode->next;
 
-        // tempNode->previous = tempNode->next;
+  //       // tempNode->previous = tempNode->next;
         
-        // tempReturnNode = tempNode;
-        // printf("buuuut\n");
-        // temp.deleteData(tempNode->data);
-        // free(tempReturnNode);
+  //       // tempReturnNode = tempNode;
+  //       // printf("buuuut\n");
+  //       // temp.deleteData(tempNode->data);
+  //       // free(tempReturnNode);
 
-        return tempNode->data;
+  //       return (void *)tempNode->data;
 
-    }
-    else
-    {
-        printf("Item does not exist...\n");
-    }
+  //   }
+  //   else
+  //   {
+  //       printf("Item does not exist...\n");
+  //       return NULL;
+  //   }
 
 
     return NULL;
