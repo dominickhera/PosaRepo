@@ -213,24 +213,33 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
         	printf("h1\n");
             temp.head = tempNode->next;
         }
+        else
+        {
+
+        	tempNode->previous->next = tempNode->next;
+        }
         
         if(tempNode == temp.tail)
         {
         	printf("t1\n");
             temp.tail = tempNode->previous;
         }
-
-        if(tempNode->next != NULL)
+        else
         {
-        	printf("3\n");
         	tempNode->next->previous = tempNode->previous;
         }
 
-        if(tempNode->previous != NULL)
-        {
-        	printf("4\n");
-        	tempNode->previous->next = tempNode->next;
-        }
+        // if(tempNode->next != NULL)
+        // {
+        // 	printf("3\n");
+        // 	tempNode->next->previous = tempNode->previous;
+        // }
+
+        // if(tempNode->previous != NULL)
+        // {
+        // 	printf("4\n");
+        // 	tempNode->previous->next = tempNode->next;
+        // }
         printf("5\n");
 		// Node * tempReturnNode = tempNode->previous;
 
