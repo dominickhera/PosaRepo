@@ -152,14 +152,19 @@ int main(void){
 		Name* foundName = (Name*)retVal;
 		char* nameDescr = list.printData(foundName);
 		printf("Removed %s from the list\n", nameDescr);
+		printf("1\n");
 		list.deleteData(retVal);
+		printf("2\n");
 		free(nameDescr);
+		printf("3\n");
 	}else{
 		printf("A value with the last name Lastname1 not found the list\n");
 	}
+	printf("4\n");
 	free(searchName.lastName);
-		
+		printf("5\n");
 	char* listDescr = toString(list);
+	printf("6\n");
 	printf("After removal, the list is %s\n", listDescr);
 	free(listDescr);
 	

@@ -161,7 +161,7 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
 
 	List temp = *list;
     Node * tempNode = temp.head;
-    Node * tempReturnNode;
+    // Node * tempReturnNode;
     // Node * tempNode = findItem(list, toBeDeleted);
     // Node * tempNode;
     // tempNode = list->head;
@@ -182,28 +182,29 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
     	// {
     	if(temp.compare(tempNode->data, tempDataThing) == 0)
     	{
-    		tempReturnNode = tempNode;
-	        if(tempNode == temp.head)
-	        { 
-	        	// printf("h1\n");
-	            temp.head = tempNode->next;
-	        }
-	        else
-	        {
+    		// Node * tempReturnNode = tempNode->data;
+	     //    if(tempNode == temp.head)
+	     //    { 
+	     //    	// printf("h1\n");
+	     //        temp.head = tempNode->next;
+	     //    }
+	     //    else
+	     //    {
 
-	        	tempNode->previous->next = tempNode->next;
-	        }
+	     //    	tempNode->previous->next = tempNode->next;
+	     //    }
 	        
-	        if(tempNode == temp.tail)
-	        {
-	        	// printf("t1\n");
-	            temp.tail = tempNode->previous;
-	        }
-	        else
-	        {
-	        	tempNode->next->previous = tempNode->previous;
-	        }
-	        temp.deleteData(tempNode->data);
+	     //    if(tempNode == temp.tail)
+	     //    {
+	     //    	// printf("t1\n");
+	     //        temp.tail = tempNode->previous;
+	     //    }
+	     //    else
+	     //    {
+	     //    	tempNode->next->previous = tempNode->previous;
+	     //    }
+	     //    // temp.deleteData(tempNode->data);
+	     //    free(tempNode);
 
 	        return tempNode->data;
 	    }
@@ -223,7 +224,7 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
     	// }
     }
 
-    // free(tempReturnNode);
+    // free(tempReturnNode->\);
     // temp.deleteData(tempReturnNode->data);
 	// return tempReturnNode->data;
     // printf("found something\n");
