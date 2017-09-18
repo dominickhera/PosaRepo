@@ -275,28 +275,14 @@ ListIterator createIterator(List list)
 
 void* nextElement(ListIterator* iter)
 {
-	printf("next element \n");
 
-	//THIS IS THE FUNCTION THAT IS FUCKING UP//
-
-	// printf("a\n");
-	// ListIterator * tempIter = iter;
-    // List temp = list;
-	// ListIterator * tempIter = malloc(sizeof(ListIterator)*1000);
-	// tempIter = iter;
-	// printf("b\n");
-	// tempIter->current->previous = tempIter->current;
-	// printf("c\n");
-    if(iter->current != NULL)
+    if(iter->current->next != NULL)
     {
         iter->current = iter->current->next;
-	// tempIter->current = tempIter->current->next;
-	// printf("current: %p\n", (void*)tempIter);
-	// printf("d\n");
         return iter->current->data;
     }
 
-
+    // printf("fuuuuk\n");
 	return NULL;
 
 
