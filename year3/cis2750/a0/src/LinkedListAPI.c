@@ -250,7 +250,7 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
         // tempReturnNode = tempNode;
         // printf("buuuut\n");
         // temp.deleteData(tempNode->data);
-        free(tempReturnNode);
+        // free(tempReturnNode);
 
         return tempNode->data;
 
