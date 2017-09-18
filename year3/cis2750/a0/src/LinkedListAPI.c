@@ -159,12 +159,14 @@ void insertSorted(List* list, void *toBeAdded)
 void* deleteDataFromList(List* list, void *toBeDeleted)
 {
 
-	List * temp;
-    temp = list;
+	List temp = *list;
+    Node * tempNode = temp.head;
 
     // Node * tempNode = findItem(list, toBeDeleted);
-    Node * tempNode;
-    tempNode = list->head;
+    // Node * tempNode;
+    // tempNode = list->head;
+
+    // Node * tempReturnNode;
 
     if(tempNode == NULL)
     {
@@ -173,33 +175,49 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
 
     while(strcmp(tempNode->data, toBeDeleted) != 0)
     {
+        if(strcmp(tempNode->data, toBeDeleted) == 0)
+        {
+        	printf("butthole\n");
+        }
         if(tempNode->next == NULL)
         {
+        	printf("2\n");
             return NULL;
         }
         else
         {
+        	printf("1\n");
+        	// temp.printData(tempNode->data);
+        	// temp.printData(toBeDeleted);
+        	printf("%s\n", toBeDeleted);
             tempNode->previous = tempNode;
             tempNode = tempNode->next;
         }
     }
 
+    printf("found something\n");
+
     if(tempNode != NULL)
     {
 
-        if(tempNode == temp->head)
+        if(tempNode == temp.head)
         { 
-            temp->head = tempNode->next;
+            temp.head = tempNode->next;
         }
         
-        if(tempNode == temp->tail)
+        if(tempNode == temp.tail)
         {
-            temp->tail = tempNode->previous;
+            temp.tail = tempNode->previous;
         }
 
         tempNode->previous = tempNode->next;
         
-        free(tempNode);
+        // tempReturnNode = tempNode;
+        printf("buuuut");
+        list->deleteData(tempNode);
+        // free(tempNode);
+
+        return tempNode;
 
     }
     else
@@ -208,7 +226,7 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
     }
 
 
-    return 0;
+    return NULL;
 
 }
 
@@ -285,7 +303,7 @@ void* nextElement(ListIterator* iter)
     if(iter->current != NULL)
     {	
     	void * tempIter = iter->current->data;
-    	
+
         iter->current = iter->current->next;
         return tempIter;
     }
