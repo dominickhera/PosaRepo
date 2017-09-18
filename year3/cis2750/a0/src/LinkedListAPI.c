@@ -75,6 +75,7 @@ void insertFront(List* list, void *toBeAdded)
     {
         tempNode = initializeNode(toBeAdded);
         tempNode->next = list->head;
+
         list->head = tempNode;
     }
 
@@ -279,10 +280,14 @@ ListIterator createIterator(List list)
 void* nextElement(ListIterator* iter)
 {
 
-    if(iter->current->next != NULL)
-    {
+
+
+    if(iter->current != NULL)
+    {	
+    	void * tempIter = iter->current->data;
+    	
         iter->current = iter->current->next;
-        return iter->current->data;
+        return tempIter;
     }
 
     // printf("fuuuuk\n");
