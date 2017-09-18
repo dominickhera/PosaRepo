@@ -247,15 +247,15 @@ void* getFromBack(List list)
 char* toString(List list)
 {
 
-	List * temp = &list;
+	List temp = list;
 
-    Node * tempNode = temp->head;
+    Node * tempNode = temp.head;
 
     while(tempNode != NULL)
     {
-        temp->printData(tempNode->data);
+        temp.printData(tempNode->data);
         tempNode = tempNode->next;
-        tempNode->previous = tempNode;
+        // tempNode->previous = tempNode;
     }
 
     return (char *)tempNode->data;
