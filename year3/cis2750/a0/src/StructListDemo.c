@@ -14,18 +14,18 @@ typedef struct name {
 //printFunc will return a string that contains a humanly readable copy of the list contents
 char* printFunc(void *toBePrinted){
 	
-	// printf("3\n");
+	printf("32\n");
 	char* tmpStr;
-	// printf("3\n");
+	printf("33\n");
 	Name* tmpName;
-	// printf("3\n");
+	printf("34\n");
 	int len;
 	
-	// printf("3\n");
+	printf("35\n");
 	if (toBePrinted == NULL){
 		return NULL;
 	}
-	// printf("3\n");
+	printf("36\n");
 	tmpName = (Name*)toBePrinted;
 		
 	/*
@@ -35,13 +35,14 @@ char* printFunc(void *toBePrinted){
 	An int is 8 bytes on 64-bit system, and needs up to 20 chars to represent it
 	If we don't do this, our code will crash if age is uninitialized	
 	*/
-	// printf("3\n");
+	printf("37\n");
+	printf("%s, %s\n", tmpName->firstName, tmpName->lastName);
 	len = strlen(tmpName->firstName)+strlen(tmpName->lastName)+28;
-	// printf("3\n");
+	printf("38\n");
 	tmpStr = (char*)malloc(sizeof(char)*len);
-	
+	printf("39\n");
 	sprintf(tmpStr, "%s %s Age: %d", tmpName->firstName, tmpName->lastName, tmpName->age);
-	
+	printf("40\n");
 	return tmpStr;
 }
 
@@ -64,17 +65,22 @@ int compareFunc(const void *first, const void *second){
 //We need to free the first and last names, and then the Name struct itself
 void deleteFunc(void *toBeDeleted){
 	
+	printf("13\n");
 	Name* tmpName;
-	
+	printf("14\n");
 	if (toBeDeleted == NULL){
 		return;
 	}
+	printf("15\n");
 	
 	tmpName = (Name*)toBeDeleted;
-	
+	printf("16\n");
 	free(tmpName->firstName);
+	printf("17\n");
 	free(tmpName->lastName);
+	printf("18\n");
 	free(tmpName);
+	printf("19\n");
 }
 
 int main(void){
@@ -152,28 +158,28 @@ int main(void){
 		Name* foundName = (Name*)retVal;
 		char* nameDescr = list.printData(foundName);
 		printf("Removed %s from the list\n", nameDescr);
-		// printf("1\n");
+		printf("20\n");
 		list.deleteData(retVal);
-		// printf("2\n");
+		printf("21\n");
 		free(nameDescr);
-		// printf("3\n");
+		printf("22\n");
 	}else{
 		printf("A value with the last name Lastname1 not found the list\n");
 	}
-	// printf("4\n");
+	printf("23\n");
 	free(searchName.lastName);
-		// printf("5\n");
+		printf("24\n");
 	char* listDescr = toString(list);
-	// printf("6\n");
+	printf("25\n");
 	printf("After removal, the list is %s\n", listDescr);
 	free(listDescr);
-	
+	printf("26\n");
 	/*
 	Crear list contents - free each node, including its contents
 	Since the list is created in the stack, we don't need to free it. 
 	*/
 	clearList(&list);	
-	
+	printf("27\n");
 	return 0;		
 }
 

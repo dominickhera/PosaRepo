@@ -171,30 +171,38 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
             Node * tempReturnNode = tempNode;
             if(temp.head == tempNode)
             { 
-                temp.head = tempNode->next;
-                temp.head->previous = NULL;
+                printf("1\n");
+                tempNode->next = temp.head;
+                printf("2\n");
+                // temp.head = tempNode->next;
+                // temp.head->previous = NULL;
             }
-
+            printf("3\n");
             if(tempNode->next != NULL)
             {
+                printf("4\n");
                 tempNode->next->previous = tempNode->previous;
             }
+            printf("5\n");
 
             if(temp.tail == tempNode)
             {
+                printf("6\n");
                 temp.tail = tempNode->previous;
+                printf("7\n");
                 temp.tail->next = NULL;
             }
-
+            printf("8\n");
             if(tempNode->previous != NULL)
             {
+                printf("9\n");
                 tempNode->previous->next = tempNode->next;
             }
-
+            printf("10\n");
             return tempReturnNode->data;
-
+            // printf("11\n");
         }
-
+// printf("12\n");
         tempNode = tempNode->next;
 
     }
@@ -239,19 +247,29 @@ void* getFromBack(List list)
 char* toString(List list)
 {
 
-    List temp = list;
-    Node * tempNode = temp.head;
-    char * listString = malloc(sizeof(char)*10000);
-    char * newListString = malloc(sizeof(char)*10000);
+    printf("25\n");
+    List  * temp = &list;
+    printf("26\n");
+    Node * tempNode = temp->head;
+    printf("27\n");
+    char * listString = malloc(sizeof(char)*100);
+    printf("28\n");
+    char * newListString = malloc(sizeof(char)*100);
+    printf("29\n");
 
     while(tempNode != NULL)
     {
-        newListString = temp.printData(tempNode->data);
+        printf("30\n");
+        newListString = temp->printData(tempNode->data);
+        printf("31\n");
         strcat(listString, "\n");
+        printf("32\n");
         strcat(listString,newListString);
+        printf("33\n");
         tempNode = tempNode->next;
+        printf("34\n");
     }
-
+    printf("35\n");
     return listString;
 }
 
