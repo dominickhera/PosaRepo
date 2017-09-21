@@ -21,7 +21,7 @@ freq <- function(samples)
 	x <- samples
 
 	xSum <- sum(x)
-	for(i in 1:11)
+	for(i in 1:12)
 	{
 		x[i] <- (x[i]/xSum)
 	}
