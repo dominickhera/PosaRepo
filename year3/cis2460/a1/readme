@@ -28,13 +28,13 @@ freq(n):
 
 takes in a vector array as input which is then immediately assigned to a temporary variable used in the function. another integet function is created which is the sum of all the values in the vector for finding the frequency. A for loop is then called up until 12 because there arent ever going to be more than 12 values in the inputted through the dice simulator unless intentionally tampered with which will most likely produce information but be missing some. going from 1 to 12 each value in the vector of dice simulations is then divided by the "xSum" variable which as previously stated is the sum of the amount of times the simulation was run. and then assigning that value back into each value of x. The newly divided and calculated vector array is then returned back to where the function was initially called from.  
 
-################
+##################################
 
 ##################################
 runSim(n, sim, conv = identity):
 ==================================
 
-runSim is the encompassing simulation environment function that will produce the same output that freq(samples) does but rather instead of having to individually call the diceSim(n) function, assigning the output to a new value and inputting that new value into the freq(samples) function yourself, this function 
+runSim is the encompassing simulation environment function that will produce the same output that freq(samples) does but rather instead of having to individually call the diceSim(n) function, assigning the output to a new value and inputting that new value into the freq(samples) function yourself. runSim saves time by doing all this work the user and outputting the same output in a quicker fashion and returns a vector array of the frequency of all the different times die values were rolled.
 
 ##################################
 
