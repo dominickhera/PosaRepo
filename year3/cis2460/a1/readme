@@ -1,6 +1,7 @@
 ###############
 Dominick Hera
 STID# 0943778
+dhera@uoguelph.ca
 CIS 2460
 21/09/17
 ##############
@@ -16,7 +17,7 @@ Functions:
 diceSime(n):
 ==============
 
-
+Uses a vector of 12 numbers that are all initially assigned to 0 that is then assigned to variable "rollType". Uses a for loop going from 1 until n where two dices are simulated by getting a random sample of two different vectors which are then later added together as the value in the rollType vector to add another point as to the value that has been rolled. this is done n times and then proceeds to return the vector "rollType" as the value. 
 
 
 ################
@@ -25,7 +26,7 @@ diceSime(n):
 freq(n):
 =========
 
-
+takes in a vector array as input which is then immediately assigned to a temporary variable used in the function. another integet function is created which is the sum of all the values in the vector for finding the frequency. A for loop is then called up until 12 because there arent ever going to be more than 12 values in the inputted through the dice simulator unless intentionally tampered with which will most likely produce information but be missing some. going from 1 to 12 each value in the vector of dice simulations is then divided by the "xSum" variable which as previously stated is the sum of the amount of times the simulation was run. and then assigning that value back into each value of x. The newly divided and calculated vector array is then returned back to where the function was initially called from.  
 
 ################
 
@@ -33,8 +34,7 @@ freq(n):
 runSim(n, sim, conv = identity):
 ==================================
 
-
-
+runSim is the encompassing simulation environment function that will produce the same output that freq(samples) does but rather instead of having to individually call the diceSim(n) function, assigning the output to a new value and inputting that new value into the freq(samples) function yourself, this function 
 
 ##################################
 
