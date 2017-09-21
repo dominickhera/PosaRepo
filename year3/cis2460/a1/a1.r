@@ -18,15 +18,23 @@ diceSim <- function(n)
 freq <- function(samples)
 {
 
-	x <- diceSim(samples)
+	x <- samples
 
-	for(i in 1:12)
+	xSum <- sum(x)
+	for(i in 1:11)
 	{
-		x[i] <- (x[1]/samples)
+		x[i] <- (x[i]/xSum)
 	}
+	return(x)
 }
 
 runSim <- function(n, sim, conv = identity)
 {
 
+  ranNum <- diceSim(n)
+  
+  freqInfo <- freq(ranNum)
+  
+  return(freqInfo)
+  
 }
