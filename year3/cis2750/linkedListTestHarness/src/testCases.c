@@ -657,7 +657,7 @@ testRec * deleteTest(int testNum)
         addResult(rec, FAIL, feedback);
     }
     
-    printf("end of s1\n");
+    // printf("end of s1\n");
     /*--------
      subtest 2:  delete existing data test (back)
      ---------*/
@@ -685,7 +685,7 @@ testRec * deleteTest(int testNum)
         addResult(rec, FAIL, feedback);
     }
 
-    printf("end of s2\n");
+    // printf("end of s2\n");
     /*--------
      subtest 3:  delete existing data test (middle)
      ---------*/
@@ -714,7 +714,7 @@ testRec * deleteTest(int testNum)
         sprintf(feedback, "Subtest %d.%d: Data not returned after being removed from list",testNum,subTest);
         addResult(rec, FAIL, feedback);
     }
-    printf("end of s3\n");
+    // printf("end of s3\n");
     /*--------
      subtest 4:  delete data that doesn't exist
      ---------*/
@@ -733,7 +733,7 @@ testRec * deleteTest(int testNum)
         addResult(rec, FAIL, feedback);
     }
 
-    printf("end of s4\n");
+    // printf("end of s4\n");
     /*--------
      subtest 5:  delete null data
      ---------*/
@@ -744,7 +744,7 @@ testRec * deleteTest(int testNum)
     sprintf(feedback, "Subtest %d.%d: correctly handled NULL parameter.",testNum,subTest);
     addResult(rec, SUCCESS, feedback);
     rec->subsPassed++;
-    printf("end of s5\n");
+    // printf("end of s5\n");
     /*--------
     subtest 6:  delete populated list
     ---------*/
@@ -762,7 +762,7 @@ testRec * deleteTest(int testNum)
           sprintf(feedback, "Subtest %d.%d: did not correctly clear List",testNum,subTest);
           addResult(rec, FAIL, feedback);
         }
-    printf("end of s6\n");
+    // printf("end of s6\n");
     /*--------
     subtest 7:  delete empty list
     ---------*/
@@ -780,7 +780,7 @@ testRec * deleteTest(int testNum)
           sprintf(feedback, "Subtest %d.%d: failed on empty list",testNum,subTest);
           addResult(rec, FAIL, feedback);
         }
-    printf("end of s7\n");
+    // printf("end of s7\n");
     /*--------
     subtest 8:  delete NULL list
     ---------*/
@@ -798,7 +798,7 @@ testRec * deleteTest(int testNum)
           sprintf(feedback, "Subtest %d.%d: failed on NULL list",testNum,subTest);
           addResult(rec, FAIL, feedback);
         }
-        printf("end of s8\n");
+        // printf("end of s8\n");
     return rec;
 }
 

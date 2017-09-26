@@ -64,7 +64,7 @@ int compareFunc(const void *first, const void *second){
 
 //We need to free the first and last names, and then the Name struct itself
 void deleteFunc(void *toBeDeleted){
-	
+	printf(" butthole\n");
 	printf("13\n");
 	Name* tmpName;
 	printf("14\n");

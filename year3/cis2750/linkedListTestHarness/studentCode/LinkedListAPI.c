@@ -118,11 +118,13 @@ void clearList(List* list)
         Node * tempNode = list->head;
         while(tempNode != NULL)
         {
-
-            free(tempNode);
+            // list->deleteData(tempNode->data);
+            list->deleteData(tempNode);
             tempNode = tempNode->next;
-
         }
+        list->head = NULL;
+        list->tail = NULL;
+        free(list);
     } 
 
 }
@@ -206,8 +208,6 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
 
     if(list != NULL)
     {
-        printf("uh\n");
-
         List temp = *list;
         Node * tempNode = temp.head;
 
@@ -222,43 +222,34 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
         {
             if(temp.compare(tempNode->data, tempDataThing) == 0)
             {
-                Node * tempReturnNode = tempNode;
-                if(temp.head == tempNode)
-                { 
-                    // printf("1\n");
-                    tempNode->next = temp.head;
-                    // printf("2\n");
-                    // temp.head = tempNode->next;
-                    // temp.head->previous = NULL;
-                }
-                // printf("3\n");
-                if(tempNode->next != NULL)
-                {
-                    // printf("4\n");
-                    tempNode->next->previous = tempNode->previous;
-                }
-                // printf("5\n");
 
-                if(temp.tail == tempNode)
+                if(tempNode->previous != NULL && tempNode->next != NULL)
                 {
-                    // printf("6\n");
-                    temp.tail = tempNode->previous;
-                    // printf("7\n");
-                    temp.tail->next = NULL;
-                }
-                // printf("8\n");
-                if(tempNode->previous != NULL)
-                {
-                    // printf("9\n");
+
                     tempNode->previous->next = tempNode->next;
-                }
-                // printf("10\n");
-                return tempReturnNode->data;
-                // printf("11\n");
-            }
-            // printf("12\n");
-            tempNode = tempNode->next;
+                    tempNode->next->previous = tempNode->previous;
 
+                }
+
+                Node * tempReturnNode = tempNode;
+                if(tempNode->next == NULL)
+                {
+                    list->tail = tempNode->previous;
+                    tempNode->previous->next = NULL;
+                    
+                }
+
+
+                if(tempNode->previous == NULL)
+                {
+                    list->head = tempNode->next;
+                    tempNode->next->previous = NULL;
+                    
+                }
+
+                return tempReturnNode->data;
+            }
+            tempNode = tempNode->next;
         }
     }
 
