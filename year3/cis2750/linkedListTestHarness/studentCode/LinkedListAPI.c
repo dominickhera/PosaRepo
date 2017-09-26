@@ -49,6 +49,7 @@ Node* initializeNode(void *data)
         return NULL;
     }
 
+    // printf("wtf\n");
     temp->next = NULL;
     temp->previous = NULL;
     temp->data = data;
@@ -59,46 +60,51 @@ Node* initializeNode(void *data)
 
 void insertFront(List* list, void *toBeAdded)
 {
-
-    Node * tempNode = NULL;
-
-    if(list->head == NULL)
+    if(list != NULL)
     {
-        tempNode = initializeNode(toBeAdded);
-        list->head = tempNode;
-    }
-    else
-    {
-        tempNode = initializeNode(toBeAdded);
-        tempNode->next = list->head;
+        Node * tempNode = NULL;
 
-        list->head = tempNode;
-    }
+        if(list->head == NULL)
+        {
+            tempNode = initializeNode(toBeAdded);
+            list->head = tempNode;
+            list->tail = tempNode;
+        }
+        else
+        {
+            tempNode = initializeNode(toBeAdded);
+            list->head->previous = tempNode;
+            tempNode->next = list->head;
+            list->head = tempNode;
+        }
 
+    }
 }
 
 void insertBack(List* list, void *toBeAdded)
 {
 
-    Node * tempNode = list->head;
-
-    if(tempNode != NULL)
+    if(list != NULL)
     {
-        while(tempNode->next != NULL)
+        Node * tempNode = list->head;
+        if(tempNode != NULL)
         {
-            tempNode = tempNode->next;
+            while(tempNode->next != NULL)
+            {
+                tempNode = tempNode->next;
+            }
+
+            tempNode->next = initializeNode(toBeAdded);
+            list->tail = tempNode->next;
+            tempNode->next->previous = tempNode;
+
         }
-
-        tempNode->next = initializeNode(toBeAdded);
-        list->tail = tempNode->next;
-        tempNode->next->previous = tempNode;
-
-    }
-    else
-    {
-        tempNode = initializeNode(toBeAdded);
-        list->head = tempNode;
-        list->tail = tempNode;
+        else
+        {
+            tempNode = initializeNode(toBeAdded);
+            list->head = tempNode;
+            list->tail = tempNode;
+        }
     }
 
 }
@@ -118,41 +124,44 @@ void clearList(List* list)
 
         }
     } 
-    else
-    {
-        printf("butts\n");
-    }
 
 }
 
 void insertSorted(List* list, void *toBeAdded)
 {
- 
- Node * tempNode = list->head;
 
-    if(tempNode != NULL)
+    if(list != NULL)
     {
-        while(tempNode->next != NULL && list->compare(tempNode->data, toBeAdded) < 0)
-        {
-            tempNode = tempNode->next;
-        }
+        Node * tempNode = list->head;
 
-        tempNode->next = initializeNode(toBeAdded);
-        list->tail = tempNode->next;
-        tempNode->next->previous = tempNode;
+            if(tempNode != NULL)
+            {
+                while(tempNode->next != NULL && list->compare(tempNode->data, toBeAdded) < 0)
+                {
+                    tempNode = tempNode->next;
+                }
 
-    }
-    else
-    {
-        tempNode = initializeNode(toBeAdded);
-        list->head = tempNode;
-        list->tail = tempNode;
+                tempNode->next = initializeNode(toBeAdded);
+                list->tail = tempNode->next;
+                tempNode->next->previous = tempNode;
+
+            }
+            else
+            {
+                tempNode = initializeNode(toBeAdded);
+                list->head = tempNode;
+                list->tail = tempNode;
+            }
     }
 
 }
 
 void* deleteDataFromList(List* list, void *toBeDeleted)
 {
+
+    if(list != NULL)
+    {
+
 
     List temp = *list;
     Node * tempNode = temp.head;
@@ -171,34 +180,34 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
             Node * tempReturnNode = tempNode;
             if(temp.head == tempNode)
             { 
-                printf("1\n");
+                // printf("1\n");
                 tempNode->next = temp.head;
-                printf("2\n");
+                // printf("2\n");
                 // temp.head = tempNode->next;
                 // temp.head->previous = NULL;
             }
-            printf("3\n");
+            // printf("3\n");
             if(tempNode->next != NULL)
             {
-                printf("4\n");
+                // printf("4\n");
                 tempNode->next->previous = tempNode->previous;
             }
-            printf("5\n");
+            // printf("5\n");
 
             if(temp.tail == tempNode)
             {
-                printf("6\n");
+                // printf("6\n");
                 temp.tail = tempNode->previous;
-                printf("7\n");
+                // printf("7\n");
                 temp.tail->next = NULL;
             }
-            printf("8\n");
+            // printf("8\n");
             if(tempNode->previous != NULL)
             {
-                printf("9\n");
+                // printf("9\n");
                 tempNode->previous->next = tempNode->next;
             }
-            printf("10\n");
+            // printf("10\n");
             return tempReturnNode->data;
             // printf("11\n");
         }
@@ -206,6 +215,7 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
         tempNode = tempNode->next;
 
     }
+}
 
     return NULL;
 
@@ -213,64 +223,66 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
 
 void* getFromFront(List list)
 {
-
-    List * temp = &list;
-
-    Node * tempNode;
-    tempNode = temp->head; 
-    if(temp == NULL)
+    Node* tempB = list.head;
+    if(tempB != NULL)
     {
-        printf("error\n");
+        List * temp = &list;
+        Node * tempNode;
+        tempNode = temp->head; 
+        return tempNode->data;
     }
 
-    return tempNode->data;
+    return NULL;
 
 }
 
 void* getFromBack(List list)
 {
 
-    List * temp = &list;
-
-    Node * tempNode;
-    tempNode = temp->tail;
-
-    if(temp == NULL)
+    Node* tempB = list.head;
+    if(tempB != NULL)
     {
-        printf("error\n");
+        List * temp = &list;
+        Node * tempNode;
+        tempNode = temp->tail;
+        return tempNode->data;
     }
-
-    return tempNode->data;
+    return NULL;
 
 }
 
 char* toString(List list)
 {
 
-    printf("25\n");
+    // printf("25\n");
     List  * temp = &list;
-    printf("26\n");
+
+    if(temp != NULL)
+    {
+    // printf("26\n");
     Node * tempNode = temp->head;
-    printf("27\n");
+    // printf("27\n");
     char * listString = malloc(sizeof(char)*100);
-    printf("28\n");
+    // printf("28\n");
     char * newListString = malloc(sizeof(char)*100);
-    printf("29\n");
+    // printf("29\n");
 
     while(tempNode != NULL)
     {
-        printf("30\n");
+        // printf("30\n");
         newListString = temp->printData(tempNode->data);
-        printf("31\n");
+        // printf("31\n");
         strcat(listString, "\n");
-        printf("32\n");
+        // printf("32\n");
         strcat(listString,newListString);
-        printf("33\n");
+        // printf("33\n");
         tempNode = tempNode->next;
-        printf("34\n");
+        // printf("34\n");
     }
-    printf("35\n");
+    // printf("35\n");
     return listString;
+    }
+    return NULL;
 }
 
 ListIterator createIterator(List list)
