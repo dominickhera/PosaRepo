@@ -386,14 +386,14 @@ testRec * getFrontAndBackTest(int testNum)
     
     sprintf(feedback, "Test %d: getFront() and getBack() test", testNum);
     testRec * rec = initRec(testNum, numSubs, feedback);
-    printf("8\n");
+    // printf("8\n");
     /*--------
      subtest 1:  getFront populated list
      ---------*/
     char * retrieved = (char *)getFromFront(*test);
     if(testCompare(retrieved, "kilroy")==0)
     {
-        printf("8a\n");
+        // printf("8a\n");
         sprintf(feedback, "Subtest %d.%d: correctly retrieved data from populated list.",testNum,subTest);
         addResult(rec, SUCCESS, feedback);
         rec->subsPassed++;
@@ -404,7 +404,7 @@ testRec * getFrontAndBackTest(int testNum)
         addResult(rec, FAIL, feedback);
     }
     
-    printf("9\n");
+    // printf("9\n");
     /*--------
      subtest 2:  getBack populated list
      ---------*/
@@ -412,7 +412,7 @@ testRec * getFrontAndBackTest(int testNum)
     retrieved = (char *)getFromBack(*test);
     if(testCompare(retrieved, "zappa")==0)
     {
-        printf("9a\n");
+        // printf("9a\n");
         sprintf(feedback, "Subtest %d.%d: correctly retrieved data from populated list.",testNum,subTest);
         addResult(rec, SUCCESS, feedback);
         rec->subsPassed++;
@@ -423,7 +423,7 @@ testRec * getFrontAndBackTest(int testNum)
         addResult(rec, FAIL, feedback);
     }
     
-    printf("10\n");
+    // printf("10\n");
     /*--------
      subtest 3:  getFront empty
      ---------*/
@@ -432,7 +432,7 @@ testRec * getFrontAndBackTest(int testNum)
     retrieved = (char *)getFromFront(*test);
     if(retrieved == NULL)
     {
-        printf("10a\n");
+        // printf("10a\n");
         sprintf(feedback, "Subtest %d.%d: getFront correctly handled empty list.",testNum,subTest);
         addResult(rec, SUCCESS, feedback);
         rec->subsPassed++;
@@ -442,7 +442,7 @@ testRec * getFrontAndBackTest(int testNum)
         sprintf(feedback, "Subtest %d.%d: getFront did not handle empty list correctly",testNum,subTest);
         addResult(rec, FAIL, feedback);
     }
-    printf("11\n");
+    // printf("11\n");
     
     /*--------
      subtest 4:  getBack emptylist
@@ -452,14 +452,14 @@ testRec * getFrontAndBackTest(int testNum)
     char * ret = (char *)getFromBack(*test);
     if(ret == NULL)
     {
-        printf("11a\n");
+        // printf("11a\n");
         sprintf(feedback, "Subtest %d.%d: getBack correctly handled empty list.",testNum,subTest);
         addResult(rec, SUCCESS, feedback);
         rec->subsPassed++;
     }
     else
     {
-        printf("11b\n");
+        // printf("11b\n");
         sprintf(feedback, "Subtest %d.%d: getBack did not handle empty list correctly",testNum,subTest);
         addResult(rec, FAIL, feedback);
     }
@@ -486,8 +486,8 @@ testRec * insertSortedTest(int testNum)
     /*--------
      subtest 1:  insert to middle of sorted list.
      ---------*/
-     printf("13\n");
-    char * data = createData("ming");
+     // printf("13\n");
+    char * data = ("ming");
     insertSorted(test, data);
     
     if(testCompare(test->head->next->data, data) == 0)
@@ -508,11 +508,12 @@ testRec * insertSortedTest(int testNum)
         addResult(rec, FAIL, feedback);
     }
     
+    // printf("end of s1\n");
     
     /*--------
      subtest 2:  insert to back of sorted list
      ---------*/
-     printf("14\n");
+     // printf("14\n");
     subTest++;
     test = twoList();
     data = createData("zyrg");
@@ -540,12 +541,12 @@ testRec * insertSortedTest(int testNum)
         sprintf(feedback, "Subtest %d.%d: Did not insert sorted to back of list",testNum,subTest);
         addResult(rec, FAIL, feedback);
     }
-    
-    printf("15\n");
+    // printf("end of s2\n");
+    // printf("15\n");
     /*--------
      subtest 3:  insert to front of sorted list
      ---------*/
-     printf("1\n");
+     // printf("1\n");
     subTest++;
     test = twoList();
     Node* oldHead = test->head;
@@ -571,8 +572,8 @@ testRec * insertSortedTest(int testNum)
         sprintf(feedback, "Subtest %d.%d: Did not insert sorted to front of list",testNum,subTest);
         addResult(rec, FAIL, feedback);
     }
-    
-    printf("16\n");
+    // printf("end of s3\n");
+    // printf("16\n");
     /*--------
      subtest 4:  insert sorted with empty list
      ---------*/
@@ -597,8 +598,8 @@ testRec * insertSortedTest(int testNum)
         addResult(rec, FAIL, feedback);
     }
     
-    printf("17\n");
-    
+    // printf("17\n");
+    // printf("end of s4\n");
     /*--------
      subtest 5:  insertSorted NULL list
      ---------*/
@@ -611,6 +612,7 @@ testRec * insertSortedTest(int testNum)
     addResult(rec, SUCCESS, feedback);
     rec->subsPassed++;
     
+    // printf("end of s5\n");
     return rec;
 }
 
@@ -655,7 +657,7 @@ testRec * deleteTest(int testNum)
         addResult(rec, FAIL, feedback);
     }
     
-    
+    printf("end of s1\n");
     /*--------
      subtest 2:  delete existing data test (back)
      ---------*/
@@ -683,7 +685,7 @@ testRec * deleteTest(int testNum)
         addResult(rec, FAIL, feedback);
     }
 
-
+    printf("end of s2\n");
     /*--------
      subtest 3:  delete existing data test (middle)
      ---------*/
@@ -712,7 +714,7 @@ testRec * deleteTest(int testNum)
         sprintf(feedback, "Subtest %d.%d: Data not returned after being removed from list",testNum,subTest);
         addResult(rec, FAIL, feedback);
     }
-    
+    printf("end of s3\n");
     /*--------
      subtest 4:  delete data that doesn't exist
      ---------*/
@@ -731,7 +733,7 @@ testRec * deleteTest(int testNum)
         addResult(rec, FAIL, feedback);
     }
 
-    
+    printf("end of s4\n");
     /*--------
      subtest 5:  delete null data
      ---------*/
@@ -742,7 +744,7 @@ testRec * deleteTest(int testNum)
     sprintf(feedback, "Subtest %d.%d: correctly handled NULL parameter.",testNum,subTest);
     addResult(rec, SUCCESS, feedback);
     rec->subsPassed++;
-
+    printf("end of s5\n");
     /*--------
     subtest 6:  delete populated list
     ---------*/
@@ -760,7 +762,7 @@ testRec * deleteTest(int testNum)
           sprintf(feedback, "Subtest %d.%d: did not correctly clear List",testNum,subTest);
           addResult(rec, FAIL, feedback);
         }
-    
+    printf("end of s6\n");
     /*--------
     subtest 7:  delete empty list
     ---------*/
@@ -778,7 +780,7 @@ testRec * deleteTest(int testNum)
           sprintf(feedback, "Subtest %d.%d: failed on empty list",testNum,subTest);
           addResult(rec, FAIL, feedback);
         }
-    
+    printf("end of s7\n");
     /*--------
     subtest 8:  delete NULL list
     ---------*/
@@ -796,6 +798,7 @@ testRec * deleteTest(int testNum)
           sprintf(feedback, "Subtest %d.%d: failed on NULL list",testNum,subTest);
           addResult(rec, FAIL, feedback);
         }
+        printf("end of s8\n");
     return rec;
 }
 
