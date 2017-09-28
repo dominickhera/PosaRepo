@@ -18,8 +18,17 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
 #include "LinkedListAPI.h"
 #include "CalenderParser.h"
+
+Calendar* initializeCalendar(float version, char prodID[]);
+Event* initializeEvent(char UID, DateTime creationDateTime);
+Property* initializeProperty(char propName, char propDescr[]);
+Alarm* initializeAlarm(char action, char* trigger);
+void  testDestroy(void *data);
+char * testPrint(void *toBePrinted);
+int testCompare(const void * one, const void * two);
 
 ErrorCode createCalendar(char* fileName, Calendar** obj)
 {
@@ -64,50 +73,6 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         return INV_FILE;
     }
 
-	/*
-
-	//allocating and assigning values to ical object
-
-    Calendar * temp = malloc(sizeof(Calendar));
-    temp->prodID = malloc(sizeof(prodID));
-    temp->version = version;
-    strcpy(temp->prodID, prodID);
-    */
-
-    /*
-
-    //allocating and assigning values to event object
-
-    Event * tempEvent = malloc(sizeof(Event));
-    tempEvent->UID = malloc(sizeof(tempEvent->UID));
-    strcpy(tempEvent->UID, UID);
-    */
-
-    /*
-
-    //allocating and assigning values to alarm object, might move into seperate function since it can be called multiple times(?) ithink 
-
-    Alarm * tempAlarm = malloc(sizeof(Alarm));
-    tempAlarm->action = malloc(sizeof(char)*200);
-    tempAlarm->trigger = malloc(sizeof(trigger));
-    strcpy(tempAlarm->action, action);
-    strcpy(tempAlarm->trigger, trigger);
-	*/
-
-	/*
-
-	//allocating information regarding property within an ical event(?) i think
-	//moving to seperate function since it can be called N amount of times provided types dont repeat
-
-	Property * tempProp = malloc(sizeof(Property));
-	tempProp->propName = malloc(sizeof(char)*200);
-	tempProp->propDescr = malloc(sizeof(propDescr));
-	strcpy(tempProp->propName, propName);
-	strcpy(tempProp->propDescr, propDescr);
-
-	*/
-
-
 }
 
 void deleteCalendar(Calendar* obj)
@@ -123,4 +88,73 @@ char* printCalendar(const Calendar* obj)
 const char* printError(ErrorCode err)
 {
 
+}
+
+Calendar* initializeCalendar(float version, char prodID[])
+{
+	Calendar * temp = malloc(sizeof(Calendar));
+    temp->prodID = malloc(sizeof(prodID)*1000);
+    temp->version = version;
+    strcpy(temp->prodID, prodID);
+    temp->event = NULL;
+
+    return Calendar
+}
+
+Event* initializeEvent(char UID, DateTime creationDateTime)
+{
+
+	Event * tempEvent = malloc(sizeof(Event));
+    tempEvent->UID = malloc(sizeof(char)*1000);
+    strcpy(tempEvent->UID, UID);
+    tempEvent->properties = NULL;
+	tempEvent->alarms = NULL;
+
+	return tempEvent;
+
+}
+
+Property* initializeProperty(char propName, char propDescr[])
+{
+
+	Property * tempProp = malloc(sizeof(Property));
+	tempProp->propName = malloc(sizeof(char)*200);
+	tempProp->propDescr = malloc(sizeof(propDescr));
+	strcpy(tempProp->propName, propName);
+	strcpy(tempProp->propDescr, propDescr);
+
+	return tempProp;
+
+}
+
+Alarm* initializeAlarm(char action, char* trigger)
+{
+
+	Alarm * tempAlarm = malloc(sizeof(Alarm));
+    tempAlarm->action = malloc(sizeof(char)*200);
+    tempAlarm->trigger = malloc(sizeof(trigger));
+    strcpy(tempAlarm->action, action);
+    strcpy(tempAlarm->trigger, trigger);
+    tempAlarm->properties = NULL;
+
+    return tempAlarm;
+
+}
+
+void  testDestroy(void *data)
+{
+    free(data);
+}
+
+char * testPrint(void *toBePrinted)
+{
+    if(toBePrinted!=NULL){
+        return strdup((char *)toBePrinted);
+    }
+    return NULL;
+}
+
+int testCompare(const void * one, const void * two)
+{
+    return strcmp((char*)one, (char*)two);
 }
