@@ -119,7 +119,7 @@ Property* initializeProperty(char propName, char propDescr[])
 
 	Property * tempProp = malloc(sizeof(Property));
 	tempProp->propName = malloc(sizeof(char)*200);
-	tempProp->propDescr = malloc(sizeof(propDescr));
+	// tempProp->propDescr = malloc(sizeof(propDescr));
 	strcpy(tempProp->propName, propName);
 	strcpy(tempProp->propDescr, propDescr);
 
@@ -139,6 +139,18 @@ Alarm* initializeAlarm(char action, char* trigger)
 
     return tempAlarm;
 
+}
+
+DateTime* initializeDateTime(char date[], char timeValue[], bool UTC)
+{
+	DateTime *tempTime = malloc(sizeof(DateTime));
+	strcpy(tempTime->date, date);
+	strcpy(tempTime->timeValue, timeValue);
+	tempTime->UTC = UTC;
+	// tempTime->date = malloc(sizeof(char) * 9);
+	// tempTime->time = malloc
+
+	return tempTime;
 }
 
 void  testDestroy(void *data)
