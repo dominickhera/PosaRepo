@@ -22,10 +22,10 @@
 // #include "LinkedListAPI.h"
 #include "CalendarParser.h"
 
-Calendar* initializeCalendar(float version, char prodID[]);
-Event* initializeEvent(char *UID, char *creationDateTime);
+Calendar* initializeCalendar();
+Event* initializeEvent();
 Property* initializeProperty(char propName, char propDescr[]);
-Alarm* initializeAlarm(char action, char* trigger);
+Alarm* initializeAlarm();
 DateTime* initializeDateTime(char *date, char *timeValue, bool UTC);
 void  testDestroy(void *data);
 char * testPrint(void *toBePrinted);
@@ -36,8 +36,33 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     FILE *fp;
     char line[256];
     char lineStorage[256][500];
+    char UIDStorage[256];
+    char VersionStorage[256];
+    char PROIDStorage[256];
+    char DSTAMPStorage[256];
+    char triggerStorage[256];
+    char actionStorage[128];
+    char * tempStorage = malloc(sizeof(char) * 1000);
+    char * otherTempStorage = malloc(sizeof(char) * 1000);
     char * fileTypeCheck;
+    char * calenderCheck;
+    char * eventCheck;
+    char * alarmCheck;
+    // char * propertyCheck;
+    char * UIDCheck;
+    char * versionCheck;
+    char * proIDCheck;
+    char * beginCheck;
+    char * endCheck;
+    char * timeStampCheck;
+    char * otherCheck;
     int count = 0;
+    int tempSize = 0;
+    int eventFlag = 0;
+    int calendarFlag = 0;
+    int alarmFlag = 0;
+    // int propertyFlag = 0;
+    int tempCount = 0;
 
 
     //parsing into a string array
@@ -74,6 +99,258 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         return INV_FILE;
     }
 
+    Calendar * parseCalendar = NULL;
+    Event * parseEvent = NULL;
+    Alarm * tempAlarm;
+    Property * tempProperty;
+
+    //time to actually start going through the file and figuring out what the fuck is in here
+
+    for(int i = 0; i < count; i++)
+    {
+        if((beginCheck = strcasestr(lineStorage[i], "BEGIN")) && (calenderCheck = strcasestr(lineStorage[i], "VCALENDAR")) && calendarFlag == 0)
+        {
+            parseCalendar = initializeCalendar();
+            calendarFlag++;
+        }
+        else if((proIDCheck = strcasestr(lineStorage[i], "PROID")))
+        {
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            {
+                if(lineStorage[i][j] == ':')
+                {
+                    j++;
+                    while(lineStorage[i][j] != '\0')
+                    {
+                        tempStorage[tempSize] = lineStorage[i][j];
+                        tempSize++;
+                        j++;
+                    }
+                }
+            }
+
+            strcpy(PROIDStorage, tempStorage);
+            strcpy(parseCalendar->prodID, PROIDStorage);
+            tempSize = 0;
+            memset(tempStorage, '\0', 1000);
+        }
+        else if((versionCheck = strcasestr(lineStorage[i], "VERSION")))
+        {
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            {
+                if(lineStorage[i][j] == ':')
+                {
+                    j++;
+                    while(lineStorage[i][j] != '\0')
+                    {
+                        tempStorage[tempSize] = lineStorage[i][j];
+                        tempSize++;
+                        j++;
+                    }
+                }
+            }
+
+            strcpy(VersionStorage, tempStorage);
+            parseCalendar->version = atof(VersionStorage);
+            tempSize = 0;
+            memset(tempStorage, '\0', 1000);
+        }
+        else if((beginCheck = strcasestr(lineStorage[i], "BEGIN")) && (eventCheck = strcasestr(lineStorage[i], "VEVENT")) && eventFlag == 0)
+        {
+            eventFlag++;
+            parseEvent = initializeEvent();
+            parseCalendar->event = parseEvent;
+        }
+        else if((UIDCheck = strcasestr(lineStorage[i], "UID")) && eventFlag != 0)
+        {
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            {
+                if(lineStorage[i][j] == ':')
+                {
+                    j++;
+                    while(lineStorage[i][j] != '\0')
+                    {
+                        tempStorage[tempSize] = lineStorage[i][j];
+                        tempSize++;
+                        j++;
+                    }
+                }
+            }
+
+            strcpy(UIDStorage, tempStorage);
+            strcpy(parseEvent->UID, UIDStorage);
+            tempSize = 0;
+            memset(tempStorage, '\0', 1000); 
+        }
+        else if((timeStampCheck = strcasestr(lineStorage[i], "DSTAMP")))
+        {
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            {
+                if(lineStorage[i][j] == ':')
+                {
+                    j++;
+                    while(lineStorage[i][j] != '\0')
+                    {
+                        tempStorage[tempSize] = lineStorage[i][j];
+                        tempSize++;
+                        j++;
+                    }
+                }
+            }
+
+            strcpy(DSTAMPStorage, tempStorage);
+            char tempTime[7];
+            char tempDate[9];
+            char * boolCheck;
+            bool tempUTC;
+            if((boolCheck = strstr(DSTAMPStorage, "Z")))
+            {
+                tempUTC = true;
+            }
+            else
+            {
+                tempUTC = false;
+            }
+
+            char * strTokTime;
+            char * strTokDate;
+
+            strTokTime = strtok(DSTAMPStorage, "T Z");
+            strTokDate = strtok(DSTAMPStorage, "T Z");
+            strcpy(tempTime, strTokTime);
+            strcpy(tempDate, strTokDate);
+
+            parseEvent->creationDateTime = *initializeDateTime(tempTime, tempDate, tempUTC);
+            tempSize = 0;
+            memset(tempStorage, '\0', 1000); 
+        }
+        else if((endCheck = strcasestr(lineStorage[i], "END")) && (eventCheck = strcasestr(lineStorage[i], "VEVENT")) && eventFlag == 1)
+        {
+            eventFlag--;
+        }
+        else if((beginCheck = strcasestr(lineStorage[i], "BEGIN")) && (alarmCheck = strcasestr(lineStorage[i], "VALARM")) && eventFlag == 1 && alarmFlag == 0)
+        {
+            alarmFlag++;
+            tempAlarm = (Alarm*)malloc(sizeof(Alarm));
+            // parseEvent->alarms = initializeAlarm();
+        }
+        else if((otherCheck = strcasestr(lineStorage[i], "TRIGGER")) && eventFlag == 1 && alarmFlag == 1)
+        {
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            {
+                if(lineStorage[i][j] == ';')
+                {
+                    j++;
+                    while(lineStorage[i][j] != '\0')
+                    {
+                        tempStorage[tempSize] = lineStorage[i][j];
+                        tempSize++;
+                        j++;
+                    }
+                }
+            }
+
+            strcpy(triggerStorage, tempStorage);
+            strcpy(tempAlarm->trigger, triggerStorage);
+            tempSize = 0;
+            memset(tempStorage, '\0', 1000); 
+        }
+        else if((otherCheck = strcasestr(lineStorage[i], "ACTION")) && eventFlag == 1 && alarmFlag == 1)
+        {
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            {
+                if(lineStorage[i][j] == ':')
+                {
+                    j++;
+                    while(lineStorage[i][j] != '\0')
+                    {
+                        tempStorage[tempSize] = lineStorage[i][j];
+                        tempSize++;
+                        j++;
+                    }
+                }
+            }
+
+            strcpy(actionStorage, tempStorage);
+            strcpy(tempAlarm->action, actionStorage);
+            tempSize = 0;
+            memset(tempStorage, '\0', 1000); 
+        }
+        else if((endCheck = strcasestr(lineStorage[i], "END")) && (alarmCheck = strcasestr(lineStorage[i], "VALARM")) && alarmFlag == 1 && eventFlag == 1)
+        {
+            alarmFlag--;
+            insertFront(&parseEvent->alarms, (void*)tempAlarm);
+        }
+        //alarm property
+        else if(calendarFlag == 1 && eventFlag == 1 && alarmFlag == 1)
+        {
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            {
+                if(lineStorage[i][j] == ':' || lineStorage[i][j] != ';')
+                {
+                    j++;
+                    while(lineStorage[i][j] != '\0' || lineStorage[i][j] != ';')
+                    {
+                        tempStorage[tempSize] = lineStorage[i][j];
+                        tempSize++;
+                        j++;
+                    }
+                }
+                else
+                {
+                    while(lineStorage[i][j] != ':' || lineStorage[i][j] != ';')
+                    {
+                        otherTempStorage[tempCount] = lineStorage[i][j];
+                        tempCount++;
+                        j++;
+                    }
+                    // tempCount++;
+                }
+            }
+
+            tempProperty = initializeProperty(*tempStorage, otherTempStorage);
+            insertFront(&tempAlarm->properties, (void *)tempProperty);
+            tempSize = 0;
+            tempCount = 0;
+            memset(tempStorage, '\0', 1000);
+            memset(otherTempStorage, '\0', 1000);
+        }
+        //event property
+        else if(calendarFlag == 1 && eventFlag == 1 && alarmFlag == 0)
+        {
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            {
+                if(lineStorage[i][j] == ':' || lineStorage[i][j] != ';')
+                {
+                    j++;
+                    while(lineStorage[i][j] != '\0' || lineStorage[i][j] != ';')
+                    {
+                        tempStorage[tempSize] = lineStorage[i][j];
+                        tempSize++;
+                        j++;
+                    }
+                }
+                else
+                {
+                    while(lineStorage[i][j] != ':' || lineStorage[i][j] != ';')
+                    {
+                        otherTempStorage[tempCount] = lineStorage[i][j];
+                        tempCount++;
+                        j++;
+                    }
+                    // tempCount++;
+                }
+            }
+
+            tempProperty = initializeProperty(*tempStorage, otherTempStorage);
+            insertFront(&parseEvent->properties, tempProperty);
+            tempSize = 0;
+            memset(tempStorage, '\0', 1000);
+            memset(otherTempStorage, '\0', 1000);
+        }
+
+
+    }
 }
 
 void deleteCalendar(Calendar* obj)
@@ -91,84 +368,40 @@ char* printError(ErrorCode err)
 
 }
 
-Calendar* initializeCalendar(float version, char *prodID)
+Calendar* initializeCalendar()
 {
-	Calendar * temp = malloc(sizeof(Calendar));
-    // temp->prodID = malloc(sizeof(prodID)*1000);
-    temp->version = version;
-    strcpy(temp->prodID, prodID);
+    Calendar * temp = malloc(sizeof(Calendar));
     temp->event = NULL;
 
     return temp;
 }
 
-Event* initializeEvent(char *UID, char *creationDateTime)
+Event* initializeEvent()
 {
 
-    char tempTime[256];
-    char tempDate[256];
-    char * boolCheck;
-    bool tempUTC;
-
-	Event * tempEvent = malloc(sizeof(Event));
-    // tempEvent->UID = malloc(sizeof(char)*1000);
-    strcpy(tempEvent->UID, UID);
-    // tempEvent->creationDateTime = creationDateTime;
-
-    if(creationDateTime != NULL)
-    {
-
-    if((boolCheck = strstr(creationDateTime, "Z")))
-    {
-        tempUTC = true;
-    }
-    else
-    {
-        tempUTC = false;
-    }
-
-    char * strTokTime;
-    char * strTokDate;
-
-    strTokTime = strtok(creationDateTime, "TZ");
-    strTokDate = strtok(creationDateTime, "TZ");
-    strcpy(tempTime, strTokTime);
-    strcpy(tempDate, strTokDate);
-
-    tempEvent->creationDateTime = *initializeDateTime(tempTime, tempDate, tempUTC);
-    }
-    else
-    {
-        tempEvent->creationDateTime = *initializeDateTime(NULL, NULL, NULL);
-    }
+    Event * tempEvent = malloc(sizeof(Event));
     tempEvent->properties = initializeList(testPrint, testDestroy, testCompare);
-	tempEvent->alarms = initializeList(testPrint, testDestroy, testCompare);
+    tempEvent->alarms = initializeList(testPrint, testDestroy, testCompare);
 
-	return tempEvent;
+    return tempEvent;
 
 }
 
 Property* initializeProperty(char propName, char *propDescr)
 {
 
-	Property * tempProp = malloc(sizeof(Property));
-	// tempProp->propName = malloc(sizeof(char)*200);
-	// tempProp->propDescr = malloc(sizeof(propDescr));
-	strcpy(tempProp->propName, &propName);
-	strcpy(tempProp->propDescr, propDescr);
+    Property * tempProp = malloc(sizeof(Property));
+    strcpy(tempProp->propName, &propName);
+    strcpy(tempProp->propDescr, propDescr);
 
-	return tempProp;
+    return tempProp;
 
 }
 
-Alarm* initializeAlarm(char action, char* trigger)
+Alarm* initializeAlarm()
 {
 
-	Alarm * tempAlarm = malloc(sizeof(Alarm));
-    // tempAlarm->action = malloc(sizeof(char)*200);
-    tempAlarm->trigger = malloc(sizeof(trigger));
-    strcpy(tempAlarm->action, &action);
-    strcpy(tempAlarm->trigger, trigger);
+    Alarm * tempAlarm = malloc(sizeof(Alarm));
     tempAlarm->properties = initializeList(testPrint, testDestroy, testCompare);
 
     return tempAlarm;
@@ -177,14 +410,12 @@ Alarm* initializeAlarm(char action, char* trigger)
 
 DateTime* initializeDateTime(char *date, char *timeValue, bool UTC)
 {
-	DateTime *tempTime = malloc(sizeof(DateTime));
-	strcpy(tempTime->date, date);
-	strcpy(tempTime->time, timeValue);
-	tempTime->UTC = UTC;
-	// tempTime->date = malloc(sizeof(char) * 9);
-	// tempTime->time = malloc
+    DateTime *tempTime = malloc(sizeof(DateTime));
+    strcpy(tempTime->date, date);
+    strcpy(tempTime->time, timeValue);
+    tempTime->UTC = UTC;
 
-	return tempTime;
+    return tempTime;
 }
 
 void  testDestroy(void *data)
