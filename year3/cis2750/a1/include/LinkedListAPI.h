@@ -177,3 +177,4 @@ ListIterator createIterator(List list);
 void* nextElement(ListIterator* iter);
 
 #endif
+

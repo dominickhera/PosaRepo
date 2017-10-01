@@ -4,13 +4,10 @@ OBJFILE = bin/
 CFLAGS = -std=c11 -Wall -g -pedantic
 EXE = test
 
-all: $(EXE)1 $(EXE)2
+all: $(EXE)
 
-$(EXE)1: BIN OBJ StructListDemo.o LinkedListAPI.o
-	gcc ./obj/StructListDemo.o ./obj/LinkedListAPI.o -o $(OBJFILE)$(EXE)1
-
-$(EXE)2: BIN OBJ StringListDemo.o LinkedListAPI.o
-	gcc ./obj/StringListDemo.o ./obj/LinkedListAPI.o -o $(OBJFILE)$(EXE)2
+$(EXE): BIN OBJ Main.o CalendarParser.o LinkedListAPI.o
+	gcc ./obj/Main.o ./obj/CalendarParser.o ./obj/LinkedListAPI.o -o $(OBJFILE)$(EXE)1
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
@@ -18,17 +15,17 @@ BIN:
 OBJ:
 	if [ ! -d "obj" ]; then mkdir obj; fi;
 
-# cppcheck:
-# 	cppcheck --enable=all --language=c --std=c99 --inconclusive --suppress=missingInclude src/*.c -i ./include
+cppcheck:
+	cppcheck --enable=all --language=c --std=c99 --inconclusive --suppress=missingInclude src/*.c -i ./include
 
-# StructListDemo.o: ./src/StructListDemo.c
-# 	$(CC) -c $(CFLAGS) ./src/StructListDemo.c -I./include -o ./obj/StructListDemo.o
+Main.o: ./src/Main.c
+	$(CC) -c $(CFLAGS) ./src/Main.c -I./include -o ./obj/Main.o
 
-# StringListDemo.o: ./src/StringListDemo.c
-# 	$(CC) -c $(CFLAGS) ./src/StringListDemo.c -I./include -o ./obj/StringListDemo.o
+CalendarParser.o: ./src/CalendarParser.c
+	$(CC) -c $(CFLAGS) ./src/CalendarParser.c -I./include -o ./obj/CalendarParser.o
 
-# LinkedListAPI.o: ./src/LinkedListAPI.c
-# 	$(CC) -c $(CFLAGS) ./src/LinkedListAPI.c -I./include -o ./obj/LinkedListAPI.o
+LinkedListAPI.o: ./src/LinkedListAPI.c
+	$(CC) -c $(CFLAGS) ./src/LinkedListAPI.c -I./include -o ./obj/LinkedListAPI.o
 
 
 clean:

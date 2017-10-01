@@ -19,13 +19,14 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
-#include "LinkedListAPI.h"
-#include "CalenderParser.h"
+// #include "LinkedListAPI.h"
+#include "CalendarParser.h"
 
 Calendar* initializeCalendar(float version, char prodID[]);
-Event* initializeEvent(char UID, DateTime creationDateTime);
+Event* initializeEvent(char *UID, char *creationDateTime);
 Property* initializeProperty(char propName, char propDescr[]);
 Alarm* initializeAlarm(char action, char* trigger);
+DateTime* initializeDateTime(char *date, char *timeValue, bool UTC);
 void  testDestroy(void *data);
 char * testPrint(void *toBePrinted);
 int testCompare(const void * one, const void * two);
@@ -85,42 +86,75 @@ char* printCalendar(const Calendar* obj)
 
 }
 
-const char* printError(ErrorCode err)
+char* printError(ErrorCode err)
 {
 
 }
 
-Calendar* initializeCalendar(float version, char prodID[])
+Calendar* initializeCalendar(float version, char *prodID)
 {
 	Calendar * temp = malloc(sizeof(Calendar));
-    temp->prodID = malloc(sizeof(prodID)*1000);
+    // temp->prodID = malloc(sizeof(prodID)*1000);
     temp->version = version;
     strcpy(temp->prodID, prodID);
     temp->event = NULL;
 
-    return Calendar
+    return temp;
 }
 
-Event* initializeEvent(char UID, DateTime creationDateTime)
+Event* initializeEvent(char *UID, char *creationDateTime)
 {
 
+    char tempTime[256];
+    char tempDate[256];
+    char * boolCheck;
+    bool tempUTC;
+
 	Event * tempEvent = malloc(sizeof(Event));
-    tempEvent->UID = malloc(sizeof(char)*1000);
+    // tempEvent->UID = malloc(sizeof(char)*1000);
     strcpy(tempEvent->UID, UID);
-    tempEvent->properties = NULL;
-	tempEvent->alarms = NULL;
+    // tempEvent->creationDateTime = creationDateTime;
+
+    if(creationDateTime != NULL)
+    {
+
+    if((boolCheck = strstr(creationDateTime, "Z")))
+    {
+        tempUTC = true;
+    }
+    else
+    {
+        tempUTC = false;
+    }
+
+    char * strTokTime;
+    char * strTokDate;
+
+    strTokTime = strtok(creationDateTime, "TZ");
+    strTokDate = strtok(creationDateTime, "TZ");
+    strcpy(tempTime, strTokTime);
+    strcpy(tempDate, strTokDate);
+
+    tempEvent->creationDateTime = *initializeDateTime(tempTime, tempDate, tempUTC);
+    }
+    else
+    {
+        tempEvent->creationDateTime = *initializeDateTime(NULL, NULL, NULL);
+    }
+    tempEvent->properties = initializeList(testPrint, testDestroy, testCompare);
+	tempEvent->alarms = initializeList(testPrint, testDestroy, testCompare);
 
 	return tempEvent;
 
 }
 
-Property* initializeProperty(char propName, char propDescr[])
+Property* initializeProperty(char propName, char *propDescr)
 {
 
 	Property * tempProp = malloc(sizeof(Property));
-	tempProp->propName = malloc(sizeof(char)*200);
+	// tempProp->propName = malloc(sizeof(char)*200);
 	// tempProp->propDescr = malloc(sizeof(propDescr));
-	strcpy(tempProp->propName, propName);
+	strcpy(tempProp->propName, &propName);
 	strcpy(tempProp->propDescr, propDescr);
 
 	return tempProp;
@@ -131,21 +165,21 @@ Alarm* initializeAlarm(char action, char* trigger)
 {
 
 	Alarm * tempAlarm = malloc(sizeof(Alarm));
-    tempAlarm->action = malloc(sizeof(char)*200);
+    // tempAlarm->action = malloc(sizeof(char)*200);
     tempAlarm->trigger = malloc(sizeof(trigger));
-    strcpy(tempAlarm->action, action);
+    strcpy(tempAlarm->action, &action);
     strcpy(tempAlarm->trigger, trigger);
-    tempAlarm->properties = NULL;
+    tempAlarm->properties = initializeList(testPrint, testDestroy, testCompare);
 
     return tempAlarm;
 
 }
 
-DateTime* initializeDateTime(char date[], char timeValue[], bool UTC)
+DateTime* initializeDateTime(char *date, char *timeValue, bool UTC)
 {
 	DateTime *tempTime = malloc(sizeof(DateTime));
 	strcpy(tempTime->date, date);
-	strcpy(tempTime->timeValue, timeValue);
+	strcpy(tempTime->time, timeValue);
 	tempTime->UTC = UTC;
 	// tempTime->date = malloc(sizeof(char) * 9);
 	// tempTime->time = malloc

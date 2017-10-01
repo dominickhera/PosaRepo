@@ -9,7 +9,7 @@
 #include "LinkedListAPI.h"
 
 //Error codes that indicate what went wrong during parsing
-typedef enum ers {OK, INV_FILE, INV_CAL, INV_VER, DUP_VER, INV_PRODID, DUP_PRODID, INV_EVENT, INV_CREATEDT, OTHER_ERROR ErrorCode;
+typedef enum ers {OK, INV_FILE, INV_CAL, INV_VER, DUP_VER, INV_PRODID, DUP_PRODID, INV_EVENT, INV_CREATEDT, OTHER_ERROR} ErrorCode;
 
 //Represents iCalendar Date-time
 typedef struct dt {
@@ -103,6 +103,6 @@ char* printCalendar(const Calendar* obj);
           the descr array using rhe error code enum value as an index
  *@param err - an error code
 **/
-const char* printError(ErrorCode err);   
+char* printError(ErrorCode err);
 
 #endif	
