@@ -125,7 +125,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 if(lineStorage[i][j] == ':')
                 {
                     j++;
-                    while(lineStorage[i][j] != '\0')
+                    while(lineStorage[i][j] != strlen(lineStorage[i]))
                     {
                         tempStorage[tempSize] = lineStorage[i][j];
                         tempSize++;
