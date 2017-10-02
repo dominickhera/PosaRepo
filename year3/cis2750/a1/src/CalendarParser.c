@@ -248,6 +248,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                     {
                         while(lineStorage[i][j] != 'Z')
                         {
+                            printf("lol\n");
                             otherTempStorage[tempCount] = lineStorage[i][j];
                             tempCount++;
                             j++;
