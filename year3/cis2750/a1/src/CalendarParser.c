@@ -100,7 +100,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         return INV_FILE;
     }
 
-    Calendar * parseCalendar = NULL;
+    Calendar *parseCalendar = *obj;
     Event * parseEvent = NULL;
     Alarm * tempAlarm;
     Property * tempProperty;
@@ -111,7 +111,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     {
         if((beginCheck = strcasestr(lineStorage[i], "BEGIN")) && (calenderCheck = strcasestr(lineStorage[i], "VCALENDAR")) && calendarFlag == 0)
         {
-            parseCalendar = initializeCalendar();
+            // parseCalendar = initializeCalendar();
             calendarFlag++;
         }
         else if((proIDCheck = strcasestr(lineStorage[i], "PROID")) && calendarFlag == 1)
