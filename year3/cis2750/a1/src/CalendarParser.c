@@ -69,10 +69,10 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     //parsing into a string array
     if(fileName != NULL && fileName[0] != '\0')
     {
-    	// printf("hi\n");
+        // printf("hi\n");
         if((fileTypeCheck = strstr(fileName, ".ics")))
         {
-        	// printf("fuck\n");
+            // printf("fuck\n");
             if((fp = fopen(fileName, "r")))
             {
                 while(fgets(line, sizeof(line), fp) != NULL)
@@ -136,6 +136,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 
             strcpy(PROIDStorage, tempStorage);
             strcpy(parseCalendar->prodID, PROIDStorage);
+            // strcpy(obj->prodID, PROIDStorage);
             tempSize = 0;
             memset(tempStorage, '\0', 1000);
         }
@@ -383,31 +384,31 @@ void deleteCalendar(Calendar* obj)
     if(obj != NULL)
     {
 
-    	void *eventAlarmsDeleteElem;
-    	ListIterator eventAlarmsDeleteIter = createIterator(obj->event->alarms);
-    	while((eventAlarmsDeleteElem = nextElement(&eventAlarmsDeleteIter)) != NULL)
-    	{
-    		Alarm* tempEventAlarmDelete = (Alarm*)eventAlarmsDeleteElem;
-    		// clearList(tempEventAlarmDelete);
-    		void *alarmPropDeleteElem;
-			ListIterator alarmPropDeleteIter = createIterator(tempEventAlarmDelete->properties);
-	    	while((alarmPropDeleteElem = nextElement(&alarmPropDeleteIter)) != NULL)
-	    	{
-	    		List* tempAlarmPropDelete = (List*)alarmPropDeleteElem;	
-	    		clearList(tempAlarmPropDelete);
-	    	}
-    	}
+        void *eventAlarmsDeleteElem;
+        ListIterator eventAlarmsDeleteIter = createIterator(obj->event->alarms);
+        while((eventAlarmsDeleteElem = nextElement(&eventAlarmsDeleteIter)) != NULL)
+        {
+            Alarm* tempEventAlarmDelete = (Alarm*)eventAlarmsDeleteElem;
+            // clearList(tempEventAlarmDelete);
+            void *alarmPropDeleteElem;
+            ListIterator alarmPropDeleteIter = createIterator(tempEventAlarmDelete->properties);
+            while((alarmPropDeleteElem = nextElement(&alarmPropDeleteIter)) != NULL)
+            {
+                List* tempAlarmPropDelete = (List*)alarmPropDeleteElem;	
+                clearList(tempAlarmPropDelete);
+            }
+        }
 
-    	void *eventPropertiesDeleteElem;
-    	ListIterator eventPropertiesDeleteIter = createIterator(obj->event->properties);
-    	while((eventPropertiesDeleteElem = nextElement(&eventPropertiesDeleteIter)) != NULL)
-    	{
-    		List* tempEventPropertiesDelete = (List*)eventPropertiesDeleteElem;
-    		clearList(tempEventPropertiesDelete);
-    	}
+        void *eventPropertiesDeleteElem;
+        ListIterator eventPropertiesDeleteIter = createIterator(obj->event->properties);
+        while((eventPropertiesDeleteElem = nextElement(&eventPropertiesDeleteIter)) != NULL)
+        {
+            List* tempEventPropertiesDelete = (List*)eventPropertiesDeleteElem;
+            clearList(tempEventPropertiesDelete);
+        }
 
-    	free(obj->event);
-    	free(obj);
+        free(obj->event);
+        free(obj);
     }
 }
 
@@ -423,7 +424,7 @@ char* printCalendar(const Calendar* obj)
         if(obj->event != NULL)
         {
 
-            sprintf(calendarReturn + strlen(calendarReturn), "\n\nEvent\nUID = %s\n", obj->event->UID);
+            sprintf(calendarReturn + strlen(calendarReturn), "Event\nUID = %s\n", obj->event->UID);
             // if(obj->event->creationDateTime.date != NULL)
             // {
             sprintf(calendarReturn + strlen(calendarReturn), "creationDateTime = %s:%s UTC = %d\n", obj->event->creationDateTime.date, obj->event->creationDateTime.time, obj->event->creationDateTime.UTC);
@@ -472,39 +473,54 @@ char* printCalendar(const Calendar* obj)
 char* printError(ErrorCode err)
 {
 
-	printf("%U is entered\n", err);
+    // printf("%U is entered\n", err);
     char * errorCodeReturn = malloc(sizeof(char) * 256);
-    switch(err)
+    if(err == INV_FILE)
     {
-        case INV_FILE:
-            strcpy(errorCodeReturn, "INV_FILE: there’s a problem with file argument - its null, it;’s a empty string, file doesn't exist or - cannot be opened,file doesn't have the.ics extension\n");
-            break;
-        case INV_VER:
-            strcpy(errorCodeReturn, "INV_VER: the calendar version property is present but malformed\n");
-            break;
-        case DUP_VER:
-            strcpy(errorCodeReturn,"DUP_VER: the calendar version property appears more than once\n");
-            break;
-        case INV_PRODID:
-            strcpy(errorCodeReturn, "INV_PRODID: the product ID property is present but malformed\n");
-            break;
-        case DUP_PRODID:
-            strcpy(errorCodeReturn, "DUP_PRODID: the product ID property appears more than once\n");
-            break;
-        case INV_CAL:
-            strcpy(errorCodeReturn, "INV_CAL: the calendar itself is invalid (missing required properties or components, invalid opening - closingtags,etc.)\n");
-            break;
-        case INV_CREATEDT:
-            strcpy(errorCodeReturn, "INV_CREADEDT: the event creation date-time property is malformed in some way\n");
-            break;
-        case INV_EVENT:
-            strcpy(errorCodeReturn, "INV_EVENT: the event component is malformed in some way\n");
-            break;
-        case OK:
-        	strcpy(errorCodeReturn, "OK: File parsed successfully.\n");
-        default:
-            strcpy(errorCodeReturn, "error code not found\n");
-            break;
+        strcpy(errorCodeReturn, "INV_FILE: there’s a problem with file argument - its null, it;’s a empty string, file doesn't exist or - cannot be opened,file doesn't have the.ics extension\n");
+    }
+    else if(err == INV_VER)
+    {
+
+        strcpy(errorCodeReturn, "INV_VER: the calendar version property is present but malformed\n");
+    }
+    else if(err == DUP_VER)
+    {
+
+        strcpy(errorCodeReturn,"DUP_VER: the calendar version property appears more than once\n");
+    }
+    else if(err == INV_PRODID)
+    {
+
+        strcpy(errorCodeReturn, "INV_PRODID: the product ID property is present but malformed\n");
+    }
+    else if(err == DUP_PRODID)
+    {
+
+        strcpy(errorCodeReturn, "DUP_PRODID: the product ID property appears more than once\n");
+    }
+    else if(err == INV_CAL)
+    {
+
+        strcpy(errorCodeReturn, "INV_CAL: the calendar itself is invalid (missing required properties or components, invalid opening - closingtags,etc.)\n");
+    }
+    else if(err == INV_CREATEDT)
+    {
+
+        strcpy(errorCodeReturn, "INV_CREADEDT: the event creation date-time property is malformed in some way\n");
+    }
+    else if(err == INV_EVENT)
+    {
+
+        strcpy(errorCodeReturn, "INV_EVENT: the event component is malformed in some way\n");
+    }
+    else if(err == OK)
+    {
+        strcpy(errorCodeReturn, "OK: File parsed successfully.\n");
+    }
+    else
+    {
+        strcpy(errorCodeReturn, "error code not found\n");
     }
 
     return errorCodeReturn;

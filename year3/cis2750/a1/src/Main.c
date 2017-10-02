@@ -24,6 +24,10 @@ int main()
 
 		printf("%s\n", str);
 
+		char * clr = printCalendar(pleaseWorkCalendar);
+
+		printf("%s\n", clr);
+
 	// }
 	// else if(strcmp(choice, "2") == 0)
 	// {
@@ -35,7 +39,7 @@ int main()
 	return 0;
 }
 
-Calendar* initializeCalendarMain()
+Calendar* initializeCalendarMain(pleaseWorkCalendar)
 {
     Calendar * temp = malloc(sizeof(Calendar));
     temp->event = NULL;
