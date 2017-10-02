@@ -117,7 +117,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             // parseCalendar = initializeCalendar();
             calendarFlag++;
         }
-        else if((proIDCheck = strcasestr(lineStorage[i], "PROID")) && calendarFlag == 1)
+        else if((proIDCheck = strcasestr(lineStorage[i], "PRODID")) && calendarFlag == 1)
         {
             proidFlag++;
             for(int j = 0; j < strlen(lineStorage[i]); j++)
@@ -125,7 +125,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 if(lineStorage[i][j] == ':')
                 {
                     j++;
-                    while(lineStorage[i][j] != strlen(lineStorage[i]))
+                    while(lineStorage[i][j] != '\0')
                     {
                         tempStorage[tempSize] = lineStorage[i][j];
                         tempSize++;
@@ -471,6 +471,8 @@ char* printCalendar(const Calendar* obj)
 
 char* printError(ErrorCode err)
 {
+
+	printf("%U is entered\n", err);
     char * errorCodeReturn = malloc(sizeof(char) * 256);
     switch(err)
     {
@@ -498,6 +500,8 @@ char* printError(ErrorCode err)
         case INV_EVENT:
             strcpy(errorCodeReturn, "INV_EVENT: the event component is malformed in some way\n");
             break;
+        case OK:
+        	strcpy(errorCodeReturn, "OK: File parsed successfully.\n");
         default:
             strcpy(errorCodeReturn, "error code not found\n");
             break;
