@@ -12,13 +12,17 @@ int main()
 
 	// char * choice = argv[1];
 	Calendar * pleaseWorkCalendar = initializeCalendarMain();
-	enum ers errorCodeThing;
+	
 
 	// if(strcmp(choice, "1") == 0)
 	// {
 		//easy
 		printf("easy\n");
-		errorCodeThing = createCalendar("./assets/testCalShort.ics", &pleaseWorkCalendar);
+		enum ers errorCodeThing = createCalendar("./assets/testCalShort.ics", &pleaseWorkCalendar);
+
+		char * str = printError(errorCodeThing);
+
+		printf("%s\n", str);
 
 	// }
 	// else if(strcmp(choice, "2") == 0)

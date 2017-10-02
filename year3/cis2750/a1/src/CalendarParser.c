@@ -65,12 +65,14 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     int proidFlag = 0;
     int tempCount = 0;
 
-
+    // printf("fucker\n");
     //parsing into a string array
-    if(fileName != NULL && fileName[0] == '\0')
+    if(fileName != NULL && fileName[0] != '\0')
     {
+    	// printf("hi\n");
         if((fileTypeCheck = strstr(fileName, ".ics")))
         {
+        	// printf("fuck\n");
             if((fp = fopen(fileName, "r")))
             {
                 while(fgets(line, sizeof(line), fp) != NULL)
