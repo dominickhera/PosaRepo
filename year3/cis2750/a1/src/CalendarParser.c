@@ -216,6 +216,10 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             char tempDate[9];
             char * boolCheck;
             bool tempUTC;
+             tempSize = 0;
+            // tempCount = 0;
+            // memset(otherTempStorage, '\0', 1000);
+            memset(tempStorage, '\0', 1000); 
             if((boolCheck = strstr(DSTAMPStorage, "Z")))
             {
                 tempUTC = true;
