@@ -228,13 +228,39 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             char * strTokTime;
             char * strTokDate;
 
-            strTokTime = strtok(DSTAMPStorage, "T Z");
-            strTokDate = strtok(DSTAMPStorage, "T Z");
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            {
+                if(lineStorage[i][j] == ':' || lineStorage[i][j] != ';')
+                {
+                    j++;
+                    while(lineStorage[i][j] != 'T')
+                    {
+                        tempStorage[tempSize] = lineStorage[i][j];
+                        tempSize++;
+                        j++;
+                    }
+                }
+                else if(lineStorage[i][j] == 'T')
+                {
+                    while(lineStorage[i][j] != '\0' || lineStorage[i][j] != 'Z')
+                    {
+                        otherTempStorage[tempCount] = lineStorage[i][j];
+                        tempCount++;
+                        j++;
+                    }
+                    // tempCount++;
+                }
+            }
+
+            // strTokTime = strtok(DSTAMPStorage, "T Z");
+            // strTokDate = strtok(DSTAMPStorage, "Z");
             strcpy(tempTime, strTokTime);
             strcpy(tempDate, strTokDate);
 
-            parseCalendar->event->creationDateTime = *initializeDateTime(tempTime, tempDate, tempUTC);
+            parseCalendar->event->creationDateTime = *initializeDateTime(otherTempStorage, tempStorage, tempUTC);
             tempSize = 0;
+            tempCount = 0;
+            memset(otherTempStorage, '\0', 1000);
             memset(tempStorage, '\0', 1000); 
         }
         else if((endCheck = strcasestr(lineStorage[i], "END")) && (eventCheck = strcasestr(lineStorage[i], "VEVENT")) && eventFlag == 1)
