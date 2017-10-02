@@ -195,7 +195,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             tempSize = 0;
             memset(tempStorage, '\0', 1000); 
         }
-        else if((timeStampCheck = strcasestr(lineStorage[i], "DSTAMP")))
+        else if((timeStampCheck = strcasestr(lineStorage[i], "DTSTAMP")))
         {
             for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
