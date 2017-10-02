@@ -374,7 +374,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             }
 
             tempProperty = initializeProperty(*tempStorage, otherTempStorage);
-            insertFront(&tempAlarm->properties, (void *)tempProperty);
+            insertFront(&tempAlarm->properties, tempProperty);
             tempSize = 0;
             tempCount = 0;
             memset(tempStorage, '\0', 1000);
