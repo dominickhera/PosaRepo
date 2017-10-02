@@ -107,6 +107,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     Alarm * tempAlarm;
     Property * tempProperty;
 
+    printf("hi\n");
     //time to actually start going through the file and figuring out what the fuck is in here
 
     for(int i = 0; i < count; i++)
@@ -300,7 +301,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 if(lineStorage[i][j] == ':' || lineStorage[i][j] != ';')
                 {
                     j++;
-                    while(lineStorage[i][j] != '\0' || lineStorage[i][j] != ';')
+                    while(lineStorage[i][j] != '\0')
                     {
                         tempStorage[tempSize] = lineStorage[i][j];
                         tempSize++;
@@ -334,7 +335,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 if(lineStorage[i][j] == ':' || lineStorage[i][j] != ';')
                 {
                     j++;
-                    while(lineStorage[i][j] != '\0' || lineStorage[i][j] != ';')
+                    while(lineStorage[i][j] != '\0')
                     {
                         tempStorage[tempSize] = lineStorage[i][j];
                         tempSize++;
