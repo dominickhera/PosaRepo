@@ -6,27 +6,27 @@
 
 Calendar* initializeCalendarMain();
 
-int main(int argc, char *argv[])
+int main()
 {
 	// printf("uh; %s\n", argv[]);
 
-	char * choice = argv[1];
+	// char * choice = argv[1];
 	Calendar * pleaseWorkCalendar = initializeCalendarMain();
 	enum ers errorCodeThing;
 
-	if(strcmp(choice, "1") == 0)
-	{
+	// if(strcmp(choice, "1") == 0)
+	// {
 		//easy
 		printf("easy\n");
 		errorCodeThing = createCalendar("./assets/testCalShort.ics", &pleaseWorkCalendar);
 
-	}
-	else if(strcmp(choice, "2") == 0)
-	{
-		//hard
-		printf("hard\n" );
-		errorCodeThing = createCalendar("./assets/testCalLong.ics", &pleaseWorkCalendar);
-	}
+	// }
+	// else if(strcmp(choice, "2") == 0)
+	// {
+	// 	//hard
+	// 	printf("hard\n" );
+	// 	errorCodeThing = createCalendar("./assets/testCalLong.ics", &pleaseWorkCalendar);
+	// }
 	
 	return 0;
 }
