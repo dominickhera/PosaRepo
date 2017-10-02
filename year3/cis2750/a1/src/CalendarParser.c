@@ -242,7 +242,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 }
                 else if(lineStorage[i][j] == 'T')
                 {
-                    j++;
+                    // j++;
 
                     if(tempUTC == true)
                     {
