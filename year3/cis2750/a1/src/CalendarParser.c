@@ -275,10 +275,10 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 
             // strTokTime = strtok(DSTAMPStorage, "T Z");
             // strTokDate = strtok(DSTAMPStorage, "Z");
-            strcpy(tempTime, otherTempStorage);
-            strcpy(tempDate, tempThirdStorage);
+            // strcpy(tempTime, otherTempStorage);
+            // strcpy(tempDate, tempThirdStorage);
 
-            parseCalendar->event->creationDateTime = *initializeDateTime(otherTempStorage, tempStorage, tempUTC);
+            parseCalendar->event->creationDateTime = *initializeDateTime(otherTempStorage, tempThirdStorage, tempUTC);
             tempSize = 0;
             tempCount = 0;
             tempThirdVal = 0;
