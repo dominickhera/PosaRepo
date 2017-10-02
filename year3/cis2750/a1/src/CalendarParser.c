@@ -234,102 +234,51 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             char * strTokTime;
             char * strTokDate;
 
-            // for(int j = 0; j < strlen(lineStorage[i]); j++)
-            // {
-            //     if(lineStorage[i][j] == ':')
-            //     {
-            //         j++;
-            //         while(lineStorage[i][j] != 'T')
-            //         {
-            //             tempThirdStorage[tempThirdVal] = lineStorage[i][j];
-            //             tempThirdVal++;
-            //             j++;
-            //         }
-            //     }
-            //     else if(lineStorage[i][j] == 'T')
-            //     {
-            //         // j++;
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            {
+            	if(lineStorage[i][j] != ':')
+            	{
+            		while(lineStorage[i][j] != ':')
+            		{
+            			j++;
+            		}
+            	}
+            	else if(lineStorage[i][j] == ':')
+            	{
+            		j++
+            		while(lineStorage[i][j] != 'T')
+            		{
+            			tempThirdStorage[tempThirdVal] = lineStorage[i][j];
+            			tempThirdVal++;
+            			j++;
+            		}
 
-            //         if(tempUTC == true)
-            //         {
-            //             while(lineStorage[i][j] != 'Z')
-            //             {
-            //                 // printf("lol\n");
-            //                 otherTempStorage[tempCount] = lineStorage[i][j];
-            //                 tempCount++;
-            //                 j++;
-            //             }
-            //         }
-            //         else
-            //         {
-            //             while(lineStorage[i][j] != '\0')
-            //             {
-            //                 otherTempStorage[tempCount] = lineStorage[i][j];
-            //                 tempCount++;
-            //                 j++;
-            //             }
-            //         }
-            //         // tempCount++;
-            //     }
-            // }
+            		j++;
+            		 if(tempUTC == true)
+                    {
+                        while(lineStorage[i][j] != 'Z')
+                        {
+                            // printf("lol\n");
+                            otherTempStorage[tempCount] = lineStorage[i][j];
+                            tempCount++;
+                            j++;
+                        }
+                    }
+                    else
+                    {
+                        while(lineStorage[i][j] != '\0')
+                        {
+                            otherTempStorage[tempCount] = lineStorage[i][j];
+                            tempCount++;
+                            j++;
+                        }
+                    }
 
-            // for(int j = 0; j < strlen(lineStorage[i]); j++)
-            // {
-            //     if(lineStorage[i][j] == 'T')
-            //     {
-            //         j++;
+            	}
 
-            //       	if(tempUTC == true)
-            //       	{
-            //       		while(lineStorage[i][j] != 'Z')
-            //         	{
-            //             otherTempStorage[tempCount] = lineStorage[i][j];
-            //             tempCount++;
-            //             j++;
-            //         	}
-            //       	}
-            //       	else
-            //       	{
-            //       		while(lineStorage[i][j] != '\0' )
-            //         	{
-            //             otherTempStorage[tempCount] = lineStorage[i][j];
-            //             tempCount++;
-            //             j++;
-            //         	}
-            //       	}
-            //     }
-            // }
-
-            strTokTime = strtok(DSTAMPStorage, "T Z");
-            // for(int j = 0; j < strlen(lineStorage[i]); j++)
-            // {
-            //     if(lineStorage[i][j] == 'T')
-            //     {
-            //         j++;
-
-            //       	if(tempUTC == true)
-            //       	{
-            //       		while(lineStorage[i][j] != 'Z')
-            //         	{
-            //             otherTempStorage[tempCount] = lineStorage[i][j];
-            //             tempCount++;
-            //             j++;
-            //         	}
-            //       	}
-            //       	else
-            //       	{
-            //       		while(lineStorage[i][j] != '\0' )
-            //         	{
-            //             otherTempStorage[tempCount] = lineStorage[i][j];
-            //             tempCount++;
-            //             j++;
-            //         	}
-            //       	}
-            //     }
-            // }
-            strTokDate = strtok(NULL, "T Z");
-            strcpy(tempTime, strTokTime);
-            strcpy(tempDate, otherTempStorage);
+            // strTokDate = strtok(NULL, "T Z");
+            strcpy(tempTime, otherTempStorage);
+            strcpy(tempDate, tempThirdStorage);
 
             parseCalendar->event->creationDateTime = *initializeDateTime(tempDate, tempTime, tempUTC);
             tempSize = 0;
