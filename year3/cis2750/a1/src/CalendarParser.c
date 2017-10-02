@@ -243,9 +243,10 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             			j++;
             		}
             	}
-            	else if(lineStorage[i][j] == ':')
+               
+                if(lineStorage[i][j] == ':')
             	{
-            		j++
+            		j++;
             		while(lineStorage[i][j] != 'T')
             		{
             			tempThirdStorage[tempThirdVal] = lineStorage[i][j];
@@ -275,6 +276,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                     }
 
             	}
+            }
 
             // strTokDate = strtok(NULL, "T Z");
             strcpy(tempTime, otherTempStorage);
