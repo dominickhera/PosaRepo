@@ -44,6 +44,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     char actionStorage[128];
     char * tempStorage = malloc(sizeof(char) * 1000);
     char * otherTempStorage = malloc(sizeof(char) * 1000);
+    char * tempThirdStorage = malloc(sizeof(char) * 1000);
     char * fileTypeCheck;
     char * calenderCheck;
     char * eventCheck;
@@ -219,7 +220,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
              // tempSize = 0;
             // tempCount = 0;
             // memset(otherTempStorage, '\0', 1000);
-            memset(tempStorage, '\0', 1000); 
+            // memset(tempStorage, '\0', 1000); 
             int tempThirdVal = 0;
             if((boolCheck = strstr(DSTAMPStorage, "Z")))
             {
@@ -233,14 +234,14 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             // char * strTokTime;
             // char * strTokDate;
 
-            for(int j = 0; j < tempSize; j++)
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
-                if(lineStorage[i][j] == ':' || lineStorage[i][j] != ';')
+                if(lineStorage[i][j] == ':')
                 {
                     j++;
                     while(lineStorage[i][j] != 'T')
                     {
-                        tempStorage[tempThirdVal] = lineStorage[i][j];
+                        tempThirdStorage[tempThirdVal] = lineStorage[i][j];
                         tempThirdVal++;
                         j++;
                     }
@@ -253,7 +254,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                     {
                         while(lineStorage[i][j] != 'Z')
                         {
-                            printf("lol\n");
+                            // printf("lol\n");
                             otherTempStorage[tempCount] = lineStorage[i][j];
                             tempCount++;
                             j++;
@@ -275,7 +276,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             // strTokTime = strtok(DSTAMPStorage, "T Z");
             // strTokDate = strtok(DSTAMPStorage, "Z");
             strcpy(tempTime, otherTempStorage);
-            strcpy(tempDate, tempStorage);
+            strcpy(tempDate, tempThirdStorage);
 
             parseCalendar->event->creationDateTime = *initializeDateTime(otherTempStorage, tempStorage, tempUTC);
             tempSize = 0;
