@@ -242,6 +242,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 }
                 else if(lineStorage[i][j] == 'T')
                 {
+                	j++;
                     while(lineStorage[i][j] != '\0' || lineStorage[i][j] != 'Z')
                     {
                         otherTempStorage[tempCount] = lineStorage[i][j];
