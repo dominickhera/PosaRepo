@@ -273,6 +273,34 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             //     }
             // }
 
+            // for(int j = 0; j < strlen(lineStorage[i]); j++)
+            // {
+            //     if(lineStorage[i][j] == 'T')
+            //     {
+            //         j++;
+
+            //       	if(tempUTC == true)
+            //       	{
+            //       		while(lineStorage[i][j] != 'Z')
+            //         	{
+            //             otherTempStorage[tempCount] = lineStorage[i][j];
+            //             tempCount++;
+            //             j++;
+            //         	}
+            //       	}
+            //       	else
+            //       	{
+            //       		while(lineStorage[i][j] != '\0' )
+            //         	{
+            //             otherTempStorage[tempCount] = lineStorage[i][j];
+            //             tempCount++;
+            //             j++;
+            //         	}
+            //       	}
+            //     }
+            // }
+
+            strTokTime = strtok(DSTAMPStorage, "T Z");
             for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
                 if(lineStorage[i][j] == 'T')
@@ -299,8 +327,6 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                   	}
                 }
             }
-
-            strTokTime = strtok(DSTAMPStorage, "T Z");
             // strTokDate = strtok(DSTAMPStorage, "Z");
             strcpy(tempTime, strTokTime);
             strcpy(tempDate, otherTempStorage);
