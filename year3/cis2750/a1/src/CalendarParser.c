@@ -237,45 +237,30 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
             	if(lineStorage[i][j] != ':')
-            	{
-            		while(lineStorage[i][j] != ':')
-            		{
-            			j++;
-            		}
-            	}
-               
-                if(lineStorage[i][j] == ':')
-            	{
-            		j++;
-            		while(lineStorage[i][j] != 'T')
-            		{
-            			tempThirdStorage[tempThirdVal] = lineStorage[i][j];
-            			tempThirdVal++;
-            			j++;
-            		}
+                {
+                    j++;
+                }
+                else
+                {
+                    j++;
+                    while(lineStorage[i][j] != 'T')
+                    {
+                        otherTempStorage[tempCount] = lineStorage[i][j];
+                        j++;
+                        tempCount++;
+                    }
 
-            		j++;
-            		 if(tempUTC == true)
+                    j++;
+                    if(tempUTC == true)
                     {
                         while(lineStorage[i][j] != 'Z')
                         {
-                            // printf("lol\n");
-                            otherTempStorage[tempCount] = lineStorage[i][j];
-                            tempCount++;
+                            tempThirdStorage[tempThirdVal] = lineStorage[i][j];
                             j++;
+                            tempThirdVal++;
                         }
                     }
-                    else
-                    {
-                        while(lineStorage[i][j] != '\0')
-                        {
-                            otherTempStorage[tempCount] = lineStorage[i][j];
-                            tempCount++;
-                            j++;
-                        }
-                    }
-
-            	}
+                }
             }
 
             // strTokDate = strtok(NULL, "T Z");
