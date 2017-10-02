@@ -377,12 +377,35 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 
 void deleteCalendar(Calendar* obj)
 {
-
     if(obj != NULL)
     {
 
-    }
+    	void *eventAlarmsDeleteElem;
+    	ListIterator eventAlarmsDeleteIter = createIterator(obj->event->alarms);
+    	while((eventAlarmsDeleteElem = nextElement(&eventAlarmsDeleteIter)) != NULL)
+    	{
+    		Alarm* tempEventAlarmDelete = (Alarm*)eventAlarmsDeleteElem;
+    		// clearList(tempEventAlarmDelete);
+    		void *alarmPropDeleteElem;
+			ListIterator alarmPropDeleteIter = createIterator(tempEventAlarmDelete->properties);
+	    	while((alarmPropDeleteElem = nextElement(&alarmPropDeleteIter)) != NULL)
+	    	{
+	    		List* tempAlarmPropDelete = (List*)alarmPropDeleteElem;	
+	    		clearList(tempAlarmPropDelete);
+	    	}
+    	}
 
+    	void *eventPropertiesDeleteElem;
+    	ListIterator eventPropertiesDeleteIter = createIterator(obj->event->properties);
+    	while((eventPropertiesDeleteElem = nextElement(&eventPropertiesDeleteIter)) != NULL)
+    	{
+    		List* tempEventPropertiesDelete = (List*)eventPropertiesDeleteElem;
+    		clearList(tempEventPropertiesDelete);
+    	}
+
+    	free(obj->event);
+    	free(obj);
+    }
 }
 
 char* printCalendar(const Calendar* obj)
