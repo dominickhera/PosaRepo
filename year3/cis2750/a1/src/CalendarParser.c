@@ -212,8 +212,8 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             }
 
             strcpy(DSTAMPStorage, tempStorage);
-            // char tempTime[7];
-            // char tempDate[9];
+            char tempTime[7];
+            char tempDate[9];
             char * boolCheck;
             bool tempUTC;
             if((boolCheck = strstr(DSTAMPStorage, "Z")))
@@ -255,8 +255,8 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 
             // strTokTime = strtok(DSTAMPStorage, "T Z");
             // strTokDate = strtok(DSTAMPStorage, "Z");
-            // strcpy(tempTime, strTokTime);
-            // strcpy(tempDate, strTokDate);
+            strcpy(tempTime, otherTempStorage);
+            strcpy(tempDate, tempStorage);
 
             parseCalendar->event->creationDateTime = *initializeDateTime(otherTempStorage, tempStorage, tempUTC);
             tempSize = 0;
