@@ -212,8 +212,8 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             }
 
             strcpy(DSTAMPStorage, tempStorage);
-            char tempTime[7];
-            char tempDate[9];
+            // char tempTime[7];
+            // char tempDate[9];
             char * boolCheck;
             bool tempUTC;
             if((boolCheck = strstr(DSTAMPStorage, "Z")))
@@ -225,8 +225,8 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 tempUTC = false;
             }
 
-            char * strTokTime;
-            char * strTokDate;
+            // char * strTokTime;
+            // char * strTokDate;
 
             for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
@@ -385,6 +385,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             tempProperty = initializeProperty(*tempStorage, otherTempStorage);
             insertFront(&parseCalendar->event->properties, tempProperty);
             tempSize = 0;
+            tempCount = 0;
             memset(tempStorage, '\0', 1000);
             memset(otherTempStorage, '\0', 1000);
         }
