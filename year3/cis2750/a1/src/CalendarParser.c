@@ -231,54 +231,54 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 tempUTC = false;
             }
 
-            // char * strTokTime;
-            // char * strTokDate;
+            char * strTokTime;
+            char * strTokDate;
 
-            for(int j = 0; j < strlen(lineStorage[i]); j++)
-            {
-                if(lineStorage[i][j] == ':')
-                {
-                    j++;
-                    while(lineStorage[i][j] != 'T')
-                    {
-                        tempThirdStorage[tempThirdVal] = lineStorage[i][j];
-                        tempThirdVal++;
-                        j++;
-                    }
-                }
-                else if(lineStorage[i][j] == 'T')
-                {
-                    // j++;
+            // for(int j = 0; j < strlen(lineStorage[i]); j++)
+            // {
+            //     if(lineStorage[i][j] == ':')
+            //     {
+            //         j++;
+            //         while(lineStorage[i][j] != 'T')
+            //         {
+            //             tempThirdStorage[tempThirdVal] = lineStorage[i][j];
+            //             tempThirdVal++;
+            //             j++;
+            //         }
+            //     }
+            //     else if(lineStorage[i][j] == 'T')
+            //     {
+            //         // j++;
 
-                    if(tempUTC == true)
-                    {
-                        while(lineStorage[i][j] != 'Z')
-                        {
-                            // printf("lol\n");
-                            otherTempStorage[tempCount] = lineStorage[i][j];
-                            tempCount++;
-                            j++;
-                        }
-                    }
-                    else
-                    {
-                        while(lineStorage[i][j] != '\0')
-                        {
-                            otherTempStorage[tempCount] = lineStorage[i][j];
-                            tempCount++;
-                            j++;
-                        }
-                    }
-                    // tempCount++;
-                }
-            }
+            //         if(tempUTC == true)
+            //         {
+            //             while(lineStorage[i][j] != 'Z')
+            //             {
+            //                 // printf("lol\n");
+            //                 otherTempStorage[tempCount] = lineStorage[i][j];
+            //                 tempCount++;
+            //                 j++;
+            //             }
+            //         }
+            //         else
+            //         {
+            //             while(lineStorage[i][j] != '\0')
+            //             {
+            //                 otherTempStorage[tempCount] = lineStorage[i][j];
+            //                 tempCount++;
+            //                 j++;
+            //             }
+            //         }
+            //         // tempCount++;
+            //     }
+            // }
 
-            // strTokTime = strtok(DSTAMPStorage, "T Z");
-            // strTokDate = strtok(DSTAMPStorage, "Z");
-            // strcpy(tempTime, otherTempStorage);
-            // strcpy(tempDate, tempThirdStorage);
+            strTokTime = strtok(DSTAMPStorage, "T Z");
+            strTokDate = strtok(DSTAMPStorage, "Z");
+            strcpy(tempTime, strTokTime);
+            strcpy(tempDate, strTokDate);
 
-            parseCalendar->event->creationDateTime = *initializeDateTime(otherTempStorage, tempThirdStorage, tempUTC);
+            parseCalendar->event->creationDateTime = *initializeDateTime(tempDate, tempTime, tempUTC);
             tempSize = 0;
             tempCount = 0;
             tempThirdVal = 0;
