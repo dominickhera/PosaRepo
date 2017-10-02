@@ -19,7 +19,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
-// #include "LinkedListAPI.h"
+#include "LinkedListAPI.h"
 #include "CalendarParser.h"
 
 Calendar* initializeCalendar();
@@ -229,7 +229,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             strcpy(tempTime, strTokTime);
             strcpy(tempDate, strTokDate);
 
-            parseEvent->creationDateTime = *initializeDateTime(tempTime, tempDate, tempUTC);
+            parseCalendar->event->creationDateTime = *initializeDateTime(tempTime, tempDate, tempUTC);
             tempSize = 0;
             memset(tempStorage, '\0', 1000); 
         }
@@ -288,7 +288,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         else if((endCheck = strcasestr(lineStorage[i], "END")) && (alarmCheck = strcasestr(lineStorage[i], "VALARM")) && calendarFlag == 1 && alarmFlag == 1 && eventFlag == 1)
         {
             alarmFlag--;
-            insertFront(&parseEvent->alarms, (void*)tempAlarm);
+            insertFront(&parseCalendar->event->alarms, (void*)tempAlarm);
         }
         //alarm property
         else if(calendarFlag == 1 && eventFlag == 1 && alarmFlag == 1)
@@ -352,7 +352,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             }
 
             tempProperty = initializeProperty(*tempStorage, otherTempStorage);
-            insertFront(&parseEvent->properties, tempProperty);
+            insertFront(&parseCalendar->event->properties, tempProperty);
             tempSize = 0;
             memset(tempStorage, '\0', 1000);
             memset(otherTempStorage, '\0', 1000);
@@ -363,11 +363,14 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         }
         else if((proIDCheck = strcasestr(lineStorage[i], "PROID")) && proidFlag == 1)
         {
-            return DUP_CAL;
+            return DUP_PRODID;
         }
     }
 
     if(calendarFlag != 0 && proidFlag != 1 && versionFlag != 1)
+    {
+        return INV_CAL;
+    }
 
     return OK;
 }
@@ -375,15 +378,106 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 void deleteCalendar(Calendar* obj)
 {
 
+    if(obj != NULL)
+    {
+
+    }
+
 }
 
 char* printCalendar(const Calendar* obj)
 {
 
+    char * calendarReturn = malloc(sizeof(char) * 1000);
+
+    if(obj != NULL)
+    {
+        sprintf(calendarReturn, "Calendar\nVersion = %f, ProdID = %s\n", obj->version, obj->prodID);
+
+        if(obj->event != NULL)
+        {
+
+            sprintf(calendarReturn + strlen(calendarReturn), "\n\nEvent\nUID = %s\n", obj->event->UID);
+            // if(obj->event->creationDateTime.date != NULL)
+            // {
+            sprintf(calendarReturn + strlen(calendarReturn), "creationDateTime = %s:%s UTC = %d\n", obj->event->creationDateTime.date, obj->event->creationDateTime.time, obj->event->creationDateTime.UTC);
+            // }
+
+            if(obj->event->alarms.head != NULL)
+            {
+                strcat(calendarReturn, "Alarms:\n");
+                void* elem;
+                ListIterator eventAlarmsIter = createIterator(obj->event->alarms);
+                while((elem = nextElement(&eventAlarmsIter)) != NULL)
+                {
+                    Alarm* tempAlarmPrint = (Alarm*)elem;
+
+                    sprintf(calendarReturn + strlen(calendarReturn), "Action: %s\nTrigger: %s\nProperties: \n",tempAlarmPrint->action, tempAlarmPrint->trigger);
+                    ListIterator eventAlarmsPropIter = createIterator(tempAlarmPrint->properties);
+                    void *propElem;
+                    while((propElem = nextElement(&eventAlarmsPropIter)) != NULL)
+                    {
+                        Property* tempPropPrint = (Property*)propElem;
+                        sprintf(calendarReturn + strlen(calendarReturn), "%s:%s\n", tempPropPrint->propName, tempPropPrint->propDescr);
+                    }
+
+                }
+            }
+
+            strcat(calendarReturn + strlen(calendarReturn), "Other Properties:\n");
+
+            void *eventPropElem;
+            ListIterator eventPropertiesIter = createIterator(obj->event->properties);
+            while((eventPropElem = nextElement(&eventPropertiesIter)) != NULL)
+            {
+                Property* tempEventPropPrint = (Property*)eventPropElem;
+                sprintf(calendarReturn + strlen(calendarReturn), "%s:%s\n", tempEventPropPrint->propName, tempEventPropPrint->propDescr);
+            }
+
+        }
+
+        return calendarReturn;
+    }
+
+    return NULL;
+
 }
 
 char* printError(ErrorCode err)
 {
+    char * errorCodeReturn = malloc(sizeof(char) * 256);
+    switch(err)
+    {
+        case INV_FILE:
+            strcpy(errorCodeReturn, "INV_FILE: there’s a problem with file argument - its null, it;’s a empty string, file doesn't exist or - cannot be opened,file doesn't have the.ics extension\n");
+            break;
+        case INV_VER:
+            strcpy(errorCodeReturn, "INV_VER: the calendar version property is present but malformed\n");
+            break;
+        case DUP_VER:
+            strcpy(errorCodeReturn,"DUP_VER: the calendar version property appears more than once\n");
+            break;
+        case INV_PRODID:
+            strcpy(errorCodeReturn, "INV_PRODID: the product ID property is present but malformed\n");
+            break;
+        case DUP_PRODID:
+            strcpy(errorCodeReturn, "DUP_PRODID: the product ID property appears more than once\n");
+            break;
+        case INV_CAL:
+            strcpy(errorCodeReturn, "INV_CAL: the calendar itself is invalid (missing required properties or components, invalid opening - closingtags,etc.)\n");
+            break;
+        case INV_CREATEDT:
+            strcpy(errorCodeReturn, "INV_CREADEDT: the event creation date-time property is malformed in some way\n");
+            break;
+        case INV_EVENT:
+            strcpy(errorCodeReturn, "INV_EVENT: the event component is malformed in some way\n");
+            break;
+        default:
+            strcpy(errorCodeReturn, "error code not found\n");
+            break;
+    }
+
+    return errorCodeReturn;
 
 }
 
@@ -454,3 +548,5 @@ int testCompare(const void * one, const void * two)
 {
     return strcmp((char*)one, (char*)two);
 }
+
+
