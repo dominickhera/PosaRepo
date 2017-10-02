@@ -273,10 +273,24 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             //     }
             // }
 
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            {
+                if(lineStorage[i][j] == 'T')
+                {
+                    j++;
+                    while(lineStorage[i][j] != '\0' || lineStorage[i][j] != 'Z')
+                    {
+                        otherTempStorage[tempCount] = lineStorage[i][j];
+                        tempCount++;
+                        j++;
+                    }
+                }
+            }
+
             strTokTime = strtok(DSTAMPStorage, "T Z");
-            strTokDate = strtok(DSTAMPStorage, "Z");
+            // strTokDate = strtok(DSTAMPStorage, "Z");
             strcpy(tempTime, strTokTime);
-            strcpy(tempDate, strTokDate);
+            strcpy(tempDate, otherTempStorage);
 
             parseCalendar->event->creationDateTime = *initializeDateTime(tempDate, tempTime, tempUTC);
             tempSize = 0;
