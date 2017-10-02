@@ -10,17 +10,17 @@ int main(int argc, char *argv[])
 {
 	// printf("uh; %s\n", argv[]);
 
-	// char * choice = argv[1]
+	char * choice = argv[1]
 	Calendar * pleaseWorkCalendar = initializeCalendarMain();
 	enum ers errorCodeThing;
-	if(strcmp(argv[1], "1") == 0)
+	if(strcmp(choice, "1") == 0)
 	{
 		//easy
 		printf("easy\n");
 		errorCodeThing = createCalendar("./assets/testCalShort.ics", &pleaseWorkCalendar);
 
 	}
-	else if(strcmp(argv[1], "2") == 0)
+	else if(strcmp(choice, "2") == 0)
 	{
 		//hard
 		printf("hard\n" );
