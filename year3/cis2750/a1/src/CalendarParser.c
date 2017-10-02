@@ -407,7 +407,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 }
             }
 
-            tempProperty = initializeProperty(*tempStorage, otherTempStorage);
+            tempProperty = initializeProperty(*otherTempStorage, tempStorage);
             insertFront(&parseCalendar->event->properties, tempProperty);
             tempSize = 0;
             tempCount = 0;
