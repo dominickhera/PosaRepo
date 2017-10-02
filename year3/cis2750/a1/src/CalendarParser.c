@@ -216,10 +216,11 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             char tempDate[9];
             char * boolCheck;
             bool tempUTC;
-             tempSize = 0;
+             // tempSize = 0;
             // tempCount = 0;
             // memset(otherTempStorage, '\0', 1000);
             memset(tempStorage, '\0', 1000); 
+            int tempThirdVal = 0;
             if((boolCheck = strstr(DSTAMPStorage, "Z")))
             {
                 tempUTC = true;
@@ -232,15 +233,15 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             // char * strTokTime;
             // char * strTokDate;
 
-            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            for(int j = 0; j < tempSize; j++)
             {
                 if(lineStorage[i][j] == ':' || lineStorage[i][j] != ';')
                 {
                     j++;
                     while(lineStorage[i][j] != 'T')
                     {
-                        tempStorage[tempSize] = lineStorage[i][j];
-                        tempSize++;
+                        tempStorage[tempThirdVal] = lineStorage[i][j];
+                        tempThirdVal++;
                         j++;
                     }
                 }
@@ -279,6 +280,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             parseCalendar->event->creationDateTime = *initializeDateTime(otherTempStorage, tempStorage, tempUTC);
             tempSize = 0;
             tempCount = 0;
+            tempThirdVal = 0;
             memset(otherTempStorage, '\0', 1000);
             memset(tempStorage, '\0', 1000); 
         }
