@@ -10,9 +10,10 @@ int main(int argc, char *argv[])
 {
 	// printf("uh; %s\n", argv[]);
 
-	char * choice = argv[1]
+	char * choice = argv[1];
 	Calendar * pleaseWorkCalendar = initializeCalendarMain();
 	enum ers errorCodeThing;
+
 	if(strcmp(choice, "1") == 0)
 	{
 		//easy
