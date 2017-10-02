@@ -254,8 +254,8 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 
             // strTokTime = strtok(DSTAMPStorage, "T Z");
             // strTokDate = strtok(DSTAMPStorage, "Z");
-            strcpy(tempTime, strTokTime);
-            strcpy(tempDate, strTokDate);
+            // strcpy(tempTime, strTokTime);
+            // strcpy(tempDate, strTokDate);
 
             parseCalendar->event->creationDateTime = *initializeDateTime(otherTempStorage, tempStorage, tempUTC);
             tempSize = 0;
