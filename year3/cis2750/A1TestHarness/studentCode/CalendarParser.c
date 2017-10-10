@@ -246,7 +246,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                     j++;
                     if(tempUTC == true)
                     {
-                        while(lineStorage[i][j] != 'Z')
+                        while(DSTAMPStorage[j] != 'Z')
                         {
                             tempThirdStorage[tempThirdVal] = DSTAMPStorage[j];
                             j++;
