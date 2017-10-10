@@ -27,9 +27,9 @@ Event* initializeEvent();
 Property* initializeProperty(char propName, char propDescr[]);
 Alarm* initializeAlarm();
 DateTime* initializeDateTime(char *date, char *timeValue, bool UTC);
-void  testDestroy(void *data);
-char * testPrint(void *toBePrinted);
-int testCompare(const void * one, const void * two);
+void  tDestroy(void *data);
+char * tPrint(void *toBePrinted);
+int tCompare(const void * one, const void * two);
 
 ErrorCode createCalendar(char* fileName, Calendar** obj)
 {
@@ -577,8 +577,8 @@ Event* initializeEvent()
 {
 
     Event * tempEvent = malloc(sizeof(Event));
-    tempEvent->properties = initializeList(testPrint, testDestroy, testCompare);
-    tempEvent->alarms = initializeList(testPrint, testDestroy, testCompare);
+    tempEvent->properties = initializeList(tPrint, tDestroy, tCompare);
+    tempEvent->alarms = initializeList(tPrint, tDestroy, tCompare);
 
     return tempEvent;
 
@@ -599,7 +599,7 @@ Alarm* initializeAlarm()
 {
 
     Alarm * tempAlarm = malloc(sizeof(Alarm));
-    tempAlarm->properties = initializeList(testPrint, testDestroy, testCompare);
+    tempAlarm->properties = initializeList(tPrint, tDestroy, tCompare);
 
     return tempAlarm;
 
@@ -615,12 +615,12 @@ DateTime* initializeDateTime(char *date, char *timeValue, bool UTC)
     return tempTime;
 }
 
-void  testDestroy(void *data)
+void  tDestroy(void *data)
 {
     free(data);
 }
 
-char * testPrint(void *toBePrinted)
+char * tPrint(void *toBePrinted)
 {
     if(toBePrinted!=NULL){
         return strdup((char *)toBePrinted);
@@ -628,7 +628,7 @@ char * testPrint(void *toBePrinted)
     return NULL;
 }
 
-int testCompare(const void * one, const void * two)
+int tCompare(const void * one, const void * two)
 {
     return strcmp((char*)one, (char*)two);
 }
