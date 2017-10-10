@@ -235,7 +235,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 
             for(int j = 0; j < strlen(DSTAMPStorage); j++)
             {
-                
+            	
                     while(DSTAMPStorage[j] != 'T')
                     {
                         otherTempStorage[tempCount] = DSTAMPStorage[j];
@@ -434,7 +434,7 @@ void deleteCalendar(Calendar* obj)
             ListIterator alarmPropDeleteIter = createIterator(tempEventAlarmDelete->properties);
             while((alarmPropDeleteElem = nextElement(&alarmPropDeleteIter)) != NULL)
             {
-                List* tempAlarmPropDelete = (List*)alarmPropDeleteElem; 
+                List* tempAlarmPropDelete = (List*)alarmPropDeleteElem;	
                 clearList(tempAlarmPropDelete);
             }
         }

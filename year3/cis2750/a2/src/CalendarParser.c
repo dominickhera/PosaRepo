@@ -22,13 +22,14 @@
 #include "LinkedListAPI.h"
 #include "CalendarParser.h"
 
+Calendar* initializeCalendar();
 Event* initializeEvent();
 Property* initializeProperty(char propName, char propDescr[]);
 Alarm* initializeAlarm();
 DateTime* initializeDateTime(char *date, char *timeValue, bool UTC);
-void  tDestroy(void *data);
-char * tPrint(void *toBePrinted);
-int tCompare(const void * one, const void * two);
+void  testDestroy(void *data);
+char * testPrint(void *toBePrinted);
+int testCompare(const void * one, const void * two);
 
 ErrorCode createCalendar(char* fileName, Calendar** obj)
 {
@@ -107,7 +108,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     Alarm * tempAlarm;
     Property * tempProperty;
 
-    // printf("hi\n")m;
+    printf("hi\n");
     //time to actually start going through the file and figuring out what the fuck is in here
 
     for(int i = 0; i < count; i++)
@@ -142,7 +143,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         }
         else if((versionCheck = strcasestr(lineStorage[i], "VERSION")) && calendarFlag == 1)
         {
-            if((otherCheck = strcasestr(lineStorage[i], "2")))
+            if((otherCheck = strcasestr(lineStorage[i], "2.0")))
             {
                 for(int j = 0; j < strlen(lineStorage[i]); j++)
                 {
@@ -230,15 +231,21 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 tempUTC = false;
             }
 
-            // char * strTokTime;
-            // char * strTokDate;
+            char * strTokTime;
+            char * strTokDate;
 
-            for(int j = 0; j < strlen(DSTAMPStorage); j++)
+            for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
-                
-                    while(DSTAMPStorage[j] != 'T')
+            	if(lineStorage[i][j] != ':')
+                {
+                    j++;
+                }
+                else
+                {
+                    j++;
+                    while(lineStorage[i][j] != 'T')
                     {
-                        otherTempStorage[tempCount] = DSTAMPStorage[j];
+                        otherTempStorage[tempCount] = lineStorage[i][j];
                         j++;
                         tempCount++;
                     }
@@ -248,21 +255,12 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                     {
                         while(lineStorage[i][j] != 'Z')
                         {
-                            tempThirdStorage[tempThirdVal] = DSTAMPStorage[j];
+                            tempThirdStorage[tempThirdVal] = lineStorage[i][j];
                             j++;
                             tempThirdVal++;
                         }
                     }
-                    else
-                    {
-                        while(DSTAMPStorage[j] != '\0')
-                        {
-                            tempThirdStorage[tempThirdVal] = DSTAMPStorage[j];
-                            j++;
-                            tempThirdVal++;
-                        }
-                    }
-                
+                }
             }
 
             // strTokDate = strtok(NULL, "T Z");
@@ -434,7 +432,7 @@ void deleteCalendar(Calendar* obj)
             ListIterator alarmPropDeleteIter = createIterator(tempEventAlarmDelete->properties);
             while((alarmPropDeleteElem = nextElement(&alarmPropDeleteIter)) != NULL)
             {
-                List* tempAlarmPropDelete = (List*)alarmPropDeleteElem; 
+                List* tempAlarmPropDelete = (List*)alarmPropDeleteElem;	
                 clearList(tempAlarmPropDelete);
             }
         }
@@ -567,12 +565,20 @@ char* printError(ErrorCode err)
 
 }
 
+Calendar* initializeCalendar()
+{
+    Calendar * temp = malloc(sizeof(Calendar));
+    temp->event = NULL;
+
+    return temp;
+}
+
 Event* initializeEvent()
 {
 
     Event * tempEvent = malloc(sizeof(Event));
-    tempEvent->properties = initializeList(tPrint, tDestroy, tCompare);
-    tempEvent->alarms = initializeList(tPrint, tDestroy, tCompare);
+    tempEvent->properties = initializeList(testPrint, testDestroy, testCompare);
+    tempEvent->alarms = initializeList(testPrint, testDestroy, testCompare);
 
     return tempEvent;
 
@@ -593,7 +599,7 @@ Alarm* initializeAlarm()
 {
 
     Alarm * tempAlarm = malloc(sizeof(Alarm));
-    tempAlarm->properties = initializeList(tPrint, tDestroy, tCompare);
+    tempAlarm->properties = initializeList(testPrint, testDestroy, testCompare);
 
     return tempAlarm;
 
@@ -609,12 +615,12 @@ DateTime* initializeDateTime(char *date, char *timeValue, bool UTC)
     return tempTime;
 }
 
-void  tDestroy(void *data)
+void  testDestroy(void *data)
 {
     free(data);
 }
 
-char * tPrint(void *toBePrinted)
+char * testPrint(void *toBePrinted)
 {
     if(toBePrinted!=NULL){
         return strdup((char *)toBePrinted);
@@ -622,7 +628,7 @@ char * tPrint(void *toBePrinted)
     return NULL;
 }
 
-int tCompare(const void * one, const void * two)
+int testCompare(const void * one, const void * two)
 {
     return strcmp((char*)one, (char*)two);
 }
