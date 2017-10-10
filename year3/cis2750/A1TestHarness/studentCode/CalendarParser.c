@@ -22,7 +22,6 @@
 #include "LinkedListAPI.h"
 #include "CalendarParser.h"
 
-Calendar* initializeCalendar();
 Event* initializeEvent();
 Property* initializeProperty(char propName, char propDescr[]);
 Alarm* initializeAlarm();
@@ -108,7 +107,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     Alarm * tempAlarm;
     Property * tempProperty;
 
-    printf("hi\n");
+    // printf("hi\n")m;
     //time to actually start going through the file and figuring out what the fuck is in here
 
     for(int i = 0; i < count; i++)
@@ -143,7 +142,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         }
         else if((versionCheck = strcasestr(lineStorage[i], "VERSION")) && calendarFlag == 1)
         {
-            if((otherCheck = strcasestr(lineStorage[i], "2.0")))
+            if((otherCheck = strcasestr(lineStorage[i], "2")))
             {
                 for(int j = 0; j < strlen(lineStorage[i]); j++)
                 {
@@ -231,21 +230,15 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 tempUTC = false;
             }
 
-            char * strTokTime;
-            char * strTokDate;
+            // char * strTokTime;
+            // char * strTokDate;
 
-            for(int j = 0; j < strlen(lineStorage[i]); j++)
+            for(int j = 0; j < strlen(DSTAMPStorage); j++)
             {
-            	if(lineStorage[i][j] != ':')
-                {
-                    j++;
-                }
-                else
-                {
-                    j++;
-                    while(lineStorage[i][j] != 'T')
+            	
+                    while(DSTAMPStorage[j] != 'T')
                     {
-                        otherTempStorage[tempCount] = lineStorage[i][j];
+                        otherTempStorage[tempCount] = DSTAMPStorage[j];
                         j++;
                         tempCount++;
                     }
@@ -255,12 +248,21 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                     {
                         while(lineStorage[i][j] != 'Z')
                         {
-                            tempThirdStorage[tempThirdVal] = lineStorage[i][j];
+                            tempThirdStorage[tempThirdVal] = DSTAMPStorage[j];
                             j++;
                             tempThirdVal++;
                         }
                     }
-                }
+                    else
+                    {
+                        while(DSTAMPStorage[j] != '\0')
+                        {
+                            tempThirdStorage[tempThirdVal] = DSTAMPStorage[j];
+                            j++;
+                            tempThirdVal++;
+                        }
+                    }
+                
             }
 
             // strTokDate = strtok(NULL, "T Z");
@@ -563,14 +565,6 @@ char* printError(ErrorCode err)
 
     return errorCodeReturn;
 
-}
-
-Calendar* initializeCalendar()
-{
-    Calendar * temp = malloc(sizeof(Calendar));
-    temp->event = NULL;
-
-    return temp;
 }
 
 Event* initializeEvent()

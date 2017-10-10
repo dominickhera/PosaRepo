@@ -433,7 +433,7 @@ SubTestRec createCalTest1(int testNum, int subTest){
     Calendar* testCal;
     
     ErrorCode err = createCalendar(fileName, &testCal);
-    
+
     if (err != OK){
         sprintf(feedback, "Subtest %d.%d: Did not return OK when parsing a valid file (%s).",testNum,subTest, fileName);
         result = createSubResult(FAIL, feedback);
