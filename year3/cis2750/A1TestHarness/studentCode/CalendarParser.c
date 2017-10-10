@@ -49,18 +49,18 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     // char *tempThirdStorage = malloc(sizeof(char) * 7);
     char tempDateStorage[9];
     char tempTimeStorage[7];
-    char * fileTypeCheck;
-    char * calenderCheck;
-    char * eventCheck;
-    char * alarmCheck;
-    // char * propertyCheck;
-    char * UIDCheck;
-    char * versionCheck;
-    char * proIDCheck;
-    char * beginCheck;
-    char * endCheck;
-    char * timeStampCheck;
-    char * otherCheck;
+    // char * fileTypeCheck;
+    // char * calenderCheck;
+    // char * eventCheck;
+    // char * alarmCheck;
+    // // char * propertyCheck;
+    // char * UIDCheck;
+    // char * versionCheck;
+    // char * proIDCheck;
+    // char * beginCheck;
+    // char * endCheck;
+    // char * timeStampCheck;
+    // char * otherCheck;
     int count = 0;
     int tempSize = 0;
     int eventFlag = 0;
@@ -76,7 +76,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     if(fileName != NULL && fileName[0] != '\0')
     {
         // printf("hi\n");
-        if((fileTypeCheck = strstr(fileName, ".ics")))
+        if((strstr(fileName, ".ics")))
         {
             // printf("fuck\n");
             if((fp = fopen(fileName, "r")))
@@ -118,7 +118,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 
     for(int i = 0; i < count; i++)
     {
-        if((beginCheck = strcasestr(lineStorage[i], "BEGIN")) && (calenderCheck = strcasestr(lineStorage[i], "VCALENDAR")) && calendarFlag == 0)
+        if((strcasestr(lineStorage[i], "BEGIN")) && (strcasestr(lineStorage[i], "VCALENDAR")) && calendarFlag == 0)
         {
             // printf("2\n");
             parseCalendar = malloc(sizeof(Calendar));
@@ -127,7 +127,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             calendarFlag++;
             // printf("count = %d\n", i);
         }
-        else if((proIDCheck = strcasestr(lineStorage[i], "PRODID")) && calendarFlag == 1 && proidFlag == 0)
+        else if((strcasestr(lineStorage[i], "PRODID")) && calendarFlag == 1 && proidFlag == 0)
         {
             // printf("3\n");
             proidFlag++;
@@ -159,10 +159,10 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             tempSize = 0;
             memset(tempStorage, '\0', 1000);
         }
-        else if((versionCheck = strcasestr(lineStorage[i], "VERSION")) && calendarFlag == 1)
+        else if((strcasestr(lineStorage[i], "VERSION")) && calendarFlag == 1)
         {
             // printf("8\n");
-            if((otherCheck = strcasestr(lineStorage[i], "2")))
+            if((strcasestr(lineStorage[i], "2")))
             {
 
                 for(int j = 0; j < strlen(lineStorage[i]); j++)
@@ -192,7 +192,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 return INV_VER;
             }
         }
-        else if((beginCheck = strcasestr(lineStorage[i], "BEGIN")) && (eventCheck = strcasestr(lineStorage[i], "VEVENT")) && eventFlag == 0 && calendarFlag == 1)
+        else if((strcasestr(lineStorage[i], "BEGIN")) && (strcasestr(lineStorage[i], "VEVENT")) && eventFlag == 0 && calendarFlag == 1)
         {
             printf("9\n");
             eventFlag++;
@@ -202,7 +202,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             (*obj)->event->alarms = initializeList(NULL, NULL, NULL);
             parseCalendar->event = parseEvent;
         }
-        else if((UIDCheck = strcasestr(lineStorage[i], "UID")) && eventFlag != 0)
+        else if((strcasestr(lineStorage[i], "UID")) && eventFlag != 0)
         {
             printf("10\n");
             for(int j = 0; j < strlen(lineStorage[i]); j++)
@@ -225,7 +225,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             tempSize = 0;
             memset(tempStorage, '\0', 1000); 
         }
-        else if((timeStampCheck = strcasestr(lineStorage[i], "DTSTAMP")))
+        else if((strcasestr(lineStorage[i], "DTSTAMP")))
         {
             printf("11\n");
             for(int j = 0; j < strlen(lineStorage[i]); j++)
@@ -243,10 +243,10 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             }
 
             strcpy(DSTAMPStorage, tempStorage);
-            char * boolCheck;
+            // char * boolCheck;
             bool tempUTC;
             int tempThirdVal = 0;
-            if((boolCheck = strstr(DSTAMPStorage, "Z")))
+            if((strstr(DSTAMPStorage, "Z")))
             {
                 tempUTC = true;
                 parseCalendar->event->creationDateTime.UTC = true;
@@ -320,13 +320,13 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             memset(otherTempStorage, '\0', 1000);
             memset(tempStorage, '\0', 1000); 
         }
-        else if((endCheck = strcasestr(lineStorage[i], "END")) && (eventCheck = strcasestr(lineStorage[i], "VEVENT")) && eventFlag == 1)
+        else if((strcasestr(lineStorage[i], "END")) && (strcasestr(lineStorage[i], "VEVENT")) && eventFlag == 1)
         {
             printf("12\n");
             // printf("fuck\n");
             eventFlag--;
         }
-        else if((beginCheck = strcasestr(lineStorage[i], "BEGIN")) && (alarmCheck = strcasestr(lineStorage[i], "VALARM")) && eventFlag == 1 && alarmFlag == 0)
+        else if((strcasestr(lineStorage[i], "BEGIN")) && (strcasestr(lineStorage[i], "VALARM")) && eventFlag == 1 && alarmFlag == 0)
         {
             printf("13\n");
             // printf("fuck\n");
@@ -334,7 +334,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             tempAlarm = (Alarm*)malloc(sizeof(Alarm));
             // parseEvent->alarms = initializeAlarm();
         }
-        else if((otherCheck = strcasestr(lineStorage[i], "TRIGGER")) && calendarFlag == 1&&  eventFlag == 1 && alarmFlag == 1)
+        else if((strcasestr(lineStorage[i], "TRIGGER")) && calendarFlag == 1 &&  eventFlag == 1 && alarmFlag == 1)
         {
             printf("14\n");
             // printf("fuck\n");
@@ -357,7 +357,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             tempSize = 0;
             memset(tempStorage, '\0', 1000); 
         }
-        else if((otherCheck = strcasestr(lineStorage[i], "ACTION")) && calendarFlag == 1 && eventFlag == 1 && alarmFlag == 1)
+        else if((strcasestr(lineStorage[i], "ACTION")) && calendarFlag == 1 && eventFlag == 1 && alarmFlag == 1)
         {
             printf("fuck\n");
             for(int j = 0; j < strlen(lineStorage[i]); j++)
@@ -379,7 +379,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             tempSize = 0;
             memset(tempStorage, '\0', 1000); 
         }
-        else if((endCheck = strcasestr(lineStorage[i], "END")) && (alarmCheck = strcasestr(lineStorage[i], "VALARM")) && calendarFlag == 1 && alarmFlag == 1 && eventFlag == 1)
+        else if((strcasestr(lineStorage[i], "END")) && (strcasestr(lineStorage[i], "VALARM")) && calendarFlag == 1 && alarmFlag == 1 && eventFlag == 1)
         {
             printf("6\n");
             alarmFlag--;
@@ -462,11 +462,11 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             memset(newTempStorage, '\0', 256);
             // memset(finalTempStorage, '\0', 256);
         }
-        else if((versionCheck = strcasestr(lineStorage[i], "VERSION")) && versionFlag == 1)
+        else if((strcasestr(lineStorage[i], "VERSION")) && versionFlag == 1)
         {
             return DUP_VER;
         }
-        else if((proIDCheck = strcasestr(lineStorage[i], "PROID")) && proidFlag == 1)
+        else if((strcasestr(lineStorage[i], "PROID")) && proidFlag == 1)
         {
             return DUP_PRODID;
         }
