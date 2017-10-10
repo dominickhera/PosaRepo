@@ -25,7 +25,7 @@
 Event* initializeEvent();
 Property* initializeProperty(char propName, char propDescr[]);
 Alarm* initializeAlarm();
-DateTime* initializeDateTime(char *date, char *timeValue, bool UTC);
+// DateTime* initializeDateTime(char *date, char *timeValue, bool UTC);
 void  tDestroy(void *data);
 char * tPrint(void *toBePrinted);
 int tCompare(const void * one, const void * two);
@@ -251,14 +251,15 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                             
                             if(DSTAMPStorage[j] != 'Z')
                             {
-                                printf("%c is the char \n", DSTAMPStorage[j]);
+                                // printf("%c is the char \n", DSTAMPStorage[j]);
                                 tempThirdStorage[tempThirdVal] = DSTAMPStorage[j];
                                 j++;
                                 tempThirdVal++;
                             }
                             else
                             {
-                                break;
+                                j++;
+                                // break;
                             }
                         }
                     }
@@ -274,11 +275,19 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 
             }
 
-            // strTokDate = strtok(NULL, "T Z");
-            strcpy(tempTime, otherTempStorage);
-            strcpy(tempDate, tempThirdStorage);
+            // printf("1\n");
 
-            parseCalendar->event->creationDateTime = *initializeDateTime(tempDate, tempTime, tempUTC);
+            // strTokDate = strtok(NULL, "T Z");
+            // strcpy(tempTime, otherTempStorage);
+            // printf("1\n");
+            // strcpy(tempDate, tempThirdStorage);
+            printf("tempTime = %s\n, tempDate = %s\n", otherTempStorage, tempThirdStorage);
+
+            strcpy(parseCalendar->event->creationDateTime.date, tempThirdStorage);
+             strcpy(parseCalendar->event->creationDateTime.time, otherTempStorage);
+             parseCalendar->event->creationDateTime.UTC = tempUTC;
+            // parseCalendar->event->creationDateTime = *initializeDateTime(tempThirdStorage, otherTempStorage, tempUTC);
+            printf("1\n");
             tempSize = 0;
             tempCount = 0;
             tempThirdVal = 0;
@@ -608,15 +617,20 @@ Alarm* initializeAlarm()
 
 }
 
-DateTime* initializeDateTime(char *date, char *timeValue, bool UTC)
-{
-    DateTime *tempTime = malloc(sizeof(DateTime));
-    strcpy(tempTime->date, date);
-    strcpy(tempTime->time, timeValue);
-    tempTime->UTC = UTC;
+// DateTime* initializeDateTime(char *date, char *timeValue, bool UTC)
+// {
+//     printf("a1\n");
+//     DateTime tempTime;
+//     printf("2\n");
+//     strcpy(tempTime.date, date);
+//     printf("3\n");
+//     strcpy(tempTime.time, timeValue);
+//     printf("4\n");
+//     tempTime.UTC = UTC;
+//     printf("5\n");
 
-    return tempTime;
-}
+//     return &tempTime;
+// }
 
 void  tDestroy(void *data)
 {
