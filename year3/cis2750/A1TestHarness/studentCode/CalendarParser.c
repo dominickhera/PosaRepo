@@ -41,6 +41,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     char DSTAMPStorage[256];
     char triggerStorage[256];
     char actionStorage[128];
+    float tempVersion = 0;
     char *tempStorage = malloc(sizeof(char) * 1000);
     char *otherTempStorage = malloc(sizeof(char) * 9);
     // char *tempThirdStorage = malloc(sizeof(char) * 7);
@@ -161,16 +162,9 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                         j++;
                         while(lineStorage[i][j+1] != '\0')
                         {
-                            if(lineStorage[i][j] != '\0')
-                            {
                                 tempStorage[tempSize] = lineStorage[i][j];
                                 tempSize++;
                                 j++;
-                            }
-                            else
-                            {
-                                j++;
-                            }
                         }
                     }
                 }
@@ -178,7 +172,18 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 printf("8.1\n");
                 strcpy(VersionStorage, tempStorage);
                 printf("8.3\n");
-                
+
+                for(int j = 0; j < strlen(VersionStorage); j++)
+                {
+                    printf("char is %c\n", VersionStorage[j]);
+                }
+                // if(VersionStorage[strlen(VersionStorage) - 1] == '\n')
+                // {
+                //         VersionStorage[strlen(VersionStorage) - 1] = '\0';
+                // }
+                tempVersion = atof(VersionStorage);
+                printf("8.3.5\n");
+                printf("atofuck is %.1f\n", atof(VersionStorage));
                 parseCalendar->version = atof(VersionStorage);
                 printf("versionStorage = %f\n", parseCalendar->version);
                 // strcpy(parseCalendar->version,(versionStorage));
