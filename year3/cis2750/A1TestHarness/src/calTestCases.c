@@ -255,21 +255,28 @@ bool eventEqual(const Event* testEvent, const Event* refEvent){
 
 bool calEqual(const Calendar* testCal, const Calendar* refCal){
     if (testCal == NULL || refCal == NULL){
+        printf("shit is null\n");
         return false;
     }
     
     //Compare version
     if (testCal->version != refCal->version){
+        printf("wrong version\n");
         return false;
     }
     
+    printf("testCal: %f, refCal: %f\n", testCal->version, refCal->version);
     //Compare prodID
     if (strcmp(testCal->prodID, refCal->prodID) != 0){
+        printf("wrong prodid\n");
+        printf("testCal: %s\n refCal: %s\n", testCal->prodID, refCal->prodID);
+        printf("strcmp val is %d\n", strcmp(testCal->prodID, refCal->prodID));
         return false;
     }
     
     //Compare events
     if (!eventEqual(testCal->event, refCal->event)){
+        printf("event is fucked\n");
         return false;
     }
     
@@ -437,12 +444,14 @@ SubTestRec createCalTest1(int testNum, int subTest){
     ErrorCode err = createCalendar(fileName, &testCal);
     // printf("4\n");
 
+
     if (err != OK){
         sprintf(feedback, "Subtest %d.%d: Did not return OK when parsing a valid file (%s).",testNum,subTest, fileName);
         result = createSubResult(FAIL, feedback);
         return result;
     }
     
+    printf("testcal PROD Should be: %s\n", testCal->prodID);
     if (calEqual(testCal, refCal)){
         sprintf(feedback, "Subtest %d.%d: file %s parsed correctly",testNum,subTest,fileName);
         result = createSubResult(SUCCESS, feedback);
@@ -452,12 +461,12 @@ SubTestRec createCalTest1(int testNum, int subTest){
         result = createSubResult(FAIL, feedback);
         return result;
     }
-    printf("5\n");
+    // printf("5\n");
 }
 
 //Calendar creation - testCalSimpleUTC.ics
 SubTestRec createCalTest2(int testNum, int subTest){
-    printf("fuck\n");
+    // printf("fuck\n");
     SubTestRec result;
     char feedback[300];
     char fileName[] = "testFiles/validCalendar/testCalSimpleUTC.ics";
@@ -514,6 +523,7 @@ SubTestRec createCalTest3(int testNum, int subTest){
 
 //Calendar creation - testCalEvtProp.ics
 SubTestRec createCalTest4(int testNum, int subTest){
+    printf("beginner dinner\n");
     SubTestRec result;
     char feedback[300];
     char fileName[] = "testFiles/validCalendar/testCalEvtProp.ics";
@@ -542,6 +552,7 @@ SubTestRec createCalTest4(int testNum, int subTest){
 
 //Calendar creation - testCalEvtProp.ics
 SubTestRec createCalTest5(int testNum, int subTest){
+    printf("fucker\n");
     SubTestRec result;
     char feedback[300];
     char fileName[] = "testFiles/validCalendar/testCalEvtPropAlm.ics";

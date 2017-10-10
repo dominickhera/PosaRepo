@@ -18,7 +18,7 @@ int main()
 	// {
 		//easy
 		printf("easy\n");
-		enum ers errorCodeThing = createCalendar("./assets/testCalShort.ics", &pleaseWorkCalendar);
+		enum ers errorCodeThing = createCalendar("./assets/otherTestCalShort.ics", &pleaseWorkCalendar);
 
 		char * str = printError(errorCodeThing);
 
