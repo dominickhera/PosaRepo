@@ -160,7 +160,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                     if(lineStorage[i][j] == ':')
                     {
                         j++;
-                        while(lineStorage[i][j+1] != '\0')
+                        while(lineStorage[i][j] != '\0')
                         {
                                 tempStorage[tempSize] = lineStorage[i][j];
                                 tempSize++;
@@ -183,7 +183,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 // }
                 tempVersion = atof(VersionStorage);
                 printf("8.3.5\n");
-                printf("atofuck is %.1f\n", atof(VersionStorage));
+                printf("atofuck is %.1f, tempSize is %d\n", atof(VersionStorage), tempSize);
                 parseCalendar->version = atof(VersionStorage);
                 printf("versionStorage = %f\n", parseCalendar->version);
                 // strcpy(parseCalendar->version,(versionStorage));
