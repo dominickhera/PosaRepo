@@ -95,12 +95,19 @@ void tInsertFront(List* list, void* toBeAdded){
 
 bool propEqual(const Property* prop1, const Property* prop2){
     if (prop1 == NULL || prop2 == NULL){
+        if(prop2 == NULL)
+        {
+            printf("b00ty\n");
+        }
+        printf("property is fucking null\n");
         return false;
     }
     
     if ((strcmp(prop1->propName, prop2->propName) == 0) && (strcmp(prop1->propDescr, prop2->propDescr) == 0)){
+        printf("shit is popping\n");
         return true;
     }else{
+        printf("wtf fam\n");
         return false;
     }
 }
@@ -146,8 +153,10 @@ bool pListEqual(List testList, List refList){
         //For every reference property, see if the test prop list contains it
         Property* currRefProp = (Property*)ptr->data;
         if (!containsProp(testList, currRefProp)){
+            printf("fucking ay\n");
             return false;
         }
+        printf("w0000\n");
         ptr = ptr->next;
     }
     
@@ -228,25 +237,30 @@ bool aListEqual(List testList, List refList){
 
 bool eventEqual(const Event* testEvent, const Event* refEvent){
     if (testEvent == NULL || refEvent == NULL){
+        printf("shit is null\n");
         return false;
     }
     
     //Compare UID
     if (strcmp(testEvent->UID, testEvent->UID) != 0){
+        printf("uid is fucked\n");
         return false;
     }
     //Compare creationDateTime
     if (!dtEqual(testEvent->creationDateTime, refEvent->creationDateTime)){
+        printf("creadtiondatetime is the problem\n");
         return false;
     }
     
     //Compare property lists
     if (!pListEqual(testEvent->properties, refEvent->properties)){
+        printf("property lists fam\n");
         return false;
     }
     
     //Compare alarm lists
     if (!aListEqual(testEvent->alarms, refEvent->alarms)){
+        printf("alarm lists dude\n");
         return false;
     }
     
@@ -265,7 +279,7 @@ bool calEqual(const Calendar* testCal, const Calendar* refCal){
         return false;
     }
     
-    printf("testCal: %f, refCal: %f\n", testCal->version, refCal->version);
+    // printf("testCal: %f, refCal: %f\n", testCal->version, refCal->version);
     //Compare prodID
     if (strcmp(testCal->prodID, refCal->prodID) != 0){
         printf("wrong prodid\n");

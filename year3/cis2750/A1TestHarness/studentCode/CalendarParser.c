@@ -43,7 +43,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     char actionStorage[128];
     float tempVersion = 0;
     char newTempStorage[256];
-    char finalTempStorage[256];
+    // char finalTempStorage[256];
     char *tempStorage = malloc(sizeof(char) * 1000);
     char *otherTempStorage = malloc(sizeof(char) * 9);
     // char *tempThirdStorage = malloc(sizeof(char) * 7);
@@ -197,7 +197,9 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             printf("9\n");
             eventFlag++;
             parseEvent = initializeEvent();
-            (*obj)->event = initializeEvent();
+            (*obj)->event = malloc(sizeof(Event));
+            (*obj)->event->properties = initializeList(NULL, NULL, NULL);
+            (*obj)->event->alarms = initializeList(NULL, NULL, NULL);
             parseCalendar->event = parseEvent;
         }
         else if((UIDCheck = strcasestr(lineStorage[i], "UID")) && eventFlag != 0)
@@ -423,19 +425,6 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         else if(calendarFlag == 1 && eventFlag == 1 && alarmFlag == 0 && lineStorage[i][0] != ';')
         {
 
-            // for(int j = 0; j < strlen(lineStorage[i]); j++)
-            // {
-            //     if(lineStorage[i][j] == ':')
-            //     {
-            //         j++;
-            //         while(lineStorage[i][j] != '\0')
-            //         {
-            //             tempStorage[tempSize] = lineStorage[i][j];
-            //             tempSize++;
-            //             j++;
-            //         }
-            //     }
-            // }
             for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
                 if(isalpha(lineStorage[i][j]))
@@ -462,8 +451,10 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             printf("tempStorage = %s, otherTempStorage = %s\n", newTempStorage, otherTempStorage);
             tempProperty = initializeProperty(newTempStorage, otherTempStorage);
 
-            insertFront(&parseCalendar->event->properties, (void *)tempProperty);
-            insertFront(&(*obj)->event->properties, (void*)tempProperty);
+
+            insertBack(&parseCalendar->event->properties, (void *)tempProperty);
+            insertBack(&(*obj)->event->properties, (void*)tempProperty);
+            // printf("init: %s, desc: %s\n", getFromBack(&(*obj)->event->properties)->propName, getFromBack(&(*obj)->event->properties)->propDescr);
             tempSize = 0;
             tempCount = 0;
             memset(tempStorage, '\0', 1000);
@@ -661,10 +652,12 @@ Event* initializeEvent()
 Property* initializeProperty(char *propName, char *propDescr)
 {
 
-    Property * tempProp = malloc(sizeof(Property) + sizeof(char [strlen(propDescr)]));
+    Property* tempProp;
+    
+    tempProp = malloc(sizeof(Property) + (sizeof(char)*(strlen(propDescr)+1)) );
     strcpy(tempProp->propName, propName);
     strcpy(tempProp->propDescr, propDescr);
-
+    
     return tempProp;
 
 }
