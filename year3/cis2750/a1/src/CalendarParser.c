@@ -246,14 +246,20 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                     j++;
                     if(tempUTC == true)
                     {
-                        while(DSTAMPStorage[j+1] != 'Z')
+                        while(DSTAMPStorage[j+1] != '\0')
                         {
-                            // if(DSTAMPStorage[j+1] != 'Z')
-                            // {
+                            
+                            if(DSTAMPStorage[j] != 'Z')
+                            {
+                                printf("%c is the char \n", DSTAMPStorage[j]);
                                 tempThirdStorage[tempThirdVal] = DSTAMPStorage[j];
                                 j++;
                                 tempThirdVal++;
-                            // }
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
                     }
                     else
