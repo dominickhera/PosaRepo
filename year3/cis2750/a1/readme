@@ -1,0 +1,34 @@
+======================
+a1
+2/10/17
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+==========
+to compile
+==========
+
+type 'make' to run the makeFile
+
+=============
+description
+=============
+
+- the program is a basic parsing file that will parse a provided .ics calender file and import all the information into a basic object file
+
+
+====================
+known limitations
+====================
+- parses date fine but struggles with time
+- struggles with proper property assignment
+- delete function has not been thoroughly tested
+
+=========
+testing
+=========
+- had alot of struggles trying to fix even basic components and was able to get up to fixing date/time parsing before i ran out of time for work
+- did not find time to test out the deletion function
+

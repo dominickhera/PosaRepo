@@ -119,6 +119,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         if((beginCheck = strcasestr(lineStorage[i], "BEGIN")) && (calenderCheck = strcasestr(lineStorage[i], "VCALENDAR")) && calendarFlag == 0)
         {
             printf("2\n");
+            parseCalendar = malloc(sizeof(Calendar));
             // parseCalendar = initializeCalendar();
             calendarFlag++;
             // printf("count = %d\n", i);
@@ -129,14 +130,14 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             proidFlag++;
             for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
-                printf("4\n");
+                // printf("4\n");
                 if(lineStorage[i][j] == ':')
                 {
                     printf("5\n");
                     j++;
                     while(lineStorage[i][j] != '\0')
                     {
-                        printf("6\n");
+                        // printf("6\n");
                         tempStorage[tempSize] = lineStorage[i][j];
                         tempSize++;
                         j++;
@@ -145,7 +146,9 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             }
             printf("7\n");
             strcpy(PROIDStorage, tempStorage);
+            printf("7.1\n");
             strcpy(parseCalendar->prodID, PROIDStorage);
+            printf("7.2\n");
             // strcpy(obj->prodID, PROIDStorage);
             tempSize = 0;
             memset(tempStorage, '\0', 1000);
@@ -155,6 +158,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             printf("8\n");
             if((otherCheck = strcasestr(lineStorage[i], "2")))
             {
+
                 for(int j = 0; j < strlen(lineStorage[i]); j++)
                 {
                     if(lineStorage[i][j] == ':')
@@ -184,10 +188,10 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 tempVersion = atof(VersionStorage);
                 printf("8.3.5\n");
                 printf("atofuck is %.1f, tempSize is %d\n", atof(VersionStorage), tempSize);
-                parseCalendar->version = atof(VersionStorage);
-                printf("versionStorage = %f\n", parseCalendar->version);
+                // parseCalendar->version = 2;
+                // printf("versionStorage = %f\n", parseCalendar->version);
                 // strcpy(parseCalendar->version,(versionStorage));
-                // parseCalendar->version = 2.0;
+                parseCalendar->version = tempVersion;
                 printf("8.4\n");
                 tempSize = 0;
                 printf("8.5\n");
@@ -469,7 +473,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         {
             return DUP_PRODID;
         }
-        printf("uh\n");
+        // printf("uh\n");
     }
     printf("hi\n");
 
