@@ -41,9 +41,11 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     char DSTAMPStorage[256];
     char triggerStorage[256];
     char actionStorage[128];
-    char * tempStorage = malloc(sizeof(char) * 1000);
-    char * otherTempStorage = malloc(sizeof(char) * 1000);
-    char * tempThirdStorage = malloc(sizeof(char) * 1000);
+    char *tempStorage = malloc(sizeof(char) * 1000);
+    char *otherTempStorage = malloc(sizeof(char) * 9);
+    // char *tempThirdStorage = malloc(sizeof(char) * 7);
+    char tempDateStorage[9];
+    char tempTimeStorage[7];
     char * fileTypeCheck;
     char * calenderCheck;
     char * eventCheck;
@@ -212,8 +214,8 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             }
 
             strcpy(DSTAMPStorage, tempStorage);
-            char tempTime[7];
-            char tempDate[9];
+            // char tempTime[7];
+            // char tempDate[9];
             char * boolCheck;
             bool tempUTC;
              // tempSize = 0;
@@ -224,10 +226,12 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             if((boolCheck = strstr(DSTAMPStorage, "Z")))
             {
                 tempUTC = true;
+                parseCalendar->event->creationDateTime.UTC = true;
             }
             else
             {
                 tempUTC = false;
+                parseCalendar->event->creationDateTime.UTC = false;
             }
 
             // char * strTokTime;
@@ -238,9 +242,16 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 
                     while(DSTAMPStorage[j] != 'T')
                     {
-                        otherTempStorage[tempCount] = DSTAMPStorage[j];
+                        if(DSTAMPStorage[j] != 'T')
+                        {
+                        tempDateStorage[tempCount] = DSTAMPStorage[j];
                         j++;
                         tempCount++;
+                    }
+                        else
+                        {
+                            j++;
+                        }
                     }
 
                     j++;
@@ -252,7 +263,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                             if(DSTAMPStorage[j] != 'Z')
                             {
                                 // printf("%c is the char \n", DSTAMPStorage[j]);
-                                tempThirdStorage[tempThirdVal] = DSTAMPStorage[j];
+                                tempTimeStorage[tempThirdVal] = DSTAMPStorage[j];
                                 j++;
                                 tempThirdVal++;
                             }
@@ -265,9 +276,9 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                     }
                     else
                     {
-                        while(DSTAMPStorage[j] != '\0')
+                        while(DSTAMPStorage[j+1] != '\0')
                         {
-                            tempThirdStorage[tempThirdVal] = DSTAMPStorage[j];
+                            tempTimeStorage[tempThirdVal] = DSTAMPStorage[j];
                             j++;
                             tempThirdVal++;
                         }
@@ -275,19 +286,10 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 
             }
 
-            // printf("1\n");
 
-            // strTokDate = strtok(NULL, "T Z");
-            // strcpy(tempTime, otherTempStorage);
-            // printf("1\n");
-            // strcpy(tempDate, tempThirdStorage);
-            printf("tempTime = %s\n, tempDate = %s\n", otherTempStorage, tempThirdStorage);
-
-            strcpy(parseCalendar->event->creationDateTime.date, tempThirdStorage);
-             strcpy(parseCalendar->event->creationDateTime.time, otherTempStorage);
-             parseCalendar->event->creationDateTime.UTC = tempUTC;
-            // parseCalendar->event->creationDateTime = *initializeDateTime(tempThirdStorage, otherTempStorage, tempUTC);
-            printf("1\n");
+            strcpy(parseCalendar->event->creationDateTime.date, tempDateStorage);
+            // printf("fuck2\n");
+            strcpy(parseCalendar->event->creationDateTime.time, tempTimeStorage);
             tempSize = 0;
             tempCount = 0;
             tempThirdVal = 0;
@@ -296,16 +298,19 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         }
         else if((endCheck = strcasestr(lineStorage[i], "END")) && (eventCheck = strcasestr(lineStorage[i], "VEVENT")) && eventFlag == 1)
         {
+            // printf("fuck\n");
             eventFlag--;
         }
         else if((beginCheck = strcasestr(lineStorage[i], "BEGIN")) && (alarmCheck = strcasestr(lineStorage[i], "VALARM")) && eventFlag == 1 && alarmFlag == 0)
         {
+            // printf("fuck\n");
             alarmFlag++;
             tempAlarm = (Alarm*)malloc(sizeof(Alarm));
             // parseEvent->alarms = initializeAlarm();
         }
         else if((otherCheck = strcasestr(lineStorage[i], "TRIGGER")) && calendarFlag == 1&&  eventFlag == 1 && alarmFlag == 1)
         {
+            // printf("fuck\n");
             for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
                 if(lineStorage[i][j] == ';')
@@ -327,6 +332,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         }
         else if((otherCheck = strcasestr(lineStorage[i], "ACTION")) && calendarFlag == 1 && eventFlag == 1 && alarmFlag == 1)
         {
+            printf("fuck\n");
             for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
                 if(lineStorage[i][j] == ':')
@@ -354,6 +360,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         //alarm property
         else if(calendarFlag == 1 && eventFlag == 1 && alarmFlag == 1)
         {
+            printf("fuck\n");
             for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
                 if(lineStorage[i][j] == ':' || lineStorage[i][j] != ';')
@@ -431,6 +438,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 
     if(calendarFlag != 0 && proidFlag != 1 && versionFlag != 1)
     {
+        printf("fuck\n");
         return INV_CAL;
     }
 
@@ -589,8 +597,8 @@ Event* initializeEvent()
 {
 
     Event * tempEvent = malloc(sizeof(Event));
-    tempEvent->properties = initializeList(tPrint, tDestroy, tCompare);
-    tempEvent->alarms = initializeList(tPrint, tDestroy, tCompare);
+    tempEvent->properties = initializeList(NULL, NULL, NULL);
+    // tempEvent->alarms = initializeList(tPrint, tDestroy, tCompare);
 
     return tempEvent;
 
@@ -611,7 +619,7 @@ Alarm* initializeAlarm()
 {
 
     Alarm * tempAlarm = malloc(sizeof(Alarm));
-    tempAlarm->properties = initializeList(tPrint, tDestroy, tCompare);
+    tempAlarm->properties = initializeList(NULL, NULL, NULL);
 
     return tempAlarm;
 

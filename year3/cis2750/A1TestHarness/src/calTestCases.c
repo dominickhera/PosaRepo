@@ -429,10 +429,13 @@ SubTestRec createCalTest1(int testNum, int subTest){
     char feedback[300];
     char fileName[] = "testFiles/validCalendar/testCalSimpleNoUTC.ics";
     
+    // printf("1\n");
     Calendar* refCal = simpleCalnedar();
+    // printf("2\n");
     Calendar* testCal;
-    
+    printf("first\n");
     ErrorCode err = createCalendar(fileName, &testCal);
+    // printf("4\n");
 
     if (err != OK){
         sprintf(feedback, "Subtest %d.%d: Did not return OK when parsing a valid file (%s).",testNum,subTest, fileName);
@@ -449,10 +452,12 @@ SubTestRec createCalTest1(int testNum, int subTest){
         result = createSubResult(FAIL, feedback);
         return result;
     }
+    printf("5\n");
 }
 
 //Calendar creation - testCalSimpleUTC.ics
 SubTestRec createCalTest2(int testNum, int subTest){
+    printf("fuck\n");
     SubTestRec result;
     char feedback[300];
     char fileName[] = "testFiles/validCalendar/testCalSimpleUTC.ics";
