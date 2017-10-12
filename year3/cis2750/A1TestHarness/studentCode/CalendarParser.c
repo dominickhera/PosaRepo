@@ -160,7 +160,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             tempSize = 0;
             memset(tempStorage, '\0', 1000);
         }
-        else if((strcasestr(lineStorage[i], "VERSION")) && calendarFlag == 1)
+        else if((strcasestr(lineStorage[i], "VERSION")) && calendarFlag == 1 && versionFlag == 0)
         {
             // printf("8\n");
             if((strcasestr(lineStorage[i], "2")))
@@ -187,6 +187,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 (*obj)->version = tempVersion;
                 tempSize = 0;
                 memset(tempStorage, '\0', 1000);
+                versionFlag++;
             }
             else
             {
@@ -325,7 +326,11 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         {
             // printf("12\n");
             // printf("fuck\n");
-            eventFlag--;
+            eventFlag++;
+        }
+        else if((strcasestr(lineStorage[i], "END")) && (strcasestr(lineStorage[i], "VCALENDAR")) && calendarFlag == 1)
+        {
+            calendarFlag++;
         }
         else if((strcasestr(lineStorage[i], "BEGIN")) && (strcasestr(lineStorage[i], "VALARM")) && eventFlag == 1 && alarmFlag == 0)
         {
@@ -389,7 +394,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         //alarm property
         else if(calendarFlag == 1 && eventFlag == 1 && alarmFlag == 1 && lineStorage[i][0] != ';')
         {
-            printf("fucker\n");
+            // printf("fucker\n");
             for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
                 if(lineStorage[i][j] == ':')
@@ -476,7 +481,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         {
             return DUP_VER;
         }
-        else if((strcasestr(lineStorage[i], "PROID")) && proidFlag == 1)
+        else if((strcasestr(lineStorage[i], "PROID")) && proidFlag != 0)
         {
             return DUP_PRODID;
         }
@@ -484,7 +489,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     }
     // printf("hi\n");
 
-    if(calendarFlag != 0 && proidFlag != 1 && versionFlag != 1)
+    if(calendarFlag != 2 || proidFlag != 1 || versionFlag != 1)
     {
         // printf("fuck\n");
         return INV_CAL;
@@ -498,6 +503,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         // printf("but how does this work\n");
         return OK;
     }
+
 }
 
 void deleteCalendar(Calendar* obj)
