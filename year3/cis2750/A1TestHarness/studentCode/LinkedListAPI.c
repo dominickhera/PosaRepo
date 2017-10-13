@@ -102,7 +102,7 @@ void insertBack(List* list, void *toBeAdded)
            // tempNode->previous = list->tail;
            // list->tail->next = tempNode;
            // list->tail = tempNode;
-            printf("elist head data: %p\n", list->head->data);
+            // printf("elist head data: %p\n", list->head->data);
             // printf("tempnode Data: %p, actual data is %p\n", tempNode->data, toBeAdded);
 
         }
@@ -111,7 +111,7 @@ void insertBack(List* list, void *toBeAdded)
             tempNode->previous = list->tail;
            list->tail->next = tempNode;
            list->tail = tempNode;
-           printf("flist head data: %p\n", list->head->data);
+           // printf("flist head data: %p\n", list->head->data);
             // printf("first back\n");
             // list->head = tempNode;
             // list->tail = list->head;

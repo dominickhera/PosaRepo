@@ -545,7 +545,7 @@ SubTestRec createCalTest3(int testNum, int subTest){
 
 //Calendar creation - testCalEvtProp.ics
 SubTestRec createCalTest4(int testNum, int subTest){
-    printf("beginner dinner\n");
+    printf("\n\n\nbeginner dinner\n");
     SubTestRec result;
     char feedback[300];
     char fileName[] = "testFiles/validCalendar/testCalEvtProp.ics";
@@ -576,7 +576,7 @@ SubTestRec createCalTest4(int testNum, int subTest){
 
 //Calendar creation - testCalEvtProp.ics
 SubTestRec createCalTest5(int testNum, int subTest){
-    printf("fucker\n");
+    printf("fucker\n\n\n");
     SubTestRec result;
     char feedback[300];
     char fileName[] = "testFiles/validCalendar/testCalEvtPropAlm.ics";
