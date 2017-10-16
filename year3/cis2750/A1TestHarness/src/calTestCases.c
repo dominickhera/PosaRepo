@@ -114,12 +114,17 @@ bool propEqual(const Property* prop1, const Property* prop2){
 
 bool containsProp(List list, const Property* prop){
     Node* ptr = list.head;
+
+    printf("\n\n%p is head now\n", ptr);
     
     while(ptr != NULL){
         Property* currProp = (Property*)ptr->data;
+        printf("currProp = %p while it should be prop this %p\n", (Property*)ptr->data, prop);
         if (propEqual(prop, currProp)){
+            printf("lolkats\n");
             return true;
         }
+        printf("next lol\n");
         ptr = ptr->next;
     }
     return false;
@@ -152,6 +157,7 @@ bool pListEqual(List testList, List refList){
     while(ptr != NULL){
         //For every reference property, see if the test prop list contains it
         Property* currRefProp = (Property*)ptr->data;
+        printf("ref prop should be %p\n", currRefProp);
         if (!containsProp(testList, currRefProp)){
             printf("fucking ay\n");
             return false;
@@ -254,7 +260,7 @@ bool eventEqual(const Event* testEvent, const Event* refEvent){
     
     //Compare property lists
     if (!pListEqual(testEvent->properties, refEvent->properties)){
-        printf("property lists fam\n");
+        printf("\n\nproperty lists fam\n");
         return false;
     }
     
@@ -290,6 +296,8 @@ bool calEqual(const Calendar* testCal, const Calendar* refCal){
     
     //Compare events
     if (!eventEqual(testCal->event, refCal->event)){
+         printf("\n\ntest tail is: %p, head is: %p\n", testCal->event->properties.tail, testCal->event->properties.head);
+          printf("ref tail is: %p, head is: %p\n", refCal->event->properties.tail, refCal->event->properties.head);
         printf("event is fucked\n");
         return false;
     }
@@ -454,7 +462,7 @@ SubTestRec createCalTest1(int testNum, int subTest){
     Calendar* refCal = simpleCalnedar();
     // printf("2\n");
     Calendar* testCal;
-    printf("first\n");
+    // printf("first\n");
     ErrorCode err = createCalendar(fileName, &testCal);
     // printf("4\n");
 
@@ -465,7 +473,7 @@ SubTestRec createCalTest1(int testNum, int subTest){
         return result;
     }
     
-    printf("testcal PROD Should be: %s\n", testCal->prodID);
+    // printf("testcal PROD Should be: %s\n", testCal->prodID);
     if (calEqual(testCal, refCal)){
         sprintf(feedback, "Subtest %d.%d: file %s parsed correctly",testNum,subTest,fileName);
         result = createSubResult(SUCCESS, feedback);
@@ -537,7 +545,7 @@ SubTestRec createCalTest3(int testNum, int subTest){
 
 //Calendar creation - testCalEvtProp.ics
 SubTestRec createCalTest4(int testNum, int subTest){
-    printf("beginner dinner\n");
+    printf("\n\n\nbeginner dinner\n");
     SubTestRec result;
     char feedback[300];
     char fileName[] = "testFiles/validCalendar/testCalEvtProp.ics";
@@ -547,6 +555,8 @@ SubTestRec createCalTest4(int testNum, int subTest){
     
     ErrorCode err = createCalendar(fileName, &testCal);
     
+
+     printf("\n\n END tail is: %p, head is: %p\n", testCal->event->properties.tail->data, testCal->event->properties.head->data);
     if (err != OK){
         sprintf(feedback, "Subtest %d.%d: Did not return OK when parsing a valid file (%s).",testNum,subTest, fileName);
         result = createSubResult(FAIL, feedback);
@@ -566,7 +576,7 @@ SubTestRec createCalTest4(int testNum, int subTest){
 
 //Calendar creation - testCalEvtProp.ics
 SubTestRec createCalTest5(int testNum, int subTest){
-    printf("fucker\n");
+    printf("fucker\n\n\n");
     SubTestRec result;
     char feedback[300];
     char fileName[] = "testFiles/validCalendar/testCalEvtPropAlm.ics";

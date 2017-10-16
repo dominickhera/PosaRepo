@@ -49,10 +49,12 @@ Node* initializeNode(void *data)
         return NULL;
     }
 
+    temp->data = malloc(sizeof(data));
+    strcpy(temp->data, data);
     // printf("wtf\n");
     temp->next = NULL;
     temp->previous = NULL;
-    temp->data = data;
+    // temp->data = data;
 
     return temp;
 
