@@ -277,8 +277,8 @@ SubTestRec insertTest2(int testNum, int subTest){
     char* data = createData("sally");
     insertFront(test, data);
     printf("butthole\n");
-    //if(test->head->data != NULL && testCompare(test->head->data,data)==0)
-    if(test->head->previous->data != NULL && testCompare(test->head->data,data)==0)
+    if(test->head->data != NULL && testCompare(test->head->data,data)==0)
+    // if(test->head->previous->data != NULL && testCompare(test->head->data,data)==0)
     {
         printf("buttholeeeeee\n");
         if(testCompare(test->head->next->data,"kilroy")==0 &&
