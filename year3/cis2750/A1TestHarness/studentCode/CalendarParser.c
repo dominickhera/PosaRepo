@@ -457,22 +457,25 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 }
             }
 
-            if(strcmp(newTempStorage, "") != 0 && strcmp(newTempDscStorage, " ") != 0)
+            if(strcmp(newTempStorage, "") != 0 && strcmp(newTempDscStorage, "") != 0)
             {
                 // printf("suck a dick\n");
-                printf("tempStorage = %s, otherTempStorage = %s\n", newTempStorage, newTempDscStorage);
-                tempProperty = (Property*)initializeProperty((void*)newTempStorage, (void*)newTempDscStorage);
-                // printf("temp proerpty is %s\n", newTempProperty->propDescr);
+                // printf("Title = %s, Descr = %s\n", newTempStorage, newTempDscStorage);
+                tempProperty = initializeProperty(newTempStorage, newTempDscStorage);
+                // printf("temp proerpty is %s\n", tempProperty->propDescr);
 
                 // insertBack(&parseCalendar->event->properties, (void *)tempProperty);
                 insertBack(&parseCalendar->event->properties, (void*)tempProperty);
-                // printf("head val should be %p\n", (Property*)parseCalendar->event->properties.head->data);
+                // printf("head val should be %p\n", parseCalendar->event->properties.tail);
             }  
             else
             {
                 return INV_EVENT;
             } 
-            // printf("init: %s, desc: %s\n", getFromBack(&(*obj)->event->properties)->propName, getFromBack(&(*obj)->event->properties)->propDescr);
+
+            Property* tempEventValue = (Property*)getFromFront(parseCalendar->event->properties);
+            printf("event name is %s, descr thing is %s\n", tempEventValue->propName, tempEventValue->propDescr);
+            // printf("init: %p, desc: %p\n", getFromBack(parseCalendar->event->properties), getFromBack(parseCalendar->event->properties));
             tempSize = 0;
             tempCount = 0;
             memset(tempStorage, '\0', 1000);

@@ -168,6 +168,7 @@ bool pListEqual(List testList, List refList){
     
     ptr = testList.head;
     while(ptr != NULL){
+        printf("hollo?\n");
         //For every test property, see if the reference prop list contains it
         Property* currTestProp = (Property*)ptr->data;
         if (!containsProp(refList, currTestProp)){
@@ -555,6 +556,8 @@ SubTestRec createCalTest4(int testNum, int subTest){
     
     ErrorCode err = createCalendar(fileName, &testCal);
     
+    // Property* tempEventValue = (Property*)getFromFront(testCal->event->properties);
+            // printf("event name is %s, descr thing is %s\n", tempEventValue->propName, tempEventValue->propDescr);
 
      printf("\n\n END tail is: %p, head is: %p\n", testCal->event->properties.tail->data, testCal->event->properties.head->data);
     if (err != OK){

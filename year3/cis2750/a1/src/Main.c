@@ -11,7 +11,7 @@ int main()
 	// printf("uh; %s\n", argv[]);
 
 	// char * choice = argv[1];
-	Calendar * pleaseWorkCalendar = initializeCalendarMain();
+	Calendar * pleaseWorkCalendar;
 	
 
 	// if(strcmp(choice, "1") == 0)

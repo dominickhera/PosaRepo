@@ -418,11 +418,13 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 
 
             tempProperty = initializeProperty(tempStorage, otherTempStorage);
-            insertFront(&tempAlarm->properties, tempProperty);
+            insertFront(&parseCalendar->event->alarms, (void*)tempProperty);
             tempSize = 0;
             tempCount = 0;
             memset(tempStorage, '\0', 1000);
             memset(otherTempStorage, '\0', 1000);
+            memset(newTempStorage, '\0', 256);
+            memset(newTempDscStorage, '\0', 200);
         }
         //event property
         else if(calendarFlag == 1 && eventFlag == 1 && alarmFlag == 0 && lineStorage[i][0] != ';')
@@ -437,7 +439,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                     {
                         if(lineStorage[i][j] != ';')
                         {
-                            newTempStorage[tempSize] = lineStorage[i][j];
+                            tempStorage[tempSize] = lineStorage[i][j];
                             tempSize++;
                             j++;
                         }
@@ -451,18 +453,18 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 j++;
                 while(lineStorage[i][j] != '\0')
                 {
-                    newTempDscStorage[tempCount] = lineStorage[i][j];
+                    otherTempStorage[tempCount] = lineStorage[i][j];
                     tempCount++;
                     j++;
                 }
             }
 
-            if(strcmp(newTempStorage, "") != 0 && strcmp(newTempDscStorage, " ") != 0)
+            if(strcmp(tempStorage, "") != 0 && strcmp(otherTempStorage, " ") != 0)
             {
                 printf("suck a dick\n");
-                printf("tempStorage = %s, otherTempStorage = %s\n", newTempStorage, newTempDscStorage);
-                tempProperty = initializeProperty((void*)newTempStorage, (void*)newTempDscStorage);
-                // printf("temp proerpty is %s\n", newTempProperty->propDescr);
+                printf("tempStorage = %s, otherTempStorage = %s\n", tempStorage, otherTempStorage);
+                tempProperty = initializeProperty(tempStorage, otherTempStorage);
+                printf("temp proerpty is %s\n", tempProperty->propDescr);
 
                 // insertBack(&parseCalendar->event->properties, (void *)tempProperty);
                 insertBack(&parseCalendar->event->properties, (void*)tempProperty);
