@@ -101,6 +101,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 
     for(int i = 0; i < count; i++)
     {
+
         if((strcasestr(lineStorage[i], "BEGIN")) && (strcasestr(lineStorage[i], "VCALENDAR")) && calendarFlag == 0)
         {
             // printf("2\n");
@@ -136,9 +137,6 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 
                 if(tempSize != 0)
                 {
-
-
-
                     strcpy(PROIDStorage, tempStorage);
                     strcpy(parseCalendar->prodID, PROIDStorage);
                 }
@@ -461,20 +459,20 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             {
                 // printf("suck a dick\n");
                 // printf("Title = %s, Descr = %s\n", newTempStorage, newTempDscStorage);
-                tempProperty = initializeProperty(newTempStorage, newTempDscStorage);
+                tempProperty = (Property*)initializeProperty(newTempStorage, newTempDscStorage);
                 // printf("temp proerpty is %s\n", tempProperty->propDescr);
 
                 // insertBack(&parseCalendar->event->properties, (void *)tempProperty);
                 insertBack(&parseCalendar->event->properties, (void*)tempProperty);
-                // printf("head val should be %p\n", parseCalendar->event->properties.tail);
+                printf("head val should be %p\n", parseCalendar->event->properties.head);
             }  
             else
             {
                 return INV_EVENT;
             } 
 
-            Property* tempEventValue = (Property*)getFromFront(parseCalendar->event->properties);
-            printf("event name is %s, descr thing is %s\n", tempEventValue->propName, tempEventValue->propDescr);
+            // Property* tempEventValue = (Property*)getFromBack(parseCalendar->event->properties);
+            // printf("event name is %s, descr thing is %s\n", tempEventValue->propName, tempEventValue->propDescr);
             // printf("init: %p, desc: %p\n", getFromBack(parseCalendar->event->properties), getFromBack(parseCalendar->event->properties));
             tempSize = 0;
             tempCount = 0;

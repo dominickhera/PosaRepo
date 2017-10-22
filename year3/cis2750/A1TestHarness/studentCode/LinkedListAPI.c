@@ -22,21 +22,21 @@
 List initializeList(char* (*printFunction)(void *toBePrinted),void (*deleteFunction)(void *toBeDeleted),int (*compareFunction)(const void *first,const void *second))
 {
 
-    List * temp = NULL;
+    // List * temp = NULL;
 
-    // List temp;
-    if((temp = malloc(sizeof(List))) != NULL)
-    {
+    List temp;
+    // if((temp = malloc(sizeof(List))) != NULL)
+    // {
 
-        temp->head = NULL;
-        temp->tail = NULL;
-        temp->printData = printFunction;
-        temp->deleteData = deleteFunction;
-        temp->compare = compareFunction;
+        temp.head = NULL;
+        temp.tail = NULL;
+        temp.printData = printFunction;
+        temp.deleteData = deleteFunction;
+        temp.compare = compareFunction;
 
-    }
+    // }
 
-    return *temp;
+    return temp;
 }
 
 
@@ -88,17 +88,19 @@ void insertFront(List* list, void *toBeAdded)
 void insertBack(List* list, void *toBeAdded)
 {
 
-    if(list != NULL)
+    if(list != NULL && toBeAdded != NULL)
     {
 
         Node* tempNode = initializeNode(toBeAdded);
         if(list->head == NULL && list->tail == NULL)
         {
+            printf("1\n");
             list->head = tempNode;
-            list->tail = list->head;
+            list->tail = tempNode;
         }
         else
         {
+            printf("2\n");
             tempNode->previous = list->tail;
             list->tail->next = tempNode;
             list->tail = tempNode;
@@ -221,10 +223,8 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
 
                 if(tempNode->previous != NULL && tempNode->next != NULL)
                 {
-
                     tempNode->previous->next = tempNode->next;
                     tempNode->next->previous = tempNode->previous;
-
                 }
 
                 Node * tempReturnNode = tempNode;
@@ -274,7 +274,7 @@ void* getFromBack(List list)
         List * temp = &list;
         Node * tempNode;
         tempNode = temp->tail;
-        return tempNode->data;
+        return tempNode;
     }
     return NULL;
 

@@ -119,7 +119,7 @@ bool containsProp(List list, const Property* prop){
     
     while(ptr != NULL){
         Property* currProp = (Property*)ptr->data;
-        printf("currProp = %p while it should be prop this %p\n", (Property*)ptr->data, prop);
+        printf("currProp = %p while it should be prop this %p\n", currProp, prop);
         if (propEqual(prop, currProp)){
             printf("lolkats\n");
             return true;
@@ -556,10 +556,11 @@ SubTestRec createCalTest4(int testNum, int subTest){
     
     ErrorCode err = createCalendar(fileName, &testCal);
     
-    // Property* tempEventValue = (Property*)getFromFront(testCal->event->properties);
+    // Property* tempEventValue = (Property*)getFromBack(testCal->event->properties);
             // printf("event name is %s, descr thing is %s\n", tempEventValue->propName, tempEventValue->propDescr);
 
-     printf("\n\n END tail is: %p, head is: %p\n", testCal->event->properties.tail->data, testCal->event->properties.head->data);
+     printf("\n\nEND tail is: %p, head is: %p\n", testCal->event->properties.tail, testCal->event->properties.head);
+     printf("\n\nREF END tail is: %p, REF head is: %p\n", refCal->event->properties.tail, refCal->event->properties.head);
     if (err != OK){
         sprintf(feedback, "Subtest %d.%d: Did not return OK when parsing a valid file (%s).",testNum,subTest, fileName);
         result = createSubResult(FAIL, feedback);
