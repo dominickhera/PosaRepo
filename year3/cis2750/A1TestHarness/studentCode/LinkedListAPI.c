@@ -43,9 +43,10 @@ List initializeList(char* (*printFunction)(void *toBePrinted),void (*deleteFunct
 Node* initializeNode(void *data)
 {
 
-    Node * temp = NULL;
+    Node * temp;
 
-    if((temp = malloc(sizeof(Node))) == NULL)
+    temp = (Node*)malloc(sizeof(Node));
+    if (temp == NULL)
     {
         return NULL;
     }
@@ -54,9 +55,8 @@ Node* initializeNode(void *data)
     // strcpy(temp->data, data);
     // printf("wtf\n");
     temp->data = data;
-    temp->next = NULL;
     temp->previous = NULL;
-    // temp->data = data;
+    temp->next = NULL;
 
     return temp;
 
@@ -104,6 +104,7 @@ void insertBack(List* list, void *toBeAdded)
             tempNode->previous = list->tail;
             list->tail->next = tempNode;
             list->tail = tempNode;
+            printf("head is %p\n\n", list->head);
         }
         // Node * tempNode = list->head;
         // if(tempNode != NULL)
@@ -274,7 +275,7 @@ void* getFromBack(List list)
         List * temp = &list;
         Node * tempNode;
         tempNode = temp->tail;
-        return tempNode;
+        return tempNode->data;
     }
     return NULL;
 
