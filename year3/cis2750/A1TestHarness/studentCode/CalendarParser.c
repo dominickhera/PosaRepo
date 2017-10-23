@@ -34,6 +34,10 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     FILE *fp;
     char line[256];
     char lineStorage[256][500];
+    char eventPropNameStorage[256][200];
+    char eventPropDscrStorage[256][500];
+    char alarmPropNameStorage[256][200];
+    char alarmPropDscrStorage[256][500];
     char UIDStorage[256];
     char VersionStorage[256];
     char PROIDStorage[256];
@@ -57,6 +61,8 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     int uidFlag = 0;
     int dstampFlag = 0;
     int tempCount = 0;
+    int eventPropCount = 0;
+    int alarmPropCount = 0;
 
     //parsing into a string array
     if(fileName != NULL && fileName[0] != '\0')
@@ -195,6 +201,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             // parseEvent = initializeEvent();
             parseCalendar->event = malloc(sizeof(Event));
             parseCalendar->event->properties = initializeList(NULL, NULL, NULL);
+            // parseCalendar->event->properties = initializeList(NULL, NULL, NULL);
             parseCalendar->event->alarms = initializeList(NULL, NULL, NULL);
             // (*obj)->event->properties = initializeList(NULL, NULL, NULL);
             // (*obj)->event->alarms = initializeList(NULL, NULL, NULL);
@@ -321,6 +328,14 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         }
         else if((strcasestr(lineStorage[i], "END")) && (strcasestr(lineStorage[i], "VEVENT")) && eventFlag == 1)
         {
+            Property * testEventInsertVal;
+            for(int k = 0; k < eventPropCount; k++)
+            {
+                testEventInsertVal = initializeProperty(eventPropNameStorage[k], eventPropDscrStorage[k]);
+                insertBack(&parseCalendar->event->properties, (void*)testEventInsertVal);
+
+            }
+            eventPropCount = 0;
             eventFlag++;
         }
         else if((strcasestr(lineStorage[i], "END")) && (strcasestr(lineStorage[i], "VCALENDAR")) && calendarFlag == 1)
@@ -392,35 +407,65 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             printf("munch fucker\n");
             for(int j = 0; j < strlen(lineStorage[i]); j++)
             {
-                if(lineStorage[i][j] == ':')
+                if(lineStorage[i][j] != ':')
                 {
-                    j++;
-                    while(lineStorage[i][j] != '\0')
-                    {
-                        tempStorage[tempSize] = lineStorage[i][j];
-                        tempSize++;
-                        j++;
-                    }
-                }
-                else
-                {
+                    // j++;
                     while(lineStorage[i][j] != ':')
                     {
-                        otherTempStorage[tempCount] = lineStorage[i][j];
-                        tempCount++;
-                        j++;
+                        if(lineStorage[i][j] != ';')
+                        {
+                            newTempStorage[tempSize] = lineStorage[i][j];
+                            tempSize++;
+                            j++;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
-                    // tempCount++;
+                }
+
+                j++;
+                while(lineStorage[i][j] != '\0')
+                {
+                    newTempDscStorage[tempCount] = lineStorage[i][j];
+                    tempCount++;
+                    j++;
                 }
             }
 
+            if(tempSize != 0 && tempCount != 0)
+            {
+                // if(newTempStorage[tempSize - 1] == '\n')
+                // {
+                //         newTempStorage[tempSize - 1] = '\0';
+                // }
 
-            tempProperty = initializeProperty(tempStorage, otherTempStorage);
-            insertFront(&tempAlarm->properties, tempProperty);
+                // if(newTempDscStorage[tempCount - 1] == '\n')
+                    // {
+                        newTempDscStorage[tempCount - 1] = '\0';
+                    // }
+                
+                strcpy(alarmPropNameStorage[alarmPropCount], newTempStorage);
+                strcpy(alarmPropDscrStorage[alarmPropCount], newTempDscStorage);
+                alarmPropCount++;
+
+
+            }  
+            else
+            {
+                return INV_EVENT;
+            } 
+
+            // Property* tempEventValue = (Property*)getFromFront(parseCalendar->event->properties);
+            // printf("event name is %s, descr thing is %s\n", tempEventValue->propName, tempEventValue->propDescr);
+            // printf("init: %p, desc: %p\n", getFromBack(parseCalendar->event->properties), getFromBack(parseCalendar->event->properties));
             tempSize = 0;
             tempCount = 0;
             memset(tempStorage, '\0', 1000);
             memset(otherTempStorage, '\0', 1000);
+            memset(newTempStorage, '\0', 200);
+            memset(newTempDscStorage, '\0', 256);
         }
         //event property
         else if(calendarFlag == 1 && eventFlag == 1 && alarmFlag == 0 && lineStorage[i][0] != ';')
@@ -455,24 +500,44 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 }
             }
 
-            if(strcmp(newTempStorage, "") != 0 && strcmp(newTempDscStorage, "") != 0)
+            if(tempSize != 0 && tempCount != 0)
             {
+                // if(newTempStorage[tempSize - 1] == '\n')
+                // {
+                //         newTempStorage[tempSize - 1] = '\0';
+                // }
+
+                // if(newTempDscStorage[tempCount - 1] == '\n')
+                    // {
+                        newTempDscStorage[tempCount - 1] = '\0';
+                    // }
+                
+                strcpy(eventPropNameStorage[eventPropCount], newTempStorage);
+                strcpy(eventPropDscrStorage[eventPropCount], newTempDscStorage);
+                eventPropCount++;
                 // printf("suck a dick\n");
                 // printf("Title = %s, Descr = %s\n", newTempStorage, newTempDscStorage);
-                tempProperty = initializeProperty(newTempStorage, newTempDscStorage);
+                // tempProperty = initializeProperty(newTempStorage, newTempDscStorage);
                 // printf("temp proerpty is %s\n", tempProperty->propDescr);
 
+                    // Property* tempProp;
+
+                    // tempProp = malloc(sizeof(Property) + (sizeof(char)*(strlen(newTempDscStorage)+1)));
+                    // strcpy(tempProp->propName, newTempStorage);
+                    // strcpy(tempProp->propDescr, newTempDscStorage);
+
                 // insertBack(&parseCalendar->event->properties, (void *)tempProperty);
-                insertBack(&parseCalendar->event->properties, (void*)tempProperty);
-                printf("head val should be %p\n", parseCalendar->event->properties.head);
+                // insertBack(&parseCalendar->event->properties, (void*)tempProp);
+                // printf("head val should be %p\n", parseCalendar->event->properties.head);
+
             }  
             else
             {
                 return INV_EVENT;
             } 
 
-            Property* tempEventValue = (Property*)getFromBack(parseCalendar->event->properties);
-            printf("event name is %s, descr thing is %s\n", tempEventValue->propName, tempEventValue->propDescr);
+            // Property* tempEventValue = (Property*)getFromFront(parseCalendar->event->properties);
+            // printf("event name is %s, descr thing is %s\n", tempEventValue->propName, tempEventValue->propDescr);
             // printf("init: %p, desc: %p\n", getFromBack(parseCalendar->event->properties), getFromBack(parseCalendar->event->properties));
             tempSize = 0;
             tempCount = 0;
