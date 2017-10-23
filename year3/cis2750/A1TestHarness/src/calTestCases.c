@@ -107,8 +107,8 @@ bool propEqual(const Property* prop1, const Property* prop2){
         printf("shit is popping\n");
         return true;
     }else{
-        printf("prop name diff is %d, prop descr diff is %d\n",strcmp(prop1->propName, prop2->propName),  strcmp(prop1->propDescr, prop2->propDescr));
-        printf("ref dsc: %d, my dsc: %d\n", strlen(prop1->propDescr), strlen(prop2->propDescr));
+        // printf("prop name diff is %d, prop descr diff is %d\n",strcmp(prop1->propName, prop2->propName),  strcmp(prop1->propDescr, prop2->propDescr));
+        // printf("ref dsc: %d, my dsc: %d\n", strlen(prop1->propDescr), strlen(prop2->propDescr));
         printf("wtf fam\n");
         return false;
     }
@@ -292,15 +292,15 @@ bool calEqual(const Calendar* testCal, const Calendar* refCal){
     //Compare prodID
     if (strcmp(testCal->prodID, refCal->prodID) != 0){
         printf("wrong prodid\n");
-        printf("testCal: %s\n refCal: %s\n", testCal->prodID, refCal->prodID);
-        printf("strcmp val is %d\n", strcmp(testCal->prodID, refCal->prodID));
+        // printf("testCal: %s\n refCal: %s\n", testCal->prodID, refCal->prodID);
+        // printf("strcmp val is %d\n", strcmp(testCal->prodID, refCal->prodID));
         return false;
     }
     
     //Compare events
     if (!eventEqual(testCal->event, refCal->event)){
-         printf("\n\ntest tail is: %p, head is: %p\n", testCal->event->properties.tail, testCal->event->properties.head);
-          printf("ref tail is: %p, head is: %p\n", refCal->event->properties.tail, refCal->event->properties.head);
+         // printf("\n\ntest tail is: %p, head is: %p\n", testCal->event->properties.tail, testCal->event->properties.head);
+          // printf("ref tail is: %p, head is: %p\n", refCal->event->properties.tail, refCal->event->properties.head);
         printf("event is fucked\n");
         return false;
     }
@@ -413,7 +413,7 @@ Calendar* almPropCalnedar(void)
     
     //Add alarms
     //Alarm 1
-    Alarm* testAlm = malloc(sizeof(Alarm));
+    Alarm* testAlm= malloc(sizeof(Alarm));
     char tmpData[1000];
     
     strcpy(testAlm->action, "AUDIO");
@@ -548,7 +548,7 @@ SubTestRec createCalTest3(int testNum, int subTest){
 
 //Calendar creation - testCalEvtProp.ics
 SubTestRec createCalTest4(int testNum, int subTest){
-    printf("\n\n\nbeginner dinner\n");
+    // printf("\n\n\nbeginner dinner\n");
     SubTestRec result;
     char feedback[300];
     char fileName[] = "testFiles/validCalendar/testCalEvtProp.ics";
@@ -560,11 +560,11 @@ SubTestRec createCalTest4(int testNum, int subTest){
     
     // Property* tempEventValue = (Property*)getFromBack(testCal->event->properties);
             // printf("event name is %s, descr thing is %s\n", tempEventValue->propName, tempEventValue->propDescr);
-   char * calendarCheck =  printCalendar(testCal);
-   printf("%s\n", calendarCheck);
+   // char * calendarCheck =  printCalendar(testCal);
+   // printf("%s\n", calendarCheck);
 
-   char * refCheck = printCalendar(refCal);
-   printf("ref cal:\n%s\n", refCheck);
+   // char * refCheck = printCalendar(refCal);
+   // printf("ref cal:\n%s\n", refCheck);
      // printf("\n\nEND tail is: %p, head is: %p\n", testCal->event->properties.tail, testCal->event->properties.head);
      // printf("\n\nREF END tail is: %p, REF head is: %p\n", refCal->event->properties.tail, refCal->event->properties.head);
     if (err != OK){
@@ -614,6 +614,7 @@ SubTestRec createCalTest5(int testNum, int subTest){
 }
 
 testRec* simpleCalTest(int testNum){
+    printf("buttmunch\n\n\n");
     const int numSubs = 3;  //doesn't need to be a variable but its a handy place to keep it
     int subTest = 1;
     char feedback[300];

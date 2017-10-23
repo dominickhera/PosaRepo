@@ -94,17 +94,17 @@ void insertBack(List* list, void *toBeAdded)
         Node* tempNode = initializeNode(toBeAdded);
         if(list->head == NULL && list->tail == NULL)
         {
-            printf("1\n");
+            // printf("1\n");
             list->head = tempNode;
             list->tail = tempNode;
         }
         else
         {
-            printf("2\n");
+            // printf("2\n");
             tempNode->previous = list->tail;
             list->tail->next = tempNode;
             list->tail = tempNode;
-            printf("head is %p\n\n", list->head);
+            // printf("head is %p\n\n", list->head);
         }
         // Node * tempNode = list->head;
         // if(tempNode != NULL)
