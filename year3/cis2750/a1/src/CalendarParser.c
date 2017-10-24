@@ -760,7 +760,7 @@ Alarm* initializeAlarm()
 
 }
 
-void  tDestroy(void *data)
+void tDestroy(void *data)
 {
     free(data);
 }
