@@ -99,7 +99,7 @@ bool propEqual(const Property* prop1, const Property* prop2){
         // {
         //     printf("b00ty\n");
         // }
-        printf("property is fucking null\n");
+        // printf("property is fucking null\n");
         return false;
     }
     
@@ -189,8 +189,8 @@ bool alarmEqual(const Alarm* testAlarm, const Alarm* refAlarm){
     
     //Compare action
     if (strcmp(testAlarm->action, refAlarm->action) != 0){
-        printf("action name diff is %s, my name is %s\n",refAlarm->action, testAlarm->action);
-        printf("ref action: %d, my action: %d\n", strlen(refAlarm->action), strlen(testAlarm->action));
+        // printf("action name diff is %s, my name is %s\n",refAlarm->action, testAlarm->action);
+        // printf("ref action: %d, my action: %d\n", strlen(refAlarm->action), strlen(testAlarm->action));
         printf("action is fucked\n");
         return false;
     }
@@ -215,7 +215,7 @@ bool containsAlarm(List list, const Alarm* alarm){
     
     while(ptr != NULL){
         Alarm* currAlarm = (Alarm*)ptr->data;
-        printf("test action is %s>\n", currAlarm);
+        // printf("test action is %s>\n", currAlarm);
         if (alarmEqual(alarm, currAlarm)){
             printf("true\n");
             return true;
@@ -231,7 +231,7 @@ bool aListEqual(List testList, List refList){
     while(ptr != NULL){
         //For every reference alarm, see if the test alarm list contains it
         Alarm* currRefAlarm = (Alarm*)ptr->data;
-        printf("currRefAlarm is %s>\n", currRefAlarm);
+        // printf("currRefAlarm is %s>\n", currRefAlarm);
         if (!containsAlarm(testList, currRefAlarm)){
             return false;
         }
