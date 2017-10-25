@@ -215,7 +215,7 @@ bool containsAlarm(List list, const Alarm* alarm){
     
     while(ptr != NULL){
         Alarm* currAlarm = (Alarm*)ptr->data;
-        // printf("test action is %s>\n", currAlarm);
+        printf("test action is %s>\n", currAlarm);
         if (alarmEqual(alarm, currAlarm)){
             printf("true\n");
             return true;
@@ -231,7 +231,7 @@ bool aListEqual(List testList, List refList){
     while(ptr != NULL){
         //For every reference alarm, see if the test alarm list contains it
         Alarm* currRefAlarm = (Alarm*)ptr->data;
-        // printf("currRefAlarm is %s>\n", currRefAlarm);
+        printf("currRefAlarm is %s>\n", currRefAlarm);
         if (!containsAlarm(testList, currRefAlarm)){
             return false;
         }
@@ -242,6 +242,7 @@ bool aListEqual(List testList, List refList){
     while(ptr != NULL){
         //For every reference alarm, see if the test alarm list contains it
         Alarm* currTestAlarm = (Alarm*)ptr->data;
+        printf("currTestAlarm is %s>>\n", currTestAlarm);
         if (!containsAlarm(refList, currTestAlarm)){
             return false;
         }

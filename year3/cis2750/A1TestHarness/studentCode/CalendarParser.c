@@ -377,7 +377,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 }
             }
 
-            // printf("tempstorage trigger is %s size is %d\n", newOtherTempStorage, tempSize);
+            printf("tempstorage trigger is %s size is %d\n", newOtherTempStorage, tempSize);
             if(newOtherTempStorage[0] == '\0')
             {
                 return INV_EVENT;
@@ -409,7 +409,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 if(lineStorage[i][j] == ':')
                 {
                     j++;
-                    while(lineStorage[i][j] != '\0')
+                    while(lineStorage[i][j+1] != '\0')
                     {
                         // printf("char is %c\n", lineStorage[i][j]);
                         tempStorage[tempSize] = lineStorage[i][j];
@@ -425,13 +425,13 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             {
                 return INV_EVENT;
             }
-            tempStorage[tempSize - 1] = '\0';
+            // tempStorage[tempSize - 1] = '\0';
             strcpy(actionStorage, tempStorage);
             // if(actionStorage == NULL)
             // {
             //     return INV_EVENT;
             // }
-            printf("action storage is %s, tempsize is %d\n", tempStorage, tempSize);
+            printf("action storage is %s, tempsize is %d\n", actionStorage, tempSize);
             // strcpy(tempAlarm->action, actionStorage);
             tempSize = 0;
             memset(tempStorage, '\0', 1000); 
@@ -439,9 +439,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         }
         else if((strcasestr(lineStorage[i], "END")) && (strcasestr(lineStorage[i], "VALARM")) && calendarFlag == 1 && alarmFlag == 1 && eventFlag == 1)
         {
-            // printf("6\n");
             Property * tempAlarmProp;
-            // printf("action: %s, trigger: %s\n", actionStorage, triggerStorage);
             Alarm * tempAlarm;
 
             if(strlen(actionStorage) == 0 || strlen(triggerStorage) == 0)
@@ -449,9 +447,6 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 return INV_EVENT;
             }
             tempAlarm = initializeAlarm(actionStorage, triggerStorage);
-            // printf("6a\n");
-            // tempAlarm->trigger = malloc(sizeof(triggerStorage));
-            // strcpy(tempAlarm->trigger, triggerStorage);
             for(int k = 0; k < alarmPropCount; k++)
             {
                 if(strlen(alarmPropDscrStorage[k]) == 0)
@@ -468,7 +463,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             alarmFlag--;
             alarmPropCount = 0;
             // printf("6c\n");
-            // printf("alarm->trigger is %s\n", tempAlarm->action);
+            printf("alarm->action is %s\n", tempAlarm->action);
             insertBack(&parseCalendar->event->alarms, tempAlarm);
             // printf("6d\n");
         }
@@ -560,7 +555,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 }
 
                 j++;
-                while(lineStorage[i][j] != '\0')
+                while(lineStorage[i][j+1] != '\0')
                 {
                     newTempDscStorage[tempCount] = lineStorage[i][j];
                     tempCount++;
@@ -577,7 +572,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
 
                 // if(newTempDscStorage[tempCount - 1] == '\n')
                 // {
-                newTempDscStorage[tempCount - 1] = '\0';
+                // newTempDscStorage[tempCount - 1] = '\0';
                 // }
 
                 strcpy(eventPropNameStorage[eventPropCount], newTempStorage);
@@ -625,6 +620,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         *obj = parseCalendar;
         (*obj)->event = parseCalendar->event;
         (*obj)->event->properties = parseCalendar->event->properties;
+        (*obj)->event->alarms = parseCalendar->event->alarms;
         // strcpy((*obj)->prodID, parseCalendar->prodID);
         // *obj = parseCalendar;
         // printf("but how does this work\n");
@@ -673,46 +669,46 @@ char* printCalendar(const Calendar* obj)
 
     if(obj != NULL)
     {
-        sprintf(calendarReturn, "Calendar\nVersion = %f, ProdID = %s\n", obj->version, obj->prodID);
+        sprintf(calendarReturn, "\n\nCalendar\n     Version = %f, ProdID = %s\n", obj->version, obj->prodID);
 
         if(obj->event != NULL)
         {
 
-            sprintf(calendarReturn + strlen(calendarReturn), "Event\nUID = %s\n", obj->event->UID);
+            sprintf(calendarReturn + strlen(calendarReturn), "\nEvent\nUID = %s\n", obj->event->UID);
             // if(obj->event->creationDateTime.date != NULL)
             // {
-            sprintf(calendarReturn + strlen(calendarReturn), "creationDateTime = %s:%s UTC = %d\n", obj->event->creationDateTime.date, obj->event->creationDateTime.time, obj->event->creationDateTime.UTC);
+            sprintf(calendarReturn + strlen(calendarReturn), "  creationDateTime = %s:%s UTC = %d\n", obj->event->creationDateTime.date, obj->event->creationDateTime.time, obj->event->creationDateTime.UTC);
             // }
 
             if(obj->event->alarms.head != NULL)
             {
-                strcat(calendarReturn, "Alarms:\n");
+                strcat(calendarReturn, "\nAlarms:\n");
                 void* elem;
                 ListIterator eventAlarmsIter = createIterator(obj->event->alarms);
                 while((elem = nextElement(&eventAlarmsIter)) != NULL)
                 {
                     Alarm* tempAlarmPrint = (Alarm*)elem;
 
-                    sprintf(calendarReturn + strlen(calendarReturn), "Action: %s\nTrigger: %s\nProperties: lol\n",tempAlarmPrint->action, tempAlarmPrint->trigger);
+                    sprintf(calendarReturn + strlen(calendarReturn), "  Action: %s\n    Trigger: %s\n   Properties:\n",tempAlarmPrint->action, tempAlarmPrint->trigger);
                     ListIterator eventAlarmsPropIter = createIterator(tempAlarmPrint->properties);
                     void *propElem;
                     while((propElem = nextElement(&eventAlarmsPropIter)) != NULL)
                     {
                         Property* tempPropPrint = (Property*)propElem;
-                        sprintf(calendarReturn + strlen(calendarReturn), "%s:%s\n", tempPropPrint->propName, tempPropPrint->propDescr);
+                        sprintf(calendarReturn + strlen(calendarReturn), "      %s:%s\n", tempPropPrint->propName, tempPropPrint->propDescr);
                     }
 
                 }
             }
 
-            strcat(calendarReturn + strlen(calendarReturn), "Other Properties:\n");
+            strcat(calendarReturn + strlen(calendarReturn), "\nOther Properties:\n");
 
             void *eventPropElem;
             ListIterator eventPropertiesIter = createIterator(obj->event->properties);
             while((eventPropElem = nextElement(&eventPropertiesIter)) != NULL)
             {
                 Property* tempEventPropPrint = (Property*)eventPropElem;
-                sprintf(calendarReturn + strlen(calendarReturn), "%s:%s\n", tempEventPropPrint->propName, tempEventPropPrint->propDescr);
+                sprintf(calendarReturn + strlen(calendarReturn), "  %s:%s\n", tempEventPropPrint->propName, tempEventPropPrint->propDescr);
             }
 
         }
