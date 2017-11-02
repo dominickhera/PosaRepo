@@ -2,7 +2,7 @@
 
  * CIS2750 F2017
 
- * Assignment 1
+ * Assignment 2
 
  * Dominick Hera 0943778
 
@@ -22,37 +22,42 @@
 List initializeList(char* (*printFunction)(void *toBePrinted),void (*deleteFunction)(void *toBeDeleted),int (*compareFunction)(const void *first,const void *second))
 {
 
-    List * temp = NULL;
+    // List * temp = NULL;
 
-    if((temp = malloc(sizeof(List))) != NULL)
-    {
+    List temp;
+    // if((temp = malloc(sizeof(List))) != NULL)
+    // {
 
-        temp->head = NULL;
-        temp->tail = NULL;
-        temp->printData = printFunction;
-        temp->deleteData = deleteFunction;
-        temp->compare = compareFunction;
+        temp.head = NULL;
+        temp.tail = NULL;
+        temp.length = 0;
+        temp.printData = printFunction;
+        temp.deleteData = deleteFunction;
+        temp.compare = compareFunction;
 
-    }
+    // }
 
-    return *temp;
+    return temp;
 }
 
 
 Node* initializeNode(void *data)
 {
 
-    Node * temp = NULL;
+    Node * temp;
 
-    if((temp = malloc(sizeof(Node))) == NULL)
+    temp = (Node*)malloc(sizeof(Node));
+    if (temp == NULL)
     {
         return NULL;
     }
 
+    // temp->data = malloc(sizeof(data));
+    // strcpy(temp->data, data);
     // printf("wtf\n");
-    temp->next = NULL;
-    temp->previous = NULL;
     temp->data = data;
+    temp->previous = NULL;
+    temp->next = NULL;
 
     return temp;
 
@@ -84,8 +89,24 @@ void insertFront(List* list, void *toBeAdded)
 void insertBack(List* list, void *toBeAdded)
 {
 
-    if(list != NULL)
+    if(list != NULL && toBeAdded != NULL)
     {
+
+        // Node* tempNode = initializeNode(toBeAdded);
+        // if(list->head == NULL && list->tail == NULL)
+        // {
+        //     // printf("1\n");
+        //     list->head = tempNode;
+        //     list->tail = tempNode;
+        // }
+        // else
+        // {
+        //     // printf("2\n");
+        //     tempNode->previous = list->tail;
+        //     list->tail->next = tempNode;
+        //     list->tail = tempNode;
+        //     printf("head is %p\n\n", list->head);
+        // }
         Node * tempNode = list->head;
         if(tempNode != NULL)
         {
@@ -105,6 +126,8 @@ void insertBack(List* list, void *toBeAdded)
             list->head = tempNode;
             list->tail = tempNode;
         }
+
+        list->length++;
     }
 
 }
@@ -204,10 +227,8 @@ void* deleteDataFromList(List* list, void *toBeDeleted)
 
                 if(tempNode->previous != NULL && tempNode->next != NULL)
                 {
-
                     tempNode->previous->next = tempNode->next;
                     tempNode->next->previous = tempNode->previous;
-
                 }
 
                 Node * tempReturnNode = tempNode;
@@ -299,7 +320,7 @@ void* nextElement(ListIterator* iter)
 {
 
     if(iter->current != NULL)
-    {	
+    {   
         void * tempIter = iter->current->data;
 
         iter->current = iter->current->next;

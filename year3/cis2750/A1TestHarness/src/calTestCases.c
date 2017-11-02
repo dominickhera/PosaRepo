@@ -95,21 +95,21 @@ void tInsertFront(List* list, void* toBeAdded){
 
 bool propEqual(const Property* prop1, const Property* prop2){
     if (prop1 == NULL || prop2 == NULL){
-        if(prop2 == NULL)
-        {
-            printf("b00ty\n");
-        }
-        printf("property is fucking null\n");
+        // if(prop2 == NULL)
+        // {
+        //     printf("b00ty\n");
+        // }
+        // printf("property is fucking null\n");
         return false;
     }
     
     if ((strcmp(prop1->propName, prop2->propName) == 0) && (strcmp(prop1->propDescr, prop2->propDescr) == 0)){
-        printf("shit is popping\n");
+        // printf("shit is popping\n");
         return true;
     }else{
         // printf("prop name diff is %d, prop descr diff is %d\n",strcmp(prop1->propName, prop2->propName),  strcmp(prop1->propDescr, prop2->propDescr));
         // printf("ref dsc: %d, my dsc: %d\n", strlen(prop1->propDescr), strlen(prop2->propDescr));
-        printf("wtf fam\n");
+        // printf("wtf fam\n");
         return false;
     }
 }
@@ -117,16 +117,16 @@ bool propEqual(const Property* prop1, const Property* prop2){
 bool containsProp(List list, const Property* prop){
     Node* ptr = list.head;
 
-    printf("\n\n%p is head now\n", ptr);
+    // printf("\n\n%p is head now\n", ptr);
     
     while(ptr != NULL){
         Property* currProp = (Property*)ptr->data;
-        printf("currProp = %s while it should be prop %s\n", currProp, prop);
+        // printf("currProp = %s while it should be prop %s\n", currProp, prop);
         if (propEqual(prop, currProp)){
-            printf("lolkats\n");
+            // printf("lolkats\n");
             return true;
         }
-        printf("next lol\n");
+        // printf("next lol\n");
         ptr = ptr->next;
     }
     return false;
@@ -159,18 +159,18 @@ bool pListEqual(List testList, List refList){
     while(ptr != NULL){
         //For every reference property, see if the test prop list contains it
         Property* currRefProp = (Property*)ptr->data;
-        printf("ref prop should be %s\n", currRefProp);
+        // printf("ref prop should be %s\n", currRefProp);
         if (!containsProp(testList, currRefProp)){
-            printf("fucking ay\n");
+            // printf("fucking ay\n");
             return false;
         }
-        printf("w0000\n");
+        // printf("w0000\n");
         ptr = ptr->next;
     }
     
     ptr = testList.head;
     while(ptr != NULL){
-        printf("hollo?\n");
+        // printf("hollo?\n");
         //For every test property, see if the reference prop list contains it
         Property* currTestProp = (Property*)ptr->data;
         if (!containsProp(refList, currTestProp)){
@@ -189,16 +189,21 @@ bool alarmEqual(const Alarm* testAlarm, const Alarm* refAlarm){
     
     //Compare action
     if (strcmp(testAlarm->action, refAlarm->action) != 0){
+        // printf("action name diff is %s, my name is %s\n",refAlarm->action, testAlarm->action);
+        // printf("ref action: %d, my action: %d\n", strlen(refAlarm->action), strlen(testAlarm->action));
+        printf("action is fucked\n");
         return false;
     }
     
     //Compare trigger
     if (testAlarm->trigger == NULL || refAlarm->trigger == NULL || strcmp(testAlarm->action, refAlarm->action) != 0){
+        printf("trigger is fucked\n");
         return false;
     }
     
     //Compare properties
     if (!pListEqual(testAlarm->properties, refAlarm->properties)){
+        printf("alarm props are fucked\n");
         return false;
     }
     
@@ -210,7 +215,9 @@ bool containsAlarm(List list, const Alarm* alarm){
     
     while(ptr != NULL){
         Alarm* currAlarm = (Alarm*)ptr->data;
+        printf("test action is %s>\n", currAlarm);
         if (alarmEqual(alarm, currAlarm)){
+            printf("true\n");
             return true;
         }
         ptr = ptr->next;
@@ -224,6 +231,7 @@ bool aListEqual(List testList, List refList){
     while(ptr != NULL){
         //For every reference alarm, see if the test alarm list contains it
         Alarm* currRefAlarm = (Alarm*)ptr->data;
+        printf("currRefAlarm is %s>\n", currRefAlarm);
         if (!containsAlarm(testList, currRefAlarm)){
             return false;
         }
@@ -234,6 +242,7 @@ bool aListEqual(List testList, List refList){
     while(ptr != NULL){
         //For every reference alarm, see if the test alarm list contains it
         Alarm* currTestAlarm = (Alarm*)ptr->data;
+        printf("currTestAlarm is %s>>\n", currTestAlarm);
         if (!containsAlarm(refList, currTestAlarm)){
             return false;
         }
@@ -558,15 +567,6 @@ SubTestRec createCalTest4(int testNum, int subTest){
     
     ErrorCode err = createCalendar(fileName, &testCal);
     
-    // Property* tempEventValue = (Property*)getFromBack(testCal->event->properties);
-            // printf("event name is %s, descr thing is %s\n", tempEventValue->propName, tempEventValue->propDescr);
-   // char * calendarCheck =  printCalendar(testCal);
-   // printf("%s\n", calendarCheck);
-
-   // char * refCheck = printCalendar(refCal);
-   // printf("ref cal:\n%s\n", refCheck);
-     // printf("\n\nEND tail is: %p, head is: %p\n", testCal->event->properties.tail, testCal->event->properties.head);
-     // printf("\n\nREF END tail is: %p, REF head is: %p\n", refCal->event->properties.tail, refCal->event->properties.head);
     if (err != OK){
         sprintf(feedback, "Subtest %d.%d: Did not return OK when parsing a valid file (%s).",testNum,subTest, fileName);
         result = createSubResult(FAIL, feedback);
@@ -586,16 +586,18 @@ SubTestRec createCalTest4(int testNum, int subTest){
 
 //Calendar creation - testCalEvtProp.ics
 SubTestRec createCalTest5(int testNum, int subTest){
-    printf("fucker\n\n\n");
+    printf("\n\n\nbeginner fucker\n\n\n");
     SubTestRec result;
+    // printf("hello?!?\n");
     char feedback[300];
     char fileName[] = "testFiles/validCalendar/testCalEvtPropAlm.ics";
     
+    // printf("1a\n");
     Calendar* refCal = almPropCalnedar();
     Calendar* testCal;
-    
+    // printf("1b\n");
     ErrorCode err = createCalendar(fileName, &testCal);
-    
+    // printf("1c\n");
     if (err != OK){
         sprintf(feedback, "Subtest %d.%d: Did not return OK when parsing a valid file (%s).",testNum,subTest, fileName);
         result = createSubResult(FAIL, feedback);
@@ -614,7 +616,7 @@ SubTestRec createCalTest5(int testNum, int subTest){
 }
 
 testRec* simpleCalTest(int testNum){
-    printf("buttmunch\n\n\n");
+    printf("buttmunch ENDDDDDD\n\n\n");
     const int numSubs = 3;  //doesn't need to be a variable but its a handy place to keep it
     int subTest = 1;
     char feedback[300];
