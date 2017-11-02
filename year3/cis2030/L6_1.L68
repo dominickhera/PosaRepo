@@ -1,0 +1,56 @@
+00008000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.04
+Created On: 10/30/2017 11:43:24 AM
+
+00000000                             1  *L6_1.x68 
+00000000                             2  *Dominick Hera
+00000000                             3  *26/10/17
+00000000                             4  
+00000000                             5  
+00008000                             6          ORG     $8000
+00008000  43F9 00009000              7  START   LEA S,A1
+00008006                             8      *TRAP   #2
+00008006  227C 00009000              9      MOVEA.L #S,A1
+0000800C  1619                      10  TOP MOVE.B  (A1)+,D3
+0000800E  B63C 0000                 11      CMP.B   #0,D3
+00008012  6700 003E                 12      BEQ QUIT
+00008016  B63C 0061                 13  CHECKLO CMP.B   #'a',D3
+0000801A  6500 000E                 14          BLO CHECKUP
+0000801E  B63C 007A                 15      CMP.B   #'z',D3
+00008022  6200 0006                 16      BHI CHECKUP
+00008026  6000 0016                 17      BRA ISLOW
+0000802A  B63C 0041                 18  CHECKUP CMP.B   #'A',D3
+0000802E  6500 001A                 19      BLO ISPUNC
+00008032  B63C 005A                 20      CMP.B   #'Z',D3
+00008036  6200 0012                 21      BHI ISPUNC
+0000803A  6000 0008                 22      BRA ISUPPER
+0000803E  5200                      23  ISLOW   ADD.B   #1,D0
+00008040  6000 000E                 24      BRA LOOP
+00008044  5201                      25  ISUPPER ADD.B   #1,D1
+00008046  6000 0008                 26      BRA LOOP
+0000804A  5202                      27  ISPUNC  ADD.B   #1,D2
+0000804C  6000 0002                 28      BRA LOOP
+00008050  60BA                      29  LOOP    BRA TOP
+00008052  4E4E                      30  QUIT    TRAP    #14
+00008054                            31  
+00009000                            32      ORG $9000
+00009000= 4E 61 20 6E 61 20 ...     33  S   DC.B    'Na na na na BATMAN!!!!',0
+00009017                            34      END START
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+CHECKLO             8016
+CHECKUP             802A
+ISLOW               803E
+ISPUNC              804A
+ISUPPER             8044
+LOOP                8050
+QUIT                8052
+S                   9000
+START               8000
+TOP                 800C

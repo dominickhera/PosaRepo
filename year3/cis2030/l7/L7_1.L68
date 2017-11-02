@@ -1,0 +1,34 @@
+00008000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.04
+Created On: 11/2/2017 3:05:34 PM
+
+00008000                             1          ORG         $8000
+00008000                             2  START
+00008000                             3  
+00008000  3801                       4  WHILE   MOVE.W      D1,D4
+00008002  E25C                       5          ROR.W       #1,D4
+00008004  6400 0004                  6          BCC         DO
+00008008  D440                       7          ADD.W       D0,D2
+0000800A                             8          
+0000800A  B27C 0001                  9  DO      CMP.W       #1,D1
+0000800E  6700 0008                 10          BEQ         EXIT
+00008012                            11          
+00008012  E348                      12          LSL.W       #1,D0
+00008014  E249                      13          LSR.W       #1,D1
+00008016                            14          
+00008016  60E8                      15          BRA         WHILE
+00008018                            16          
+00008018  4E4E                      17  EXIT    TRAP        #14
+0000801A                            18          END         START
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+DO                  800A
+EXIT                8018
+START               8000
+WHILE               8000
