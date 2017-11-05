@@ -64,6 +64,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     int tempCount = 0;
     int eventPropCount = 0;
     int alarmPropCount = 0;
+    int totalAlarmCount = 0;
 
     //parsing into a string array
     if(fileName != NULL && fileName[0] != '\0')
@@ -101,6 +102,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     }
 
     Calendar* parseCalendar;
+    List tempAlarmStorage;
     // Calendar *parseCalendar = *obj;
     // Event * parseEvent = NULL;
     // Alarm * tempAlarm;
@@ -338,6 +340,18 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 insertBack(&parseCalendar->event->properties, (void*)testEventInsertVal);
 
             }
+
+                void* tempAlarmElem;
+                ListIterator eventAlarmsIter = createIterator(tempAlarmStorage);
+                while((tempAlarmElem = nextElement(&eventAlarmsIter)) != NULL)
+                {
+                    Alarm* tempAlarmPrint = (Alarm*)tempAlarmElem;
+                    insertBack(&parseCalendar->event->alarms, tempAlarmPrint);
+
+                }
+
+
+
             eventPropCount = 0;
             eventFlag++;
         }
@@ -348,6 +362,12 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         else if((strcasestr(lineStorage[i], "BEGIN")) && (strcasestr(lineStorage[i], "VALARM")) && eventFlag == 1 && alarmFlag == 0)
         {
             alarmFlag++;
+            if(totalAlarmCount == 0)
+            {
+                tempAlarmStorage = initializeList(NULL,NULL,NULL);
+            }
+
+            totalAlarmCount++;
         }
         else if((strcasestr(lineStorage[i], "TRIGGER")) && calendarFlag == 1 &&  eventFlag == 1 && alarmFlag == 1)
         {
@@ -464,7 +484,8 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             alarmPropCount = 0;
             // printf("6c\n");
             printf("alarm->action is %s\n", tempAlarm->action);
-            insertBack(&parseCalendar->event->alarms, tempAlarm);
+            // insertBack(&parseCalendar->event->alarms, tempAlarm);
+            insertBack(&tempAlarmStorage, tempAlarm);
             // printf("6d\n");
         }
         //alarm property
