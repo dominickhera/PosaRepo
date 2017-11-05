@@ -76,9 +76,9 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         // printf("filename is: %s", fileName);
         if((strstr(fileName, ".ics")))
         {
-            if(strcmp(&fileName[strlen(fileName)], "\n") == 0 || strcmp(&fileName[strlen(fileName)], "\r") == 0 )
-            {
-                printf("the pass char is %c\n", fileName[strlen(fileName)]);
+            // if(strcmp(&fileName[strlen(fileName)], "\n") == 0 || strcmp(&fileName[strlen(fileName)+1], "\r") == 0 )
+            // {
+                // printf("the pass char is %c\n", fileName[strlen(fileName) + 1]);
                 if((fp = fopen(fileName, "r")))
                 {
                     while(fgets(line, sizeof(line), fp) != NULL)
@@ -98,12 +98,12 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                      
                     return INV_FILE;
                 }
-            }
-            else
-            {
-                printf("the fail char is %c\n", fileName[strlen(fileName)]);
-                return INV_FILE;
-            }
+            // }
+            // else
+            // {
+            //     printf("the fail char is %c >\n", fileName[strlen(fileName) + 1]);
+            //     return INV_FILE;
+            // }
         }
         else
         {
@@ -116,7 +116,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     }
 
     Calendar* parseCalendar;
-    List tempAlarmStorage;
+    // List tempAlarmStorage;
     // Calendar *parseCalendar = *obj;
     // Event * parseEvent = NULL;
     Alarm * tempAlarm;
@@ -391,22 +391,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 }
                 insertBack(&parseCalendar->event->alarms, tempAlarm);
             }
-            // printf("hello?!!?!\n");
-            // void* tempAlarmElem;
-            // ListIterator eventAlarmsIter = createIterator(parseCalendar->event->alarms);
-            // while((tempAlarmElem = nextElement(&eventAlarmsIter)) != NULL)
-            // {
-            //     Alarm* tempAlarmPrint = (Alarm*)tempAlarmElem;
-            //     // printf("action before insert: %s, trigger before insert: %s\n", tempAlarmPrint->action, tempAlarmPrint->trigger);
-            //     // insertBack(&parseCalendar->event->alarms, tempAlarmElem);
-            //     ListIterator eventAlarmsPropIter = createIterator(tempAlarmPrint->properties);
-            //         void *propElem;
-            //         while((propElem = nextElement(&eventAlarmsPropIter)) != NULL)
-            //         {
-            //             Property* tempPropPrint = (Property*)propElem;
-            //             // printf("pName: %s, pDescr:%s\n", tempPropPrint->propName, tempPropPrint->propDescr);
-            //         }
-            // }
+
             totalAlarmPropCount = 0;
             eventPropCount = 0;
             eventFlag++;
@@ -418,12 +403,6 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         else if((strcasestr(lineStorage[i], "BEGIN")) && (strcasestr(lineStorage[i], "VALARM")) && eventFlag == 1 && alarmFlag == 0)
         {
             alarmFlag++;
-            if(totalAlarmCount == 0)
-            {
-                // printf("hi\n");
-                tempAlarmStorage = initializeList(NULL,NULL,NULL);
-            }
-
             totalAlarmCount++;
         }
         else if((strcasestr(lineStorage[i], "TRIGGER")) && calendarFlag == 1 &&  eventFlag == 1 && alarmFlag == 1)
@@ -454,27 +433,8 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
                 }
             }
 
-            // printf("tempstorage trigger is %s size is %d\n", newOtherTempStorage, tempSize);
-            if(newOtherTempStorage[0] == '\0')
-            {
-                return INV_EVENT;
-
-                // printf("tempsize isnt 0\n");
-            }
-            // else
-            // {
-            // printf("temp is 0\n");
-            // }
             strcpy(alarmTriggerStorage[totalAlarmCount], newOtherTempStorage);
-            // strcpy(triggerStorage, newOtherTempStorage);
-            // }
-            // else
-            // {
-            //     return INV_EVENT;
-            // }
-            // printf("trigger storage is now %s\n", triggerStorage);
-            // tempAlarm->trigger = malloc(sizeof(tempStorage));
-            // strcpy(tempAlarm->trigger, triggerStorage);
+
             tempSize = 0;
             memset(newOtherTempStorage, '\0', 256);
             // memset(triggerStorage, '\0', 200); 
@@ -498,22 +458,8 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
             }
         }
 
-
-        // if(tempSize == 0)
-        // {
-            // return INV_EVENT;
-        // }
-         // memset(triggerStorage, '\0', 200);
-        // memset(actionStorage,'\0', 200);
-        // tempStorage[tempSize - 1] = '\0';
-        // strcpy(actionStorage, tempStorage);
         strcpy(alarmActionStorage[totalAlarmCount], tempStorage);
-        // if(actionStorage == NULL)
-        // {
-        //     return INV_EVENT;
-        // }
-        // printf("action storage is %s, tempsize is %d\n", actionStorage, tempSize);
-        // strcpy(tempAlarm->action, actionStorage);
+
         tempSize = 0;
         memset(tempStorage, '\0', 1000); 
         // memset(actionStorage,'\0', 200);
@@ -521,34 +467,6 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
     else if((strcasestr(lineStorage[i], "END")) && (strcasestr(lineStorage[i], "VALARM")) && calendarFlag == 1 && alarmFlag == 1 && eventFlag == 1)
     {
 
-        // Property * tempAlarmProp;
-
-        // if(tempAlarm != NULL)
-        // {
-        //     printf("crazy check action: %s, trigger:%s\n", tempAlarm->action, tempAlarm->trigger);
-        // }
-        // else
-        // {
-        //     printf("shit is null\n");
-        // }
-        // // Alarm * tempAlarm;
-
-        // if(strlen(actionStorage) == 0 || strlen(triggerStorage) == 0)
-        // {
-        //     return INV_EVENT;
-        // }
-        // // printf("actionStorage before create alarm: %s, triggerStorage before create alarm: %s\n", tempAlarm->action, tempAlarm->trigger);
-        // tempAlarm = initializeAlarm(actionStorage, triggerStorage);
-        // printf("actionStorage after create alarm: %s, triggerStorage after create alarm: %s\n", tempAlarm->action, tempAlarm->trigger);
-        // for(int k = 0; k < alarmPropCount; k++)
-        // {
-        //     if(strlen(alarmPropDscrStorage[k]) == 0)
-        //     {
-        //         return INV_EVENT;
-        //     }
-        //     tempAlarmProp = initializeProperty(alarmPropNameStorage[k], alarmPropDscrStorage[k]);
-        //     insertBack(&tempAlarm->properties, (void*)tempAlarmProp);
-        // }
 
 
 
@@ -561,30 +479,7 @@ ErrorCode createCalendar(char* fileName, Calendar** obj)
         // printf("6b\n");
         alarmFlag--;
         alarmPropCount = 0;
-        // printf("6c\n");
-        // printf("alarm->action is %s\n", tempAlarm->action);
-        // insertBack(&parseCalendar->event->alarms, tempAlarm);
-        // insertBack(&tempAlarmStorage, tempAlarm);
-        //  memset(triggerStorage, '\0', 200);
-        // memset(actionStorage,'\0', 200);
-        // printf("\n\n");
-        //      void* tempAlarmElem;
-        //     ListIterator eventAlarmsIter = createIterator(tempAlarmStorage);
-        //     while((tempAlarmElem = nextElement(&eventAlarmsIter)) != NULL)
-        //     {
-        //         Alarm* tempAlarmPrint = (Alarm*)tempAlarmElem;
-        //         printf("testing action before insert: %s, testing trigger before insert: %s\n", tempAlarmPrint->action, tempAlarmPrint->trigger);
-        //         ListIterator eventAlarmsPropIter = createIterator(tempAlarmPrint->properties);
-        //             void *propElem;
-        //             while((propElem = nextElement(&eventAlarmsPropIter)) != NULL)
-        //             {
-        //                 Property* tempPropPrint = (Property*)propElem;
-        //                 printf("pName: %s, pDescr:%s\n", tempPropPrint->propName, tempPropPrint->propDescr);
-        //             }
-        //         // insertBack(&parseCalendar->event->alarms, tempAlarmElem);
 
-        //     }
-            // free(tempAlarm);
 
         // printf("after local insert aciton: %s, trigger: %s\n", (Alarm*)tempAlarmStorage.tail->data->action, (Alarm*)tempAlarmStorage.tail->data->trigger);
         printf("\n\n");
