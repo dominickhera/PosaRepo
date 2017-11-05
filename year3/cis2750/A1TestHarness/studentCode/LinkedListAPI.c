@@ -91,40 +91,41 @@ void insertBack(List* list, void *toBeAdded)
     if(list != NULL && toBeAdded != NULL)
     {
 
-        Node* tempNode = initializeNode(toBeAdded);
-        if(list->head == NULL && list->tail == NULL)
-        {
-            // printf("1\n");
-            list->head = tempNode;
-            list->tail = tempNode;
-        }
-        else
-        {
-            // printf("2\n");
-            tempNode->previous = list->tail;
-            list->tail->next = tempNode;
-            list->tail = tempNode;
-            // printf("head is %p\n\n", list->head);
-        }
-        // Node * tempNode = list->head;
-        // if(tempNode != NULL)
+        // Node* tempNode = initializeNode(toBeAdded);
+        // if(tempNode == NUL)
         // {
-        //     while(tempNode->next != NULL)
-        //     {
-        //         tempNode = tempNode->next;
-        //     }
-
-        //     tempNode->next = initializeNode(toBeAdded);
-        //     list->tail = tempNode->next;
-        //     tempNode->next->previous = tempNode;
-
-        // }
-        // else
-        // {
-        //     tempNode = initializeNode(toBeAdded);
+        //     printf("1\n");
         //     list->head = tempNode;
         //     list->tail = tempNode;
         // }
+        // else
+        // {
+        //     printf("2\n");
+        //     tempNode->previous = list->tail;
+        //     list->tail->next = tempNode;
+        //     list->tail = tempNode;
+        //     // printf("head is %p\n\n", list->head);
+        // }
+        Node * tempNode = list->head;
+        if(tempNode != NULL)
+        {
+            while(tempNode->next != NULL)
+            {
+                tempNode = tempNode->next;
+            }
+            // printf("2\n");
+            tempNode->next = initializeNode(toBeAdded);
+            list->tail = tempNode->next;
+            tempNode->next->previous = tempNode;
+
+        }
+        else
+        {
+            // printf("1\n");
+            tempNode = initializeNode(toBeAdded);
+            list->head = tempNode;
+            list->tail = tempNode;
+        }
     }
 
 }
@@ -307,7 +308,7 @@ char* toString(List list)
 ListIterator createIterator(List list)
 {
     List temp = list;
-    ListIterator * tempIter = malloc(sizeof(ListIterator)*100);
+    ListIterator * tempIter = malloc(sizeof(ListIterator)*200);
     tempIter->current = temp.head;
 
     return *tempIter;
