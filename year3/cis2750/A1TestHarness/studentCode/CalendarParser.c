@@ -850,5 +850,3 @@ int tCompare(const void * one, const void * two)
 {
     return strcmp((char*)one, (char*)two);
 }
-
-
