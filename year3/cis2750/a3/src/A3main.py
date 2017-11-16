@@ -29,13 +29,13 @@ def failSafeExit():
 		root.quit()
 
 def openFile():
-	filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
-	# print(basename(filename))
-	root.title("iCalGUI - " + basename(filename))
+	result = filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
+	if result == True:
+		root.title("iCalGUI - " + basename(filename))
 
 def saveFile():
-	filename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
-	print (filename)
+	initFilename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
+	filename = initFilename + ".ics"
 	print(basename(filename))
 
 
