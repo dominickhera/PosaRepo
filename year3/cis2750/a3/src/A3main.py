@@ -3,6 +3,8 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import *
 import tkinter
+import os.path
+from os.path import basename
 # import tkFileDialog
 # import tkMessageBox
 import tktable
@@ -28,11 +30,13 @@ def failSafeExit():
 
 def openFile():
 	filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
-	print (filename)
+	# print(basename(filename))
+	root.title("iCalGUI - " + basename(filename))
 
 def saveFile():
 	filename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
 	print (filename)
+	print(basename(filename))
 
 
 
@@ -58,8 +62,8 @@ helpmenu = Menu(menubar, tearoff=0)
 helpmenu.add_command(label="About iCalGUI...", command=aboutApp)
 menubar.add_cascade(label="Help", menu=helpmenu)
 
-# scrollbar = Scrollbar(root)
-# scrollbar.pack(side=RIGHT,fill=Y)
+scrollbar = Scrollbar(root)
+scrollbar.pack(side=RIGHT,fill=Y)
 
 # fileViewPanel = tktable.Table(root, rows=5,cols=5,height=15,yscrollcommand=scrollbar.set)
 
@@ -71,7 +75,7 @@ menubar.add_cascade(label="Help", menu=helpmenu)
 # fileViewPanel.insert(5, "JSP")
 # fileViewPanel.insert(6, "Ruby")
 
-# fileViewPanel.pack(side=TOP,fill=BOTH)
+fileViewPanel.pack(side=TOP,fill=BOTH)
 # scrollbar.config(command=fileViewPanel.yview)
 # Label(root, text="Calendar").grid(column=0)
 # Label(root, text="Events").grid(column=1)
