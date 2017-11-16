@@ -1,0 +1,12 @@
+_Tcl_InitStubs
+_tclIntPlatStubsPtr
+_tclIntStubsPtr
+_tclPlatStubsPtr
+_tclStubsPtr
+_TclTomMathInitializeStubs
+_tclTomMathStubsPtr
+_tclStubsPtr
+_TclOOInitializeStubs
+_tclOOIntStubsPtr
+_tclOOStubsPtr
+_tclStubsPtr
