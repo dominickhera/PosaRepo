@@ -75,7 +75,7 @@ scrollbar.pack(side=RIGHT,fill=Y)
 # fileViewPanel.insert(5, "JSP")
 # fileViewPanel.insert(6, "Ruby")
 
-fileViewPanel.pack(side=TOP,fill=BOTH)
+# fileViewPanel.pack(side=TOP,fill=BOTH)
 # scrollbar.config(command=fileViewPanel.yview)
 # Label(root, text="Calendar").grid(column=0)
 # Label(root, text="Events").grid(column=1)
