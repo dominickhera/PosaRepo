@@ -9,7 +9,7 @@ class Calendar(Structure):
         ("properties", c_void_p)]
 
 #save the path
-calLibPath = 'icallib.so'
+calLibPath = 'parseLib.so'
 
 #load the module
 callib = CDLL(calLibPath)

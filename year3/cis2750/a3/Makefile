@@ -15,10 +15,10 @@ OBJ:
 	if [ ! -d "obj" ]; then mkdir obj; fi;
 
 parseLib: 
-	$(CC) $(CFLAGS) -shared -o ./bin/parseLib.so ./obj/CalendarParser.o ./obj/LinkedListAPI.o
+	$(CC) $(CFLAGS) -shared -o ./bin/parseLib.so -fPIC ./obj/CalendarParser.o ./obj/LinkedListAPI.o
 
 listLib: 
-	$(CC) $(CFLAGS) -shared -o ./bin/listLib.so ./obj/LinkedListAPI.o
+	$(CC) $(CFLAGS) -shared -o ./bin/listLib.so -fPIC ./obj/LinkedListAPI.o
 
 CalendarParser.o: ./src/CalendarParser.c
 	$(CC) -c $(CFLAGS) -fPIC ./src/CalendarParser.c -I./include -o ./obj/CalendarParser.o
