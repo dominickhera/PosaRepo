@@ -65,7 +65,7 @@ Node* initializeNode(void *data)
 
 void insertFront(List* list, void *toBeAdded)
 {
-    if(list != NULL)
+    if(list != NULL && toBeAdded != NULL)
     {
         Node * tempNode = NULL;
 
@@ -82,7 +82,7 @@ void insertFront(List* list, void *toBeAdded)
             tempNode->next = list->head;
             list->head = tempNode;
         }
-
+        list->length++;
     }
 }
 
@@ -155,7 +155,7 @@ void clearList(List* list)
 void insertSorted(List* list, void *toBeAdded)
 {
 
-    if(list != NULL)
+    if(list != NULL && toBeAdded != NULL)
     {
         Node * tempNode = list->head;
         if(tempNode != NULL)
@@ -163,7 +163,7 @@ void insertSorted(List* list, void *toBeAdded)
             Node * newNode = initializeNode(toBeAdded);
             while(tempNode != NULL)
             {
-                if(tempNode->next != NULL && list->compare(tempNode->data, newNode->data) < 0)
+                if(tempNode->next != NULL && list->compare(tempNode->data, newNode->data))
                 {   
                     tempNode->previous = tempNode;
                     tempNode = tempNode->next;
@@ -174,7 +174,7 @@ void insertSorted(List* list, void *toBeAdded)
                 }
             }
 
-            if(list->compare(tempNode->data, newNode->data) < 0)
+            if(list->compare(tempNode->data, newNode->data))
             {
                 tempNode->next = newNode;
                 newNode->previous = tempNode;
@@ -202,7 +202,9 @@ void insertSorted(List* list, void *toBeAdded)
             list->head = tempNode;
             list->tail = tempNode;
         }
+        list->length++;
     }
+    
 }
 
 void* deleteDataFromList(List* list, void *toBeDeleted)
@@ -328,5 +330,56 @@ void* nextElement(ListIterator* iter)
     }
 
     return NULL;
+
+}
+
+int getLength(List list)
+{
+
+    List  * temp = &list;
+
+    if(temp != NULL)
+    {     
+        void* elem;
+        int lengthCount = 0;
+        ListIterator listIter = createIterator(*temp);
+        while((elem = nextElement(&listIter)) != NULL)
+        {
+            lengthCount++;
+        }
+
+        return lengthCount;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+
+void* findElement(List list, bool (*customCompare)(const void* first,const void* second), const void* searchRecord)
+{
+
+    List * temp = &list;
+
+    if(temp != NULL)
+    {     
+        void* elem;
+        ListIterator listIter = createIterator(*temp);
+        while((elem = nextElement(&listIter)) != NULL)
+        {
+            Node* tempNode = (void*)elem;
+            if(temp->compare(tempNode->data, searchRecord))
+            {
+                return tempNode->data;
+            }
+        }
+
+        return NULL;
+    }
+    else
+    {
+        return NULL;
+    }
 
 }
