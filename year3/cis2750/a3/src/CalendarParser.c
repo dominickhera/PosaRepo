@@ -1343,7 +1343,7 @@ ICalErrorCode validateCalendar(const Calendar* obj)
 
                                 // printf("duplength is %d, length is %d\n", dupeLengthCheck, lengthCheck);
                                 // printf("og name: %s, dupecheck name: %s\nog dscr: %s, dupecheck dscr: %s\n", tempEventPropCheck->propName, eventPropDupeCheck->propName, tempEventPropCheck->propDescr, eventPropDupeCheck->propDescr);
-                                 if(strcasestr(eventPropDupeCheck->propName, "PRODID"))
+                                if(strcasestr(eventPropDupeCheck->propName, "PRODID"))
                                 {
                                     return DUP_PRODID;
                                 }
@@ -1547,64 +1547,200 @@ void deleteCalendar(Calendar* obj)
     }
 }
 
+// FILE *fo;
+//     // printf("butthole\n");
+//     if(fileName != NULL && fileName[0] != '\0')
+//     {
+//         // printf("filename is: %s\n", fileName);
+//         if((strstr(fileName, ".ics")))
+//         {
+//             // printf("hi\n");
+//             if((fo = fopen(fileName, "w")))
+//             {
+//                 // printf("hoe\n");
+//                 char * calendarWrite = malloc(sizeof(char) * 1000);
+//                 sprintf(calendarWrite, "BEGIN:VCALENDAR\nVERSION:%.1f\nPRODID:%s\n", (*obj).version, (*obj).prodID);
+//                 void *calPropWriteElem;
+//                 ListIterator tempCalPropWriteIter = createIterator(obj->properties);
+//                 while((calPropWriteElem = nextElement(&tempCalPropWriteIter)) != NULL)
+//                 {
+//                     Property* tempCalPropWrite = (Property*)calPropWriteElem;
+//                     sprintf(calendarWrite + strlen(calendarWrite), "%s:%s\n", tempCalPropWrite->propName, tempCalPropWrite->propDescr);
+//                 }
+
+//                 void *calEventWriteElem;
+//                 ListIterator tempCalEventWriteIter = createIterator(obj->events);
+//                 while((calEventWriteElem = nextElement(&tempCalEventWriteIter)) != NULL)
+//                 {
+//                     Event* tempCalEventWrite = (Event*)calEventWriteElem;
+//                     sprintf(calendarWrite + strlen(calendarWrite), "BEGIN:VEVENT\nUID:%s\n", tempCalEventWrite->UID);
+//                     if(tempCalEventWrite->creationDateTime.UTC == 1)
+//                     {
+//                         sprintf(calendarWrite + strlen(calendarWrite), "DTSTAMP:%sT%sZ\n", tempCalEventWrite->creationDateTime.date, tempCalEventWrite->creationDateTime.time);
+//                     }
+//                     else
+//                     {
+//                         sprintf(calendarWrite + strlen(calendarWrite), "DTSTAMP:%sT%s\n", tempCalEventWrite->creationDateTime.date, tempCalEventWrite->creationDateTime.time);
+//                     }
+
+//                     if(tempCalEventWrite->startDateTime.UTC == 1)
+//                     {
+//                         sprintf(calendarWrite + strlen(calendarWrite), "DTSTART:%sT%sZ\n", tempCalEventWrite->startDateTime.date, tempCalEventWrite->startDateTime.time);
+//                     }
+//                     else
+//                     {
+//                         sprintf(calendarWrite + strlen(calendarWrite), "DTSTART:%sT%s\n", tempCalEventWrite->startDateTime.date, tempCalEventWrite->startDateTime.time);
+//                     }
+
+//                     void *calEventPropWriteElem;
+//                     ListIterator tempCalEventPropWriteIter = createIterator(tempCalEventWrite->properties);
+//                     while((calEventPropWriteElem = nextElement(&tempCalEventPropWriteIter)) != NULL)
+//                     {
+//                         Property* tempCalEventPropWrite = (Property*)calEventPropWriteElem;
+//                         sprintf(calendarWrite + strlen(calendarWrite), "%s:%s\n", tempCalEventPropWrite->propName, tempCalEventPropWrite->propDescr);
+//                     }
+
+//                     void *calEventAlarmWriteElem;
+//                     ListIterator tempCalEventAlarmWriteIter = createIterator(tempCalEventWrite->alarms);
+//                     while((calEventAlarmWriteElem = nextElement(&tempCalEventAlarmWriteIter)) != NULL)
+//                     {
+//                         Alarm* tempCalEventAlarmWrite = (Alarm*)calEventAlarmWriteElem;
+//                         sprintf(calendarWrite + strlen(calendarWrite), "BEGIN:VALARM\nACTION:%s\nTRIGGER:%s\n", tempCalEventAlarmWrite->action, tempCalEventAlarmWrite->trigger);
+//                         void *calEventAlarmPropWriteElem;
+//                         ListIterator tempCalEventAlarmPropWriteIter = createIterator(tempCalEventAlarmWrite->properties);
+//                         while((calEventAlarmPropWriteElem = nextElement(&tempCalEventAlarmPropWriteIter)) != NULL)
+//                         {
+//                             Property* tempCalEventAlarmPropWrite = (Property*)calEventAlarmPropWriteElem;
+//                             sprintf(calendarWrite + strlen(calendarWrite), "%s:%s\n", tempCalEventAlarmPropWrite->propName, tempCalEventAlarmPropWrite->propDescr);
+//                         }
+//                         sprintf(calendarWrite + strlen(calendarWrite), "END:VALARM\n");
+
+//                     }
+//                     sprintf(calendarWrite + strlen(calendarWrite), "END:VEVENT\n");
+//                 }
+//                 sprintf(calendarWrite + strlen(calendarWrite), "END:VCALENDAR\n");
+//                 printf("hello there?\n");
+
+//                 // for(int k = 0; k < count; k++)
+//                 // {
+
+//                 // // }
+//                 // // while(fgets(line, sizeof(line), fp) != NULL)
+//                 // // {
+//                 //     // if(line[strlen(line) - 1] == '\n')
+//                 //     // {
+//                 //         // line[strlen(line) - 1] = '\0';
+//                 //     // }
+//                 //     // strcpy(lineStorage[count], line);
+//                 //     sprintf(calendarWrite + strlen(calendarWrite), "%s\n", lineStorage[k]);
+//                 //     // printf("line[%d] %s\n", count, line);
+//                 //     // count++;
+//                 // }
+
+//                 fputs(calendarWrite, fo);
+//                 fclose(fo);
+//                 return OK;
+//                 // fclose(fo);
+//             }
+//             else
+//             {
+//                 printf("somethings fucky\n");
+//                 return WRITE_ERROR;
+//             }
+//         }
+//         else
+//         {
+//             printf("nah you fucky\n");
+//             return WRITE_ERROR;
+//         }
+//     }
+//     else
+//     {
+//         printf("hella fucky\n");
+//         return WRITE_ERROR;
+//     }
+//     return OK;
+
+
 char* printCalendar(const Calendar* obj)
 {
 
-    char * calendarReturn = malloc(sizeof(char) * 1000);
+    // char * calendarReturn = malloc(sizeof(char) * 1000);
 
     if(obj != NULL)
     {
-        sprintf(calendarReturn, "\n\nCalendar\n     Version = %f, ProdID = %s\n", obj->version, obj->prodID);
+        char * calendarWrite = malloc(sizeof(char) * 1000);
+        sprintf(calendarWrite, "BEGIN:VCALENDAR\nVERSION:%.1f\nPRODID:%s\n", (*obj).version, (*obj).prodID);
 
-        if(obj->events.head != NULL)
+        if(obj->properties.head != NULL)
         {
-            void* eventElem;
-            ListIterator eventIter = createIterator(obj->events);
-            while((eventElem = nextElement(&eventIter)) != NULL)
+            void *calPropWriteElem;
+            ListIterator tempCalPropWriteIter = createIterator(obj->properties);
+            while((calPropWriteElem = nextElement(&tempCalPropWriteIter)) != NULL)
             {
-
-                Event* tempEventPrint = (Event*)eventElem;
-
-                sprintf(calendarReturn + strlen(calendarReturn), "\nEvent\nUID = %s\n", tempEventPrint->UID);
-                // if(obj->event->creationDateTime.date != NULL)
-                // {
-                sprintf(calendarReturn + strlen(calendarReturn), "  creationDateTime = %s:%s UTC = %d\n", tempEventPrint->creationDateTime.date, tempEventPrint->creationDateTime.time, tempEventPrint->creationDateTime.UTC);
-                // }
-
-                if(tempEventPrint->alarms.head != NULL)
-                {
-                    strcat(calendarReturn, "\nAlarms:\n");
-                    void* elem;
-                    ListIterator eventAlarmsIter = createIterator(tempEventPrint->alarms);
-                    while((elem = nextElement(&eventAlarmsIter)) != NULL)
-                    {
-                        Alarm* tempAlarmPrint = (Alarm*)elem;
-
-                        sprintf(calendarReturn + strlen(calendarReturn), "  Action: %s\n    Trigger: %s\n   Properties:\n",tempAlarmPrint->action, tempAlarmPrint->trigger);
-                        ListIterator eventAlarmsPropIter = createIterator(tempAlarmPrint->properties);
-                        void *propElem;
-                        while((propElem = nextElement(&eventAlarmsPropIter)) != NULL)
-                        {
-                            Property* tempPropPrint = (Property*)propElem;
-                            sprintf(calendarReturn + strlen(calendarReturn), "      %s:%s\n", tempPropPrint->propName, tempPropPrint->propDescr);
-                        }
-
-                    }
-                }
-
-                strcat(calendarReturn + strlen(calendarReturn), "\nOther Properties:\n");
-
-                void *eventPropElem;
-                ListIterator eventPropertiesIter = createIterator(tempEventPrint->properties);
-                while((eventPropElem = nextElement(&eventPropertiesIter)) != NULL)
-                {
-                    Property* tempEventPropPrint = (Property*)eventPropElem;
-                    sprintf(calendarReturn + strlen(calendarReturn), "  %s:%s\n", tempEventPropPrint->propName, tempEventPropPrint->propDescr);
-                }
+                Property* tempCalPropWrite = (Property*)calPropWriteElem;
+                sprintf(calendarWrite + strlen(calendarWrite), "%s:%s\n", tempCalPropWrite->propName, tempCalPropWrite->propDescr);
             }
         }
 
-        return calendarReturn;
+        if(obj->events.head != NULL)
+        {
+            void *calEventWriteElem;
+            ListIterator tempCalEventWriteIter = createIterator(obj->events);
+            while((calEventWriteElem = nextElement(&tempCalEventWriteIter)) != NULL)
+            {
+                Event* tempCalEventWrite = (Event*)calEventWriteElem;
+                sprintf(calendarWrite + strlen(calendarWrite), "BEGIN:VEVENT\nUID:%s\n", tempCalEventWrite->UID);
+                if(tempCalEventWrite->creationDateTime.UTC == 1)
+                {
+                    sprintf(calendarWrite + strlen(calendarWrite), "DTSTAMP:%sT%sZ\n", tempCalEventWrite->creationDateTime.date, tempCalEventWrite->creationDateTime.time);
+                }
+                else
+                {
+                    sprintf(calendarWrite + strlen(calendarWrite), "DTSTAMP:%sT%s\n", tempCalEventWrite->creationDateTime.date, tempCalEventWrite->creationDateTime.time);
+                }
+                if(strlen(tempCalEventWrite->startDateTime.date) != 0)
+                {
+                    if(tempCalEventWrite->startDateTime.UTC == 1)
+                    {
+                        sprintf(calendarWrite + strlen(calendarWrite), "DTSTART:%sT%sZ\n", tempCalEventWrite->startDateTime.date, tempCalEventWrite->startDateTime.time);
+                    }
+                    else
+                    {
+                        sprintf(calendarWrite + strlen(calendarWrite), "DTSTART:%sT%s\n", tempCalEventWrite->startDateTime.date, tempCalEventWrite->startDateTime.time);
+                    }
+                }
+
+                void *calEventPropWriteElem;
+                ListIterator tempCalEventPropWriteIter = createIterator(tempCalEventWrite->properties);
+                while((calEventPropWriteElem = nextElement(&tempCalEventPropWriteIter)) != NULL)
+                {
+                    Property* tempCalEventPropWrite = (Property*)calEventPropWriteElem;
+                    sprintf(calendarWrite + strlen(calendarWrite), "%s:%s\n", tempCalEventPropWrite->propName, tempCalEventPropWrite->propDescr);
+                }
+
+                void *calEventAlarmWriteElem;
+                ListIterator tempCalEventAlarmWriteIter = createIterator(tempCalEventWrite->alarms);
+                while((calEventAlarmWriteElem = nextElement(&tempCalEventAlarmWriteIter)) != NULL)
+                {
+                    Alarm* tempCalEventAlarmWrite = (Alarm*)calEventAlarmWriteElem;
+                    sprintf(calendarWrite + strlen(calendarWrite), "BEGIN:VALARM\nACTION:%s\nTRIGGER:%s\n", tempCalEventAlarmWrite->action, tempCalEventAlarmWrite->trigger);
+                    void *calEventAlarmPropWriteElem;
+                    ListIterator tempCalEventAlarmPropWriteIter = createIterator(tempCalEventAlarmWrite->properties);
+                    while((calEventAlarmPropWriteElem = nextElement(&tempCalEventAlarmPropWriteIter)) != NULL)
+                    {
+                        Property* tempCalEventAlarmPropWrite = (Property*)calEventAlarmPropWriteElem;
+                        sprintf(calendarWrite + strlen(calendarWrite), "%s:%s\n", tempCalEventAlarmPropWrite->propName, tempCalEventAlarmPropWrite->propDescr);
+                    }
+                    sprintf(calendarWrite + strlen(calendarWrite), "END:VALARM\n");
+
+                }
+                sprintf(calendarWrite + strlen(calendarWrite), "END:VEVENT\n");
+            }
+            sprintf(calendarWrite + strlen(calendarWrite), "END:VCALENDAR\n");
+        }
+
+        return calendarWrite;
     }
 
     return NULL;

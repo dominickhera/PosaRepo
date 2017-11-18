@@ -12,24 +12,24 @@ import tktable
 
 class DateTime(Structure):
 	    _fields_ = [
-        ("date", c_byte * 9),
-        ("time", c_byte * 7),
+        ("date", c_char_p * 9),
+        ("time", c_char_p * 7),
         ("utc", c_bool)]
 
 class Property(Structure):
 	    _fields_ = [
-        ("propName", c_byte * 200),
+        ("propName", c_char_p * 200),
         ("propDescr", c_byte)]
 
 class Alarm(Structure):
 	    _fields_ = [
-        ("action", c_byte * 200),
-        ("trigger", c_byte),
+        ("action", c_char_p * 200),
+        ("trigger", c_char_p),
         ("properties", Property)]
 
 class Event(Structure):
 	    _fields_ = [
-        ("UID", c_byte * 1000),
+        ("UID", c_char_p * 1000),
         ("creationDateTime", DateTime),
         ("startDateTime", DateTime),
         ("properties", Property),
@@ -38,16 +38,9 @@ class Event(Structure):
 class Calendar(Structure):
     _fields_ = [
         ("version", c_float),
-        ("prodID", c_byte * 1000),
+        ("prodID", c_char_p * 1000),
         ("events", Event),
         ("properties", Property)]
-
-# class Calendar(Structure):
-#     _fields_ = [
-#         ("version", c_float),
-#         ("prodID", c_byte * 1000),
-#         ("events", c_void_p),
-#         ("properties", c_void_p)]
 
 
 calLibPath = './bin/parseLib.so'
@@ -96,26 +89,40 @@ def openFile():
 	# if we don't do this, Python will be unhappy
 	calPtr = POINTER(Calendar)()
 
+	returnVal = createCal(fStr,byref(calPtr))
 	#call the library function createCalendar() using our alias createCal
-	print('returned = ',createCal(fStr,byref(calPtr)))
+	print('returned = ', returnVal)
 
 	calStr = printCal(calPtr)
-
-	#and display the result
-	# print(calStr.decode("utf-8"))
+	calPrint = calStr.decode('utf-8').splitlines()
+	# print(calPrint[2])
+	calLength = len(calPrint)
+	for num in range(calLength):
+		fileViewPanel.insert(num, calPrint[num])
+	printErrorCode = callib.printError
+	printErrorCode.argtypes = [c_void_p]
+	printErrorCode.restype = c_char_p
+	errorCodeThing = cast(returnVal, c_void_p)
+	errorStr = printErrorCode(errorCodeThing)
 	logPanel.config(state=NORMAL)
-	logPanel.insert(INSERT, calStr.decode("utf-8"))
+	print(errorStr.decode('utf-8'))
+	logPanel.insert(INSERT, errorStr.decode("utf-8"))
 	logPanel.pack()
 	logPanel.config(state=DISABLED)
+	# printErrorCodeintoLog(errorCodeThing) 
+
 
 def saveFile():
 	initFilename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
 	filename = initFilename + ".ics"
 	print(basename(filename))
 
-def printErrorCodeintoLog():
-	errorCodeString = printErrorCode(createCal.restype)
-	logPanel.insert(INSERT, errorCodeString.decode("utf-8"))
+# def printErrorCodeintoLog(errorCodeThing):
+	# printErrorCode = callib.printErrorCode
+	# printErrorCode.argtypes [c_void_p]
+	# printErrorCode.restype = c_char_p
+	# errorCodeString = printErrorCode(createCal.restype)
+	# logPanel.insert(INSERT, errorCodeString.decode("utf-8"))
 
 def clearLog():
 	logPanel.config(state=NORMAL)
@@ -152,15 +159,9 @@ scrollbar.pack(side=RIGHT,fill=Y)
 # fileViewPanel = tktable.Table(root, rows=5,cols=5,height=15,yscrollcommand=scrollbar.set)
 
 fileViewPanel = Listbox(root,height=15,yscrollcommand=scrollbar.set)
-fileViewPanel.insert(1, "Python")
-fileViewPanel.insert(2, "Perl")
-fileViewPanel.insert(3, "C")
-fileViewPanel.insert(4, "PHP")
-fileViewPanel.insert(5, "JSP")
-fileViewPanel.insert(6, "Ruby")
 
 fileViewPanel.pack(side=TOP,fill=BOTH)
-# scrollbar.config(command=fileViewPanel.yview)
+scrollbar.config(command=fileViewPanel.yview)
 # Label(root, text="Calendar").grid(column=0)
 # Label(root, text="Events").grid(column=1)
 # file1 = Listbox(root,height=15)
