@@ -22,6 +22,7 @@
 #include "LinkedListAPI.h"
 #include "CalendarParser.h"
 
+Calendar* initializeCalendar();
 Event* initializeEvent(char* date, char* timeVal, char* UTC, char* dateTwo, char* timeValTwo, char* UTCTwo);
 Property* initializeProperty(char* propName, char* propDescr);
 Alarm* initializeAlarm(char* action, char* trigger);
@@ -191,9 +192,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
         // printf("line[%d]: %s\n", i, lineStorage[i]);
         if((strcasestr(lineStorage[i], "BEGIN")) && (strcasestr(lineStorage[i], "VCALENDAR")) && calendarFlag == 0)
         {
-            parseCalendar = malloc(sizeof(Calendar));
-            parseCalendar->events = initializeList(NULL, NULL, NULL);
-            parseCalendar->properties = initializeList(NULL, NULL, NULL);
+            parseCalendar = initializeCalendar();
             // (*obj) = malloc(sizeof(Calendar));
             // parseCalendar = initializeCalendar();
             calendarFlag++;
@@ -1679,6 +1678,15 @@ char* printError(ICalErrorCode err)
 
     return errorCodeReturn;
 
+}
+
+Calendar* initializeCalendar()
+{
+    Calendar * tempCal = malloc(sizeof(Calendar));
+    tempCal->events = initializeList(NULL, NULL, NULL);
+    tempCal->properties = initializeList(NULL, NULL, NULL);
+
+    return tempCal;
 }
 
 Event* initializeEvent(char* date, char* timeVal, char* UTC, char* dateTwo, char* timeValTwo, char* UTCTwo)
