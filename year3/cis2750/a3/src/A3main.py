@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from ctypes	import*
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import *
@@ -8,6 +9,43 @@ from os.path import basename
 # import tkFileDialog
 # import tkMessageBox
 import tktable
+
+class DateTime(Structure):
+	    _fields_ = [
+        ("date", c_char_p * 9),
+        ("time", c_char_p * 7),
+        ("utc", c_bool)]
+
+class Property(Structure):
+	    _fields_ = [
+        ("propName", c_char_p * 200),
+        ("propDescr", c_byte)]
+
+class Alarm(Structure):
+	    _fields_ = [
+        ("action", c_char_p * 200),
+        ("trigger", c_char_p),
+        ("properties", Property)]
+
+class Event(Structure):
+	    _fields_ = [
+        ("UID", c_char_p * 1000),
+        ("creationDateTime", DateTime),
+        ("startDateTime", DateTime),
+        ("properties", Property),
+        ("alarms", Alarm)]
+
+class Calendar(Structure):
+    _fields_ = [
+        ("version", c_float),
+        ("prodID", c_char_p * 1000),
+        ("events", Event),
+        ("properties", Property)]
+
+
+calLibPath = './bin/parseLib.so'
+callib = CDLL(calLibPath)
+
 
 def donothing():
    filewin = Toplevel(root)
@@ -29,15 +67,68 @@ def failSafeExit():
 		root.quit()
 
 def openFile():
-	result = filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
-	if result == True:
-		root.title("iCalGUI - " + basename(filename))
+	filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
+	# if filename == True:
+	root.title("iCalGUI - " + basename(filename))
+		# openFileName = basename(filename)
+
+	# filename = './assets/test2.ics'
+	fStr = filename.encode('utf-8')
+
+	createCal = callib.createCalendar
+	createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
+	createCal.restype = c_int
+
+	printCal = callib.printCalendar
+
+	# Help the Python compiler figure out the types for the function  
+	printCal.argtypes = [POINTER(Calendar)] #this can also be commented out
+	printCal.restype = c_char_p             #this CANNOT be commented out! Otherwise Python will decide that printCal returns an int!
+
+	# create a variable that will store the pointer to the calendar
+	# if we don't do this, Python will be unhappy
+	calPtr = POINTER(Calendar)()
+
+	returnVal = createCal(fStr,byref(calPtr))
+	#call the library function createCalendar() using our alias createCal
+	print('returned = ', returnVal)
+
+	calStr = printCal(calPtr)
+	calPrint = calStr.decode('utf-8').splitlines()
+	# print(calPrint[2])
+	calLength = len(calPrint)
+	for num in range(calLength):
+		fileViewPanel.insert(num, calPrint[num])
+	printErrorCode = callib.printError
+	printErrorCode.argtypes = [c_void_p]
+	printErrorCode.restype = c_char_p
+	errorCodeThing = cast(returnVal, c_void_p)
+	errorStr = printErrorCode(errorCodeThing)
+	logPanel.config(state=NORMAL)
+	print(errorStr.decode('utf-8'))
+	logPanel.insert(INSERT, errorStr.decode("utf-8"))
+	logPanel.pack()
+	logPanel.config(state=DISABLED)
+	# printErrorCodeintoLog(errorCodeThing) 
+
 
 def saveFile():
 	initFilename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
 	filename = initFilename + ".ics"
 	print(basename(filename))
 
+# def printErrorCodeintoLog(errorCodeThing):
+	# printErrorCode = callib.printErrorCode
+	# printErrorCode.argtypes [c_void_p]
+	# printErrorCode.restype = c_char_p
+	# errorCodeString = printErrorCode(createCal.restype)
+	# logPanel.insert(INSERT, errorCodeString.decode("utf-8"))
+
+def clearLog():
+	logPanel.config(state=NORMAL)
+	logPanel.delete(1.0,END)
+	logPanel.pack()
+	logPanel.config(state=DISABLED)
 
 
 root = Tk()
@@ -67,16 +158,10 @@ scrollbar.pack(side=RIGHT,fill=Y)
 
 # fileViewPanel = tktable.Table(root, rows=5,cols=5,height=15,yscrollcommand=scrollbar.set)
 
-# fileViewPanel = Listbox(root,height=15,yscrollcommand=scrollbar.set)
-# fileViewPanel.insert(1, "Python")
-# fileViewPanel.insert(2, "Perl")
-# fileViewPanel.insert(3, "C")
-# fileViewPanel.insert(4, "PHP")
-# fileViewPanel.insert(5, "JSP")
-# fileViewPanel.insert(6, "Ruby")
+fileViewPanel = Listbox(root,height=15,yscrollcommand=scrollbar.set)
 
-# fileViewPanel.pack(side=TOP,fill=BOTH)
-# scrollbar.config(command=fileViewPanel.yview)
+fileViewPanel.pack(side=TOP,fill=BOTH)
+scrollbar.config(command=fileViewPanel.yview)
 # Label(root, text="Calendar").grid(column=0)
 # Label(root, text="Events").grid(column=1)
 # file1 = Listbox(root,height=15)
@@ -89,8 +174,8 @@ scrollbar2 = Scrollbar(root)
 scrollbar2.pack(side=RIGHT,fill=Y)
 
 logPanel = Text(root,width=50,height=8,yscrollcommand=scrollbar2.set)
-logPanel.insert(INSERT, "1\n2\n3\n4\n5\n6\n7\n8\n")
-logPanel.insert(END, "9")
+# logPanel.insert(INSERT, "1\n2\n3\n4\n5\n6\n7\n8\n")
+# logPanel.insert(END, "9")
 # logPanel.pack(side=BOTTOM)
 logPanel.pack()
 logPanel.config(state=DISABLED)
@@ -98,7 +183,7 @@ logPanel.tag_add("here", "1.0", "1.4")
 logPanel.tag_add("start", "1.8", "1.13")
 scrollbar2.config(command=logPanel.yview)
 
-clearButton = Button(root, text="Clear", command=donothing)
+clearButton = Button(root, text="Clear", command=clearLog)
 clearButton.pack(side=BOTTOM)
 # clearButton.config(side=BOTTOM)
 
