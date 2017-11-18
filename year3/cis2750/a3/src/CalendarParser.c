@@ -2,7 +2,7 @@
 
  * CIS2750 F2017
 
- * Assignment 2
+ * Assignment 3
 
  * Dominick Hera 0943778
 
@@ -166,19 +166,19 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
             }
             else
             {
-                printf("inv1\n");
+                // printf("inv1\n");
                 return INV_FILE;
             }
         }
         else
         {
-            printf("inv2\n");
+            // printf("inv2\n");
             return INV_FILE;
         }
     }
     else
     {
-        printf("inv3\n");
+        // printf("inv3\n");
         return INV_FILE;
     }
 
@@ -399,7 +399,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
 
             if((!strcasestr(DSTAMPStorage, "T")) || tempThirdVal > 7 || tempCount > 9 || tempThirdVal < 5 || tempCount < 7)
             {
-                printf("inv thing 1\n");
+                // printf("inv thing 1\n");
                 return INV_CREATEDT;
             }
             else
@@ -501,7 +501,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
 
             if((!strcasestr(DSTARTStorage, "T")) || tempThirdVal > 7 || tempCount > 9 || tempThirdVal < 5 || tempCount < 7)
             {
-                printf("inv thing 2\n");
+                // printf("inv thing 2\n");
                 return INV_EVENT;
             }
             else
@@ -725,7 +725,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
             // printf("tempstorage trigger is %s size is %d\n", newOtherTempStorage, tempSize);
             if(newOtherTempStorage[0] == '\0' && alarmTriggerStorage[totalAlarmCount] != NULL)
             {
-                printf("5\n");
+                // printf("5\n");
                 return INV_EVENT;
 
                 // printf("tempsize isnt 0\n");
@@ -758,7 +758,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
 
             if(tempStorage[0] == '\0')
             {
-                printf("6\n");
+                // printf("6\n");
                 return INV_EVENT;
             }
             // tempStorage[tempSize - 1] = '\0';
@@ -787,7 +787,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
         }
         else if((strcasestr(lineStorage[i], "VERSION")) && versionFlag == 1)
         {
-            printf("hullo this shis is a dupe\n");
+            // printf("hullo this shis is a dupe\n");
             return DUP_VER;
         }
         else if((strcasestr(lineStorage[i], "PRODID")) && proidFlag == 1)
@@ -802,14 +802,14 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
         {
             // if(!(strcasestr(lineStorage[i],"VEVENT")) && !(strcasestr(lineStorage[i],"VCALENDAR")) && !(strcasestr(lineStorage[i],"VALARM")))
             // {
-            printf("2lol at line[%d]: %s\n", i, lineStorage[i]);
+            // printf("2lol at line[%d]: %s\n", i, lineStorage[i]);
             return INV_CAL;
             // }
         }
         else if(((strcasestr(lineStorage[i], "SUMMARY")) &&  eventFlag == 0 && calendarFlag == 1))
         {
             // printf("moop\n");
-            printf("3\n");
+            // printf("3\n");
             return INV_CAL;
         }
         //alarm property
@@ -866,7 +866,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
             }  
             else
             {
-                printf("6\n");
+                // printf("6\n");
                 return INV_EVENT;
             } 
 
@@ -994,7 +994,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
             }  
             else
             {
-                printf("7\n");
+                // printf("7\n");
                 return INV_EVENT;
             } 
             tempSize = 0;
@@ -1042,7 +1042,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
             {
                 if(strcmp(calendarPropNameStorage[k], newTempStorage) == 0)
                 {
-                    printf("4\n");
+                    // printf("4\n");
                     return INV_CAL;
                 }
             }
@@ -1073,7 +1073,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
             }  
             else
             {
-                printf("8\n");
+                // printf("8\n");
                 return INV_EVENT;
             } 
             tempSize = 0;
@@ -1090,21 +1090,21 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
     // printf("\n\nfucker\ncalendarflag: %d, proidFlag: %d, versionFlag: %d, eventFlag:%d\n\n", calendarFlag, proidFlag, versionFlag, eventFlag);
     if(calendarFlag != 2 || proidFlag != 1 || versionFlag != 1 || eventFlag != 0)
     {
-        printf("5\n");
+        // printf("5\n");
         // printf("\n\ninter\ncalendarflag: %d, proidFlag: %d, versionFlag: %d, eventFlag:%d\n\n", calendarFlag, proidFlag, versionFlag, eventFlag);
         return INV_CAL;
     }
     else if(uidFlag != 0 || dstampFlag != 0)
     {
-        printf("p00py\n");
-        printf("uid flag is at %d, dstamp flag is at %d\n", uidFlag, dstampFlag);
+        // printf("p00py\n");
+        // printf("uid flag is at %d, dstamp flag is at %d\n", uidFlag, dstampFlag);
         return INV_EVENT;
     }
     else
     {
         if(calendarFlag == 1)
         {
-            printf("6\n");
+            // printf("6\n");
             return INV_CAL;
         }
         // printf("version flag is %d at the end\n\n", versionFlag);
@@ -1194,7 +1194,7 @@ ICalErrorCode writeCalendar(char* fileName, const Calendar* obj)
                     sprintf(calendarWrite + strlen(calendarWrite), "END:VEVENT\n");
                 }
                 sprintf(calendarWrite + strlen(calendarWrite), "END:VCALENDAR\n");
-                printf("hello there?\n");
+                // printf("hello there?\n");
 
                 // for(int k = 0; k < count; k++)
                 // {
@@ -1219,19 +1219,19 @@ ICalErrorCode writeCalendar(char* fileName, const Calendar* obj)
             }
             else
             {
-                printf("somethings fucky\n");
+                // printf("somethings fucky\n");
                 return WRITE_ERROR;
             }
         }
         else
         {
-            printf("nah you fucky\n");
+            // printf("nah you fucky\n");
             return WRITE_ERROR;
         }
     }
     else
     {
-        printf("hella fucky\n");
+        // printf("hella fucky\n");
         return WRITE_ERROR;
     }
     return OK;
@@ -1277,7 +1277,7 @@ ICalErrorCode validateCalendar(const Calendar* obj)
 
                 if(strlen(tempCalEventCheck->creationDateTime.time) == 0)
                 {
-                    printf("inv thing 3\n");
+                    // printf("inv thing 3\n");
                     return INV_CREATEDT;
                 }
 
@@ -1289,8 +1289,8 @@ ICalErrorCode validateCalendar(const Calendar* obj)
 
                 if(strlen(tempCalEventCheck->UID) == 0)
                 {
-                    printf("inv evnet 1\n");
-                    printf("UID: %s\n", tempCalEventCheck->UID);
+                    // printf("inv evnet 1\n");
+                    // printf("UID: %s\n", tempCalEventCheck->UID);
                     return DUP_PRODID;
                 }
                 // else
@@ -1321,13 +1321,13 @@ ICalErrorCode validateCalendar(const Calendar* obj)
 
                         if(strlen(tempEventPropCheck->propName) == 0)
                         {
-                            printf("e1\n");
+                            // printf("e1\n");
                             return INV_EVENT;
                         }
 
                         if(strlen(tempEventPropCheck->propDescr) == 0)
                         {
-                            printf("e2\n");
+                            // printf("e2\n");
                             return INV_EVENT;
                         }
                         // lengthCheck++;
@@ -1350,20 +1350,20 @@ ICalErrorCode validateCalendar(const Calendar* obj)
 
                                 if(strcmp(tempEventPropCheck->propName, eventPropDupeCheck->propName) == 0)
                                 {
-                                    printf("e3\n");
-                                    printf("og name: %s, dupecheck name: %s\nog dscr: %s, dupecheck dscr: %s\n", tempEventPropCheck->propName, eventPropDupeCheck->propName, tempEventPropCheck->propDescr, eventPropDupeCheck->propDescr);
+                                    // printf("e3\n");
+                                    // printf("og name: %s, dupecheck name: %s\nog dscr: %s, dupecheck dscr: %s\n", tempEventPropCheck->propName, eventPropDupeCheck->propName, tempEventPropCheck->propDescr, eventPropDupeCheck->propDescr);
                                     return INV_EVENT;
                                 }
 
                                 if(strcmp(tempEventPropCheck->propDescr, eventPropDupeCheck->propDescr) == 0)
                                 {
-                                    printf("e4\n");
+                                    // printf("e4\n");
                                     return INV_EVENT;
                                 }
 
                                 if(strcasestr(eventPropDupeCheck->propName, "Duration"))
                                 {
-                                    printf("e5\n");
+                                    // printf("e5\n");
                                     return INV_EVENT;
                                 }
 
@@ -1501,7 +1501,7 @@ ICalErrorCode validateCalendar(const Calendar* obj)
 
 void deleteCalendar(Calendar* obj)
 {
-    printf("f000k\n\n\n");
+    // printf("f000k\n\n\n");
     if(obj != NULL)
     {
         void *calPropDeleteElem;

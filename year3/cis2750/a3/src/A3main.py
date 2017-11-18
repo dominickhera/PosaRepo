@@ -1,4 +1,23 @@
 #!/usr/bin/python
+
+# /*
+
+#  * CIS2750 F2017
+
+#  * Assignment 2
+
+#  * Dominick Hera 0943778
+
+#  * This file contains the implementation of the linked List API that also utilises an iterator to traverse through the doubly linked list.
+
+#  * This implementation is based on the List API that I implemented in my Assignment 2 for CIS2520, which I took
+
+#  * in the summer of 2017 with professor Judi McCuaig.  The permission to use my CIS2520 code in CIS2750 was obtained on my behalf by
+
+#  * my current CIS2750 professor, Denis Nikitenko.
+
+#  */
+
 from ctypes	import*
 from tkinter import filedialog
 from tkinter import messagebox
@@ -12,40 +31,56 @@ import tktable
 
 class DateTime(Structure):
 	    _fields_ = [
-        ("date", c_char_p * 9),
-        ("time", c_char_p * 7),
+        ("date", c_byte * 9),
+        ("time", c_byte * 7),
         ("utc", c_bool)]
 
 class Property(Structure):
 	    _fields_ = [
-        ("propName", c_char_p * 200),
-        ("propDescr", c_byte)]
+        ("propName", c_byte * 200),
+        ("propDescr", c_byte * 200)]
 
 class Alarm(Structure):
 	    _fields_ = [
-        ("action", c_char_p * 200),
-        ("trigger", c_char_p),
+        ("action", c_byte * 200),
+        ("trigger", c_byte * 200),
         ("properties", Property)]
 
 class Event(Structure):
 	    _fields_ = [
         ("UID", c_char_p * 1000),
-        ("creationDateTime", DateTime),
-        ("startDateTime", DateTime),
-        ("properties", Property),
-        ("alarms", Alarm)]
+        ("creationDateTime", DateTime * 100),
+        ("startDateTime", DateTime * 100),
+        ("properties", Property * 100),
+        ("alarms", Alarm * 100)]
 
 class Calendar(Structure):
     _fields_ = [
         ("version", c_float),
         ("prodID", c_char_p * 1000),
-        ("events", Event),
-        ("properties", Property)]
+        ("events", Event * 20),
+        ("properties", Property * 20)]
 
 
 calLibPath = './bin/parseLib.so'
 callib = CDLL(calLibPath)
 
+listLibPath = './bin/listLib.so'
+listLib = CDLL(listLibPath)
+
+createCal = callib.createCalendar
+createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
+createCal.restype = c_int
+
+printErrorCode = callib.printError
+printErrorCode.argtypes = [c_void_p]
+printErrorCode.restype = c_char_p
+
+printCal = callib.printCalendar
+
+	# Help the Python compiler figure out the types for the function  
+printCal.argtypes = [POINTER(Calendar)] #this can also be commented out
+printCal.restype = c_char_p     
 
 def donothing():
    filewin = Toplevel(root)
@@ -61,11 +96,6 @@ def createEvent():
 def aboutApp():
 	messagebox.showinfo("iCalGUI About", "iCalGUI was created by Dominick Hera\nYou can find more of my work on dominickhera.com")
 
-def failSafeExit():
-	result = messagebox.askyesno("Exit?", "Are you sure you want to exit?")
-	if result == True:
-		root.quit()
-
 def openFile():
 	filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
 	# if filename == True:
@@ -75,15 +105,15 @@ def openFile():
 	# filename = './assets/test2.ics'
 	fStr = filename.encode('utf-8')
 
-	createCal = callib.createCalendar
-	createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
-	createCal.restype = c_int
+	# createCal = callib.createCalendar
+	# createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
+	# createCal.restype = c_int
 
-	printCal = callib.printCalendar
+	# printCal = callib.printCalendar
 
-	# Help the Python compiler figure out the types for the function  
-	printCal.argtypes = [POINTER(Calendar)] #this can also be commented out
-	printCal.restype = c_char_p             #this CANNOT be commented out! Otherwise Python will decide that printCal returns an int!
+	# # Help the Python compiler figure out the types for the function  
+	# printCal.argtypes = [POINTER(Calendar)] #this can also be commented out
+	# printCal.restype = c_char_p             #this CANNOT be commented out! Otherwise Python will decide that printCal returns an int!
 
 	# create a variable that will store the pointer to the calendar
 	# if we don't do this, Python will be unhappy
@@ -99,9 +129,9 @@ def openFile():
 	calLength = len(calPrint)
 	for num in range(calLength):
 		fileViewPanel.insert(num, calPrint[num])
-	printErrorCode = callib.printError
-	printErrorCode.argtypes = [c_void_p]
-	printErrorCode.restype = c_char_p
+	# printErrorCode = callib.printError
+	# printErrorCode.argtypes = [c_void_p]
+	# printErrorCode.restype = c_char_p
 	errorCodeThing = cast(returnVal, c_void_p)
 	errorStr = printErrorCode(errorCodeThing)
 	logPanel.config(state=NORMAL)
@@ -117,18 +147,21 @@ def saveFile():
 	filename = initFilename + ".ics"
 	print(basename(filename))
 
-# def printErrorCodeintoLog(errorCodeThing):
-	# printErrorCode = callib.printErrorCode
-	# printErrorCode.argtypes [c_void_p]
-	# printErrorCode.restype = c_char_p
-	# errorCodeString = printErrorCode(createCal.restype)
-	# logPanel.insert(INSERT, errorCodeString.decode("utf-8"))
 
 def clearLog():
 	logPanel.config(state=NORMAL)
 	logPanel.delete(1.0,END)
 	logPanel.pack()
 	logPanel.config(state=DISABLED)
+
+def failSafeExit():
+	result = messagebox.askyesno("Exit?", "Are you sure you want to exit?")
+	if result == True:
+		deleteCal = callib.deleteCalendar
+		deleteCal.argtypes = [POINTER(Calendar)]
+		calDelPtr = POINTER(Calendar)()
+		deleteCal(calDelPtr)
+		root.quit()
 
 
 root = Tk()
