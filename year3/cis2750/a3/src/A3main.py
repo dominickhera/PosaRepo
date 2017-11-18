@@ -27,7 +27,6 @@ import os.path
 from os.path import basename
 # import tkFileDialog
 # import tkMessageBox
-import tktable
 
 class DateTime(Structure):
 	    _fields_ = [
