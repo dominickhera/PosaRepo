@@ -87,10 +87,22 @@ def donothing():
    button.pack()
 
 def createCalendar():
-	print("lolcats")
+   createCalPrompt = Toplevel(root)
+   L1 = Label(createCalPrompt, text="User Name")
+   L1.pack( side = LEFT)
+   E1 = Entry(createCalPrompt, bd =5)
+   E1.pack(side = RIGHT)
+   button = Button(createCalPrompt, text="Do nothing button")
+   button.pack()
 
 def createEvent():
-	print("othercats")
+   createEventPrompt = Toplevel(root)
+   L2 = Label(createEventPrompt, text="User Name")
+   L2.pack( side = LEFT)
+   E2 = Entry(createEventPrompt, bd =5)
+   E2.pack(side = RIGHT)
+   button = Button(createEventPrompt, text="Do nothing button")
+   button.pack()
 
 def aboutApp():
 	messagebox.showinfo("iCalGUI About", "iCalGUI was created by Dominick Hera\nYou can find more of my work on dominickhera.com")
