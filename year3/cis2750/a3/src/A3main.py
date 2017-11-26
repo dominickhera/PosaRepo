@@ -87,13 +87,23 @@ def donothing():
    button.pack()
 
 def createCalendar():
-   createCalPrompt = Toplevel(root)
-   L1 = Label(createCalPrompt, text="User Name")
-   L1.pack( side = LEFT)
-   E1 = Entry(createCalPrompt, bd =5)
-   E1.pack(side = RIGHT)
-   button = Button(createCalPrompt, text="Do nothing button")
-   button.pack()
+	createCalPrompt = Toplevel(root)
+	TextArea = Text(createCalPrompt)
+	ScrollBar = Scrollbar(root)
+	ScrollBar.config(command=TextArea.yview)
+	TextArea.config(yscrollcommand=ScrollBar.set)
+	ScrollBar.pack(side=RIGHT, fill=Y)
+	TextArea.pack(expand=YES, fill=BOTH)
+	button = Button(createCalPrompt, text="Do nothing button")
+	button.pack()
+    # button.pack(side = BOTTOM)
+   # createCalPrompt = Toplevel(root)
+   # L1 = Label(createCalPrompt, text="User Name")
+   # L1.pack()
+   # E1 = Entry(createCalPrompt, bd =5)
+   # E1.pack()
+    # button = Button(createCalPrompt, text="Do nothing button")
+    # button.pack(side = BOTTOM)
 
 def createEvent():
    createEventPrompt = Toplevel(root)
@@ -102,7 +112,7 @@ def createEvent():
    E2 = Entry(createEventPrompt, bd =5)
    E2.pack(side = RIGHT)
    button = Button(createEventPrompt, text="Do nothing button")
-   button.pack()
+   button.pack(side = BOTTOM)
 
 def aboutApp():
 	messagebox.showinfo("iCalGUI About", "iCalGUI was created by Dominick Hera\nYou can find more of my work on dominickhera.com")
