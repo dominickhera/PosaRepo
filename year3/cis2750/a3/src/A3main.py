@@ -92,6 +92,7 @@ def printVals(Eo1,Eo2):
 
 def createCalendar():
 	createCalPrompt = Toplevel(root)
+<<<<<<< HEAD
 	L1 = Label(createCalPrompt, text="User Name")
 	L1.pack()
 	Eo1 = Entry(createCalPrompt)
@@ -133,6 +134,24 @@ def createEvent():
 	E6.pack()
 	button = Button(createEventPrompt, text="Do nothing button")
 	button.pack(side = BOTTOM)
+=======
+	TextArea = Text(createCalPrompt)
+	ScrollBar = Scrollbar(root)
+	ScrollBar.config(command=TextArea.yview)
+	TextArea.config(yscrollcommand=ScrollBar.set)
+	ScrollBar.pack(side=RIGHT, fill=Y)
+	TextArea.pack(side=LEFT, fill=BOTH)
+	button = Button(createCalPrompt, text="Do nothing button")
+	button.pack()
+def createEvent():
+   createEventPrompt = Toplevel(root)
+   L2 = Label(createEventPrompt, text="User Name")
+   L2.pack( side = LEFT)
+   E2 = Entry(createEventPrompt)
+   E2.pack(side = RIGHT)
+   button = Button(createEventPrompt, text="Do nothing button")
+   button.pack(side = BOTTOM)
+>>>>>>> 212e8c62e989549988bda11bbebf3dfbccf338e3
 
 def aboutApp():
 	messagebox.showinfo("iCalGUI About", "iCalGUI was created by Dominick Hera\nYou can find more of my work on dominickhera.com")
