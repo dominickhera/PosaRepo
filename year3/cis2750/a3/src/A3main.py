@@ -4,7 +4,7 @@
 
 #  * CIS2750 F2017
 
-#  * Assignment 2
+#  * Assignment 3
 
 #  * Dominick Hera 0943778
 
@@ -20,13 +20,12 @@
 
 from ctypes	import*
 from tkinter import filedialog
+import tkinter.simpledialog
 from tkinter import messagebox
 from tkinter import *
 import tkinter
 import os.path
 from os.path import basename
-# import tkFileDialog
-# import tkMessageBox
 
 class DateTime(Structure):
 	    _fields_ = [
@@ -81,206 +80,163 @@ printCal = callib.printCalendar
 printCal.argtypes = [POINTER(Calendar)] #this can also be commented out
 printCal.restype = c_char_p     
 
-def donothing():
-   filewin = Toplevel(root)
-   button = Button(filewin, text="Do nothing button")
-   button.pack()
 
-def printVals(Eo1,Eo2):
-	print("height")
-	# print()
+class createCalendarWindow(object):
+	def __init__(self,master):
+		top=self.top=Toplevel(master)
+		self.L1 = Label(top, text="UID").grid(row=0, stick=W)
+		# self.L2 = Label(top, text="Second Label").grid(row=1,sticky=W)
+		self.E1 = Entry(top)
+		self.E1.grid(row=0,column=1)
+		# self.E2 = Entry(top).grid(row=1,column=1)
+		self.submitButton = Button(top, text="Create Calendar",command=self.cleanUp).grid(row=2,sticky=W)
+	def cleanUp(self):
+		print(self.E1.get())
+		self.top.destroy()
 
-def createCalendar():
-	createCalPrompt = Toplevel(root)
-<<<<<<< HEAD
-	L1 = Label(createCalPrompt, text="User Name")
-	L1.pack()
-	Eo1 = Entry(createCalPrompt)
-	Eo1.pack()
-	L2 = Label(createCalPrompt, text="User Name")
-	L2.pack()
-	Eo2 = Entry(createCalPrompt)
-	Eo2.pack()
-	print(Eo1.get())
-	print(Eo2.get())
-	button = Button(createCalPrompt, text="Do nothing button", command=printVals(Eo1.get(),Eo2.get()))
-	button.pack(side = BOTTOM)
-
-def createEvent():
-	createEventPrompt = Toplevel(root)
-	L1 = Label(createEventPrompt, text="User Name")
-	L1.pack()
-	E1 = Entry(createEventPrompt)
-	E1.pack()
-	L2 = Label(createEventPrompt, text="User Name")
-	L2.pack()
-	E2 = Entry(createEventPrompt)
-	E2.pack()
-	L3 = Label(createEventPrompt, text="User Name")
-	L3.pack()
-	E3 = Entry(createEventPrompt)
-	E3.pack()
-	L4 = Label(createEventPrompt, text="User Name")
-	L4.pack()
-	E4 = Entry(createEventPrompt)
-	E4.pack()
-	L5 = Label(createEventPrompt, text="User Name")
-	L5.pack()
-	E5 = Entry(createEventPrompt)
-	E5.pack()
-	L6 = Label(createEventPrompt, text="User Name")
-	L6.pack()
-	E6 = Entry(createEventPrompt)
-	E6.pack()
-	button = Button(createEventPrompt, text="Do nothing button")
-	button.pack(side = BOTTOM)
-=======
-	TextArea = Text(createCalPrompt)
-	ScrollBar = Scrollbar(root)
-	ScrollBar.config(command=TextArea.yview)
-	TextArea.config(yscrollcommand=ScrollBar.set)
-	ScrollBar.pack(side=RIGHT, fill=Y)
-	TextArea.pack(side=LEFT, fill=BOTH)
-	button = Button(createCalPrompt, text="Do nothing button")
-	button.pack()
-def createEvent():
-   createEventPrompt = Toplevel(root)
-   L2 = Label(createEventPrompt, text="User Name")
-   L2.pack( side = LEFT)
-   E2 = Entry(createEventPrompt)
-   E2.pack(side = RIGHT)
-   button = Button(createEventPrompt, text="Do nothing button")
-   button.pack(side = BOTTOM)
->>>>>>> 212e8c62e989549988bda11bbebf3dfbccf338e3
-
-def aboutApp():
-	messagebox.showinfo("iCalGUI About", "iCalGUI was created by Dominick Hera\nYou can find more of my work on dominickhera.com")
-
-def openFile():
-	filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
-	# if filename == True:
-	root.title("iCalGUI - " + basename(filename))
-		# openFileName = basename(filename)
-
-	# filename = './assets/test2.ics'
-	fStr = filename.encode('utf-8')
-
-	# createCal = callib.createCalendar
-	# createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
-	# createCal.restype = c_int
-
-	# printCal = callib.printCalendar
-
-	# # Help the Python compiler figure out the types for the function  
-	# printCal.argtypes = [POINTER(Calendar)] #this can also be commented out
-	# printCal.restype = c_char_p             #this CANNOT be commented out! Otherwise Python will decide that printCal returns an int!
-
-	# create a variable that will store the pointer to the calendar
-	# if we don't do this, Python will be unhappy
-	calPtr = POINTER(Calendar)()
-
-	returnVal = createCal(fStr,byref(calPtr))
-	#call the library function createCalendar() using our alias createCal
-	print('returned = ', returnVal)
-
-	calStr = printCal(calPtr)
-	calPrint = calStr.decode('utf-8').splitlines()
-	# print(calPrint[2])
-	calLength = len(calPrint)
-	for num in range(calLength):
-		fileViewPanel.insert(num, calPrint[num])
-	# printErrorCode = callib.printError
-	# printErrorCode.argtypes = [c_void_p]
-	# printErrorCode.restype = c_char_p
-	errorCodeThing = cast(returnVal, c_void_p)
-	errorStr = printErrorCode(errorCodeThing)
-	logPanel.config(state=NORMAL)
-	print(errorStr.decode('utf-8'))
-	logPanel.insert(INSERT, errorStr.decode("utf-8"))
-	logPanel.pack()
-	logPanel.config(state=DISABLED)
-	# printErrorCodeintoLog(errorCodeThing) 
+class createEventWindow(object):
+	def __init__(self,master):
+		top=self.top=Toplevel(master)
+		self.L2 = Label(top, text="UID").grid(row=0, stick=W)
+		# self.L2 = Label(top, text="Second Label").grid(row=1,sticky=W)
+		self.E2 = Entry(top)
+		self.E2.grid(row=0,column=1)
+		# self.E2 = Entry(top).grid(row=1,column=1)
+		self.submitButton = Button(top, text="Create Calendar",command=self.cleanUp).grid(row=2,sticky=W)
+	def cleanUp(self):
+		print(self.E2.get())
+		self.top.destroy()
 
 
-def saveFile():
-	initFilename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
-	filename = initFilename + ".ics"
-	print(basename(filename))
+class main(object):
+	def __init__(self,master):
+		self.master=master
+		self.menubar = Menu(root)
+		self.filemenu = Menu(self.menubar, tearoff=0)
+		self.filemenu.add_command(label="Open", accelerator="Ctrl+O", command=self.openFile)
+		self.filemenu.add_command(label="Save",  accelerator="Ctrl+S")
+		self.filemenu.add_command(label="Save as...", command=self.saveFile)
+		self.filemenu.add_separator()
+		self.filemenu.add_command(label="Exit", command=self.failSafeExit, accelerator="Ctrl+X")
+		self.menubar.add_cascade(label="File", menu=self.filemenu)
+		self.filemenu.bind_all("<Control-X>", self.failSafeExit)
+		self.filemenu.bind_all("<Control-s>", self.donothing)
+		self.createmenu = Menu(self.menubar, tearoff=0)
+		self.createmenu.add_command(label="Create Calendar", command=self.createCalEvent)
+		self.createmenu.add_command(label="Create Event", command=self.createEventEvent)
+		self.menubar.add_cascade(label="Create", menu=self.createmenu)
+		self.helpmenu = Menu(self.menubar, tearoff=0)
+		self.helpmenu.add_command(label="About iCalGUI...", command=self.aboutApp)
+		self.menubar.add_cascade(label="Help", menu=self.helpmenu)
+		self.scrollbar = Scrollbar(root)
+		self.scrollbar.pack(side=RIGHT,fill=Y)
+		self.fileViewPanel = Listbox(root,height=15,yscrollcommand=self.scrollbar.set)
+		self.fileViewPanel.pack(side=TOP,fill=BOTH)
+		self.scrollbar.config(command=self.fileViewPanel.yview)
+		self.scrollbar2 = Scrollbar(root)
+		self.scrollbar2.pack(side=RIGHT,fill=Y)
+		self.logPanel = Text(root,width=50,height=8,yscrollcommand=self.scrollbar2.set)
+		self.logPanel.pack()
+		self.logPanel.config(state=DISABLED)
+		self.logPanel.tag_add("here", "1.0", "1.4")
+		self.logPanel.tag_add("start", "1.8", "1.13")
+		self.scrollbar2.config(command=self.logPanel.yview)
+		self.clearButton = Button(root, text="Clear", command=self.clearLog)
+		self.clearButton.pack(side=BOTTOM)
+		self.master.config(menu=self.menubar)
+		self.master.protocol("WM_DELETE_WINDOW", self.failSafeExit)
+
+	def createCalEvent(self):
+		self.w=createCalendarWindow(self.master)
+		self.master.wait_window(self.w.top)
+
+	def createEventEvent(self):
+		self.w=createEventWindow(self.master)
+		self.master.wait_window(self.w.top)
+
+	def entryValue(self):
+		return self.w.value
+
+	def aboutApp(self):
+		messagebox.showinfo("iCalGUI About", "iCalGUI was created by Dominick Hera\nYou can find more of my work on dominickhera.com")
+
+	def openFile(self):
+		filename = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
+		# if filename == True:
+		root.title("iCalGUI - " + basename(filename))
+			# openFileName = basename(filename)
+
+		# filename = './assets/test2.ics'
+		fStr = filename.encode('utf-8')
+
+		# createCal = callib.createCalendar
+		# createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
+		# createCal.restype = c_int
+
+		# printCal = callib.printCalendar
+
+		# # Help the Python compiler figure out the types for the function  
+		# printCal.argtypes = [POINTER(Calendar)] #this can also be commented out
+		# printCal.restype = c_char_p             #this CANNOT be commented out! Otherwise Python will decide that printCal returns an int!
+
+		# create a variable that will store the pointer to the calendar
+		# if we don't do this, Python will be unhappy
+		calPtr = POINTER(Calendar)()
+
+		returnVal = createCal(fStr,byref(calPtr))
+		#call the library function createCalendar() using our alias createCal
+		print('returned = ', returnVal)
+
+		calStr = printCal(calPtr)
+		calPrint = calStr.decode('utf-8').splitlines()
+		# print(calPrint[2])
+		calLength = len(calPrint)
+		for num in range(calLength):
+			self.fileViewPanel.insert(num, calPrint[num])
+		# printErrorCode = callib.printError
+		# printErrorCode.argtypes = [c_void_p]
+		# printErrorCode.restype = c_char_p
+		errorCodeThing = cast(returnVal, c_void_p)
+		errorStr = printErrorCode(errorCodeThing)
+		self.logPanel.config(state=NORMAL)
+		print(errorStr.decode('utf-8'))
+		self.logPanel.insert(INSERT, errorStr.decode("utf-8"))
+		self.logPanel.pack()
+		self.logPanel.config(state=DISABLED)
+		# printErrorCodeintoLog(errorCodeThing) 
+
+	def saveFile(self):
+		initFilename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
+		filename = initFilename + ".ics"
+		print(basename(filename))
 
 
-def clearLog():
-	logPanel.config(state=NORMAL)
-	logPanel.delete(1.0,END)
-	logPanel.pack()
-	logPanel.config(state=DISABLED)
+	def clearLog(self):
+		logPanel.config(state=NORMAL)
+		logPanel.delete(1.0,END)
+		logPanel.pack()
+		logPanel.config(state=DISABLED)
 
-def failSafeExit():
-	result = messagebox.askyesno("Exit?", "Are you sure you want to exit?")
-	if result == True:
-		deleteCal = callib.deleteCalendar
-		deleteCal.argtypes = [POINTER(Calendar)]
-		calDelPtr = POINTER(Calendar)()
-		deleteCal(calDelPtr)
-		root.quit()
+	def failSafeExit(self):
+		result = messagebox.askyesno("Exit?", "Are you sure you want to exit?")
+		if result == True:
+			deleteCal = callib.deleteCalendar
+			deleteCal.argtypes = [POINTER(Calendar)]
+			calDelPtr = POINTER(Calendar)()
+			deleteCal(calDelPtr)
+			root.quit()
 
+	def donothing(self):
+   		filewin = Toplevel(root)
+   		button = Button(filewin, text="Do nothing button")
+   		button.pack()
 
-root = Tk()
-root.title("iCalGUI")
-root.geometry('400x425')
-
-menubar = Menu(root)
-filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="Open", command=openFile, accelerator="Ctrl+O")
-filemenu.add_command(label="Save", command=donothing, accelerator="Ctrl+S")
-filemenu.add_command(label="Save as...", command=saveFile)
-filemenu.add_separator()
-filemenu.add_command(label="Exit", command=failSafeExit, accelerator="Ctrl+X")
-menubar.add_cascade(label="File", menu=filemenu)
-filemenu.bind_all("<Control-x>", failSafeExit)
-filemenu.bind_all("<Control-s>", donothing)
-createmenu = Menu(menubar, tearoff=0)
-createmenu.add_command(label="Create Calendar", command=createCalendar)
-createmenu.add_command(label="Create Event", command=createEvent)
-menubar.add_cascade(label="Create", menu=createmenu)
-helpmenu = Menu(menubar, tearoff=0)
-helpmenu.add_command(label="About iCalGUI...", command=aboutApp)
-menubar.add_cascade(label="Help", menu=helpmenu)
-
-scrollbar = Scrollbar(root)
-scrollbar.pack(side=RIGHT,fill=Y)
-
-# fileViewPanel = tktable.Table(root, rows=5,cols=5,height=15,yscrollcommand=scrollbar.set)
-
-fileViewPanel = Listbox(root,height=15,yscrollcommand=scrollbar.set)
-
-fileViewPanel.pack(side=TOP,fill=BOTH)
-scrollbar.config(command=fileViewPanel.yview)
-# Label(root, text="Calendar").grid(column=0)
-# Label(root, text="Events").grid(column=1)
-# file1 = Listbox(root,height=15)
-# file2 = Listbox(root,height=15)
-
-# file1.grid(column=0,rowspan=10)
-# file2.grid(column=1,rowspan=10)
-
-scrollbar2 = Scrollbar(root)
-scrollbar2.pack(side=RIGHT,fill=Y)
-
-logPanel = Text(root,width=50,height=8,yscrollcommand=scrollbar2.set)
-# logPanel.insert(INSERT, "1\n2\n3\n4\n5\n6\n7\n8\n")
-# logPanel.insert(END, "9")
-# logPanel.pack(side=BOTTOM)
-logPanel.pack()
-logPanel.config(state=DISABLED)
-logPanel.tag_add("here", "1.0", "1.4")
-logPanel.tag_add("start", "1.8", "1.13")
-scrollbar2.config(command=logPanel.yview)
-
-clearButton = Button(root, text="Clear", command=clearLog)
-clearButton.pack(side=BOTTOM)
-# clearButton.config(side=BOTTOM)
-
-root.config(menu=menubar)
-
-root.protocol("WM_DELETE_WINDOW", failSafeExit)
-root.mainloop()
+if __name__ == "__main__":
+	root = Tk()
+	root.title("iCalGUI")
+	root.geometry('400x425')
+	# menubar = Menu(root)
+	m=main(root)
+	# root.config(menu=menubar)
+	# root.protocol("WM_DELETE_WINDOW", failSafeExit)
+	root.mainloop()
