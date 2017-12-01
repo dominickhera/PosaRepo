@@ -4,7 +4,7 @@
 
 #  * CIS2750 F2017
 
-#  * Assignment 3
+#  * Assignment 4
 
 #  * Dominick Hera 0943778
 
@@ -28,60 +28,12 @@ import os.path
 import datetime
 from os.path import basename
 
-# class LinkedList(Structure):
-# 	pass
-
-# class DateTime(Structure):
-# 	pass
-
-# class Property(Structure):
-# 	pass
-
-# class Alarm(Structure):
-# 	pass
-
-# class Event(Structure):
-# 	pass
-
 class Calendar(Structure):
-	pass
-
-
-# LinkedList._fields_ = [
-# 	("data", c_void_p),
-# 	("next", POINTER(LinkedList)),
-# 	("previous", POINTER(POINTER(LinkedList)))]
-
-# DateTime._fields_ = [
-#     ("date", c_byte * 9),
-#     ("time", c_byte * 7),
-#     ("utc", c_bool)]
-
-# # class Property(Structure):
-# Property._fields_ = [
-#     ("propName", c_byte*200),
-#     ("propDescr", c_byte*1000)]
-
-# # class Alarm(Structure):
-# Alarm._fields_ = [
-#     ("action", c_byte * 200),
-#     ("trigger", c_byte * 1000),
-#     ("properties", c_void_p)]
-
-# # class Event(Structure):
-# Event._fields_ = [
-#     ("UID", c_byte * 1000),
-#     ("creationDateTime", POINTER(DateTime)),
-#     ("startDateTime", POINTER(DateTime)),
-#     ("properties", POINTER(Property)*1000),
-#     ("alarms", POINTER(Alarm)*1000)]
-
-class Calendar(Structure):
-	_fields_ = [
-	    ("version", c_float),
-	    ("prodID", c_byte * 1000),
-	    ("events", c_void_p),
-	    ("properties", c_void_p)]
+    _fields_ = [
+        ("version", c_float),
+        ("prodID", c_byte * 1000),
+        ("events", c_void_p),
+        ("properties", c_void_p)]
 
 
 calLibPath = './bin/parseLib.so'
@@ -94,6 +46,8 @@ createCal = callib.createCalendar
 createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
 createCal.restype = c_int
 
+
+# print("fucker\n")
 printErrorCode = callib.printError
 printErrorCode.argtypes = [c_void_p]
 printErrorCode.restype = c_char_p
@@ -101,10 +55,8 @@ printErrorCode.restype = c_char_p
 printCal = callib.printCalendar
 
 	# Help the Python compiler figure out the types for the function  
-printCal.argtypes = [POINTER(Calendar)] #this can also be commented out
-printCal.restype = c_char_p     
-
-
+# printCal.argtypes = [POINTER(Calendar)] #this can also be commented out
+# printCal.restype = c_char_p     
 
 
 class createCalendarWindow(object):
@@ -149,6 +101,13 @@ class main(object):
 		self.createmenu.add_command(label="Create Calendar", command=self.createCalEvent)
 		self.createmenu.add_command(label="Create Event", command=self.createEventEvent)
 		self.menubar.add_cascade(label="Create", menu=self.createmenu)
+		self.databaseMenu = Menu(self.menubar, tearoff=0)
+		self.databaseMenu.add_command(label="Store All Events", command=self.aboutApp)
+		self.databaseMenu.add_command(label="Store Current Event", command=self.aboutApp)
+		self.databaseMenu.add_command(label="Clear All Data", command=self.aboutApp)
+		self.databaseMenu.add_command(label="Display DB Status", command=self.aboutApp)
+		self.databaseMenu.add_command(label="Execute Query", command=self.aboutApp)
+		self.menubar.add_cascade(label="Database", menu=self.databaseMenu)
 		self.helpmenu = Menu(self.menubar, tearoff=0)
 		self.helpmenu.add_command(label="About iCalGUI...", command=self.aboutApp)
 		self.menubar.add_cascade(label="Help", menu=self.helpmenu)
@@ -186,13 +145,13 @@ class main(object):
 		messagebox.showinfo("iCalGUI About", "iCalGUI was created by Dominick Hera\nYou can find more of my work on dominickhera.com")
 
 	def openFile(self):
-		filename = filedialog.askopenfilename(initialdir = "./assets",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
-		# if filename == True:
-		root.title("iCalGUI - " + basename(filename))
+		filename = filedialog.askopenfilename(initialdir = "./assets/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
+		if filename:
+			root.title("iCalGUI - " + basename(filename))
 			# openFileName = basename(filename)
 
 		# filename = './assets/test2.ics'
-		fStr = filename.encode('utf-8')
+			fStr = filename.encode('utf-8')
 
 		# createCal = callib.createCalendar
 		# createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
@@ -206,34 +165,38 @@ class main(object):
 
 		# create a variable that will store the pointer to the calendar
 		# if we don't do this, Python will be unhappy
-		calPtr = POINTER(Calendar)()
 
-		returnVal = createCal(fStr,byref(calPtr))
-		#call the library function createCalendar() using our alias createCal
-		print('returned = ', returnVal)
 
-		testCal = calPtr.contents
-		print('version = ', testCal.version)
+			# createCal = callib.createCalendar
+			createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
+			createCal.restype = c_int
 
-		# calStr = printCal(calPtr)
-		# calPrint = calStr.decode('utf-8')
-		# print(calPrint)
-		# calPrint = calStr.decode('utf-8').splitlines()
-		# # print(calPrint[2])
-		# calLength = len(calPrint)
-		# for num in range(calLength):
-		# 	self.fileViewPanel.insert(num, calPrint[num])
-		# printErrorCode = callib.printError
-		# printErrorCode.argtypes = [c_void_p]
-		# printErrorCode.restype = c_char_p
-		errorCodeThing = cast(returnVal, c_void_p)
-		errorStr = printErrorCode(errorCodeThing)
-		# self.logPanel.config(state=NORMAL)
-		print(errorStr.decode('utf-8'))
-		# self.logPanel.insert(INSERT, errorStr.decode("utf-8"))
-		# self.logPanel.pack()
-		# self.logPanel.config(state=DISABLED)
+			calPtr = POINTER(Calendar)()
 
+			returnVal = createCal(fStr,byref(calPtr))
+			#call the library function createCalendar() using our alias createCal
+			print('returned = ', returnVal)
+
+			# calStr = printCal(calPtr)
+			# calPrint = calStr.decode('utf-8')
+			# print(calPrint)
+			# calPrint = calStr.decode('utf-8').splitlines()
+			# print(calPrint[2])
+
+
+			# calLength = len(calPrint) - 1
+			# for num in range(calLength):
+			# 	self.fileViewPanel.insert(num, calPrint[num])
+			# printErrorCode = callib.printError
+			# printErrorCode.argtypes = [c_void_p]
+			# printErrorCode.restype = c_char_p
+			# errorCodeThing = cast(returnVal, c_void_p)
+			# errorStr = printErrorCode(errorCodeThing)
+			# self.logPanel.config(state=NORMAL)
+			# print(errorStr.decode('utf-8'))
+			# self.logPanel.insert(INSERT, errorStr.decode("utf-8"))
+			# self.logPanel.pack()
+			# self.logPanel.config(state=DISABLED)
 
 		# printErrorCodeintoLog(errorCodeThing) 
 
@@ -252,10 +215,10 @@ class main(object):
 	def failSafeExit(self):
 		result = messagebox.askyesno("Exit?", "Are you sure you want to exit?")
 		if result == True:
-			deleteCal = callib.deleteCalendar
-			deleteCal.argtypes = [POINTER(Calendar)]
-			calDelPtr = POINTER(Calendar)()
-			deleteCal(calDelPtr)
+			# deleteCal = callib.deleteCalendar
+			# deleteCal.argtypes = [POINTER(Calendar)]
+			# calDelPtr = POINTER(Calendar)()
+			# deleteCal(calDelPtr)
 			root.quit()
 
 	def donothing(self):

@@ -1,1 +1,0 @@
-./././Tk.framework/Resources/Wish.app
