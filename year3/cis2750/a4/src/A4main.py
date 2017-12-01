@@ -177,9 +177,9 @@ class main(object):
 			#call the library function createCalendar() using our alias createCal
 			print('returned = ', returnVal)
 
-			# calStr = printCal(calPtr)
-			# calPrint = calStr.decode('utf-8')
-			# print(calPrint)
+			calStr = printCal(calPtr)
+			calPrint = calStr.decode('utf-8')
+			print(calPrint)
 			# calPrint = calStr.decode('utf-8').splitlines()
 			# print(calPrint[2])
 
