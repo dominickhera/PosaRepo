@@ -26,7 +26,12 @@ from tkinter import *
 import tkinter
 import os.path
 import datetime
+import mysql.connector
 from os.path import basename
+
+dbName = "dhera"
+uName = "dhera"
+passwd = "0943778"
 
 class Calendar(Structure):
     _fields_ = [
@@ -168,18 +173,18 @@ class main(object):
 
 
 			# createCal = callib.createCalendar
-			createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
-			createCal.restype = c_int
+			# createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
+			# createCal.restype = c_int
 
 			calPtr = POINTER(Calendar)()
 
-			returnVal = createCal(fStr,byref(calPtr))
+			# returnVal = createCal(fStr,byref(calPtr))
 			#call the library function createCalendar() using our alias createCal
-			print('returned = ', returnVal)
+			print('returned = ', createCal(fStr,byref(calPtr)))
 
-			calStr = printCal(calPtr)
-			calPrint = calStr.decode('utf-8')
-			print(calPrint)
+			# calStr = printCal(byref(calPtr))
+			# calPrint = calStr.decode('utf-8')
+			# print(calPrint)
 			# calPrint = calStr.decode('utf-8').splitlines()
 			# print(calPrint[2])
 

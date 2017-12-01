@@ -1,9 +1,9 @@
 import mysql.connector
 
 # Open database connection
-dbName = "dbNameGoesHere"
-uName = "userNameGoesHere"
-passwd = "passwordGoesHere"
+dbName = "dhera"
+uName = "dhera"
+passwd = "0943778"
 
 
 try:
