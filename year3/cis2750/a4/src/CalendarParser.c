@@ -24,7 +24,7 @@
 
 Calendar* initializeCalendar();
 void manualCalInit(Calendar** obj, char* PRODID);
-void manualEventInit(Calendar** obj, char* uid, char date, char timeVal);
+void manualEventInit(Calendar** obj, char* uid, char* date, char* timeVal);
 Event* initializeEvent(char* date, char* timeVal, char* UTC, char* dateTwo, char* timeValTwo, char* UTCTwo);
 Property* initializeProperty(char* propName, char* propDescr);
 Alarm* initializeAlarm(char* action, char* trigger);
@@ -1730,14 +1730,14 @@ void manualCalInit(Calendar** obj, char* PRODID)
     strcpy((*obj)->prodID, PRODID);
 }
 
-void manualEventInit(Calendar** obj, char* uid, char date, char timeVal)
+void manualEventInit(Calendar** obj, char* uid, char* date, char* timeVal)
 {
     Event * tempEvent = malloc(sizeof(Event));
     tempEvent->properties = initializeList(NULL, NULL, NULL);
     tempEvent->alarms = initializeList(NULL, NULL, NULL);
 
 
-    printf("uid: %s, date: %s, time:%s\n", uid, date, timeVal);
+    // printf("uid: %s, date: %s, time:%s\n", uid, date, timeVal);
     strcpy(tempEvent->creationDateTime.date, date);
     strcpy(tempEvent->creationDateTime.time, timeVal);
     tempEvent->creationDateTime.UTC = false;

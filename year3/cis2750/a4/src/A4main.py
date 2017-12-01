@@ -53,10 +53,14 @@ createCal = callib.createCalendar
 createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
 createCal.restype = c_int
 
+writeCal = callib.writeCalendar
+writeCal.argtypes = [c_char_p, POINTER(POINTER(Calendar))]
+writeCal.restypes = c_int
+
 initCal = callib.manualCalInit
 
 initEvent = callib.manualEventInit
-# initEvent.argtypes = [POINTER(POINTER(Calendar)), c_char, c_byte, c_byte]
+initEvent.argtypes = [POINTER(POINTER(Calendar)), c_char_p, c_char_p, c_char_p]
 # initCal.argtypes = [POINTER(POINTER(Calendar)),c_byte , c_float]
 # initCal.restype = c_void_p
 # versionType = "2.0"
@@ -126,7 +130,7 @@ class main(object):
 		# print('13\n')
 		self.filemenu.add_command(label="Save",  accelerator="Ctrl+S")
 		# print('14\n')
-		self.filemenu.add_command(label="Save as...", command=self.saveFile)
+		self.filemenu.add_command(label="Save as...", command=self.saveAsFile)
 		self.filemenu.add_command(label="Delete Current Cal", command=self.deleteCal)
 		self.filemenu.add_command(label="print Current Cal", command=self.printCal)
 		# print('15\n')
@@ -246,14 +250,14 @@ class main(object):
 			# createCal.restype = c_int
 
 		# calPtr = POINTER(Calendar)()
-		print('1\n')
+		# print('1\n')
 
 		# calPtr = initCal()
 		returnVal = createCal(fStr,byref(calPtr))
-		print('2\n')
+		# print('2\n')
 			#call the library function createCalendar() using our alias createCal
 		# print('returned = ', returnVal)
-		print('3\n')
+		# print('3\n')
 
 		# calStr = printCal(calPtr)
 		# calPrint = calStr.decode('utf-8')
@@ -284,10 +288,26 @@ class main(object):
 
 		# printErrorCodeintoLog(errorCodeThing) 
 
-	def saveFile(self):
-		initFilename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("ics files","*.ics"),("all files","*.*")))
-		filename = initFilename + ".ics"
+	def saveAsFile(self):
+		initFilename = filedialog.asksaveasfilename(initialdir = "./assets/outputFiles/",title = "Select location",filetypes = (("ics files","*.ics"),("all files","*.*")))
+		filename = initFilename
 		print(basename(filename))
+
+		fStr = initFilename.encode('utf-8')
+		writeReturnVal = writeCal(fStr, byref(calPtr))
+		errorCodeThing = cast(returnVal, c_void_p)
+		# # print('4\n')
+		errorStr = printErrorCode(errorCodeThing)
+		# # print('5\n')
+		self.logPanel.config(state=NORMAL)
+		# # print('6\n')
+		print(errorStr.decode('utf-8'))
+		self.logPanel.insert(INSERT, errorStr.decode("utf-8"))
+		# # print('7\n')
+		self.logPanel.pack()
+		# # print('8\n')
+		self.logPanel.config(state=DISABLED)
+
 
 
 	def clearLog(self):
@@ -329,7 +349,7 @@ if __name__ == "__main__":
 	root.geometry('400x425')
 	# menubar = Menu(root)
 	m=main(root)
-	print('boop')
+	# print('boop')
 	# root.config(menu=menubar)
 	# root.protocol("WM_DELETE_WINDOW", failSafeExit)
 	root.mainloop()
