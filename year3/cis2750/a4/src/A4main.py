@@ -258,25 +258,25 @@ class main(object):
 		# self.clearButton.pack(side=BOTTOM)
 		self.master.config(menu=self.menubar)
 		if (len(sys.argv) < 1):
-		userName = sys.argv[1]
-		if userName:
-			dbName = userName
-			uName = userName
-			try:
-				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
-			except mysql.connector.Error as err:
-				print("Something went wrong: {}".format(err))
-				exit()
-		else:
-			dbName = "dhera"
-			uName = "dhera"
-			passwd = "0943778"
-			try:
-				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
-				cursor = conn.cursor()
-			except mysql.connector.Error as err:
-				print("Something went wrong: {}".format(err))
-				exit()
+			userName = sys.argv[1]
+			if userName:
+				dbName = userName
+				uName = userName
+				try:
+					conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
+				except mysql.connector.Error as err:
+					print("Something went wrong: {}".format(err))
+					exit()
+			else:
+				dbName = "dhera"
+				uName = "dhera"
+				passwd = "0943778"
+				try:
+					conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
+					cursor = conn.cursor()
+				except mysql.connector.Error as err:
+					print("Something went wrong: {}".format(err))
+					exit()
 		cursor = conn.cursor()
 		self.master.protocol("WM_DELETE_WINDOW", self.failSafeExit)
 	def createCalEvent(self):
