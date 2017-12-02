@@ -54,6 +54,10 @@ for r in cursor:
     
 print("\n\n")
 
+organizerCount = cursor.execute("SELECT COUNT(*) FROM organizer")
+eventCount = cursor.execute("SELECT COUNT(*) FROM event")
+print(organizerCount)
+print(eventCount)
 print("Database contents sorted by first name:")
 
 try:
