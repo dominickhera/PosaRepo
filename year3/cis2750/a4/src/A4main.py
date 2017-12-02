@@ -257,7 +257,7 @@ class main(object):
 		self.clearButton.grid(row=17,column=0)
 		# self.clearButton.pack(side=BOTTOM)
 		self.master.config(menu=self.menubar)
-		self.cursor = conn.cursor()
+		cursor = conn.cursor()
 		self.master.protocol("WM_DELETE_WINDOW", self.failSafeExit)
 	def createCalEvent(self):
 		self.w=createCalendarWindow(self.master)
