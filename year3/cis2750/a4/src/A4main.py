@@ -377,17 +377,19 @@ class main(object):
 
 	def displayDBStatus(self):
 		# global conn
+		cursor = self.conn.cursor()
 		self.logPanel.config(state=NORMAL)
-		organizerCount = self.cursor.execute("SELECT COUNT(*) FROM organizer")
-		eventCount = self.cursor.execute("SELECT COUNT(*) FROM event")
-		self.logPanel.insert(INSERT, "Database has ", organizerCount, " organizers and ",eventCount," events.\n")
+		organizerCount = cursor.execute("SELECT COUNT(*) FROM organizer")
+		eventCount = cursor.execute("SELECT COUNT(*) FROM event")
+		self.logPanel.insert(INSERT, "Database has ", organizerCount, " organizers and ", eventCount," events.\n")
 		self.logPanel.grid(row=16,column=0, rowspan=1, columnspan=50)
 		self.logPanel.config(state=DISABLED)
 
 	def clearAllData(self):
 		# global conn
-		self.cursor.execute("DELETE FROM organizers")
-		self.cursor.execute("DELETE FROM event")
+		cursor = self.conn.cursor()
+		cursor.execute("DELETE FROM organizers")
+		cursor.execute("DELETE FROM event")
 		self.displayDBStatus()
 
 	def executeQuery(self):
