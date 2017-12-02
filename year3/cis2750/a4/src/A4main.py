@@ -31,23 +31,23 @@ import mysql.connector
 from os.path import basename
 
 if (len(sys.argv) < 1):
-			dbName = sys.argv[1]
-			uName = sys.argv[1]
-			try:
-				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
-			except mysql.connector.Error as err:
-				print("Something went wrong: {}".format(err))
-				exit()
-		else:
-			dbName = "dhera"
-			uName = "dhera"
-			passwd = "0943778"
-			try:
-				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
-				# cursor = conn.cursor()
-			except mysql.connector.Error as err:
-				print("Something went wrong: {}".format(err))
-				exit()
+	dbName = sys.argv[1]
+	uName = sys.argv[1]
+	try:
+		conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
+	except mysql.connector.Error as err:
+		print("Something went wrong: {}".format(err))
+		exit()
+else:
+	dbName = "dhera"
+	uName = "dhera"
+	passwd = "0943778"
+	try:
+		conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
+		# cursor = conn.cursor()
+	except mysql.connector.Error as err:
+		print("Something went wrong: {}".format(err))
+		exit()
 
 class Calendar(Structure):
     _fields_ = [
