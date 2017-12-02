@@ -193,11 +193,11 @@ class main(object):
 		self.createmenu.add_command(label="Create Event", command=self.createEventEvent)
 		self.menubar.add_cascade(label="Create", menu=self.createmenu)
 		self.databaseMenu = Menu(self.menubar, tearoff=0)
-		self.databaseMenu.add_command(label="Store All Events", command=self.aboutApp)
-		self.databaseMenu.add_command(label="Store Current Event", command=self.aboutApp)
-		self.databaseMenu.add_command(label="Clear All Data", command=self.aboutApp)
+		self.databaseMenu.add_command(label="Store All Events", command=self.storeAllEvents)
+		self.databaseMenu.add_command(label="Store Current Event", command=self.storeCurrentEvent)
+		self.databaseMenu.add_command(label="Clear All Data", command=self.clearAllData)
 		self.databaseMenu.add_command(label="Display DB Status", command=self.displayDBStatus)
-		self.databaseMenu.add_command(label="Execute Query", command=self.aboutApp)
+		self.databaseMenu.add_command(label="Execute Query", command=self.executeQuery)
 		self.menubar.add_cascade(label="Database", menu=self.databaseMenu)
 		self.helpmenu = Menu(self.menubar, tearoff=0)
 		self.helpmenu.add_command(label="About iCalGUI...", command=self.aboutApp)
@@ -390,13 +390,13 @@ class main(object):
 		for r in cursor:
 			eventCount = eventCount + 1
 
-		statusString = ("Database has ", organizerCount, " organizers and ", eventCount," events.\n")
-		self.logPanel.insert(INSERT, statusString)
+		# statusString = ("Database has ", organizerCount, " organizers and ", eventCount," events.\n")
+		self.logPanel.insert(INSERT, ("Database has ", organizerCount, " organizers and ", eventCount," events.\n"))
 		self.logPanel.grid(row=16,column=0, rowspan=1, columnspan=50)
 		self.logPanel.config(state=DISABLED)
 
 	def clearAllData(self):
-		# global conn
+		global conn
 		cursor = conn.cursor()
 		cursor.execute("DELETE FROM organizers")
 		cursor.execute("DELETE FROM event")
