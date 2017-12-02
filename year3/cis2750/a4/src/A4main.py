@@ -35,7 +35,7 @@ from os.path import basename
 # passwd = "0943778"
 
 def grabDatabase():
-	if sys.argv[1]:
+	if (len(sys.argv) < 1):
 		userName = sys.argv[1]
 		if userName:
 			dbName = userName
