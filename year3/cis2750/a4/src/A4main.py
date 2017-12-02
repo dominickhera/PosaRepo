@@ -40,7 +40,7 @@ def grabDatabase():
 		dbName = userName
 		uName = userName
 		try:
-			conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName)
+			conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=)
 		except mysql.connector.Error as err:
 			print("Something went wrong: {}".format(err))
 			exit()
