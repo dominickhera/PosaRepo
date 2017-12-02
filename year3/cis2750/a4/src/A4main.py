@@ -408,7 +408,7 @@ class main(object):
 		self.logPanel.config(state=NORMAL)
 		organizerCount = cursor.execute("SELECT COUNT(*) FROM organizers")
 		eventCount = cursor.execute("SELECT COUNT(*) FROM event")
-		self.logPanel.insert(INSERT, "Database has ", organizerCount" organizers and N events.\n")
+		self.logPanel.insert(INSERT, "Database has ", organizerCount, " organizers and ",eventCount," events.\n")
 		self.logPanel.grid(row=16,column=0, rowspan=1, columnspan=50)
 		self.logPanel.config(state=DISABLED)
 
