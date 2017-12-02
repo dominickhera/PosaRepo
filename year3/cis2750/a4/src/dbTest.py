@@ -47,11 +47,14 @@ try:
 except mysql.connector.Error as err:
     print("Something went wrong: {}".format(err))
   
+count = 0
 for r in cursor:
     # r is a tuple of column values
     # this means that r has constant length
-    print("r",r)
+    count = count + 1
+    print(r)
     
+print("count is now ", count)
 print("\n\n")
 
 # organizerCount = cursor.execute("SELECT COUNT(*) FROM organizer")
