@@ -30,6 +30,25 @@ import datetime
 import mysql.connector
 from os.path import basename
 
+if (len(sys.argv) < 1):
+			dbName = sys.argv[1]
+			uName = sys.argv[1]
+			try:
+				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
+			except mysql.connector.Error as err:
+				print("Something went wrong: {}".format(err))
+				exit()
+		else:
+			dbName = "dhera"
+			uName = "dhera"
+			passwd = "0943778"
+			try:
+				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
+				# cursor = conn.cursor()
+			except mysql.connector.Error as err:
+				print("Something went wrong: {}".format(err))
+				exit()
+
 class Calendar(Structure):
     _fields_ = [
         ("version", c_float),
@@ -155,25 +174,6 @@ class main(object):
 	def __init__(self,master):
 		# global conn
 		self.master=master
-		if (len(sys.argv) < 1):
-			dbName = sys.argv[1]
-			uName = sys.argv[1]
-			try:
-				self.conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
-			except mysql.connector.Error as err:
-				print("Something went wrong: {}".format(err))
-				exit()
-		else:
-			dbName = "dhera"
-			uName = "dhera"
-			passwd = "0943778"
-			try:
-				self.conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
-				# cursor = conn.cursor()
-			except mysql.connector.Error as err:
-				print("Something went wrong: {}".format(err))
-				exit()
-		self.cursor = self.conn.cursor()
 		self.menubar = Menu(root)
 		self.filemenu = Menu(self.menubar, tearoff=0)
 		self.filemenu.add_command(label="Open", accelerator="Ctrl+O", command=self.openFile)
