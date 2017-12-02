@@ -384,7 +384,7 @@ class main(object):
 		cursor.execute("SELECT COUNT(*) FROM organizer")
 		organizerCount = 0
 		for r in cursor:
-    		organizerCount = organizerCount + 1
+			organizerCount = organizerCount + 1
 		eventCount = 0
 		cursor.execute("SELECT COUNT(*) FROM event")
 		for r in cursor:
