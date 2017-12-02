@@ -30,6 +30,8 @@ import datetime
 import mysql.connector
 from os.path import basename
 
+
+# conn = None
 if (len(sys.argv) < 1):
 	dbName = sys.argv[1]
 	uName = sys.argv[1]
@@ -376,7 +378,7 @@ class main(object):
 			print(calPrint)
 
 	def displayDBStatus(self):
-		# global conn
+		global conn
 		cursor = conn.cursor()
 		self.logPanel.config(state=NORMAL)
 		organizerCount = cursor.execute("SELECT COUNT(*) FROM organizer")
@@ -387,7 +389,7 @@ class main(object):
 
 	def clearAllData(self):
 		# global conn
-		cursor = self.conn.cursor()
+		cursor = conn.cursor()
 		cursor.execute("DELETE FROM organizers")
 		cursor.execute("DELETE FROM event")
 		self.displayDBStatus()
