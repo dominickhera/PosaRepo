@@ -377,7 +377,7 @@ class main(object):
 
 	def displayDBStatus(self):
 		# global conn
-		cursor = self.conn.cursor()
+		cursor = conn.cursor()
 		self.logPanel.config(state=NORMAL)
 		organizerCount = cursor.execute("SELECT COUNT(*) FROM organizer")
 		eventCount = cursor.execute("SELECT COUNT(*) FROM event")
