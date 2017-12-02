@@ -378,7 +378,7 @@ class main(object):
 	def displayDBStatus(self):
 		# global conn
 		self.logPanel.config(state=NORMAL)
-		organizerCount = self.cursor.execute("SELECT COUNT(*) FROM organizers")
+		organizerCount = self.cursor.execute("SELECT COUNT(*) FROM organizer")
 		eventCount = self.cursor.execute("SELECT COUNT(*) FROM event")
 		self.logPanel.insert(INSERT, "Database has ", organizerCount, " organizers and ",eventCount," events.\n")
 		self.logPanel.grid(row=16,column=0, rowspan=1, columnspan=50)
