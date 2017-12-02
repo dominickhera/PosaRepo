@@ -70,6 +70,8 @@ createCal = callib.createCalendar
 createCal.argtypes = [c_char_p,POINTER(POINTER(Calendar))]
 createCal.restype = c_int
 
+mallocCal = callib.initializeCalendar
+
 writeCal = callib.writeCalendar
 writeCal.argtypes = [c_char_p,POINTER(Calendar)]
 writeCal.restype = c_int
@@ -285,7 +287,7 @@ class main(object):
 			# print("filename is ",mainFileName)
 			root.title("iCalGUI - " + basename(filename))
 				# openFileName = basename(filename)
-
+			calPtr = initializeCalendar()
 			# filename = './assets/test2.ics'
 			fStr = filename.encode('utf-8')
 			returnVal = createCal(fStr,byref(calPtr))
