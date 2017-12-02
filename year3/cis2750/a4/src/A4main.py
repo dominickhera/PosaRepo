@@ -391,7 +391,7 @@ class main(object):
 			eventCount = eventCount + 1
 
 		statusString = ("Database has ", organizerCount, " organizers and ", eventCount," events.\n")
-		self.logPanel.insert(INSERT, statusString.decode("utf-8"))
+		self.logPanel.insert(INSERT, statusString.encode("utf-8"))
 		self.logPanel.grid(row=16,column=0, rowspan=1, columnspan=50)
 		self.logPanel.config(state=DISABLED)
 
