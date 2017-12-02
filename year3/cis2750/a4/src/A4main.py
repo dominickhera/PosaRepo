@@ -173,7 +173,7 @@ class main(object):
 			except mysql.connector.Error as err:
 				print("Something went wrong: {}".format(err))
 				exit()
-		cursor = conn.cursor()
+		self.cursor = conn.cursor()
 		self.menubar = Menu(root)
 		self.filemenu = Menu(self.menubar, tearoff=0)
 		self.filemenu.add_command(label="Open", accelerator="Ctrl+O", command=self.openFile)
@@ -378,16 +378,16 @@ class main(object):
 	def displayDBStatus(self):
 		# global conn
 		self.logPanel.config(state=NORMAL)
-		organizerCount = cursor.execute("SELECT COUNT(*) FROM organizers")
-		eventCount = cursor.execute("SELECT COUNT(*) FROM event")
+		organizerCount = self.cursor.execute("SELECT COUNT(*) FROM organizers")
+		eventCount = self.cursor.execute("SELECT COUNT(*) FROM event")
 		self.logPanel.insert(INSERT, "Database has ", organizerCount, " organizers and ",eventCount," events.\n")
 		self.logPanel.grid(row=16,column=0, rowspan=1, columnspan=50)
 		self.logPanel.config(state=DISABLED)
 
 	def clearAllData(self):
 		# global conn
-		cursor.execute("DELETE FROM organizers")
-		cursor.execute("DELETE FROM event")
+		self.cursor.execute("DELETE FROM organizers")
+		self.cursor.execute("DELETE FROM event")
 		self.displayDBStatus()
 
 	def executeQuery(self):
