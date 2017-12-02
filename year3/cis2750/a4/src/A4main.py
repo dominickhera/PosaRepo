@@ -262,11 +262,11 @@ class main(object):
 		self.Listbox1.delete(0,END)
 		for num in range(calLength):
 			self.Listbox1.insert(num, num + 1)
-		testVal = calPtr.contents
-		eventIter = createIter(testVal.events)
-		cast(eventIter, c_void_p)
-		testSummary = printSummary(eventIter)
-		print(testSummary)
+		# testVal = calPtr.contents
+		# eventIter = createIter(testVal.events)
+		# cast(eventIter, c_void_p)
+		# testSummary = printSummary(eventIter)
+		# print(testSummary)
 
 		# print(self.createEventWindow.E2.get())
 
@@ -395,6 +395,11 @@ class main(object):
 			calStr = printCal(calPtr)
 			calPrint = calStr.decode('utf-8')
 			print(calPrint)
+			testVal = calPtr.contents
+			eventIter = createIter(testVal.events)
+			cast(eventIter, c_void_p)
+			testSummary = printSummary(eventIter)
+			print(testSummary)
 
 	def displayDBStatus(self):
 		global conn
