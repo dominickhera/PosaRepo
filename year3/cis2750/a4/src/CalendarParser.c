@@ -25,6 +25,8 @@
 Calendar* initializeCalendar();
 void manualCalInit(Calendar** obj, char* PRODID);
 void manualEventInit(Calendar** obj, char* uid, char* date, char* timeVal);
+int getEventListSize(const Calendar* obj);
+int getPropertyListSize(const Calendar* obj);
 Event* initializeEvent(char* date, char* timeVal, char* UTC, char* dateTwo, char* timeValTwo, char* UTCTwo);
 Property* initializeProperty(char* propName, char* propDescr);
 Alarm* initializeAlarm(char* action, char* trigger);
@@ -116,64 +118,64 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
                             // printf("line char[%d] %s\nprevious line: [%d]: %s\n", count, line, count-1, lineStorage[count-1]);
                             // if(firstWrapFlag != 0)
                             // {
-                                lineStartCount = strlen(lineStorage[count-1]) - 1;
-                                strcpy(newOtherTempStorage, lineStorage[count-1]);
+                            lineStartCount = strlen(lineStorage[count-1]) - 1;
+                            strcpy(newOtherTempStorage, lineStorage[count-1]);
 
-                                //  for(int j = 0; j < strlen(line); j++)
-                                // {
-                                //     if(!(isalpha(line[j])))
-                                //     {
-                                //         // j++;
-                                //         while(!(isalpha(line[j])))
-                                //         {
-                                //             if(!(ispunct(line[j])))
-                                //             {
-                                //                 // newOtherTempStorage[lineStartCount] = line[j];
-                                //                 lineStartCount++;
-                                //                 j++;
-                                //             }
-                                //             else
-                                //             {
-                                //                 break;
-                                //             }
-                                //         }
-                                //     }
+                            //  for(int j = 0; j < strlen(line); j++)
+                            // {
+                            //     if(!(isalpha(line[j])))
+                            //     {
+                            //         // j++;
+                            //         while(!(isalpha(line[j])))
+                            //         {
+                            //             if(!(ispunct(line[j])))
+                            //             {
+                            //                 // newOtherTempStorage[lineStartCount] = line[j];
+                            //                 lineStartCount++;
+                            //                 j++;
+                            //             }
+                            //             else
+                            //             {
+                            //                 break;
+                            //             }
+                            //         }
+                            //     }
 
-                                //     j++;
-                                //     while(lineStorage[j] != '\0')
-                                //     {
-                                //         newOtherTempStorage[lineStartCount] = line[j];
-                                //         lineStartCount++;
-                                //         j++;
-                                //     }
-                                // }
-                                for(int i = 0; i < strlen(line); i++)
+                            //     j++;
+                            //     while(lineStorage[j] != '\0')
+                            //     {
+                            //         newOtherTempStorage[lineStartCount] = line[j];
+                            //         lineStartCount++;
+                            //         j++;
+                            //     }
+                            // }
+                            for(int i = 0; i < strlen(line); i++)
+                            {
+                                if(!(isalpha(line[i])))
                                 {
-                                    if(!(isalpha(line[i])))
-                                    {
+                                    i++;
+                                    while(line[i] != '\0')
+                                    {   
+                                        newOtherTempStorage[lineStartCount] = line[i];
+                                        lineStartCount++;
                                         i++;
-                                        while(line[i] != '\0')
-                                        {   
-                                            newOtherTempStorage[lineStartCount] = line[i];
-                                            lineStartCount++;
-                                            i++;
-                                        }
                                     }
-                                    else if(!ispunct(line[i]))
-                                    {
-                                        i++;
-                                        while(line[i] != '\0')
-                                        {   
-                                            newOtherTempStorage[lineStartCount] = line[i];
-                                            lineStartCount++;
-                                            i++;
-                                        }
-                                    }
-                                    // else
-                                    // {
-                                        // i++;
-                                    // }
                                 }
+                                else if(!ispunct(line[i]))
+                                {
+                                    i++;
+                                    while(line[i] != '\0')
+                                    {   
+                                        newOtherTempStorage[lineStartCount] = line[i];
+                                        lineStartCount++;
+                                        i++;
+                                    }
+                                }
+                                // else
+                                // {
+                                // i++;
+                                // }
+                            }
                             // // }
                             strcpy(lineStorage[count-1], newOtherTempStorage);
                             lineStartCount = 0;
@@ -215,7 +217,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
     for(int i = 0; i < count; i++)
     {
 
-        printf("line[%d]: %s\n", i, lineStorage[i]);
+        // printf("line[%d]: %s\n", i, lineStorage[i]);
         if((strcasestr(lineStorage[i], "BEGIN")) && (strcasestr(lineStorage[i], "VCALENDAR")) && calendarFlag == 0)
         {
             parseCalendar = initializeCalendar();
@@ -1169,26 +1171,39 @@ ICalErrorCode writeCalendar(char* fileName, const Calendar* obj)
         if((strstr(fileName, ".ics")))
         {
             // printf("hi\n");
+
+            // printf("1\n");
             if((fo = fopen(fileName, "w")))
             {
                 // printf("hoe\n");
                 char * calendarWrite = malloc(sizeof(char) * 1000);
+                // printf("2\n");
                 sprintf(calendarWrite + strlen(calendarWrite), "BEGIN:VCALENDAR \nVERSION:%.1f \nPRODID:%s \n", (*obj).version, (*obj).prodID);
-                void *calPropWriteElem;
-                ListIterator tempCalPropWriteIter = createIterator(obj->properties);
-                while((calPropWriteElem = nextElement(&tempCalPropWriteIter)) != NULL)
+                // printf("3\n");
+                if(obj->properties.length > 0)
                 {
-                    Property* tempCalPropWrite = (Property*)calPropWriteElem;
-                    sprintf(calendarWrite + strlen(calendarWrite), "%s:%s \n", tempCalPropWrite->propName, tempCalPropWrite->propDescr);
+                    void *calPropWriteElem;
+                    ListIterator tempCalPropWriteIter = createIterator(obj->properties);
+                    // printf("4\n");
+                    while((calPropWriteElem = nextElement(&tempCalPropWriteIter)) != NULL)
+                    {
+                        Property* tempCalPropWrite = (Property*)calPropWriteElem;
+                        sprintf(calendarWrite + strlen(calendarWrite), "%s:%s \n", tempCalPropWrite->propName, tempCalPropWrite->propDescr);
+                    }
+                    // printf("5\n");
                 }
-
+                // printf("5.5\n");
                 void *calEventWriteElem;
+                // printf("5.6\n");
                 ListIterator tempCalEventWriteIter = createIterator(obj->events);
+                // printf("5.7\n");
+                // printf("#of events is %d\n", obj->events.length);
                 while((calEventWriteElem = nextElement(&tempCalEventWriteIter)) != NULL)
                 {
+                    // printf("6\n");
                     Event* tempCalEventWrite = (Event*)calEventWriteElem;
                     sprintf(calendarWrite + strlen(calendarWrite), "BEGIN:VEVENT \nUID:%s \n", tempCalEventWrite->UID);
-                    
+
                     if(strlen(tempCalEventWrite->creationDateTime.date) != 0)
                     {
                         if(tempCalEventWrite->creationDateTime.UTC == 1)
@@ -1201,7 +1216,7 @@ ICalErrorCode writeCalendar(char* fileName, const Calendar* obj)
                         }
                     }
 
-                    
+                    // printf("7\n");
                     if(strlen(tempCalEventWrite->startDateTime.date) != 0)
                     {
 
@@ -1217,35 +1232,47 @@ ICalErrorCode writeCalendar(char* fileName, const Calendar* obj)
 
 
                     }
-
-                    void *calEventPropWriteElem;
-                    ListIterator tempCalEventPropWriteIter = createIterator(tempCalEventWrite->properties);
-                    while((calEventPropWriteElem = nextElement(&tempCalEventPropWriteIter)) != NULL)
+                    // printf("8\n");
+                    if(tempCalEventWrite->properties.length > 0)
                     {
-                        Property* tempCalEventPropWrite = (Property*)calEventPropWriteElem;
-                        sprintf(calendarWrite + strlen(calendarWrite), "%s:%s \n", tempCalEventPropWrite->propName, tempCalEventPropWrite->propDescr);
-                    }
 
-                    void *calEventAlarmWriteElem;
-                    ListIterator tempCalEventAlarmWriteIter = createIterator(tempCalEventWrite->alarms);
-                    while((calEventAlarmWriteElem = nextElement(&tempCalEventAlarmWriteIter)) != NULL)
-                    {
-                        Alarm* tempCalEventAlarmWrite = (Alarm*)calEventAlarmWriteElem;
-                        sprintf(calendarWrite + strlen(calendarWrite), "BEGIN:VALARM \nACTION:%s \nTRIGGER:%s \n", tempCalEventAlarmWrite->action, tempCalEventAlarmWrite->trigger);
-                        void *calEventAlarmPropWriteElem;
-                        ListIterator tempCalEventAlarmPropWriteIter = createIterator(tempCalEventAlarmWrite->properties);
-                        while((calEventAlarmPropWriteElem = nextElement(&tempCalEventAlarmPropWriteIter)) != NULL)
+
+                        void *calEventPropWriteElem;
+                        ListIterator tempCalEventPropWriteIter = createIterator(tempCalEventWrite->properties);
+                        while((calEventPropWriteElem = nextElement(&tempCalEventPropWriteIter)) != NULL)
                         {
-                            Property* tempCalEventAlarmPropWrite = (Property*)calEventAlarmPropWriteElem;
-                            sprintf(calendarWrite + strlen(calendarWrite), "%s:%s \n", tempCalEventAlarmPropWrite->propName, tempCalEventAlarmPropWrite->propDescr);
+                            Property* tempCalEventPropWrite = (Property*)calEventPropWriteElem;
+                            sprintf(calendarWrite + strlen(calendarWrite), "%s:%s \n", tempCalEventPropWrite->propName, tempCalEventPropWrite->propDescr);
                         }
-                        sprintf(calendarWrite + strlen(calendarWrite), "END:VALARM \n");
-
                     }
+                    // printf("9\n");
+
+                    if(tempCalEventWrite->alarms.length > 0)
+                    {
+                        void *calEventAlarmWriteElem;
+                        ListIterator tempCalEventAlarmWriteIter = createIterator(tempCalEventWrite->alarms);
+                        while((calEventAlarmWriteElem = nextElement(&tempCalEventAlarmWriteIter)) != NULL)
+                        {
+                            Alarm* tempCalEventAlarmWrite = (Alarm*)calEventAlarmWriteElem;
+                            sprintf(calendarWrite + strlen(calendarWrite), "BEGIN:VALARM \nACTION:%s \nTRIGGER:%s \n", tempCalEventAlarmWrite->action, tempCalEventAlarmWrite->trigger);
+                            void *calEventAlarmPropWriteElem;
+                            ListIterator tempCalEventAlarmPropWriteIter = createIterator(tempCalEventAlarmWrite->properties);
+                            while((calEventAlarmPropWriteElem = nextElement(&tempCalEventAlarmPropWriteIter)) != NULL)
+                            {
+                                Property* tempCalEventAlarmPropWrite = (Property*)calEventAlarmPropWriteElem;
+                                sprintf(calendarWrite + strlen(calendarWrite), "%s:%s \n", tempCalEventAlarmPropWrite->propName, tempCalEventAlarmPropWrite->propDescr);
+                            }
+                            sprintf(calendarWrite + strlen(calendarWrite), "END:VALARM \n");
+
+                        }
+                    }
+                    // printf("10\n");
                     sprintf(calendarWrite + strlen(calendarWrite), "END:VEVENT \n");
                 }
+                // printf("11\n");
                 sprintf(calendarWrite + strlen(calendarWrite), "END:VCALENDAR \n");
 
+                // printf("is this shit on\n");
                 fputs(calendarWrite, fo);
                 fclose(fo);
                 return OK;
@@ -1253,19 +1280,19 @@ ICalErrorCode writeCalendar(char* fileName, const Calendar* obj)
             }
             else
             {
-                printf("somethings fucky\n");
+                // printf("somethings fucky\n");
                 return WRITE_ERROR;
             }
         }
         else
         {
-            printf("nah you fucky\n");
+            // printf("nah you fucky\n");
             return WRITE_ERROR;
         }
     }
     else
     {
-        printf("hella fucky\n");
+        // printf("hella fucky\n");
         return WRITE_ERROR;
     }
     return OK;
@@ -1377,7 +1404,7 @@ ICalErrorCode validateCalendar(const Calendar* obj)
 
                                 // printf("duplength is %d, length is %d\n", dupeLengthCheck, lengthCheck);
                                 // printf("og name: %s, dupecheck name: %s\nog dscr: %s, dupecheck dscr: %s\n", tempEventPropCheck->propName, eventPropDupeCheck->propName, tempEventPropCheck->propDescr, eventPropDupeCheck->propDescr);
-                                 if(strcasestr(eventPropDupeCheck->propName, "PRODID"))
+                                if(strcasestr(eventPropDupeCheck->propName, "PRODID"))
                                 {
                                     return DUP_PRODID;
                                 }
@@ -1535,7 +1562,7 @@ ICalErrorCode validateCalendar(const Calendar* obj)
 
 void deleteCalendar(Calendar* obj)
 {
-    printf("f000k\n\n\n");
+    // printf("f000k\n\n\n");
     if(obj != NULL)
     {
         void *calPropDeleteElem;
@@ -1714,6 +1741,13 @@ char* printError(ICalErrorCode err)
 
 }
 
+// char* grabOrgName()
+// {
+    
+// }
+
+
+
 Calendar* initializeCalendar()
 {
     Calendar * parseCalendar = malloc(sizeof(Calendar));
@@ -1728,6 +1762,7 @@ void manualCalInit(Calendar** obj, char* PRODID)
     *obj = initializeCalendar();
     (*obj)->version = 2.0;
     strcpy((*obj)->prodID, PRODID);
+    // printf("#of events is %d\n", (*obj)->events.length);
 }
 
 void manualEventInit(Calendar** obj, char* uid, char* date, char* timeVal)
@@ -1742,8 +1777,26 @@ void manualEventInit(Calendar** obj, char* uid, char* date, char* timeVal)
     strcpy(tempEvent->creationDateTime.time, timeVal);
     tempEvent->creationDateTime.UTC = false;
 
+    strcpy(tempEvent->startDateTime.date, date);
+    strcpy(tempEvent->startDateTime.time, timeVal);
+    tempEvent->startDateTime.UTC = false;
+
     insertBack(&(*obj)->events, tempEvent);
+
+    // printf("#of events is %d\n", (*obj)->events.length);
 }
+
+int getEventListSize(const Calendar* obj)
+{
+    return obj->events.length;
+}
+
+int getPropertyListSize(const Calendar* obj)
+{
+    return obj->properties.length;
+}
+
+
 
 
 Event* initializeEvent(char* date, char* timeVal, char* UTC, char* dateTwo, char* timeValTwo, char* UTCTwo)
