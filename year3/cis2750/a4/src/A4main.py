@@ -295,7 +295,7 @@ class main(object):
 			calStr = printCal(calPtr)
 			# calPrint = calStr.decode('utf-8')
 			# print(calPrint)
-			calPrint = calStr.decode('utf-8').splitlines()
+			# calPrint = calStr.decode('utf-8').splitlines()
 				# print(calPrint[2])
 			calLength = getCalEventCount(calPtr)
 			self.Listbox1.delete(0,END)
