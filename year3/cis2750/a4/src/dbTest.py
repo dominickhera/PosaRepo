@@ -50,7 +50,7 @@ except mysql.connector.Error as err:
 for r in cursor:
     # r is a tuple of column values
     # this means that r has constant length
-    print(r)
+    print("r",r)
     
 print("\n\n")
 
