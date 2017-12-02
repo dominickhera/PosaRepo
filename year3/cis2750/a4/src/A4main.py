@@ -287,7 +287,7 @@ class main(object):
 			# print("filename is ",mainFileName)
 			root.title("iCalGUI - " + basename(filename))
 				# openFileName = basename(filename)
-			calPtr = mallocCal()
+			# calPtr = mallocCal()
 			# filename = './assets/test2.ics'
 			fStr = filename.encode('utf-8')
 			returnVal = createCal(fStr,byref(calPtr))
