@@ -123,7 +123,6 @@ deleteCal.argtypes = [POINTER(Calendar)]
 calPtr = POINTER(Calendar)()
 
 mainFileName = " "
-conn = ""
 
 class queryWindow(object):
 	def __init__(self,master):
