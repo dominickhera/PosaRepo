@@ -156,10 +156,8 @@ class main(object):
 		# global conn
 		self.master=master
 		if (len(sys.argv) < 1):
-			userName = sys.argv[1]
-		if userName:
-			dbName = userName
-			uName = userName
+			dbName = sys.argv[1]
+			uName = sys.argv[1]
 			try:
 				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
 			except mysql.connector.Error as err:
