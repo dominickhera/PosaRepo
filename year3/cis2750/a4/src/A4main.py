@@ -42,6 +42,7 @@ def grabDatabase():
 			uName = userName
 			try:
 				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
+				cursor = conn.cursor()
 			except mysql.connector.Error as err:
 				print("Something went wrong: {}".format(err))
 				exit()
@@ -51,10 +52,11 @@ def grabDatabase():
 			passwd = "0943778"
 			try:
 				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
+				cursor = conn.cursor()
 			except mysql.connector.Error as err:
 				print("Something went wrong: {}".format(err))
 				exit()
-	cursor = conn.cursor()
+	
 
 class Calendar(Structure):
     _fields_ = [
