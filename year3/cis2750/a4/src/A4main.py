@@ -159,7 +159,7 @@ class main(object):
 			dbName = sys.argv[1]
 			uName = sys.argv[1]
 			try:
-				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
+				self.conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
 			except mysql.connector.Error as err:
 				print("Something went wrong: {}".format(err))
 				exit()
@@ -168,12 +168,12 @@ class main(object):
 			uName = "dhera"
 			passwd = "0943778"
 			try:
-				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
+				self.conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
 				# cursor = conn.cursor()
 			except mysql.connector.Error as err:
 				print("Something went wrong: {}".format(err))
 				exit()
-		self.cursor = conn.cursor()
+		self.cursor = self.conn.cursor()
 		self.menubar = Menu(root)
 		self.filemenu = Menu(self.menubar, tearoff=0)
 		self.filemenu.add_command(label="Open", accelerator="Ctrl+O", command=self.openFile)
