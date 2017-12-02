@@ -35,24 +35,25 @@ from os.path import basename
 # passwd = "0943778"
 
 def grabDatabase():
-	userName = sys.argv[1]
-	if userName:
-		dbName = userName
-		uName = userName
-		try:
-			conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
-		except mysql.connector.Error as err:
-			print("Something went wrong: {}".format(err))
-			exit()
-	else:
-		dbName = "dhera"
-		uName = "dhera"
-		passwd = "0943778"
-		try:
-			conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
-		except mysql.connector.Error as err:
-			print("Something went wrong: {}".format(err))
-			exit()
+	if sys.argv[1]:
+		userName = sys.argv[1]
+		if userName:
+			dbName = userName
+			uName = userName
+			try:
+				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
+			except mysql.connector.Error as err:
+				print("Something went wrong: {}".format(err))
+				exit()
+		else:
+			dbName = "dhera"
+			uName = "dhera"
+			passwd = "0943778"
+			try:
+				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
+			except mysql.connector.Error as err:
+				print("Something went wrong: {}".format(err))
+				exit()
 
 class Calendar(Structure):
     _fields_ = [
