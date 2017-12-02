@@ -55,8 +55,8 @@ class Calendar(Structure):
     _fields_ = [
         ("version", c_float),
         ("prodID", c_byte * 1000),
-        ("events", c_void_p),
-        ("properties", c_void_p)]
+        ("events", c_void_p*1000),
+        ("properties", c_void_p*1000)]
 
 
 calLibPath = './bin/parseLib.so'
