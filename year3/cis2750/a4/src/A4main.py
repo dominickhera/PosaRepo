@@ -34,28 +34,28 @@ from os.path import basename
 # uName = "dhera"
 # passwd = "0943778"
 
-def grabDatabase():
-	global conn
-	if (len(sys.argv) < 1):
-		userName = sys.argv[1]
-		if userName:
-			dbName = userName
-			uName = userName
-			try:
-				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
-			except mysql.connector.Error as err:
-				print("Something went wrong: {}".format(err))
-				exit()
-		else:
-			dbName = "dhera"
-			uName = "dhera"
-			passwd = "0943778"
-			try:
-				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
-				cursor = conn.cursor()
-			except mysql.connector.Error as err:
-				print("Something went wrong: {}".format(err))
-				exit()
+# def grabDatabase():
+# 	global conn
+# 	if (len(sys.argv) < 1):
+# 		userName = sys.argv[1]
+# 		if userName:
+# 			dbName = userName
+# 			uName = userName
+# 			try:
+# 				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
+# 			except mysql.connector.Error as err:
+# 				print("Something went wrong: {}".format(err))
+# 				exit()
+# 		else:
+# 			dbName = "dhera"
+# 			uName = "dhera"
+# 			passwd = "0943778"
+# 			try:
+# 				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
+# 				cursor = conn.cursor()
+# 			except mysql.connector.Error as err:
+# 				print("Something went wrong: {}".format(err))
+# 				exit()
 	
 
 class Calendar(Structure):
@@ -123,7 +123,7 @@ deleteCal.argtypes = [POINTER(Calendar)]
 calPtr = POINTER(Calendar)()
 
 mainFileName = " "
-conn = None
+# conn = None
 
 class queryWindow(object):
 	def __init__(self,master):
@@ -189,7 +189,7 @@ class createEventWindow(object):
 
 class main(object):
 	def __init__(self,master):
-		global conn
+		# global conn
 		self.master=master
 		self.menubar = Menu(root)
 		self.filemenu = Menu(self.menubar, tearoff=0)
@@ -257,6 +257,26 @@ class main(object):
 		self.clearButton.grid(row=17,column=0)
 		# self.clearButton.pack(side=BOTTOM)
 		self.master.config(menu=self.menubar)
+		if (len(sys.argv) < 1):
+		userName = sys.argv[1]
+		if userName:
+			dbName = userName
+			uName = userName
+			try:
+				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
+			except mysql.connector.Error as err:
+				print("Something went wrong: {}".format(err))
+				exit()
+		else:
+			dbName = "dhera"
+			uName = "dhera"
+			passwd = "0943778"
+			try:
+				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
+				cursor = conn.cursor()
+			except mysql.connector.Error as err:
+				print("Something went wrong: {}".format(err))
+				exit()
 		cursor = conn.cursor()
 		self.master.protocol("WM_DELETE_WINDOW", self.failSafeExit)
 	def createCalEvent(self):
@@ -444,7 +464,7 @@ class main(object):
 if __name__ == "__main__":
 	root = Tk()
 	root.title("iCalGUI")
-	grabDatabase()
+	# grabDatabase()
 	# cursor = conn.cursor()
 	# root.geometry('730x425')
 	# menubar = Menu(root)
