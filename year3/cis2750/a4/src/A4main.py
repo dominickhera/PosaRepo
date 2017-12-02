@@ -56,7 +56,7 @@ class Calendar(Structure):
         ("version", c_float),
         ("prodID", c_byte * 1000),
         ("events", c_void_p),
-        ("properties", c_void_p)]
+        ("properties", c_void_p*50)]
 
 
 calLibPath = './bin/parseLib.so'
