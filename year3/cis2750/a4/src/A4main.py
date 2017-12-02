@@ -390,7 +390,7 @@ class main(object):
 		for r in cursor:
 			eventCount = eventCount + 1
 
-		statusString = "Database has {} organizers and {} events.\n".format(organizerCount, eventCount))
+		statusString = "Database has {} organizers and {} events.\n".format(organizerCount, eventCount)
 		self.logPanel.insert(INSERT, statusString)
 		self.logPanel.grid(row=16,column=0, rowspan=1, columnspan=50)
 		self.logPanel.config(state=DISABLED)
