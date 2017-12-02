@@ -381,9 +381,9 @@ class main(object):
 		global conn
 		cursor = conn.cursor()
 		self.logPanel.config(state=NORMAL)
-		 # cursor.execute("SELECT COUNT(*) FROM organizer")
-		# eventCount = cursor.execute("SELECT COUNT(*) FROM event")
-		self.logPanel.insert(INSERT, "Database has ", cursor.execute("SELECT COUNT(*) FROM organizer"), " organizers and ", cursor.execute("SELECT COUNT(*) FROM event")," events.\n")
+		cursor.execute("SELECT COUNT(*) FROM organizer")
+		eventCount = cursor.execute("SELECT COUNT(*) FROM event")
+		self.logPanel.insert(INSERT, "Database has ", organizerCount, " organizers and ", eventCount," events.\n")
 		self.logPanel.grid(row=16,column=0, rowspan=1, columnspan=50)
 		self.logPanel.config(state=DISABLED)
 
