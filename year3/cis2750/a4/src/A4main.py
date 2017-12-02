@@ -41,7 +41,7 @@ def grabDatabase():
 			dbName = userName
 			uName = userName
 			try:
-				global conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
+				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
 			except mysql.connector.Error as err:
 				print("Something went wrong: {}".format(err))
 				exit()
@@ -50,10 +50,11 @@ def grabDatabase():
 			uName = "dhera"
 			passwd = "0943778"
 			try:
-				global conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
+				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
 			except mysql.connector.Error as err:
 				print("Something went wrong: {}".format(err))
 				exit()
+	cursor = conn.cursor()
 
 class Calendar(Structure):
     _fields_ = [
@@ -437,7 +438,7 @@ if __name__ == "__main__":
 	root = Tk()
 	root.title("iCalGUI")
 	grabDatabase()
-	cursor = conn.cursor()
+	# cursor = conn.cursor()
 	# root.geometry('730x425')
 	# menubar = Menu(root)
 	# print(sys.argv[1])
