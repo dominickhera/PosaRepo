@@ -277,7 +277,8 @@ class main(object):
 				except mysql.connector.Error as err:
 					print("Something went wrong: {}".format(err))
 					exit()
-		cursor = conn.cursor()
+			cursor = conn.cursor()
+		# cursor = conn.cursor()
 		self.master.protocol("WM_DELETE_WINDOW", self.failSafeExit)
 	def createCalEvent(self):
 		self.w=createCalendarWindow(self.master)
