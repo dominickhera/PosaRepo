@@ -35,6 +35,7 @@ from os.path import basename
 # passwd = "0943778"
 
 def grabDatabase():
+	global conn
 	if (len(sys.argv) < 1):
 		userName = sys.argv[1]
 		if userName:
@@ -42,7 +43,6 @@ def grabDatabase():
 			uName = userName
 			try:
 				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
-				cursor = conn.cursor()
 			except mysql.connector.Error as err:
 				print("Something went wrong: {}".format(err))
 				exit()
@@ -123,6 +123,7 @@ deleteCal.argtypes = [POINTER(Calendar)]
 calPtr = POINTER(Calendar)()
 
 mainFileName = " "
+conn = ""
 
 class queryWindow(object):
 	def __init__(self,master):
@@ -188,6 +189,7 @@ class createEventWindow(object):
 
 class main(object):
 	def __init__(self,master):
+		global conn
 		self.master=master
 		self.menubar = Menu(root)
 		self.filemenu = Menu(self.menubar, tearoff=0)
@@ -255,6 +257,7 @@ class main(object):
 		self.clearButton.grid(row=17,column=0)
 		# self.clearButton.pack(side=BOTTOM)
 		self.master.config(menu=self.menubar)
+		self.cursor = conn.cursor()
 		self.master.protocol("WM_DELETE_WINDOW", self.failSafeExit)
 	def createCalEvent(self):
 		self.w=createCalendarWindow(self.master)
@@ -409,16 +412,18 @@ class main(object):
 			print(calPrint)
 
 	def displayDBStatus(self):
+		# global conn
 		self.logPanel.config(state=NORMAL)
-		organizerCount = cursor.execute("SELECT COUNT(*) FROM organizers")
-		eventCount = cursor.execute("SELECT COUNT(*) FROM event")
+		organizerCount = self.cursor.execute("SELECT COUNT(*) FROM organizers")
+		eventCount = self.cursor.execute("SELECT COUNT(*) FROM event")
 		self.logPanel.insert(INSERT, "Database has ", organizerCount, " organizers and ",eventCount," events.\n")
 		self.logPanel.grid(row=16,column=0, rowspan=1, columnspan=50)
 		self.logPanel.config(state=DISABLED)
 
 	def clearAllData(self):
-		cursor.execute("DELETE FROM organizers")
-		cursor.execute("DELETE FROM event")
+		# global conn
+		self.cursor.execute("DELETE FROM organizers")
+		self.cursor.execute("DELETE FROM event")
 		self.displayDBStatus()
 
 	def executeQuery(self):
