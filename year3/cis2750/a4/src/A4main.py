@@ -390,15 +390,15 @@ class main(object):
 		for r in cursor:
 			eventCount = eventCount + 1
 
-		# statusString = ("Database has ", organizerCount, " organizers and ", eventCount," events.\n")
-		self.logPanel.insert(INSERT, ("Database has ", organizerCount, " organizers and ", eventCount," events.\n"))
+		statusString = ("Database has ", organizerCount, " organizers and ", eventCount," events.\n")
+		self.logPanel.insert(INSERT, statusString.decode("utf-8"))
 		self.logPanel.grid(row=16,column=0, rowspan=1, columnspan=50)
 		self.logPanel.config(state=DISABLED)
 
 	def clearAllData(self):
 		global conn
 		cursor = conn.cursor()
-		cursor.execute("DELETE FROM organizers")
+		cursor.execute("DELETE FROM organizer")
 		cursor.execute("DELETE FROM event")
 		self.displayDBStatus()
 
