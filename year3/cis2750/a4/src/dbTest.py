@@ -17,15 +17,15 @@ cursor = conn.cursor()
 
 # **** uncomment if you want to create the table on the fly ****
 
-"create table students (id int not null auto_increment,  last_name char(15),  first_name char(15), mark char(2), primary key(id) )"
-"create table ORGANIZER (org_id int not null auto_increment, name varchar(60), contact varchar(60), primary key(org_id) )"
-"create table EVENT (org_id int not null auto_increment, summary varchar(60), start_time datetime, location varchar(60), organizer: int, nul_alarms int, primary key(org_id) )"
+# "create table students (id int not null auto_increment,  last_name char(15),  first_name char(15), mark char(2), primary key(id) )"
+# "create table organizer (org_id int auto_increment, name varchar(60) not null, contact varchar(60) not null, primary key(org_id) )"
+# "create table event (event_id int auto_increment, summary varchar(60) not null, start_time datetime not null, location varchar(60), organizer int, num_alarms int, primary key(event_id), foreign key(organizer) references organizer(org_id) on delete cascade )"
 createQuery="create table students (id int not null auto_increment,  last_name char(15),  first_name char(15), mark char(2), primary key(id) )"
-#try:
-#    cursor.execute(createQuery)
-#except mysql.connector.Error as err:
-#    print("Something went wrong: {}".format(err))
-
+try:
+   cursor.execute(createQuery)
+except mysql.connector.Error as err:
+   print("Something went wrong: {}".format(err))
+# 
 # *** If you uncommented code above, remember to also uncomment the "drop table" code at the bottom of this file ****
 
 
@@ -72,7 +72,7 @@ print("\n\n")
 cursor.execute("delete from students")
 
 # **** uncomment this if you also uncomment the "create table" code at the front ****
-#cursor.execute("drop table students")
+cursor.execute("drop table students")
 
 cursor.close()    
 conn.close()
