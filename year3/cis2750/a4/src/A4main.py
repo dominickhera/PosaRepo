@@ -32,7 +32,7 @@ from os.path import basename
 
 
 # conn = None
-if (len(sys.argv) < 1):
+if (len(sys.argv) > 1):
 	dbName = sys.argv[1]
 	uName = sys.argv[1]
 	try:
@@ -139,7 +139,11 @@ class queryWindow(object):
 	def helpLog(self):
 		print("hiya")
 	def clearQueryLog(self):
-		print("fudge")
+		self.Listbox2.config(state=NORMAL)
+		self.Listbox2.delete(1.0,END)
+		self.Listbox2.grid(row=1 ,column=3, rowspan = 15, columnspan = 2)
+		# self.logPanel.pack()
+		self.Listbox2.config(state=DISABLED)
 	def cleanUp(self):
 		self.top.destroy()
 
