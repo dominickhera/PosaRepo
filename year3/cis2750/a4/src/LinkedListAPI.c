@@ -336,24 +336,34 @@ void* nextElement(ListIterator* iter)
 int getLength(List list)
 {
 
-    List  * temp = &list;
+    List temp = list;
 
-    if(temp != NULL)
-    {     
+
+    printf("1\n");
+    // if(list != NULL)
+    // {     
+        printf("list length is %d", temp.length);
+        printf("2\n");
         void* elem;
+        printf("3\n");
         int lengthCount = 0;
-        ListIterator listIter = createIterator(*temp);
+        printf("4\n");
+        ListIterator listIter = createIterator(temp);
+        printf("5\n");
+        printf("list length is %d", temp.length);
         while((elem = nextElement(&listIter)) != NULL)
         {
+            printf("6\n");
             lengthCount++;
         }
-
+        printf("7\n");
         return lengthCount;
-    }
-    else
-    {
-        return -1;
-    }
+    // }
+    // else
+    // {
+    //     printf("8\n");
+    //     return -1;
+    // }
 }
 
 

@@ -17,7 +17,10 @@ cursor = conn.cursor()
 
 # **** uncomment if you want to create the table on the fly ****
 
-#createQuery="create table students (id int not null auto_increment,  last_name char(15),  first_name char(15), mark char(2), primary key(id) )"
+"create table students (id int not null auto_increment,  last_name char(15),  first_name char(15), mark char(2), primary key(id) )"
+"create table ORGANIZER (org_id int not null auto_increment, name varchar(60), contact varchar(60), primary key(org_id) )"
+"create table EVENT (org_id int not null auto_increment, summary varchar(60), start_time datetime, location varchar(60), organizer: int, nul_alarms int, primary key(org_id) )"
+createQuery="create table students (id int not null auto_increment,  last_name char(15),  first_name char(15), mark char(2), primary key(id) )"
 #try:
 #    cursor.execute(createQuery)
 #except mysql.connector.Error as err:
