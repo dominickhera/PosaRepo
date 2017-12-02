@@ -91,7 +91,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
     int totalEventCount = 0;
     int totalEventPropCount = 0;
     int lineStartCount = 0;
-    int firstWrapFlag = 0;
+    // int firstWrapFlag = 0;
     // int eventAlarmCount = 0;
 
     //parsing into a string array
