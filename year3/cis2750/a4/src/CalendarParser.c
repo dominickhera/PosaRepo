@@ -184,7 +184,7 @@ ICalErrorCode createCalendar(char* fileName, Calendar** obj)
                         {
                             strcpy(lineStorage[count], line);
                             count++;
-                            firstWrapFlag = 0;
+                            // firstWrapFlag = 0;
                         }
                         // printf("line %s\n", line);
                     }
