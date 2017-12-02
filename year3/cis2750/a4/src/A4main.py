@@ -398,7 +398,7 @@ class main(object):
 	def clearAllData(self):
 		global conn
 		cursor = conn.cursor()
-		cursor.execute("DELETE FROM organizers")
+		cursor.execute("DELETE FROM organizer")
 		cursor.execute("DELETE FROM event")
 		self.displayDBStatus()
 
