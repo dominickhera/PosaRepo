@@ -27,6 +27,7 @@ void manualCalInit(Calendar** obj, char* PRODID);
 void manualEventInit(Calendar** obj, char* uid, char* date, char* timeVal);
 int getEventListSize(const Calendar* obj);
 int getPropertyListSize(const Calendar* obj);
+char* printSummary(const Calendar* eventPointer);
 Event* initializeEvent(char* date, char* timeVal, char* UTC, char* dateTwo, char* timeValTwo, char* UTCTwo);
 Property* initializeProperty(char* propName, char* propDescr);
 Alarm* initializeAlarm(char* action, char* trigger);
@@ -1743,9 +1744,22 @@ char* printError(ICalErrorCode err)
 
 // char* grabOrgName()
 // {
-    
-// }
 
+// }
+char* printSummary(const Calendar* eventPointer)
+{
+    void *eventPropElem;
+    ListIterator eventPropertiesIter = createIterator(eventPointer->properties);
+    while((eventPropElem = nextElement(&eventPropertiesIter)) != NULL)
+    {
+        Property* tempEventPropPrint = (Property*)eventPropElem;
+        if(strcasestr(tempEventPropPrint->propName, "SUMMARY"))
+        {
+            return tempEventPropPrint->propDescr;
+        }
+    }
+    return NULL;
+}
 
 
 Calendar* initializeCalendar()
@@ -1795,6 +1809,7 @@ int getPropertyListSize(const Calendar* obj)
 {
     return obj->properties.length;
 }
+
 
 
 

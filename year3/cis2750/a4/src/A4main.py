@@ -36,7 +36,7 @@ if (len(sys.argv) > 1):
 	dbName = sys.argv[1]
 	uName = sys.argv[1]
 	try:
-		conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
+		conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=" ")
 	except mysql.connector.Error as err:
 		print("Something went wrong: {}".format(err))
 		exit()
@@ -81,8 +81,14 @@ getCalEventCount.restype = c_int
 getListLength = listLib.getLength
 
 createIter = listLib.createIterator
+# createIter.argtypes = []
+createIter.restype = c_void_p
 
 nextElem = listLib.nextElement
+nextElem.restype = c_void_p
+
+printSummary = callib.printSummary
+printSummary.restype = c_char_p
 # getListLength.argtypes[]
 # getListLength.restype = c_int
 
@@ -256,6 +262,12 @@ class main(object):
 		self.Listbox1.delete(0,END)
 		for num in range(calLength):
 			self.Listbox1.insert(num, num + 1)
+		testVal = calPtr.contents
+		eventIter = createIter(testVal.events)
+		cast(eventIter, c_void_p)
+		testSummary = printSummary(eventIter)
+		print(testSummary)
+
 		# print(self.createEventWindow.E2.get())
 
 	def entryValue(self):
