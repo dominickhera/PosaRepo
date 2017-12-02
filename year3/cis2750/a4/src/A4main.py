@@ -30,34 +30,6 @@ import datetime
 import mysql.connector
 from os.path import basename
 
-# dbName = "dhera"
-# uName = "dhera"
-# passwd = "0943778"
-
-# def grabDatabase():
-# 	global conn
-# 	if (len(sys.argv) < 1):
-# 		userName = sys.argv[1]
-# 		if userName:
-# 			dbName = userName
-# 			uName = userName
-# 			try:
-# 				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
-# 			except mysql.connector.Error as err:
-# 				print("Something went wrong: {}".format(err))
-# 				exit()
-# 		else:
-# 			dbName = "dhera"
-# 			uName = "dhera"
-# 			passwd = "0943778"
-# 			try:
-# 				conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
-# 				cursor = conn.cursor()
-# 			except mysql.connector.Error as err:
-# 				print("Something went wrong: {}".format(err))
-# 				exit()
-	
-
 class Calendar(Structure):
     _fields_ = [
         ("version", c_float),
@@ -176,14 +148,6 @@ class createEventWindow(object):
 		# print(dateVal," time val >", timeVal)
 		uidString = bytes(self.E2.get(), encoding='utf-8')
 		initEvent(byref(calPtr), uidString, dateVal, timeVal)
-		# calLength = getCalEventCount(calPtr)
-		# for num in range(calLength):
-			# main.self.Listbox1.insert(num, num)
-		# testCal = calPtr.contents
-		# stuff = cast(testCal.events, c_void_p)
-		# # print('',testCal.evenlength)
-		# print("list length", getListLength(stuff))
-		# print("the amount of events are", testCal.events.length)
 		self.top.destroy()
 
 
@@ -191,6 +155,27 @@ class main(object):
 	def __init__(self,master):
 		# global conn
 		self.master=master
+		if (len(sys.argv) < 1):
+			userName = sys.argv[1]
+			if userName:
+				dbName = userName
+				uName = userName
+				try:
+					conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
+				except mysql.connector.Error as err:
+					print("Something went wrong: {}".format(err))
+					exit()
+			else:
+				dbName = "dhera"
+				uName = "dhera"
+				passwd = "0943778"
+				try:
+					conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
+					# cursor = conn.cursor()
+				except mysql.connector.Error as err:
+					print("Something went wrong: {}".format(err))
+					exit()
+		cursor = conn.cursor()
 		self.menubar = Menu(root)
 		self.filemenu = Menu(self.menubar, tearoff=0)
 		self.filemenu.add_command(label="Open", accelerator="Ctrl+O", command=self.openFile)
@@ -217,12 +202,6 @@ class main(object):
 		self.helpmenu = Menu(self.menubar, tearoff=0)
 		self.helpmenu.add_command(label="About iCalGUI...", command=self.aboutApp)
 		self.menubar.add_cascade(label="Help", menu=self.helpmenu)
-		# self.scrollbar = Scrollbar(root)
-		# self.scrollbar.pack(side=RIGHT,fill=Y)
-		
-		# self.fileViewPanel = Listbox(root,height=15,yscrollcommand=self.scrollbar.set)
-		# self.fileViewPanel.pack(side=TOP,fill=BOTH)
-
 		self.label1 = Label(root, text="Evt No.")
 		self.label2 = Label(root, text="Props")
 		self.label3 = Label(root, text="Alarms")
@@ -257,27 +236,6 @@ class main(object):
 		self.clearButton.grid(row=17,column=0)
 		# self.clearButton.pack(side=BOTTOM)
 		self.master.config(menu=self.menubar)
-		if (len(sys.argv) < 1):
-			userName = sys.argv[1]
-			if userName:
-				dbName = userName
-				uName = userName
-				try:
-					conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
-				except mysql.connector.Error as err:
-					print("Something went wrong: {}".format(err))
-					exit()
-			else:
-				dbName = "dhera"
-				uName = "dhera"
-				passwd = "0943778"
-				try:
-					conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=passwd)
-					cursor = conn.cursor()
-				except mysql.connector.Error as err:
-					print("Something went wrong: {}".format(err))
-					exit()
-			cursor = conn.cursor()
 		# cursor = conn.cursor()
 		self.master.protocol("WM_DELETE_WINDOW", self.failSafeExit)
 	def createCalEvent(self):
@@ -311,22 +269,13 @@ class main(object):
 
 			# filename = './assets/test2.ics'
 			fStr = filename.encode('utf-8')
-
-
-
 			returnVal = createCal(fStr,byref(calPtr))
-			# print('2\n')
-				#call the library function createCalendar() using our alias createCal
-			# print('returned = ', returnVal)
-			# print('3\n')
-
+			# print('2\n'
 			calStr = printCal(calPtr)
 			# calPrint = calStr.decode('utf-8')
 			# print(calPrint)
 			calPrint = calStr.decode('utf-8').splitlines()
 				# print(calPrint[2])
-
-
 			calLength = getCalEventCount(calPtr)
 			self.Listbox1.delete(0,END)
 			for num in range(calLength):
@@ -420,12 +369,8 @@ class main(object):
 			# gc.collect(calPtr)
 			root.quit()
 	def deleteCal(self):
-		# deleteCal = callib.deleteCalendar
-		# deleteCal.argtypes = [POINTER(Calendar)]
-		# calDelPtr = POINTER(Calendar)()
-		# gc.collect(calPtr)
 		deleteCal(calPtr)
-		# gc.collect(calPtr)
+
 	def printCal(self):
 		if calPtr:
 			calStr = printCal(calPtr)
@@ -465,11 +410,6 @@ class main(object):
 if __name__ == "__main__":
 	root = Tk()
 	root.title("iCalGUI")
-	# grabDatabase()
-	# cursor = conn.cursor()
-	# root.geometry('730x425')
-	# menubar = Menu(root)
-	# print(sys.argv[1])
 	m=main(root)
 	# print('boop')
 	# root.config(menu=menubar)
