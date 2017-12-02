@@ -124,7 +124,7 @@ class queryWindow(object):
 		self.label1 = Label(top, text="Query")
 		self.label2 = Label(top, text="Results")
 		self.Listbox1 = Listbox(top, height=15)
-		self.Listbox2 = text(top, height=15)
+		self.Listbox2 = Text(top, height=15)
 		self.label1.grid(row=0,column=0)
 		self.label2.grid(row=0,column=3)
 		self.Listbox1.grid(row=1, column=0, rowspan = 15, columnspan = 2)
@@ -133,6 +133,9 @@ class queryWindow(object):
 		self.helpButton.grid(row=17,column=0)
 		self.clearButton = Button(top, text="Clear", command=self.clearQueryLog)
 		self.clearButton.grid(row=18,column=0)
+		self.Listbox2.config(state=DISABLED)
+		self.Listbox2.tag_add("here", "1.0", "1.4")
+		self.Listbox2.tag_add("start", "1.8", "1.13")
 	def helpLog(self):
 		print("hiya")
 	def clearQueryLog(self):
