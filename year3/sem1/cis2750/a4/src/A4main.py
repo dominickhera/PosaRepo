@@ -36,7 +36,7 @@ if (len(sys.argv) > 1):
 	dbName = sys.argv[1]
 	uName = sys.argv[1]
 	try:
-		conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password=" ")
+		conn = mysql.connector.connect(host="dursley.socs.uoguelph.ca",database=dbName,user=uName,password="")
 	except mysql.connector.Error as err:
 		print("Something went wrong: {}".format(err))
 		exit()
@@ -55,8 +55,8 @@ class Calendar(Structure):
     _fields_ = [
         ("version", c_float),
         ("prodID", c_byte * 1000),
-        ("events", c_void_p*1000),
-        ("properties", c_void_p*1000)]
+        ("events", c_void_p),
+        ("properties", c_void_p)]
 
 
 calLibPath = './bin/parseLib.so'
