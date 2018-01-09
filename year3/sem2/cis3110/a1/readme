@@ -1,0 +1,33 @@
+======================
+a1
+9/1/18
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+
+./msh
+
+==========
+to compile
+==========
+type 'make' to run the makeFile
+
+=============
+description
+=============
+
+- at the time of being posted, the project is only partially complete due to lack of oversight of delegating time to finish this project and working on 2750 instead. The program utilises several functions such as exit, execvp and more to create a crippled version of what would normally be referred to as a shell that's able to execute commands, add numbers in the command line, display all the arguments entered, recognise arguements within a command as well as successfully exit the shell with no issue. While it is not a fully functional shell, i would hope to further improve the functionality of it so that it is more satisfactory to the professor and TA's likings. 
+
+====================
+known limitations
+====================
+
+- when executing commands, the shell does not use fork or wait.
+- shell is unable to run commands in the background.
+- shell is able to add decimal numbers but unable to add hex numbers.
+- shell is unable to redirect contents into a different named file.

@@ -34,6 +34,7 @@ int main()
                 }
                 else
                 { 
+                    fork();
                     execvp(args[i], args);
                 }
             }
@@ -76,7 +77,7 @@ int main()
                 }
                 else if(strcmp(args[i], "args") == 0)
                 {
-                    printf("argc = %d, args = ", count);
+                    printf("argc = %d, args = ", count - 1);
                     for(j = 1; j < count; j++)
                     {
                         if(j == count - 1)
