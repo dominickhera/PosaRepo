@@ -25,7 +25,8 @@ contains
 
 	subroutine playTicTacToe()
 
-		integer :: playerMove
+		integer :: playerMove, rng(1),i 
+		real :: r(1)
 		character ,dimension(3,3) :: TICTAC = reshape((/' ',' ',' ',' ',' ',' ',' ',' ',' ' /), (/3,3/))
 ! 		(/'1','4','7','2','5','8','3','6','9' /)
 
@@ -73,6 +74,16 @@ contains
 		end select
 		write(*,*) 'After your move...'
 		call showBoard(TICTAC)
+		call pickMove(TICTAC)
+		do i = 1, 1000, 1
+			call RANDOM_NUMBER(r)
+			rng = FLOOR(10*r)
+			write(*,*) 'r is now', r
+			if (i == 100) exit
+		end do
+! 		call RANDOM_NUMBER(r)
+		rng = FLOOR(10*r)
+		write(*,*) 'rng is ',rng, r
 		return 
 ! 		if (CHKPLAY(TICTAC, playerMove) == .FALSE.) then 
 
@@ -92,15 +103,162 @@ contains
 
 	end subroutine showBoard
 
-! 	integer function pickMove(TICTAC)
+	subroutine pickMove(TICTAC)
 
-! 		integer :: htop,hmiddle,hbottom
+		character(len=1) :: TICTAC(3,3)
+		integer :: b1,b2,b3,b4,b5,b6,b7,b8,b9,w1,w2,w3,w4,w5,w6,w7,w8
 
-! 		htop = count(TICTAC [,1])
-! 		hmiddle = count(TICTAC [,2])
-! 		hbottom = count(TICTAC [,3])
+		b1 = 0
+		b2 = 0
+		b3 = 0
+		b4 = 0
+		b5 = 0
+		b6 = 0
+		b7 = 0
+		b8 = 0
+		b9 = 0
 
-! 	end function pickMove
+		if (TICTAC(1,1) == 'X') then
+			b1 = 4
+		elseif (TICTAC(1,1) == 'O') then
+			b1 = 1
+		endif
+
+		if (TICTAC(1,2) == 'X') then
+			b2 = 4
+		elseif (TICTAC(1,2) == 'O') then
+			b2 = 1
+		endif
+
+		if (TICTAC(1,3) == 'X') then
+			b3 = 4
+		elseif (TICTAC(1,3) == 'O') then
+			b3 = 1
+		endif
+
+		if (TICTAC(2,1) == 'X') then
+			b4 = 4
+		elseif (TICTAC(2,1) == 'O') then
+			b4 = 1
+		endif
+
+		if (TICTAC(2,2) == 'X') then
+			b5 = 4
+		elseif (TICTAC(2,2) == 'O') then
+			b5 = 1
+		endif
+
+		if (TICTAC(2,3) == 'X') then
+			b6 = 4
+		elseif (TICTAC(2,3) == 'O') then
+			b6 = 1
+		endif
+
+		if (TICTAC(3,1) == 'X') then
+			b7 = 4
+		elseif (TICTAC(3,1) == 'O') then
+			b7 = 1
+		endif
+
+		if (TICTAC(3,2) == 'X') then
+			b8 = 4
+		elseif (TICTAC(3,2) == 'O') then
+			b8 = 1
+		endif
+
+		if (TICTAC(3,3) == 'X') then
+			b9 = 4
+		elseif (TICTAC(3,3) == 'O') then
+			b9 = 1
+		endif
+
+		w1 = b1 + b2 + b3
+		w2 = b4 + b5 + b6
+		w3 = b7 + b8 + b9
+		w4 = b1 + b4 + b7
+		w5 = b2 + b5 + b8
+		w6 = b3 + b6 + b9
+		w7 = b1 + b5 + b9
+		w8 = b3 + b5 + b7
+
+		if(w1 == 8 .or. w1 == 2) then
+			if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
+				TICTAC(1,1) = 'O'
+			elseif (CHKPLAY(TICTAC, 2) .eqv. .TRUE.) then
+				TICTAC(1,2) = 'O'
+			elseif (CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
+				TICTAC(1,3) = 'O'
+			endif
+		elseif (w2 == 8 .or. w2 == 2) then
+			if(CHKPLAY(TICTAC, 4) .eqv. .TRUE.) then
+				TICTAC(2,1) = 'O'
+			elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
+				TICTAC(2,2) = 'O'
+			elseif (CHKPLAY(TICTAC, 6) .eqv. .TRUE.) then
+				TICTAC(2,3) = 'O'
+			endif
+		elseif (w3 == 8 .or. w3 == 2) then
+			if(CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
+				TICTAC(3,1) = 'O'
+			elseif (CHKPLAY(TICTAC, 8) .eqv. .TRUE.) then
+				TICTAC(3,2) = 'O'
+			elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
+				TICTAC(3,3) = 'O'
+			endif
+		elseif (w4 == 8 .or. w4 == 2) then
+			if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
+				TICTAC(1,1) = 'O'
+			elseif (CHKPLAY(TICTAC, 4) .eqv. .TRUE.) then
+				TICTAC(2,1) = 'O'
+			elseif (CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
+				TICTAC(3,1) = 'O'
+			endif
+		elseif (w5 == 8 .or. w5 == 2) then
+			if(CHKPLAY(TICTAC, 2) .eqv. .TRUE.) then
+				TICTAC(1,2) = 'O'
+			elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
+				TICTAC(2,2) = 'O'
+			elseif (CHKPLAY(TICTAC, 8) .eqv. .TRUE.) then
+				TICTAC(3,2) = 'O'
+			endif
+		elseif (w6 == 8 .or. w6 ==2) then
+			if(CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
+				TICTAC(1,3) = 'O'
+			elseif (CHKPLAY(TICTAC, 6) .eqv. .TRUE.) then
+				TICTAC(2,3) = 'O'
+			elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
+				TICTAC(3,3) = 'O'
+			endif
+		elseif (w7 == 8 .or. w7 == 2) then
+			if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
+				TICTAC(1,1) = 'O'
+			elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
+				TICTAC(2,2) = 'O'
+			elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
+				TICTAC(3,3) = 'O'
+			endif
+		elseif (w8 == 8 .or. w8 == 2) then
+			if(CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
+				TICTAC(1,3) = 'O'
+			elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
+				TICTAC(2,2) = 'O'
+			elseif (CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
+				TICTAC(3,1) = 'O'
+			endif
+		else
+! 			do
+				
+! 			end do
+		endif
+
+! 		read(TICTAC(1,1), '(i1)') b1
+
+! 		write(*,*) 'tic tac at 1,1 is ', b1
+! 		read(TICTAC(1:3), '(i)') w1
+! 		read(TICTAC(4:6), '(i5)') w2
+! 		read(TICTAC(7:9), '(i5)') w3
+
+	end subroutine pickMove
 
 	integer function getMove(TICTAC)
 
