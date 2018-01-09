@@ -37,9 +37,27 @@ contains
 
 		playerMove = getMove()
 		write(*,*) 'Move is', playerMove
-		write(*,*) CHKPLAY(TICTAC, playerMove)
+! 		if (CHKPLAY(TICTAC, playerMove) == .FALSE.) then 
+
+
 
 	end subroutine playTicTacToe
+
+	subroutine showBoard(TICTAC)
+
+
+
+	end subroutine showBoard
+
+	integer function pickMove(TICTAC)
+
+		integer :: top,middle,bottom
+
+		top = count(TICTAC [,1])
+		middle = count(TICTAC [,2])
+		bottom = count(TICTAC [,3])
+
+	end function pickMove
 
 	integer function getMove()
 
@@ -59,11 +77,6 @@ contains
 		getMove = move
 
 	end function getMove
-
-! 	integer function pickMove()
-
-! 	end function pickMove
-
 
 
 	logical function CHKPLAY(TICTAC, MOVE)
