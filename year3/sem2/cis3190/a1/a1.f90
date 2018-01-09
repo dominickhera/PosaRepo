@@ -25,8 +25,9 @@ contains
 
 	subroutine playTicTacToe()
 
-		integer :: playerMove, rng(1),i 
-		real :: r(1)
+		integer :: playerMove,i,n = 1, rng
+		integer, allocatable :: seed(:)
+		real :: r(5,5)
 		character ,dimension(3,3) :: TICTAC = reshape((/' ',' ',' ',' ',' ',' ',' ',' ',' ' /), (/3,3/))
 ! 		(/'1','4','7','2','5','8','3','6','9' /)
 
@@ -75,15 +76,23 @@ contains
 		write(*,*) 'After your move...'
 		call showBoard(TICTAC)
 		call pickMove(TICTAC)
-		do i = 1, 1000, 1
-			call RANDOM_NUMBER(r)
-			rng = FLOOR(10*r)
-			write(*,*) 'r is now', r
-			if (i == 100) exit
-		end do
-! 		call RANDOM_NUMBER(r)
-		rng = FLOOR(10*r)
-		write(*,*) 'rng is ',rng, r
+		call random_seed(size = n)
+		allocate(seed(n))
+		call random_seed(get=seed)
+! 		write(*,*) seed
+
+! 		do i = 1, 1000, 1
+! 			call RANDOM_NUMBER(r)
+! 			rng = FLOOR(10*r)
+! 			write(*,*) 'r is now', r
+! 			if (i == 100) exit
+! 		end 
+		r(1,5) = seed(5)
+		call RANDOM_NUMBER(r)
+		rng = FLOOR(10*r(1,5))
+		write(*,*) 'rng is ',rng
+
+
 		return 
 ! 		if (CHKPLAY(TICTAC, playerMove) == .FALSE.) then 
 
