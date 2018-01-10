@@ -25,9 +25,11 @@ contains
 
 	subroutine playTicTacToe()
 
-		integer :: playerMove,i,n = 1, rng
-		integer, allocatable :: seed(:)
-		real :: r(100)
+		integer :: playerMove
+! 		integer, allocatable :: seed(:)
+! 		real :: r(100)
+		character(len=1) :: WINNER
+		logical :: OVER
 		character ,dimension(3,3) :: TICTAC = reshape((/' ',' ',' ',' ',' ',' ',' ',' ',' ' /), (/3,3/))
 ! 		(/'1','4','7','2','5','8','3','6','9' /)
 
@@ -40,7 +42,7 @@ contains
 		'        ---+---+---', &
 		'         7 | 8 | 9 '//NEW_LINE('A')
 
-		do i = 1, 100, 1
+		do
 		playerMove = getMove(TICTAC)
 ! 		write(*,*) 'Move is', playerMove
 		select case (playerMove)
@@ -76,26 +78,20 @@ contains
 		end select
 		write(*,*) 'After your move...'
 		call showBoard(TICTAC)
+		call CHKOVR(TICTAC, OVER, WINNER)
+		if(OVER .eqv. .TRUE.) exit
 		call pickMove(TICTAC)
 		write(*,*) 'After my move...'
 		call showBoard(TICTAC)
-		if(i == 100) exit
-! 		call random_seed(size = n)
-! 		allocate(seed(n))
-! 		call random_seed(get=seed)
-! 		write(*,*) seed
-! 		r = seed
-! 		do i = 1, 100, 1
-! 			call RANDOM_NUMBER(r)
-! 			rng = FLOOR(10*r)
-! 			write(*,*) 'r is now', r
-! 			if (i == 100) exit
+		call CHKOVR(TICTAC, OVER, WINNER)
+		if(OVER .eqv. .TRUE.) exit
 		end do
 		
-! 		call RANDOM_NUMBER(r)
-! 		rng = FLOOR(10*r(10))
-! 		write(*,*) 'rng is ',rng
-
+		if (WINNER == 'D') then
+			write(*,*) 'Match is a draw.'
+		else
+			write(*,*) 'Winner is ', WINNER
+		endif
 
 		return 
 ! 		if (CHKPLAY(TICTAC, playerMove) == .FALSE.) then 
@@ -485,10 +481,68 @@ contains
 ! 		return
 	end function CHKPLAY
 
+	subroutine CHKOVR(TICTAC, OVER, WINNER)
 
-! logical function same(TICTAC, )
+		character(len=1) :: TICTAC(3,3), WINNER, BLANK, DRAW
+		logical :: DSAME, OVER
+		integer :: IR, IC
+! 		logical :: same
 
-! end function same
+		BLANK = ' '
+		DRAW = 'D'
+		OVER = .TRUE.
+
+		do IR = 1, 3
+			if (same(TICTAC(IR,1), TICTAC(IR,2), TICTAC(IR,3))) then
+				WINNER = TICTAC(IR,1)
+				return
+			endif
+		end do
+
+		do IC = 1, 3
+			if (same(TICTAC(1,IC), TICTAC(2,IC), TICTAC(3,IC))) then
+				WINNER = TICTAC(1,IC)
+				return
+			endif
+		end do
+		DSAME = same(TICTAC(1,1), TICTAC(2,2), TICTAC(3,3)) .OR. same(TICTAC(1,3),TICTAC(2,2), TICTAC(3,1))
+		if (DSAME) then
+			WINNER = TICTAC(2,2)
+			return
+		endif
+
+		do IR = 1, 3
+			do IC = 1,3
+				if(TICTAC(IR,IC) == BLANK) then
+					OVER = .FALSE.
+					return
+				endif
+			end do
+		end do
+
+		WINNER = DRAW
+
+		return
+
+	end subroutine CHKOVR
+
+
+
+! calls 3 different direct locations on map, compare 
+! values of 3 to see if they are the same or not
+
+	logical function same(SPOT1, SPOT2, SPOT3)
+
+		character(len=1) :: SPOT1,SPOT2,SPOT3
+		
+		if((SPOT1 == 'X' .and. SPOT2 == 'X' .and. SPOT3 == 'X') .or. (SPOT1 == 'O' .and. SPOT2 == 'O' .and. SPOT3 == 'O')) then
+			same = .TRUE.
+		else
+			same = .FALSE.
+		endif
+
+
+	end function same
 
 
 
