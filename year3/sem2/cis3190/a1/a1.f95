@@ -3,81 +3,19 @@ program ticTacToe
 
 	implicit none
 
-! 	integer :: playerMove
-! 	integer ,dimension(3,3) :: TICTAC = reshape((/1,4,7,2,5,8,3,6,9 /), (/3,3/))
-! ! 	write(*,*) 'TICTAC should be', TICTAC(2,3)
-! ! 	write(*,*) 'PLAY TIC-TAC-TOE. ENTER 1-9 TO PLAY', NEW_LINE, 'hi'
-! 	write(*,'(A)') 'PLAY TIC-TAC-TOE. ENTER 1-9 TO PLAY', &
-! 	''//NEW_LINE('A')//'         1 | 2 | 3 ', &
-! 	'        ---+---+---', &
-! 	'         4 | 5 | 6 ', &
-! 	'        ---+---+---', &
-! 	'         7 | 8 | 9 '//NEW_LINE('A')
+	character(len=1) :: WINNER
+	logical :: OVER
+	character ,dimension(3,3) :: TICTAC = reshape((/' ',' ',' ',' ',' ',' ',' ',' ',' ' /), (/3,3/))
 
-! 	playerMove = getMove()
-! 	write(*,*) 'Move is', playerMove
+	write(*,'(A)') 'PLAY TIC-TAC-TOE. ENTER 1-9 TO PLAY', &
+	''//NEW_LINE('A')//'         1 | 2 | 3 ', &
+	'        ---+---+---', &
+	'         4 | 5 | 6 ', &
+	'        ---+---+---', &
+	'         7 | 8 | 9 '//NEW_LINE('A')
 
-	call playTicTacToe()
-	
-
-
-contains
-
-	subroutine playTicTacToe()
-
-		integer :: playerMove
-! 		integer, allocatable :: seed(:)
-! 		real :: r(100)
-		character(len=1) :: WINNER
-		logical :: OVER
-		character ,dimension(3,3) :: TICTAC = reshape((/' ',' ',' ',' ',' ',' ',' ',' ',' ' /), (/3,3/))
-! 		(/'1','4','7','2','5','8','3','6','9' /)
-
-! 	write(*,*) 'TICTAC should be', TICTAC(2,3)
-! 	write(*,*) 'PLAY TIC-TAC-TOE. ENTER 1-9 TO PLAY', NEW_LINE, 'hi'
-		write(*,'(A)') 'PLAY TIC-TAC-TOE. ENTER 1-9 TO PLAY', &
-		''//NEW_LINE('A')//'         1 | 2 | 3 ', &
-		'        ---+---+---', &
-		'         4 | 5 | 6 ', &
-		'        ---+---+---', &
-		'         7 | 8 | 9 '//NEW_LINE('A')
-
-		do
-		playerMove = getMove(TICTAC)
-! 		write(*,*) 'Move is', playerMove
-		select case (playerMove)
-			case (1)
-				TICTAC(1,1) = 'X'
-! 				write(*,*) '1,1'
-			case (2)
-				TICTAC(1,2) = 'X'
-! 				write(*,*) '1,2'
-			case (3)
-				TICTAC(1,3) = 'X'
-! 				write(*,*) '1,3'
-			case (4)
-				TICTAC(2,1) = 'X'
-! 				write(*,*) '2,1'
-			case (5)
-				TICTAC(2,2) = 'X'
-! 				write(*,*) '2,2'
-			case (6)
-				TICTAC(2,3) = 'X'
-! 				write(*,*) '2,3'
-			case (7)
-				TICTAC(3,1) = 'X'
-! 				write(*,*) '3,1'
-			case (8)
-				TICTAC(3,2) = 'X'
-! 				write(*,*) '3,2'
-			case (9)
-				TICTAC(3,3) = 'X'
-! 				write(*,*) '3,3'
-			case default
-				write(*,*) 'Error Occured'
-		end select
-		write(*,*) 'After your move...'
-		call showBoard(TICTAC)
+	do
+		call playTicTacToe(TICTAC)
 		call CHKOVR(TICTAC, OVER, WINNER)
 		if(OVER .eqv. .TRUE.) exit
 		call pickMove(TICTAC)
@@ -85,18 +23,50 @@ contains
 		call showBoard(TICTAC)
 		call CHKOVR(TICTAC, OVER, WINNER)
 		if(OVER .eqv. .TRUE.) exit
-		end do
+	end do
+	
+	if (WINNER == 'D') then
+		write(*,*) 'Match is a draw.'
+	else
+		write(*,*) 'Winner is ', WINNER
+	endif
+
+
+contains
+
+	subroutine playTicTacToe(TICTAC)
+
+		integer :: playerMove
+		character(len=1) :: TICTAC(3,3)
 		
-		if (WINNER == 'D') then
-			write(*,*) 'Match is a draw.'
-		else
-			write(*,*) 'Winner is ', WINNER
-		endif
+		playerMove = getMove(TICTAC)
+
+		select case (playerMove)
+			case (1)
+				TICTAC(1,1) = 'X'
+			case (2)
+				TICTAC(1,2) = 'X'
+			case (3)
+				TICTAC(1,3) = 'X'
+			case (4)
+				TICTAC(2,1) = 'X'
+			case (5)
+				TICTAC(2,2) = 'X'
+			case (6)
+				TICTAC(2,3) = 'X'
+			case (7)
+				TICTAC(3,1) = 'X'
+			case (8)
+				TICTAC(3,2) = 'X'
+			case (9)
+				TICTAC(3,3) = 'X'
+			case default
+				write(*,*) 'Error Occured'
+		end select
+		write(*,*) 'After your move...'
+		call showBoard(TICTAC)
 
 		return 
-! 		if (CHKPLAY(TICTAC, playerMove) == .FALSE.) then 
-
-
 
 	end subroutine playTicTacToe
 
@@ -382,13 +352,6 @@ contains
 			endif
 		endif
 
-! 		read(TICTAC(1,1), '(i1)') b1
-
-! 		write(*,*) 'tic tac at 1,1 is ', b1
-! 		read(TICTAC(1:3), '(i)') w1
-! 		read(TICTAC(4:6), '(i5)') w2
-! 		read(TICTAC(7:9), '(i5)') w3
-
 	end subroutine pickMove
 
 	integer function getMove(TICTAC)
@@ -397,12 +360,10 @@ contains
 
 		integer :: move
 		character(len=1) :: TICTAC(3,3)
-! 		integer, intent(inout) ,dimension(TICTAC) :: Array
 
 		do 
 			write(*,*) 'Your Move?'
 			read(*,*) move
-! 			if(move > 0 .AND. move < 10) exit
 			if(move > 0 .AND. move < 10 .and. CHKPLAY(TICTAC, move) .eqv. .TRUE.) exit
 			write(*,*) 'Error, Please Try Again'
 		end do
@@ -415,11 +376,9 @@ contains
 	logical function CHKPLAY(TICTAC, MOVE)
 
 		implicit none
-! 		character, dimension(3,3) :: TICTAC
 		character(len=1) :: TICTAC(3,3)
 		integer, intent(in) :: MOVE
 
-! 		write(*,*) 'input is ', MOVE
 		select case (MOVE)
 			case(1)
 				if(TICTAC(1,1) == ' ') then
@@ -478,7 +437,6 @@ contains
 		    case default
 		        CHKPLAY = .FALSE.
 		end select 
-! 		return
 	end function CHKPLAY
 
 	subroutine CHKOVR(TICTAC, OVER, WINNER)
@@ -486,7 +444,6 @@ contains
 		character(len=1) :: TICTAC(3,3), WINNER, BLANK, DRAW
 		logical :: DSAME, OVER
 		integer :: IR, IC
-! 		logical :: same
 
 		BLANK = ' '
 		DRAW = 'D'
@@ -534,7 +491,7 @@ contains
 	logical function same(SPOT1, SPOT2, SPOT3)
 
 		character(len=1) :: SPOT1,SPOT2,SPOT3
-		
+
 		if((SPOT1 == 'X' .and. SPOT2 == 'X' .and. SPOT3 == 'X') .or. (SPOT1 == 'O' .and. SPOT2 == 'O' .and. SPOT3 == 'O')) then
 			same = .TRUE.
 		else
@@ -543,7 +500,5 @@ contains
 
 
 	end function same
-
-
 
 end program ticTacToe
