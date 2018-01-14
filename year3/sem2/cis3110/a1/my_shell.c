@@ -98,6 +98,7 @@ int main()
                 if(strcmp(args[i], "exit") == 0)
                 {
                     // printf("lol\n");
+                    fclose(fp);
                     exit(1);
                 }
                 else
