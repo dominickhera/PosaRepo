@@ -1,6 +1,6 @@
 all: msh
 msh: my_shell.o lex.yy.o
-	gcc -o msh my_shell.o lex.yy.o -ll  
+	gcc -o msh my_shell.o lex.yy.o -ll -g 
 my_shell.o: my_shell.c
 	gcc -Wall -g -c my_shell.c
 lex.yy.o: lex.yy.c
