@@ -5,26 +5,24 @@
 #include <string.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <ctype.h>
+#include <time.h>
 
 extern char **getln();
 void sigHandler(int sig);
 
 int main() 
 {
-    int i;
-    // int j;
-    // int child_status;
-    // int addInt;
+    int i,j, maxRand = 0, minRand = 0, addInt, count;
     char fileName[256];
     int backgroundCheck = 0;
-    int count;
+    int randCheck = 0;
     int fileNameCheck = 0;
     int fileRedirectCheck = 0;
     char **args; 
     pid_t child_pid;
     FILE *fp;
-    // char backgroundArgs[256][500];
-    // printf("lol\n");
+
     while(1) 
     {
         printf("/> ");
@@ -66,6 +64,12 @@ int main()
                     i++;
                 }
             }
+            else if(strcmp(args[i], "rand") == 0)
+            {
+                minRand = atoi(args[i + 1]);
+                maxRand = atoi(args[i + 2]);
+                randCheck = 1;
+            }
 
         }
         // printf("4\n");
@@ -73,7 +77,7 @@ int main()
         {
             fp = freopen(fileName, "w+", stdout);
         }
-    // printf("5\n");
+        // printf("5\n");
         if(fileRedirectCheck == 1)
         {
             if(access(fileName, F_OK) != -1)
@@ -88,7 +92,7 @@ int main()
                 exit(0);
             }
         }
-// printf("7\n");
+        // printf("7\n");
         // printf("count is %d\n", count);
         for(i = 0; args[i] != NULL; i++)
         {
@@ -124,40 +128,8 @@ int main()
             else if(count == 2)
             {
 
-                // printf("args[%s] at count[%d] and i[%d]\n", args[i], count, i);
-                // if(strpbrk(args[i], "-") == 0)
-                // {
-                //     child_pid = fork();
-                //     if(child_pid == 0) 
-                //     {
-                //         execvp(args[i], &args[i]);
-                //         // printf("error\n");
-                //         exit(0);
-                //     }
-                //     else
-                //     {
-                //         wait(NULL);
-                //         // do {
-                //            // tpid = wait(&child_status);
-                //            // printf("cpid is %d, tpid is %d\n", tpid, child_pid);
-                //            // if(tpid != child_pid) process_terminated(tpid);
-                //          // } while(tpid != child_pid);
-                //         // printf("hi");
-                //         // return child_status;
-                //     }
-                // }
-                // else 
                 if(backgroundCheck == 1)
-                    // if(strcmp(args[count - 1], "&") == 0)
                 {
-                    // printf("hiya\n");
-                    // char * executeString = malloc(sizeof(char) * 500);
-                    // for(int i = 0; i < count - 1; i++)
-                    // {
-                    //     strcat(executeString, args[i]);
-                    //     strcat(executeString, " ");    
-                    // }
-                    // // printf("string is %s\n", executeString);
                     child_pid = fork();
                     if(child_pid == 0) 
                     {
@@ -185,31 +157,14 @@ int main()
                     else
                     {
                         wait(NULL);
-                        //         // do {
-                        //            // tpid = wait(&child_status);
-                        //            // printf("cpid is %d, tpid is %d\n", tpid, child_pid);
-                        //            // if(tpid != child_pid) process_terminated(tpid);
-                        //          // } while(tpid != child_pid);
-                        //         // printf("hi");
-                        //         // return child_status;
                     }
                 }
                 //         break;
             }
             else
             {
-                // printf("args[%s]\n", args[i]);
                 if(backgroundCheck == 1)
-                    // if(strcmp(args[count - 1], "&") == 0)
                 {
-                    // printf("hiya\n");
-                    // char * executeString = malloc(sizeof(char) * 500);
-                    // for(int i = 0; i < count - 1; i++)
-                    // {
-                    // strcat(executeString, args[i]);
-                    // strcat(executeString, " ");  
-                    // }
-                    // printf("string is %s\n", executeString);
                     child_pid = fork();
                     if(child_pid == 0) 
                     {
@@ -218,10 +173,6 @@ int main()
                         // printf("this arg is %s\n", args[i]);
                         sigset(SIGINT, sigHandler);
                         execvp(args[i], &args[i]);
-                        // if(strcmp(args[i+1], "&") == 0)
-                        // {
-                        //     i++;
-                        // }
 
                         // printf("error\n");
                         exit(0);
@@ -236,44 +187,21 @@ int main()
             }
             else
             {
-                // printf("args[%s]\n", args[i]);
-                // printf("lol cats\n");
                 if(fileNameCheck == 1)
                 {
                     // printf("hiya\n");
                     child_pid = fork();
                     if(child_pid == 0) 
                     {
-                        // printf("file name is %s\n", fileName);
-                        // fp = freopen(fileName, "w+", stdout);
                         execvp(args[i], &args[i]);
-                        // printf("%d 1lolcats\n", i);
-                        //         //  freopen   
-
-                        // fclose(fp);
-                        // fileNameCheck = 0;
-                        // execvp(args[i], &args[i]);
                         //         // printf("error\n");
                         exit(0);
                     }
                     else
                     {
                         wait(NULL);
-                        //         // do {
-                        //            // tpid = wait(&child_status);
-                        //            // printf("cpid is %d, tpid is %d\n", tpid, child_pid);
-                        //            // if(tpid != child_pid) process_terminated(tpid);
-                        //          // } while(tpid != child_pid);
-                        //         // printf("hi");
-                        //         // return child_status;
-                    }
-                    //             printf("file name is %s\n", args[i+1]);
-                    //             fp = freopen(args[i+1], "w+", stdin);
-                    //             // printf("%d 1lolcats\n", i);
-                    // //         //  freopen   
 
-                    //         fclose(fp);
-                    // exit(0);
+                    }
                 }
                 else if(fileRedirectCheck == 1)
                 {
@@ -281,16 +209,9 @@ int main()
                     child_pid = fork();
                     if(child_pid == 0) 
                     {
-                        // printf("file name is %s\n", fileName);
-                        // fp = freopen(fileName, "w+", stdout);
                         execvp(args[i], &args[i]);
-                        // printf("%d 1lolcats\n", i);
-                        //         //  freopen   
 
                         fclose(fp);
-                        // fileNameCheck = 0;
-                        // execvp(args[i], &args[i]);
-                                // printf("error\n");
                         exit(0);
                         // printf("sort num\n");
                     }
@@ -298,64 +219,94 @@ int main()
                     {
                         // printf("why\n");
                         wait(NULL);
-                        //         // do {
-                        //            // tpid = wait(&child_status);
-                        //            // printf("cpid is %d, tpid is %d\n", tpid, child_pid);
-                        //            // if(tpid != child_pid) process_terminated(tpid);
-                        //          // } while(tpid != child_pid);
-                        //         // printf("hi");
-                        //         // return child_status;
                     }
                     // printf("num\n");
                 }
-                // printf("num2\n");
-            }
-            //         if(strcmp(args[i], "add") == 0)
-            //         {
-            //             addInt = 0;
-            //             for(j = 1; j < count;j++)
-            //             {
-            //                 addInt += atoi(args[j]);
-            //                 if(j == count - 1)
-            //                 {
-            //                     printf("%s = ", args[j]);
-            //                 }
-            //                 else
-            //                 {
-            //                     printf("%s + ", args[j]);
-            //                 }
-            //             }
-            //             printf("%d\n", addInt);
-            //             break;
+                else if(randCheck == 1)
+                {
+                    child_pid = fork();
+                    if(child_pid == 0)
+                    {
+                        int range = maxRand - minRand + 1;
+                        srand(time(NULL));
+                        int randValue = rand() % range + minRand;
+                        printf("A random value between %d and %d is %d\n", minRand, maxRand, randValue);
 
+                        exit(0);
+                    }
+                    else
+                    {
+                        wait(NULL);
+                    }
+                }
+                // printf("num2\n");
+                // }
+                if(strcmp(args[i], "add") == 0)
+                {
+                    addInt = 0;
+                    for(j = 1; j < count;j++)
+                    {
+
+                        for(int k = 0; k < strlen(args[j]); k++)
+                        {
+                            if(isalpha(args[j][k]))
+                            {
+                                int hexNum = (int)strtol(args[j],NULL, 16);
+                                sprintf(args[j], "%d", hexNum);
+                            }
+                        }
+
+                        addInt += atoi(args[j]);
+
+                        if(j == count - 1)
+                        {
+                            printf("%s = ", args[j]);
+                        }
+                        else
+                        {
+                            printf("%s + ", args[j]);
+                        }
+                    }
+                    printf("%d\n", addInt);
+                    break;
+
+                }
+
+                // } 
+        else if(strcmp(args[i], "args") == 0)
+        {
+            printf("argc = %d, args = ", count - 2);
+            for(j = 1; j < count; j++)
+            {
+                if(j == count - 1)
+                {
+                    printf("%s\n", args[j]);
+                }
+                else
+                {
+                    printf("%s, ", args[j]);
+                }
+            }
         }
-        //         else if(strcmp(args[i], "args") == 0)
-        //         {
-        //             printf("argc = %d, args = ", count - 1);
-        //             for(j = 1; j < count; j++)
-        //             {
-        //                 if(j == count - 1)
-        //                 {
-        //                     printf("%s\n", args[j]);
-        //                 }
-        //                 else
-        //                 {
-        //                     printf("%s, ", args[j]);
-        //                 }
-        //             }
-        //         }
-        //         else if(strcmp(args[i], "&") == 0)
-        //         {
-        //             printf("this should use the background computation but it is not implemented\n");
-        //         }
-        //         else
-        //         {
-        // execvp(args[0], &args[i]);
-        //         }
-        // }
-        // printf("hiya\n");
-        // backgroundCheck = 0;
+        else
+        {
+            child_pid = fork();
+            if(child_pid == 0) 
+            {
+                execvp(args[i], &args[i]);
+                //         // printf("error\n");
+                exit(0);
+            }
+            else
+            {
+                wait(NULL);
+
+            }
+        }
+
+
     }
+
     if(fileNameCheck == 1)
     {
         // printf("lol\n");
@@ -371,17 +322,9 @@ int main()
             // printf("2\n");
             if(child_pid == 0) 
             {
-                // printf("3\n");
-                // printf("file name is %s\n", fileName);
-                // fp = freopen(fileName, "w+", stdout);
+
                 execvp(args[k], &args[k]);
-                // printf("%d 1lolcats\n", i);
-                //         //  freopen   
-                // printf("4\n");
-                // fclose(fp);
-                // fileNameCheck = 0;
-                // execvp(args[i], &args[i]);
-                //         // printf("error\n");
+
                 exit(0);
                 // break;
             }
@@ -391,13 +334,6 @@ int main()
                 wait(NULL);
                 // printf("6\n");
                 break;
-                //         // do {
-                //            // tpid = wait(&child_status);
-                //            // printf("cpid is %d, tpid is %d\n", tpid, child_pid);
-                //            // if(tpid != child_pid) process_terminated(tpid);
-                //          // } while(tpid != child_pid);
-                //         // printf("hi");
-                //         // return child_status;
             }
         }
 
@@ -410,19 +346,14 @@ int main()
         fileRedirectCheck = 0;
 
         fp = freopen("/dev/tty", "r+", stdin);
-
-        // printf("\nAbove output successfully copied output to File: %s\n", fileName);
-        // fclose(fp);
-         // fseek(stdin, 0, SEEK_END);
-         // printf("wtf\n");
-        // break;
-        // freopen("/dev/tty", "a", stdout);
     }
+    randCheck = 0;
     backgroundCheck = 0;
     // printf("done\n");
 }
 }
-
+}
+}
 
 void sigHandler(int sig) {
     // printf("sig handler ay\n");
