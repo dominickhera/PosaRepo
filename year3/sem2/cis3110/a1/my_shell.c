@@ -19,26 +19,30 @@ int main()
     int backgroundCheck = 0;
     int count;
     int fileNameCheck = 0;
+    int fileRedirectCheck = 0;
     char **args; 
     pid_t child_pid;
-    FILE *fp = NULL;
+    FILE *fp;
     // char backgroundArgs[256][500];
     // printf("lol\n");
     while(1) 
     {
         printf("/> ");
         args = getln();
+        // printf("1\n");
         count = 0;
         for(i = 0; args[i] != NULL; i++)
         {
             count++;
         }
+        // printf("2\n");
 
         if(strcmp(args[count - 1], "&") == 0)
         {
             backgroundCheck = 1;
             args[count - 1] = NULL;
         }
+        // printf("3\n");
 
         for(int i = 0; i < count - 1; i++)
         {
@@ -50,21 +54,41 @@ int main()
                 {
                     args[i] = NULL;
                     i++;
-                    // printf("hello?\n");
                 }
-                // printf("dont break\n");
-                // break;
-                // printf("loldsafdsf\n");
-                // fileNameCheck = 1;
+            }
+            else if(strcmp(args[i], "<") == 0)
+            {
+                fileRedirectCheck = 1;
+                strcpy(fileName, args[i+1]);
+                while(i != count - 1)
+                {
+                    args[i] = NULL;
+                    i++;
+                }
             }
 
         }
-
+        // printf("4\n");
         if(fileNameCheck == 1)
         {
             fp = freopen(fileName, "w+", stdout);
         }
-
+    // printf("5\n");
+        if(fileRedirectCheck == 1)
+        {
+            if(access(fileName, F_OK) != -1)
+            {
+                // printf("6\n");
+                fp = freopen(fileName, "r+", stdin);
+            }
+            else
+            {
+                printf("There was an error opening your file, %s...\n", fileName);
+                // break;
+                exit(0);
+            }
+        }
+// printf("7\n");
         // printf("count is %d\n", count);
         for(i = 0; args[i] != NULL; i++)
         {
@@ -250,6 +274,40 @@ int main()
                     //         fclose(fp);
                     // exit(0);
                 }
+                else if(fileRedirectCheck == 1)
+                {
+                    // printf("uhhh\n");
+                    child_pid = fork();
+                    if(child_pid == 0) 
+                    {
+                        // printf("file name is %s\n", fileName);
+                        // fp = freopen(fileName, "w+", stdout);
+                        execvp(args[i], &args[i]);
+                        // printf("%d 1lolcats\n", i);
+                        //         //  freopen   
+
+                        fclose(fp);
+                        // fileNameCheck = 0;
+                        // execvp(args[i], &args[i]);
+                                // printf("error\n");
+                        exit(0);
+                        // printf("sort num\n");
+                    }
+                    else
+                    {
+                        // printf("why\n");
+                        wait(NULL);
+                        //         // do {
+                        //            // tpid = wait(&child_status);
+                        //            // printf("cpid is %d, tpid is %d\n", tpid, child_pid);
+                        //            // if(tpid != child_pid) process_terminated(tpid);
+                        //          // } while(tpid != child_pid);
+                        //         // printf("hi");
+                        //         // return child_status;
+                    }
+                    // printf("num\n");
+                }
+                // printf("num2\n");
             }
             //         if(strcmp(args[i], "add") == 0)
             //         {
@@ -300,7 +358,7 @@ int main()
     if(fileNameCheck == 1)
     {
         // printf("lol\n");
-        fclose(fp);
+        // fclose(fp);
         fileNameCheck = 0;
         // freopen(stdout, )
         freopen ("/dev/tty", "a", stdout);
@@ -323,12 +381,12 @@ int main()
                 // fileNameCheck = 0;
                 // execvp(args[i], &args[i]);
                 //         // printf("error\n");
-                // exit(0);
-                break;
+                exit(0);
+                // break;
             }
             else
             {
-                printf("5\n");
+                // printf("5\n");
                 wait(NULL);
                 // printf("6\n");
                 break;
@@ -343,6 +401,21 @@ int main()
         }
 
         printf("\nAbove output successfully copied output to File: %s\n", fileName);
+    }
+    else if(fileRedirectCheck == 1)
+    {
+        // printf("hreali\n");
+        // fclose(fo);
+        fileRedirectCheck = 0;
+
+        fp = freopen("/dev/tty", "r+", stdin);
+
+        // printf("\nAbove output successfully copied output to File: %s\n", fileName);
+        // fclose(fp);
+         // fseek(stdin, 0, SEEK_END);
+         // printf("wtf\n");
+        // break;
+        // freopen("/dev/tty", "a", stdout);
     }
     backgroundCheck = 0;
     // printf("done\n");
