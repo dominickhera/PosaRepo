@@ -1,0 +1,31 @@
+======================
+a2
+14/1/18
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+
+./bin/simcpu < ./assets/testCase1.txt
+
+==========
+to compile
+==========
+type 'make' to run the makeFile
+
+=============
+description
+=============
+
+- at the time of being posted, i once again neglected to understand just how difficult this project would actually be. It's currently partially functional in that it is able to parse the file into a 2d array, but then once i attempt to parse it into structs is where i fail.
+
+====================
+known limitations
+====================
+
+- program is only partially complete
+- program parses text file into 2d array and then only gets initial data from text file
