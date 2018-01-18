@@ -1,14 +1,75 @@
 #include "GEDCOMparser.h"
-#include "LinkedListAPI"
+#include "LinkedListAPI.h"
 #include "BinarySearchTreeAPI.h"
 
 GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 {
 
+    FILE *fp;
+    char line[256];
+    char lineStorage[256][500];
+    char gedcVersionStore[128];
+    char sourceStore[128];
+    char encodingStore[64];
+    int count = 0;
+
+
+    if(fileName != NULL && fileName[0] != '\0')
+    {
+        if(strcasestr(fileName, ".ged"))
+        {
+            if((fp = fopen(fileName, "r")))
+            {
+                while(fgets(line, sizeof(line), fp) != NULL)
+                {
+                    strcpy(lineStorage[count], line);
+                    count++;
+                }
+
+                fclose(fp);
+            }
+            else
+            {
+                GEDCOMerror err;
+                err.type = INV_FILE;
+                err.line = count;
+                return err;
+            }
+        }
+        else
+        {
+            GEDCOMerror err;
+            err.type = INV_FILE;
+            err.line = count;
+            return err;
+        }
+    }
+    else
+    {
+        GEDCOMerror err;
+        err.type = INV_FILE;
+        err.line = count;
+        return err;
+    }
+
+
+    for(int i = 0; i < count; i++)
+    {
+
+    }
+
+
+
 }
 
 char* printGEDCOM(const GEDCOMobject* obj)
 {
+
+    char * gedcomReturn = malloc(sizeof(char) * 1000);
+    if(obj != NULL)
+    {
+
+    }
 
 }
 
@@ -20,31 +81,31 @@ void deleteGEDCOM(GEDCOMobject* obj)
 char* printError(GEDCOMerror err)
 {
 
-	char * errorCodeReturn = malloc(sizeof(char) * 256);
-    if(err == INV_FILE)
+    char * errorCodeReturn = malloc(sizeof(char) * 256);
+    if(err.type == INV_FILE)
     {
         strcpy(errorCodeReturn, "INV_FILE: there’s a problem with file argument - its null, it;’s a empty string, file doesn't exist or - cannot be opened,file doesn't have the.ics extension\n");
     }
-    else if(err == INV_GEDCOM)
+    else if(err.type == INV_GEDCOM)
     {
 
-        strcpy(errorCodeReturn, "INV_VER: the calendar version property is present but malformed\n");
+        strcpy(errorCodeReturn, "INV_GEDCOM: the calendar version property is present but malformed\n");
     }
-    else if(err == INV_HEADER)
+    else if(err.type == INV_HEADER)
     {
 
-        strcpy(errorCodeReturn, "INV_PRODID: the product ID property is present but malformed\n");
+        strcpy(errorCodeReturn, "INV_HEADER: the product ID property is present but malformed\n");
     }
-    else if(err == INV_RECORD)
+    else if(err.type == INV_RECORD)
     {
 
-        strcpy(errorCodeReturn, "INV_CAL: the calendar itself is invalid (missing required properties or components, invalid opening - closingtags,etc.)\n");
+        strcpy(errorCodeReturn, "INV_Record: the calendar itself is invalid (missing required properties or components, invalid opening - closingtags,etc.)\n");
     }
-    else if (err == OTHER)
+    else if (err.type == OTHER)
     {
-         strcpy(errorCodeReturn, "OTHER_ERROR: Some other error has happened\n");
+        strcpy(errorCodeReturn, "OTHER: Some other error has happened\n");
     }
-    else if(err == OK)
+    else if(err.type == OK)
     {
         strcpy(errorCodeReturn, "OK: File parsed successfully.\n");
     }
