@@ -1,6 +1,7 @@
- /**
+/**
  * @file LinkedListAPI.h
- * based on the ListADT from CIS*2520, S17
+ * @author CIS*2750 F17 (based on the ListADT from CIS*2520, S17)
+ * @date September 2017
  * @brief File containing the function definitions of a doubly linked list
  */
 
@@ -31,6 +32,7 @@ typedef struct listNode{
 typedef struct listHead{
     Node* head;
     Node* tail;
+    int length;
     void (*deleteData)(void* toBeDeleted);
     int (*compare)(const void* first,const void* second);
     char* (*printData)(void* toBePrinted);
@@ -116,7 +118,8 @@ void insertSorted(List* list, void* toBeAdded);
  * returns the data 
  * You can assume that the list contains no duplicates
  *@pre List must exist and have memory allocated to it
- *@post toBeDeleted will have its memory freed if it exists in the list.
+ *@post If toBeDeleted was found, the node associated with it is removed from the list and freed.
+ *The list is re-linked. Otherwise the List is unchanged.
  *@param list pointer to the dummy head of the list containing deleteFunction function pointer
  *@param toBeDeleted pointer to data that is to be removed from the list
  *@return on success: void * pointer to data  on failure: NULL
@@ -174,5 +177,26 @@ ListIterator createIterator(List list);
 *@param iter - an iterator to a list.
 **/
 void* nextElement(ListIterator* iter);
+
+/**Returns the number of elements in the list.
+ *@pre List must exist, but does not have to have elements.
+ *@param list - the list struct.
+ *@return on success: number of eleemnts in the list (0 or more).  on failure: -1 (e.g. list not initlized correctly)
+ **/
+int getLength(List list);
+
+/** Function that searches for an element in the list using a comparator function.
+ * If an element is found, a pointer to the data of that element is returned
+ * Returns NULL if the element is not found.
+ *@pre List exists and is valid.  Comparator function has been provided.
+ *@post List remains unchanged.
+ *@return The data associated with the list element that matches the search criteria.  If element is not found, return NULL.
+ *@param list - a list sruct
+ *@param customCompare - a pointer to comparator fuction for customizing the search
+ *@param searchRecord - a pointer to search data, which contains seach criteria
+ *Note: while the arguments of compare() and searchRecord are all void, it is assumed that records they point to are
+ *      all of the same type - just like arguments to the compare() function in the List struct
+ **/
+void* findElement(List list, bool (*customCompare)(const void* first,const void* second), const void* searchRecord);
 
 #endif
