@@ -2,6 +2,13 @@
 #include "LinkedListAPI.h"
 #include "BinarySearchTreeAPI.h"
 
+
+Header * initializeHeader(char* source, float gedcVersion, char* encodingType, char* submitterName, char* address);
+GEDCOMobject * initializeGEDCOMobject();
+Submitter * initializeSubmitter(char* submitterName, char* address);
+Field * initializeOtherField(char* tag, char* value);
+Event * initializeEvent(char* type, char* date, char* place);
+
 GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 {
 
@@ -22,6 +29,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     char gedcomObjectOtherFieldValueStorage[256][500];
     char sourceStore[256];
     char gedcVersionStore[64];
+    char encodingTypeStore[64];
     char submitterNameStore[61];
     char submitterAddress[256];
     int totalIndividualOtherFieldArray[500];
@@ -216,3 +224,84 @@ char* printField(void* toBePrinted)
 {
 
 }
+
+Individual * initializeIndividual(char* givenName, char* surname)
+{
+    Individual* tempIndividual;
+
+    tempIndividual->givenName = malloc(sizeof(givenName));
+    strcpy(tempIndividual->givenName, givenName);
+    tempIndividual->surname = malloc(sizeof(surname));
+    strcpy(tempIndividual->surname, surname);
+
+    return tempIndividual;
+
+}
+
+// Family * initializeFamily()
+// {
+//     Family* tempFamily;
+
+// }
+
+Header * initializeHeader(char* source, float gedcVersion, char* encodingType, char* submitterName, char* address)
+{
+    Header* tempHeader;
+
+    strcpy(tempHeader->source, source);
+    tempHeader->gedcVersion = atof(gedcVersion);
+    tempHeader->submitter = initializeSubmitter(char* submitterName, char* address);
+
+    return tempHeader;
+
+}
+
+GEDCOMobject * initializeGEDCOMobject()
+{
+    GEDCOMobject* tempObject;
+
+}
+
+Submitter * initializeSubmitter(char* submitterName, char* address)
+{
+    Submitter* tempSubmitter;
+
+    tempSubmitter = malloc(sizeof(submitterName) + (sizeof(char)*(strlen(address)+1)));
+    strcpy(tempSubmitter->submitterName, submitterName);
+    strcpy(tempSubmitter->address, address);
+
+    return tempSubmitter;
+
+
+}
+
+Field * initializeOtherField(char* tag, char* value)
+{
+    Field* tempField;
+
+    tempField->tag = malloc(sizeof(tag));
+    strcpy(tempField->tag, tag);
+    tempField->value = malloc(sizeof(value));
+    strcpy(tempField->value, value);
+
+    return tempField;
+
+
+}
+
+Event * initializeEvent(char* type, char* date, char* place)
+{
+    Event* tempEvent;
+
+    strcpy(tempEvent->type, type);
+    tempEvent->date = malloc(sizeof(date));
+    tempEvent->place = malloc(sizeof(place));
+
+    return tempEvent;
+
+}
+
+
+
+
+
