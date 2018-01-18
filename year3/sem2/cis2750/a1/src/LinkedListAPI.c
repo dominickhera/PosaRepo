@@ -10,9 +10,9 @@ List initializeList(char* (*printFunction)(void* toBePrinted),void (*deleteFunct
 	List tmpList;
 	
     //Asserts create a partial function...
-    assert(printFunction != NULL);
-    assert(deleteFunction != NULL);
-    assert(compareFunction != NULL);
+    // assert(printFunction != NULL);
+    // assert(deleteFunction != NULL);
+    // assert(compareFunction != NULL);
 	
 	tmpList.head = NULL;
 	tmpList.tail = NULL;
@@ -110,19 +110,39 @@ void insertBack(List* list, void* toBeAdded){
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
 void insertFront(List* list, void* toBeAdded){
-	if (list == NULL || toBeAdded == NULL){
-		return;
-	}
+	// if (list == NULL || toBeAdded == NULL){
+	// 	return;
+	// }
 	
-	Node* newNode = initializeNode(toBeAdded);
+	// Node* newNode = initializeNode(toBeAdded);
 	
-    if (list->head == NULL && list->tail == NULL){
-        list->head = newNode;
-        list->tail = list->head;
-    }else{
-		newNode->next = list->head;
-        list->head->previous = newNode;
-    	list->head = newNode;
+ //    if (list->head == NULL && list->tail == NULL){
+ //        list->head = newNode;
+ //        list->tail = list->head;
+ //    }else{
+	// 	newNode->next = list->head;
+ //        list->head->previous = newNode;
+ //    	list->head = newNode;
+ //    }
+
+	if(list != NULL && toBeAdded != NULL)
+    {
+        Node * tempNode = NULL;
+
+        if(list->head == NULL)
+        {
+            tempNode = initializeNode(toBeAdded);
+            list->head = tempNode;
+            list->tail = tempNode;
+        }
+        else
+        {
+            tempNode = initializeNode(toBeAdded);
+            list->head->previous = tempNode;
+            tempNode->next = list->head;
+            list->head = tempNode;
+        }
+        list->length++;
     }
 }
 
@@ -181,6 +201,7 @@ void* deleteDataFromList(List* list, void* toBeDeleted){
 			
 			void* data = delNode->data;
 			free(delNode);
+			list->length--;
 			
 			return data;
 			
@@ -279,14 +300,20 @@ char* toString(List list){
 }
 
 ListIterator createIterator(List list){
-    ListIterator iter;
+    // ListIterator iter;
 
     //Assert creates a partial function...
-    assert (list != NULL);
+    // assert (list != NULL);
 	
-    iter.current = list.head;
+    // iter.current = list.head;
     
-    return iter;
+    // return iter;
+
+    List temp = list;
+    ListIterator * tempIter = malloc(sizeof(ListIterator)*100);
+    tempIter->current = temp.head;
+
+    return *tempIter;
 }
 
 void* nextElement(ListIterator* iter){
@@ -302,11 +329,55 @@ void* nextElement(ListIterator* iter){
 
 int getLength(List list)
 {
-	
+
+	List temp = list;
+
+	if(temp.head != NULL)
+	{
+		void* elem;
+		int lengthCount = 0;
+		ListIterator listIter = createIterator(temp);
+		while((elem = nextElement(&listIter)) != NULL)
+		{
+			lengthCount++;
+		}
+		return lengthCount;
+	}
+	else
+	{
+		return 0;
+	}
+
 }
 
 void* findElement(List list, bool (*customCompare)(const void* first,const void* second), const void* searchRecord)
 {
+
+	List * temp = &list;
+
+	if(temp != NULL)
+	{
+		void* elem;
+		ListIterator listIter = createIterator(*temp);
+		while((elem = nextElement(&listIter)) != NULL)
+		{
+			Node* tempNode = (void*)elem;
+			if(customCompare(tempNode->data, searchRecord))
+			{
+				return tempNode->data;
+			}
+
+		}
+		return NULL;
+
+	}
+	else
+	{
+		return NULL;
+	}
+
+
+
 
 }
 

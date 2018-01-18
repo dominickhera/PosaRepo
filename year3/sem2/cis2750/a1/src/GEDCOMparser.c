@@ -20,6 +20,41 @@ void deleteGEDCOM(GEDCOMobject* obj)
 char* printError(GEDCOMerror err)
 {
 
+	char * errorCodeReturn = malloc(sizeof(char) * 256);
+    if(err == INV_FILE)
+    {
+        strcpy(errorCodeReturn, "INV_FILE: there’s a problem with file argument - its null, it;’s a empty string, file doesn't exist or - cannot be opened,file doesn't have the.ics extension\n");
+    }
+    else if(err == INV_GEDCOM)
+    {
+
+        strcpy(errorCodeReturn, "INV_VER: the calendar version property is present but malformed\n");
+    }
+    else if(err == INV_HEADER)
+    {
+
+        strcpy(errorCodeReturn, "INV_PRODID: the product ID property is present but malformed\n");
+    }
+    else if(err == INV_RECORD)
+    {
+
+        strcpy(errorCodeReturn, "INV_CAL: the calendar itself is invalid (missing required properties or components, invalid opening - closingtags,etc.)\n");
+    }
+    else if (err == OTHER)
+    {
+         strcpy(errorCodeReturn, "OTHER_ERROR: Some other error has happened\n");
+    }
+    else if(err == OK)
+    {
+        strcpy(errorCodeReturn, "OK: File parsed successfully.\n");
+    }
+    else
+    {
+        strcpy(errorCodeReturn, "error code not found\n");
+    }
+
+    return errorCodeReturn;
+
 }
 
 Individual* findPerson(const GEDCOMobject* familyRecord, bool (*compare)(const void* first, const void* second), const void* person)
