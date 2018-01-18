@@ -3,8 +3,8 @@
 #include "BinarySearchTreeAPI.h"
 
 
-Header * initializeHeader(char* source, float gedcVersion, char* encodingType, char* submitterName, char* address);
-GEDCOMobject * initializeGEDCOMobject();
+Header * initializeHeader(char* source, char* gedcVersion, char* encodingType, char* submitterName, char* address);
+// GEDCOMobject * initializeGEDCOMobject();
 Submitter * initializeSubmitter(char* submitterName, char* address);
 Field * initializeOtherField(char* tag, char* value);
 Event * initializeEvent(char* type, char* date, char* place);
@@ -38,6 +38,11 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     int individualOtherFieldCount = 0;
     int eventOtherFieldCount = 0;
     int familyOtherFieldCount = 0;
+    int headFlag = 0;
+    int indiFlag = 0;
+    int submFlag = 0;
+    int famFlag = 0;
+    int endFlag = 0;
 
     int count = 0;
 
@@ -83,6 +88,84 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
     for(int i = 0; i < count; i++)
     {
+
+        //start of thing
+        if(lineStorage[i][0] == '0')
+        {
+            if(strcasestr(lineStorage[i], 'HEAD'))
+            {
+                headFlag = 1;
+            }
+            else if(strcasestr(lineStorage[i], 'INDI'))
+            {
+                indiFlag = 1;
+            }
+            else if(strcasestr(lineStorage[i], 'FAM'))
+            {
+                famFlag = 1;
+            }
+            else if(strcasestr(lineStorage[i], 'SUBM'))
+            {
+                submFlag = 1;
+            }
+            else if(strcasestr(lineStorage[i], 'TRLR'))
+            {
+                endFlag = 1;
+            }
+        }
+        //stuff in thing
+        else
+        {
+            if(headFlag == 1)
+            {
+                while(lineStorage[i+1][0] != '0')
+                {
+
+
+                    i++;
+                }
+
+                headFlag = 0;
+            }
+            else if(indiFlag == 1)
+            {
+                while(lineStorage[i+1][0] != '0')
+                {
+                    
+
+                    i++;
+                }
+
+                indiFlag = 0;
+
+            }
+            else if(famFlag == 1)
+            {
+                while(lineStorage[i+1][0] != '0')
+                {
+                    
+                    
+                    i++;
+                }
+
+                famFlag = 0;
+
+            }
+            else if(submFlag == 1)
+            {
+              
+                while(lineStorage[i+1][0] != '0')
+                {
+                    
+
+                    i++;
+                }
+
+                submFlag = 0;
+
+            }
+
+        }
 
     }
 
@@ -244,23 +327,23 @@ Individual * initializeIndividual(char* givenName, char* surname)
 
 // }
 
-Header * initializeHeader(char* source, float gedcVersion, char* encodingType, char* submitterName, char* address)
+Header * initializeHeader(char* source, char* gedcVersion, char* encodingType, char* submitterName, char* address)
 {
     Header* tempHeader;
 
     strcpy(tempHeader->source, source);
     tempHeader->gedcVersion = atof(gedcVersion);
-    tempHeader->submitter = initializeSubmitter(char* submitterName, char* address);
+    tempHeader->submitter = initializeSubmitter(submitterName, address);
 
     return tempHeader;
 
 }
 
-GEDCOMobject * initializeGEDCOMobject()
-{
-    GEDCOMobject* tempObject;
+// GEDCOMobject * initializeGEDCOMobject()
+// {
+//     GEDCOMobject* tempObject;
 
-}
+// }
 
 Submitter * initializeSubmitter(char* submitterName, char* address)
 {
@@ -285,7 +368,6 @@ Field * initializeOtherField(char* tag, char* value)
     strcpy(tempField->value, value);
 
     return tempField;
-
 
 }
 
