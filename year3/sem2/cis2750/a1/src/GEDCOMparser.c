@@ -15,6 +15,8 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     FILE *fp;
     char line[256];
     char lineStorage[256][500];
+    char *tempFieldStorage = malloc(sizeof(char) * 1000);
+    char *tempDataStorage = malloc(sizeof(char) * 1000);
     char eventOtherFieldTagStorage[256][500];
     char eventOtherFieldValueStorage[256][500];
     char submitterOtherFieldTagStorage[256][500];
@@ -27,6 +29,8 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     char familyOtherFieldValueStorage[256][500];
     char gedcomObjectOtherFieldTagStorage[256][500];
     char gedcomObjectOtherFieldValueStorage[256][500];
+    char individualGivenNameStorage[256][500];
+    char individualSurNameStorage[256][500];
     char sourceStore[256];
     char gedcVersionStore[64];
     char encodingTypeStore[64];
@@ -35,9 +39,13 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     int totalIndividualOtherFieldArray[500];
     int totalEventOtherFieldArray[500];
     int totalFamilyOtherFieldArray[500];
+    int totalIndividaulCount = 0;
     int individualOtherFieldCount = 0;
     int eventOtherFieldCount = 0;
     int familyOtherFieldCount = 0;
+    int headerOtherFieldCount = 0;
+    int tempSize = 0;
+    int tempSizeTwo = 0;
     int headFlag = 0;
     int indiFlag = 0;
     int submFlag = 0;
@@ -120,7 +128,76 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             {
                 while(lineStorage[i+1][0] != '0')
                 {
+                    if(strcasestr(lineStorage[i], 'SOUR'))
+                    {
+                        for(int j = 7; j < strlen(lineStorage[i]); j++)
+                        {
 
+                                // while(lineStorage[i][j+1] != '\0')
+                                // {
+                                    tempFieldStorage[tempSize] = lineStorage[i][j];
+                                    tempSize++;
+                                    // j++;
+                                // }
+                        }
+
+
+                        strcpy(sourceStore, tempFieldStorage);
+                        memset(tempFieldStorage, '\0', 1000);
+                        tempSize = 0;
+                    }
+                    else if(strcasestr(lineStorage[i], 'GEDC'))
+                    {
+                        i++;
+                        for(int j = 7; j < strlen(lineStorage[i]); j++)
+                        {
+                            tempFieldStorage[tempSize] = lineStorage[i][j];
+                            tempSize++;   
+                        }
+
+                        strcpy(gedcVersionStore, tempFieldStorage);
+                        memset(tempFieldStorage, '\0', 1000);
+                        tempSize = 0;
+
+                    }
+                    else if(strcasestr(lineStorage[i], 'CHAR'))
+                    {
+                        for(int j = 7; j < strlen(lineStorage[i]); j++)
+                        {
+                            tempFieldStorage[tempSize] = lineStorage[i][j];
+                            tempSize++;   
+                        }
+
+                        strcpy(encodingTypeStore, tempFieldStorage);
+                        memset(tempFieldStorage, '\0', 1000);
+                        tempSize = 0;
+                    }
+                    else
+                    {
+
+                        for(int j = 1; j < strlen(lineStorage[i]); j++)
+                        {
+                            tempFieldStorage[tempSize] = lineStorage[i][j];
+                            tempSize++;
+                            if(lineStorage[i][j+1] == ' ')
+                            {
+                                while(lineStorage[i][j+1] != '\0')
+                                {
+                                    tempDataStorage[tempSizeTwo] = lineStorage[i][j];
+                                    tempSizeTwo++;
+                                }
+                            }
+                        }
+
+                        strcpy(headerOtherFieldTagStorage[headerOtherFieldCount], tempFieldStorage);
+                        strcpy(headerOtherFieldValueStorage[headerOtherFieldCount], tempDataStorage);
+                        headerOtherFieldCount++;
+                        memset(tempFieldStorage, '\0', 1000);
+                        memset(tempDataStorage, '\0', 1000);
+                        tempSize = 0;
+                        tempSizeTwo = 0;
+
+                    }
 
                     i++;
                 }
@@ -132,7 +209,34 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 while(lineStorage[i+1][0] != '0')
                 {
                     
+                    if(strcasestr(lineStorage[i], 'NAME'))
+                    {
+                        for(int j = 7; j < strlen(lineStorage[i]) ; j++)
+                        {
+                            while(lineStorage[i][j+1] != ' ')
+                            {
+                                tempFieldStorage[tempSize] = lineStorage[i][j];
+                                tempSize++;
+                                j++;
+                            }
 
+                            j++;
+                            while(lineStorage[i][j+1] != '/')
+                            {
+                                tempDataStorage[tempSizeTwo] lineStorage[i][j];
+                                tempSizeTwo++;
+                                j++;
+                            }
+                        }
+
+                        strcpy(individualGivenNameStorage[totalIndividaulCount], tempFieldStorage);
+                        strcpy(individualSurNameStorage[totalIndividaulCount], tempDataStorage);
+                        memset(tempFieldStorage, '\0', 1000);
+                        memset(tempDataStorage, '\0', 1000);
+                        tempSize = 0;
+                        tempSizeTwo = 0;
+                    }
+                    // else if(strcasestr(lineStorage[i], ''))
                     i++;
                 }
 
