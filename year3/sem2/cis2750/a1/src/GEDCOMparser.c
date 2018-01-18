@@ -8,9 +8,29 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     FILE *fp;
     char line[256];
     char lineStorage[256][500];
-    char gedcVersionStore[128];
-    char sourceStore[128];
-    char encodingStore[64];
+    char eventOtherFieldTagStorage[256][500];
+    char eventOtherFieldValueStorage[256][500];
+    char submitterOtherFieldTagStorage[256][500];
+    char submitterOtherFieldValueStorage[256][500];
+    char headerOtherFieldTagStorage[256][500];
+    char headerOtherFieldValueStorage[256][500];
+    char individualOtherFieldTagStorage[256][500];
+    char individualOtherFieldValueStorage[256][500];
+    char familyOtherFieldTagStorage[256][500];
+    char familyOtherFieldValueStorage[256][500];
+    char gedcomObjectOtherFieldTagStorage[256][500];
+    char gedcomObjectOtherFieldValueStorage[256][500];
+    char sourceStore[256];
+    char gedcVersionStore[64];
+    char submitterNameStore[61];
+    char submitterAddress[256];
+    int totalIndividualOtherFieldArray[500];
+    int totalEventOtherFieldArray[500];
+    int totalFamilyOtherFieldArray[500];
+    int individualOtherFieldCount = 0;
+    int eventOtherFieldCount = 0;
+    int familyOtherFieldCount = 0;
+
     int count = 0;
 
 
@@ -57,6 +77,11 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     {
 
     }
+
+    GEDCOMerror err;
+    err.type = OK;
+    err.line = count;
+    return err;
 
 
 
