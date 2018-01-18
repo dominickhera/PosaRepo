@@ -6,8 +6,8 @@ EXE = test
 
 all: $(EXE)
 
-$(EXE): BIN OBJ Main.o CalendarParser.o LinkedListAPI.o
-	gcc ./obj/Main.o ./obj/CalendarParser.o ./obj/LinkedListAPI.o -o $(OBJFILE)$(EXE)1
+$(EXE): BIN OBJ Main.o GEDCOMEparser.o LinkedListAPI.o
+	gcc ./obj/Main.o ./obj/GEDCOMEparser.o ./obj/LinkedListAPI.o -o $(OBJFILE)$(EXE)1
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
@@ -21,8 +21,8 @@ cppcheck:
 Main.o: ./src/Main.c
 	$(CC) -c $(CFLAGS) ./src/Main.c -I./include -o ./obj/Main.o
 
-CalendarParser.o: ./src/CalendarParser.c
-	$(CC) -c $(CFLAGS) ./src/CalendarParser.c -I./include -o ./obj/CalendarParser.o
+GEDCOMparser.o: ./src/GEDCOMparser.c
+	$(CC) -c $(CFLAGS) ./src/GEDCOMparser.c -I./include -o ./obj/GEDCOMparser.o
 
 LinkedListAPI.o: ./src/LinkedListAPI.c
 	$(CC) -c $(CFLAGS) ./src/LinkedListAPI.c -I./include -o ./obj/LinkedListAPI.o
