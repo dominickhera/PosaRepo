@@ -10,6 +10,7 @@ Family * initializeFamily();
 Submitter * initializeSubmitter(char* submitterName, char* address);
 Field * initializeOtherField(char* tag, char* value);
 Event * initializeEvent(char* type, char* date, char* place);
+Individual * initializeIndividual(char* givenName, char* surname);
 
 GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 {
@@ -68,7 +69,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     char gedcomObjectOtherFieldTagStorage[256][500];
     char gedcomObjectOtherFieldValueStorage[256][500];
 
-   
+
     int totalIndividualOtherFieldArray[500];
     int totalIndividualEventArray[500];
     int totalIndividualEventOtherFieldArray[500];
@@ -407,7 +408,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
                     i++;
                 }
-                totalIndividualEventArray[totalIndividualCount] = totalEventOtherFieldArray;
+                totalIndividualEventArray[totalIndividualCount] = totalIndividualEventCount;
                 totalIndividualCount++;
                 indiFlag = 0;
 
@@ -530,8 +531,8 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                     }
                                 }
 
-                                strcpy(eventOtherFieldValueStorage[totalFamilyEventOtherFieldCount], tempFieldStorage);
-                                strcpy(eventOtherFieldTagStorage[totalFamilyEventOtherFieldCount], tempDataStorage);
+                                strcpy(familyEventOtherFieldValueStorage[totalFamilyEventOtherFieldCount], tempFieldStorage);
+                                strcpy(familyEventOtherFieldTagStorage[totalFamilyEventOtherFieldCount], tempDataStorage);
                                 totalFamilyEventOtherFieldCount++;
                                 memset(tempFieldStorage, '\0', 1000);
                                 memset(tempDataStorage, '\0', 1000);
@@ -592,10 +593,10 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         {
                             // while(lineStorage[i][j+1] != ' ')
                             // {
-                                tempFieldStorage[tempSize] = lineStorage[i][j];
-                                tempSize++;
-                                // j++;
-                            
+                            tempFieldStorage[tempSize] = lineStorage[i][j];
+                            tempSize++;
+                            // j++;
+
                         }
 
                         strcpy(submitterNameStore, tempFieldStorage);
@@ -604,342 +605,430 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         // memset(tempDataStorage, '\0', 1000);
                         tempSize = 0;
                         // tempSizeTwo = 0;
-                    }
-                    else
-                    {
-                        if(strcasestr(lineStorage[i+1], "PLAC"))
-                        {
-                            i++;
-                            for(int j = 7; j < strlen(lineStorage[i]); j++)
-                            {
-                                tempFieldStorage[tempSize] = lineStorage[i][j];
-                                tempSize++;
-                            }
-
-                            strcpy(submitterAddress, tempFieldStorage);
-                            memset(tempFieldStorage, '\0', 1000);
-                            tempSize = 0;
                         }
                         else
                         {
-                            for(int j = 1; j < strlen(lineStorage[i]); j++)
+                            if(strcasestr(lineStorage[i+1], "PLAC"))
                             {
-                                tempFieldStorage[tempSize] = lineStorage[i][j];
-                                tempSize++;
-                                if(lineStorage[i][j+1] == ' ')
+                                i++;
+                                for(int j = 7; j < strlen(lineStorage[i]); j++)
                                 {
-                                    while(lineStorage[i][j+1] != '\0')
+                                    tempFieldStorage[tempSize] = lineStorage[i][j];
+                                    tempSize++;
+                                }
+
+                                strcpy(submitterAddress, tempFieldStorage);
+                                memset(tempFieldStorage, '\0', 1000);
+                                tempSize = 0;
+                            }
+                            else
+                            {
+                                for(int j = 1; j < strlen(lineStorage[i]); j++)
+                                {
+                                    tempFieldStorage[tempSize] = lineStorage[i][j];
+                                    tempSize++;
+                                    if(lineStorage[i][j+1] == ' ')
                                     {
-                                        tempDataStorage[tempSizeTwo] = lineStorage[i][j];
-                                        tempSizeTwo++;
+                                        while(lineStorage[i][j+1] != '\0')
+                                        {
+                                            tempDataStorage[tempSizeTwo] = lineStorage[i][j];
+                                            tempSizeTwo++;
+                                        }
                                     }
+                                }
+
+                                strcpy(submitterOtherFieldValueStorage[submitterOtherFieldCount], tempFieldStorage);
+                                strcpy(submitterOtherFieldTagStorage[submitterOtherFieldCount], tempDataStorage);
+                                submitterOtherFieldCount++;
+                                memset(tempFieldStorage, '\0', 1000);
+                                memset(tempDataStorage, '\0', 1000);
+                                tempSize = 0;
+                                tempSizeTwo = 0;
+                            }
+
+                        }
+
+                        i++;
+                    }
+
+                    submFlag = 0;
+
+                }
+                //where all the creation and insertion happens
+                else if(endFlag == 1)
+                {
+
+                    GEDCOMobject * tempObject;
+                    Individual * tempIndividual;
+                    Family * tempFamily;
+                    Header * tempHeader;
+                    Field * tempOtherField;
+                    Event * tempEvent;
+                    Submitter * tempSubm;
+
+                    // initializeHeader(char* source, char* gedcVersion, char* encodingType, char* submitterName, char* address)
+                    // {
+                    // tempObject->submitter = initializeHeader(char* source, char* gedcVersionStore, char* encodingTypeStore, char* submitterNameStore, char* submitterAddress);
+
+                    tempSubm = initializeSubmitter(submitterNameStore, submitterAddress);
+                    if(submitterOtherFieldCount != 0)
+                    {
+                        for(int j = 0; j < submitterOtherFieldCount; j++)
+                        {
+
+                            // (char* (*printFunction)(void* toBePrinted),void (*deleteFunction)(void* toBeDeleted),int (*compareFunction)(const void* first,const void* second));
+                            tempOtherField = initializeOtherField(submitterOtherFieldTagStorage[j], submitterOtherFieldValueStorage[j]);
+                            insertBack(&tempSubm->otherFields, (void*)tempOtherField);
+                            // tempSubm->otherFields = initializeList(printField, deleteField, compareFields);
+                        }
+                    }
+
+                    tempHeader = initializeHeader(sourceStore, gedcVersionStore, encodingTypeStore);
+                    if(headerOtherFieldCount != 0)
+                    {
+                        for(int j = 0; j < headerOtherFieldCount; j++)
+                        {
+                            tempOtherField = initializeOtherField(headerOtherFieldTagStorage[j], (void*)headerOtherFieldValueStorage[j]);
+                            insertBack(&tempHeader->otherFields, (void*)tempOtherField);
+                        }
+                    }
+
+                    tempHeader->submitter = tempSubm;
+                    tempObject->submitter = tempSubm;
+
+                    if(totalIndividualCount != 0)
+                    {
+
+                        for(int j = 0; j < totalIndividualCount; j++)
+                        {
+
+                            tempIndividual = initializeIndividual(individualGivenNameStorage[j], individualSurNameStorage[j]);
+                            if(totalIndividualEventArray[j] != 0)
+                            {
+                                if(j == 0)
+                                {
+                                    for(int k = 0; k < totalIndividualEventArray[j]; k++)
+                                    {
+
+                                        // Event * initializeEvent(char* type, char* date, char* place)
+                                        tempEvent = initializeEvent(individualEventTypeStorage[k], individualEventDateStorage[k], individualEventPlaceStorage[k]);
+                                        if(totalIndividualEventOtherFieldArray[k] != 0)
+                                        {
+                                            if(k == 0)
+                                            {
+                                                for(int m = 0; m < totalIndividualEventOtherFieldArray[k]; m++)
+                                                {
+                                                    tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
+                                                    insertBack(&tempEvent->otherFields, (void*)tempOtherField);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                for(int m = totalIndividualEventOtherFieldArray[k - 1]; m < totalIndividualEventOtherFieldArray[k] + 1; m++)
+                                                {
+                                                    tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
+                                                    insertBack(&tempEvent->otherFields, (void*)tempOtherField);   
+                                                }
+                                            }
+                                        }
+
+                                        insertBack(&tempIndividual->events, tempEvent);
+                                    }
+
+                                }
+                                else
+                                {
+                                    for(int k = totalIndividualEventArray[j - 1]; k < totalIndividualEventArray[j]+1; k++)
+                                    {
+                                        tempEvent = initializeEvent(individualEventTypeStorage[k], individualEventDateStorage[k], individualEventPlaceStorage[k]);
+                                        if(totalIndividualEventOtherFieldArray[k] != 0)
+                                        {
+                                            if(k == 0)
+                                            {
+                                                for(int m = 0; m < totalIndividualEventOtherFieldArray[k]; m++)
+                                                {
+                                                    tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
+                                                    insertBack(&tempEvent->otherFields, (void*)tempOtherField);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                for(int m = totalIndividualEventOtherFieldArray[k - 1]; m < totalIndividualEventOtherFieldArray[k] + 1; m++)
+                                                {
+                                                    tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
+                                                    insertBack(&tempEvent->otherFields, (void*)tempOtherField);   
+                                                }
+                                            }
+                                        }
+
+                                        insertBack(&tempIndividual->events, tempEvent);
+
+                                    }
+
                                 }
                             }
 
-                            strcpy(submitterOtherFieldValueStorage[submitterOtherFieldCount], tempFieldStorage);
-                            strcpy(submitterOtherFieldTagStorage[submitterOtherFieldCount], tempDataStorage);
-                            submitterOtherFieldCount++;
-                            memset(tempFieldStorage, '\0', 1000);
-                            memset(tempDataStorage, '\0', 1000);
-                            tempSize = 0;
-                            tempSizeTwo = 0;
+
+                            if(totalIndividualOtherFieldArray[j] != 0)
+                            {
+                                if(j == 0)
+                                {
+                                    for(int k = 0; k < totalIndividualOtherFieldArray[j]; k++)
+                                    {
+
+                                        // Event * initializeEvent(char* type, char* date, char* place)
+                                        tempOtherField = initializeOtherField(individualOtherFieldTagStorage[k], individualOtherFieldValueStorage[k]);
+                                        insertBack(&tempIndividual->otherFields, (void*)tempOtherField);
+                                    }
+                                }
+                                else
+                                {
+                                    for(int k = totalIndividualOtherFieldArray[j - 1]; k < totalIndividualOtherFieldArray[j] + 1; k++)
+                                    {
+
+                                        // Event * initializeEvent(char* type, char* date, char* place)
+                                        tempOtherField = initializeOtherField(individualOtherFieldTagStorage[k], individualOtherFieldValueStorage[k]);
+                                        insertBack(&tempIndividual->otherFields, (void*)tempOtherField);
+                                    }
+                                }
+                            }
                         }
-                        
-                    }
-
-                    i++;
-                }
-
-                submFlag = 0;
-
-            }
-            //where all the creation and insertion happens
-            else if(endFlag == 1)
-            {
-
-                GEDCOMobject * tempObject;
-                Individual * tempIndividual;
-                Family * tempFamily;
-                Header * tempHeader;
-                Field * tempOtherField;
-                Event * tempEvent;
-                Submitter * tempSubm;
-
-                // initializeHeader(char* source, char* gedcVersion, char* encodingType, char* submitterName, char* address)
-// {
-                // tempObject->submitter = initializeHeader(char* source, char* gedcVersionStore, char* encodingTypeStore, char* submitterNameStore, char* submitterAddress);
-
-                tempSubm = initializeSubmitter(char* submitterNameStore, char* submitterAddress);
-                if(submitterOtherFieldCount != 0)
-                {
-                    for(int j = 0; j < submitterOtherFieldCount; j++)
-                    {
-
-                        // (char* (*printFunction)(void* toBePrinted),void (*deleteFunction)(void* toBeDeleted),int (*compareFunction)(const void* first,const void* second));
-                        tempOtherField = initializeOtherField(submitterOtherFieldTagStorage[j], submitterOtherFieldValueStorage[j]);
-                        insertBack(tempSubm->otherFields, (void*)tempOtherField);
-                        // tempSubm->otherFields = initializeList(printField, deleteField, compareFields);
-                    }
-                }
-
-                tempHeader = initializeHeader(char* source, char* gedcVersionStore, char* encodingType);
-                if(headerOtherFieldCount != 0)
-                {
-                    for(int j = 0; j < headerOtherFieldCount; j++)
-                    {
-                        tempOtherField = initializeOtherField(headerOtherFieldTagStorage[j], (void*)headerOtherFieldValueStorage[j]);
-                        insertBack(tempHeader->otherFields);
-                    }
-                }
-
-                tempHeader->submitter = tempSubm;
-                tempObject->submitter = tempSubm;
-
-                if(totalIndividualCount != 0)
-                {
-
-
-                    for(int j = 0; j < totalIndividualCount; j++)
-                    {
-
-                        tempIndividual = initializeIndividual(char* individualGivenNameStorage[j], char* individualSurNameStorage[j]);
-
 
                     }
 
 
                 }
+
+                // }
 
             }
 
         }
 
+        GEDCOMerror err;
+        err.type = OK;
+        err.line = count;
+        return err;
+
+
+
     }
 
-    GEDCOMerror err;
-    err.type = OK;
-    err.line = count;
-    return err;
+    char* printGEDCOM(const GEDCOMobject* obj)
+    {
 
+        char * gedcomReturn = malloc(sizeof(char) * 1000);
+        if(obj != NULL)
+        {
 
+        }
 
-}
+    }
 
-char* printGEDCOM(const GEDCOMobject* obj)
-{
-
-    char * gedcomReturn = malloc(sizeof(char) * 1000);
-    if(obj != NULL)
+    void deleteGEDCOM(GEDCOMobject* obj)
     {
 
     }
 
-}
-
-void deleteGEDCOM(GEDCOMobject* obj)
-{
-
-}
-
-char* printError(GEDCOMerror err)
-{
-
-    char * errorCodeReturn = malloc(sizeof(char) * 256);
-    if(err.type == INV_FILE)
-    {
-        strcpy(errorCodeReturn, "INV_FILE: there’s a problem with file argument - its null, it;’s a empty string, file doesn't exist or - cannot be opened,file doesn't have the.ics extension\n");
-    }
-    else if(err.type == INV_GEDCOM)
+    char* printError(GEDCOMerror err)
     {
 
-        strcpy(errorCodeReturn, "INV_GEDCOM: the calendar version property is present but malformed\n");
+        char * errorCodeReturn = malloc(sizeof(char) * 256);
+        if(err.type == INV_FILE)
+        {
+            strcpy(errorCodeReturn, "INV_FILE: there’s a problem with file argument - its null, it;’s a empty string, file doesn't exist or - cannot be opened,file doesn't have the.ics extension\n");
+        }
+        else if(err.type == INV_GEDCOM)
+        {
+
+            strcpy(errorCodeReturn, "INV_GEDCOM: the calendar version property is present but malformed\n");
+        }
+        else if(err.type == INV_HEADER)
+        {
+
+            strcpy(errorCodeReturn, "INV_HEADER: the product ID property is present but malformed\n");
+        }
+        else if(err.type == INV_RECORD)
+        {
+
+            strcpy(errorCodeReturn, "INV_Record: the calendar itself is invalid (missing required properties or components, invalid opening - closingtags,etc.)\n");
+        }
+        else if (err.type == OTHER)
+        {
+            strcpy(errorCodeReturn, "OTHER: Some other error has happened\n");
+        }
+        else if(err.type == OK)
+        {
+            strcpy(errorCodeReturn, "OK: File parsed successfully.\n");
+        }
+        else
+        {
+            strcpy(errorCodeReturn, "error code not found\n");
+        }
+
+        return errorCodeReturn;
+
     }
-    else if(err.type == INV_HEADER)
+
+    Individual* findPerson(const GEDCOMobject* familyRecord, bool (*compare)(const void* first, const void* second), const void* person)
     {
 
-        strcpy(errorCodeReturn, "INV_HEADER: the product ID property is present but malformed\n");
     }
-    else if(err.type == INV_RECORD)
+
+    List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
     {
 
-        strcpy(errorCodeReturn, "INV_Record: the calendar itself is invalid (missing required properties or components, invalid opening - closingtags,etc.)\n");
     }
-    else if (err.type == OTHER)
+
+
+    //************************************************************************************************************
+
+    //****************************************** List helper functions *******************************************
+    void deleteEvent(void* toBeDeleted)
     {
-        strcpy(errorCodeReturn, "OTHER: Some other error has happened\n");
+
     }
-    else if(err.type == OK)
+
+    int compareEvents(const void* first,const void* second)
     {
-        strcpy(errorCodeReturn, "OK: File parsed successfully.\n");
+
     }
-    else
+
+    char* printEvent(void* toBePrinted)
     {
-        strcpy(errorCodeReturn, "error code not found\n");
+
     }
 
-    return errorCodeReturn;
+    void deleteIndividual(void* toBeDeleted)
+    {
 
-}
+    }
 
-Individual* findPerson(const GEDCOMobject* familyRecord, bool (*compare)(const void* first, const void* second), const void* person)
-{
+    int compareIndividuals(const void* first,const void* second)
+    {
 
-}
+    }
 
-List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
-{
+    char* printIndividual(void* toBePrinted)
+    {
 
-}
+    }
 
+    void deleteFamily(void* toBeDeleted)
+    {
 
-//************************************************************************************************************
+    }
 
-//****************************************** List helper functions *******************************************
-void deleteEvent(void* toBeDeleted)
-{
+    int compareFamilies(const void* first,const void* second)
+    {
 
-}
+    }
 
-int compareEvents(const void* first,const void* second)
-{
+    char* printFamily(void* toBePrinted)
+    {
 
-}
+    }
 
-char* printEvent(void* toBePrinted)
-{
+    void deleteField(void* toBeDeleted)
+    {
 
-}
+    }
 
-void deleteIndividual(void* toBeDeleted)
-{
+    int compareFields(const void* first,const void* second)
+    {
 
-}
+    }
 
-int compareIndividuals(const void* first,const void* second)
-{
+    char* printField(void* toBePrinted)
+    {
 
-}
+    }
 
-char* printIndividual(void* toBePrinted)
-{
+    Individual * initializeIndividual(char* givenName, char* surname)
+    {
+        Individual* tempIndividual;
 
-}
+        tempIndividual->givenName = malloc(sizeof(givenName));
+        strcpy(tempIndividual->givenName, givenName);
+        tempIndividual->surname = malloc(sizeof(surname));
+        strcpy(tempIndividual->surname, surname);
+        tempIndividual->events = initializeList(printEvent, deleteEvent, compareEvents);
+        tempIndividual->families = initializeList(printFamily, deleteFamily, compareFamilies);
+        tempIndividual->otherFields = initializeList(printField, deleteField, compareFields);
 
-void deleteFamily(void* toBeDeleted)
-{
+        return tempIndividual;
 
-}
+    }
 
-int compareFamilies(const void* first,const void* second)
-{
+    Family * initializeFamily()
+    {
+        Family* tempFamily;
+        tempFamily->children = initializeList(printIndividual, deleteIndividual, compareIndividuals);
+        tempFamily->events = initializeList(printEvent, deleteEvent, compareEvents);
+        tempFamily->otherFields = initializeList(printField, deleteField, compareFields);
 
-}
+        return tempFamily;
 
-char* printFamily(void* toBePrinted)
-{
+    }
 
-}
+    Header * initializeHeader(char* source, char* gedcVersion, char* encodingType)
+    {
+        Header* tempHeader;
 
-void deleteField(void* toBeDeleted)
-{
+        strcpy(tempHeader->source, source);
+        tempHeader->gedcVersion = atof(gedcVersion);
+        tempHeader->otherFields = initializeList(printField, deleteField, compareFields);
+        // tempHeader->submitter = initializeSubmitter(submitterName, address);
 
-}
+        return tempHeader;
 
-int compareFields(const void* first,const void* second)
-{
+    }
 
-}
+    GEDCOMobject * initializeGEDCOMobject()
+    {
+        GEDCOMobject* tempObject;
 
-char* printField(void* toBePrinted)
-{
+        tempObject->families = initializeList(printFamily, deleteFamily, compareFamilies);
+        tempObject->individuals = initializeList(printIndividual, deleteIndividual, compareIndividuals);
 
-}
+        return tempObject;
 
-Individual * initializeIndividual(char* givenName, char* surname)
-{
-    Individual* tempIndividual;
+    }
 
-    tempIndividual->givenName = malloc(sizeof(givenName));
-    strcpy(tempIndividual->givenName, givenName);
-    tempIndividual->surname = malloc(sizeof(surname));
-    strcpy(tempIndividual->surname, surname);
-    tempIndividual->events = initializeList(printEvent, deleteEvent, compareEvents);
-    tempIndividual->families = initializeList(printFamily, deleteFamily, compareFamilies);
-    tempIndividual->otherFields = initializeList(printField, deleteField, compareFields);
+    Submitter * initializeSubmitter(char* submitterName, char* address)
+    {
+        Submitter* tempSubmitter;
 
-    return tempIndividual;
+        tempSubmitter = malloc(sizeof(submitterName) + (sizeof(char)*(strlen(address)+1)));
+        strcpy(tempSubmitter->submitterName, submitterName);
+        strcpy(tempSubmitter->address, address);
+        tempSubmitter->otherFields = initializeList(printField, deleteField, compareFields);
 
-}
+        return tempSubmitter;
+    }
 
-Family * initializeFamily()
-{
-    Family* tempFamily;
-    tempFamily->children = initializeList(printIndividual, deleteIndividual, compareIndividuals);
-    tempFamily->events = initializeList(printEvent, deleteEvent, compareEvents);
-    tempFamily->otherFields = initializeList(printField, deleteField, compareFields);
+    Field * initializeOtherField(char* tag, char* value)
+    {
+        Field* tempField;
 
-    return tempFamily;
+        tempField->tag = malloc(sizeof(tag));
+        strcpy(tempField->tag, tag);
+        tempField->value = malloc(sizeof(value));
+        strcpy(tempField->value, value);
 
-}
+        return tempField;
 
-Header * initializeHeader(char* source, char* gedcVersion, char* encodingType)
-{
-    Header* tempHeader;
+    }
 
-    strcpy(tempHeader->source, source);
-    tempHeader->gedcVersion = atof(gedcVersion);
-    tempHeader->otherFields = initializeList(printField, deleteField, compareFields);
-    // tempHeader->submitter = initializeSubmitter(submitterName, address);
+    Event * initializeEvent(char* type, char* date, char* place)
+    {
+        Event* tempEvent;
 
-    return tempHeader;
+        strcpy(tempEvent->type, type);
+        tempEvent->date = malloc(sizeof(date));
+        tempEvent->place = malloc(sizeof(place));
+        tempEvent->otherFields = initializeList(printField, deleteField, compareFields);
 
-}
+        return tempEvent;
 
-GEDCOMobject * initializeGEDCOMobject()
-{
-    GEDCOMobject* tempObject;
-
-    tempObject->families = initializeList(printFamily, deleteFamily, compareFamilies);
-    tempObject->individuals = initializeList(printIndividual, deleteIndividual, compareIndividuals);
-
-    return tempObject;
-
-}
-
-Submitter * initializeSubmitter(char* submitterName, char* address)
-{
-    Submitter* tempSubmitter;
-
-    tempSubmitter = malloc(sizeof(submitterName) + (sizeof(char)*(strlen(address)+1)));
-    strcpy(tempSubmitter->submitterName, submitterName);
-    strcpy(tempSubmitter->address, address);
-    tempSubmitter->otherFields = initializeList(printField, deleteField, compareFields);
-
-    return tempSubmitter;
-}
-
-Field * initializeOtherField(char* tag, char* value)
-{
-    Field* tempField;
-
-    tempField->tag = malloc(sizeof(tag));
-    strcpy(tempField->tag, tag);
-    tempField->value = malloc(sizeof(value));
-    strcpy(tempField->value, value);
-
-    return tempField;
-
-}
-
-Event * initializeEvent(char* type, char* date, char* place)
-{
-    Event* tempEvent;
-
-    strcpy(tempEvent->type, type);
-    tempEvent->date = malloc(sizeof(date));
-    tempEvent->place = malloc(sizeof(place));
-    tempEvent->otherFields = initializeList(printField, deleteField, compareFields);
-
-    return tempEvent;
-
-}
+    }
