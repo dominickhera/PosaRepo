@@ -107,6 +107,9 @@ typedef struct {
     
     //List of other fields in the family record.  All objects in the list will be of type Field.  It may be empty.
     List        otherFields;
+
+    //Collection of events. All objects in the list will be of type Event.  It may be empty.
+    List    events;
     
 } Family;
 
