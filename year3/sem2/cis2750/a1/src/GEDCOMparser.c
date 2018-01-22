@@ -25,6 +25,11 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     char headerOtherFieldValueStorage[256][500];
     char individualOtherFieldTagStorage[256][500];
     char individualOtherFieldValueStorage[256][500];
+    char individualEventTypeStorage[256][5];
+    char individualEventDateStorage[256][500];
+    char individualEventPlaceStorage[256][500];
+    char individualEventOtherFieldTagStorage[256][500];
+    char individualEventOtherFieldValueStorage[256][500];
     char familyOtherFieldTagStorage[256][500];
     char familyOtherFieldValueStorage[256][500];
     char gedcomObjectOtherFieldTagStorage[256][500];
@@ -37,9 +42,13 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     char submitterNameStore[61];
     char submitterAddress[256];
     int totalIndividualOtherFieldArray[500];
+    int totalIndividualEventArray[500];
     int totalEventOtherFieldArray[500];
     int totalFamilyOtherFieldArray[500];
-    int totalIndividaulCount = 0;
+    int familyHusbandFindArray[500];
+    int familyWifeFindArray[500];
+    int totalIndividualCount = 0;
+    int totalEventCount = 0;
     int individualOtherFieldCount = 0;
     int eventOtherFieldCount = 0;
     int familyOtherFieldCount = 0;
@@ -133,12 +142,12 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         for(int j = 7; j < strlen(lineStorage[i]); j++)
                         {
 
-                                // while(lineStorage[i][j+1] != '\0')
-                                // {
-                                    tempFieldStorage[tempSize] = lineStorage[i][j];
-                                    tempSize++;
-                                    // j++;
-                                // }
+                            // while(lineStorage[i][j+1] != '\0')
+                            // {
+                            tempFieldStorage[tempSize] = lineStorage[i][j];
+                            tempSize++;
+                            // j++;
+                            // }
                         }
 
 
@@ -174,7 +183,6 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                     }
                     else
                     {
-
                         for(int j = 1; j < strlen(lineStorage[i]); j++)
                         {
                             tempFieldStorage[tempSize] = lineStorage[i][j];
@@ -208,7 +216,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             {
                 while(lineStorage[i+1][0] != '0')
                 {
-                    
+
                     if(strcasestr(lineStorage[i], 'NAME'))
                     {
                         for(int j = 7; j < strlen(lineStorage[i]) ; j++)
@@ -236,10 +244,117 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         tempSize = 0;
                         tempSizeTwo = 0;
                     }
-                    // else if(strcasestr(lineStorage[i], ''))
+                    // else if(strcasestr(lineStorage[i], 'FAMS'))
+                    // {
+
+                    // }
+                    // else if(strcasestr(lineStorage[i], 'FAMC'))
+                    // {
+
+                    // }
+                    else
+                    {
+                        if(strcasestr(lineStorage[i+1], 'DATE'))
+                        {
+                            for(int j = 1; j < strlen(lineStorage[i]); j++)
+                            {
+                                tempFieldStorage[tempSize] = lineStorage[i][j];
+                                tempSize++;
+                            }
+
+                            strcpy(individualEventTypeStorage[totalEventCount], tempFieldStorage);
+                            memset(tempFieldStorage, '\0', 1000);
+                            tempSize = 0;
+                            i++;
+                            for(int j = 7; j < strlen(lineStorage[i]); j++)
+                            {
+                                tempFieldStorage[tempSize] = lineStorage[i][j];
+                                tempSize++;
+                            }
+
+                            strcpy(individualEventDateStorage[totalEventCount], tempFieldStorage);
+                            memset(tempFieldStorage, '\0', 1000);
+                            tempSize = 0;
+
+                            if(strcasestr(lineStorage[i + 1], 'PLAC'))
+                            {
+                                i++;
+                                for(int j = 7; j < strlen(lineStorage[i]); j++)
+                                {
+                                    tempFieldStorage[tempSize] = lineStorage[i][j];
+                                    tempSize++;
+                                }
+
+                                strcpy(individualEventPlaceStorage[totalEventCount], tempFieldStorage);
+                                memset(tempFieldStorage, '\0', 1000);
+                                tempSize = 0;
+                            }
+
+                            while(lineStorage[i+1][0] != '0')
+                            {
+
+                                for(int j = 1; j < strlen(lineStorage[i]); j++)
+                                {
+                                    tempFieldStorage[tempSize] = lineStorage[i][j];
+                                    tempSize++;
+                                    if(lineStorage[i][j+1] == ' ')
+                                    {
+                                        while(lineStorage[i][j+1] != '\0')
+                                        {
+                                            tempDataStorage[tempSizeTwo] = lineStorage[i][j];
+                                            tempSizeTwo++;
+                                        }
+                                    }
+                                }
+
+                                strcpy(eventOtherFieldValueStorage[eventOtherFieldCount], tempFieldStorage);
+                                strcpy(eventOtherFieldTagStorage[eventOtherFieldCount], tempDataStorage);
+                                eventOtherFieldCount++;
+                                memset(tempFieldStorage, '\0', 1000);
+                                memset(tempDataStorage, '\0', 1000);
+                                tempSize = 0;
+                                tempSizeTwo = 0;
+                                i++;
+
+                            }
+                            totalEventOtherFieldArray[totalEventCount] = eventOtherFieldCount;
+                            eventOtherFieldCount = 0;
+                            totalEventCount++;
+
+                        }
+                        else
+                        {
+
+                            for(int j = 1; j < strlen(lineStorage[i]); j++)
+                            {
+                                tempFieldStorage[tempSize] = lineStorage[i][j];
+                                tempSize++;
+                                if(lineStorage[i][j+1] == ' ')
+                                {
+                                    while(lineStorage[i][j+1] != '\0')
+                                    {
+                                        tempDataStorage[tempSizeTwo] = lineStorage[i][j];
+                                        tempSizeTwo++;
+                                    }
+                                }
+                            }
+
+                            strcpy(individualOtherFieldValueStorage[individualOtherFieldCount], tempFieldStorage);
+                            strcpy(individualOtherFieldTagStorage[individualOtherFieldCount], tempDataStorage);
+                            individualOtherFieldCount++;
+                            memset(tempFieldStorage, '\0', 1000);
+                            memset(tempDataStorage, '\0', 1000);
+                            tempSize = 0;
+                            tempSizeTwo = 0;
+
+                            totalIndividualOtherFieldArray[totalIndividualCount] = individualOtherFieldCount;
+                            individualOtherFieldCount = 0;
+                            totalIndividualCount++;
+                        }
+                    }
                     i++;
                 }
-
+                totalIndividaulCount++;
                 indiFlag = 0;
 
             }
@@ -247,8 +362,8 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             {
                 while(lineStorage[i+1][0] != '0')
                 {
-                    
-                    
+
+
                     i++;
                 }
 
@@ -257,10 +372,10 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             }
             else if(submFlag == 1)
             {
-              
+
                 while(lineStorage[i+1][0] != '0')
                 {
-                    
+
 
                     i++;
                 }
