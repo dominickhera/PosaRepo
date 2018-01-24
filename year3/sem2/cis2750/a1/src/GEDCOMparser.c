@@ -11,6 +11,7 @@ Submitter * initializeSubmitter(char* submitterName, char* address);
 Field * initializeOtherField(char* tag, char* value);
 Event * initializeEvent(char* type, char* date, char* place);
 Individual * initializeIndividual(char* givenName, char* surname);
+bool customIndividualCompareFunction(const void* first, const void* second);
 
 GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 {
@@ -1066,18 +1067,6 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
     Individual* findPerson(const GEDCOMobject* familyRecord, bool (*compare)(const void* first, const void* second), const void* person)
     {
-        // void *eventPropElem;
-        // ListIterator eventPropertiesIter = createIterator(eventPointer->properties);
-        // while((eventPropElem = nextElement(&eventPropertiesIter)) != NULL)
-        // {
-        // Property* tempEventPropPrint = (Property*)eventPropElem;
-        // if(strcasestr(tempEventPropPrint->propName, "SUMMARY"))
-        // {
-        // return tempEventPropPrint->propDescr;
-        // }
-        // }
-        // return NULL;
-
         void *individualElem;
         ListIterator individualElemIter = createIterator(familyRecord->individuals);
         while((individualElem = nextElement(&individualElemIter)) != NULL)
@@ -1093,6 +1082,20 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
     List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
     {
+
+        Individual * individualFamilyTreePerson = findPerson(familyRecord, customIndividualCompareFunction, (void*)person);
+        List individualDescendants = initializeList(printIndividual, deleteIndividual, compareIndividuals);
+
+        if(getLength(individualFamilyTreePerson->families) != 0)
+        {
+            void *individualFamilyFindElem;
+            ListIterator individualFamilyFindElemIter = createIterator(individualFamilyTreePerson->families);
+            while((individualFamilyFindElem = nextElement(&individualFamilyFindElemIter)) != NULL)
+            {
+                //this will go through all the families this person has, add all the children of each person, spouse etc
+            }
+        }
+
 
     }
 
@@ -1170,6 +1173,15 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             return strdup((char *)toBePrinted);
         }
         return NULL;
+    }
+
+    bool customIndividualCompareFunction(const void* first, const void* second)
+    {
+        if(strcmp((char*)first, (char*)second) == 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     Individual * initializeIndividual(char* givenName, char* surname)
