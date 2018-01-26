@@ -34,6 +34,7 @@ typedef struct listHead{
     void (*deleteData)(void* toBeDeleted);
     int (*compare)(const void* first,const void* second);
     char* (*printData)(void* toBePrinted);
+    int length;
 } List;
 
 
@@ -174,5 +175,7 @@ ListIterator createIterator(List list);
 *@param iter - an iterator to a list.
 **/
 void* nextElement(ListIterator* iter);
+int getLength(List list);
+void* findElement(List list, bool (*customCompare)(const void* first,const void* second), const void* searchRecord);
 
 #endif

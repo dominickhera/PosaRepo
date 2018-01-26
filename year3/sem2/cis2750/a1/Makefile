@@ -2,12 +2,14 @@ cc = gcc
 FILE = src/
 OBJFILE = bin/
 CFLAGS = -std=c11 -Wall -g -pedantic
-EXE = test
+EXE = run
+LIBS = -L/usr/local/lib -lm -lliblist -llibcparse
 
 all: $(EXE)
 
-$(EXE): BIN OBJ Main.o CalendarParser.o LinkedListAPI.o
-	gcc ./obj/Main.o ./obj/CalendarParser.o ./obj/LinkedListAPI.o -o $(OBJFILE)$(EXE)1
+$(EXE): BIN OBJ list parser
+	ar cr ./bin/liblist.a ./obj/LinkedListAPI.o ;\
+	ar cr ./bin/libcparse.a ./obj/GEDCOMparser.o ./obj/LinkedListAPI.o
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
@@ -21,12 +23,18 @@ cppcheck:
 Main.o: ./src/Main.c
 	$(CC) -c $(CFLAGS) ./src/Main.c -I./include -o ./obj/Main.o
 
-CalendarParser.o: ./src/CalendarParser.c
-	$(CC) -c $(CFLAGS) ./src/CalendarParser.c -I./include -o ./obj/CalendarParser.o
+GEDCOMparser.o: ./src/GEDCOMparser.c
+	$(CC) -c $(CFLAGS) ./src/GEDCOMparser.c -I./include -o ./obj/GEDCOMparser.o
 
 LinkedListAPI.o: ./src/LinkedListAPI.c
 	$(CC) -c $(CFLAGS) ./src/LinkedListAPI.c -I./include -o ./obj/LinkedListAPI.o
 
+
+list: BIN OBJ LinkedListAPI.o
+	ar cr ./bin/liblist.a ./obj/LinkedListAPI.o
+
+parser: BIN OBJ GEDCOMparser.o LinkedListAPI.o
+	ar cr ./bin/libcparse.a ./obj/GEDCOMparser.o ./obj/LinkedListAPI.o
 
 clean:
 	rm -rf bin obj

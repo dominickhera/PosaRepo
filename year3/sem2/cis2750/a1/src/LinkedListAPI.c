@@ -1,4 +1,5 @@
 #include "LinkedListAPI.h"
+#include "assert.h"
 
 /** Function to initialize the list metadata head to the appropriate function pointers. Allocates memory to the struct.
 *@return pointer to the list head
@@ -86,19 +87,45 @@ Node* initializeNode(void* data){
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
 void insertBack(List* list, void* toBeAdded){
-	if (list == NULL || toBeAdded == NULL){
-		return;
-	}
-	
-	Node* newNode = initializeNode(toBeAdded);
-	
-    if (list->head == NULL && list->tail == NULL){
-        list->head = newNode;
-        list->tail = list->head;
-    }else{
-		newNode->previous = list->tail;
-        list->tail->next = newNode;
-    	list->tail = newNode;
+	if(list != NULL && toBeAdded != NULL)
+    {
+
+        // Node* tempNode = initializeNode(toBeAdded);
+        // if(list->head == NULL && list->tail == NULL)
+        // {
+        //     // printf("1\n");
+        //     list->head = tempNode;
+        //     list->tail = tempNode;
+        // }
+        // else
+        // {
+        //     // printf("2\n");
+        //     tempNode->previous = list->tail;
+        //     list->tail->next = tempNode;
+        //     list->tail = tempNode;
+        //     printf("head is %p\n\n", list->head);
+        // }
+        Node * tempNode = list->head;
+        if(tempNode != NULL)
+        {
+            while(tempNode->next != NULL)
+            {
+                tempNode = tempNode->next;
+            }
+
+            tempNode->next = initializeNode(toBeAdded);
+            list->tail = tempNode->next;
+            tempNode->next->previous = tempNode;
+
+        }
+        else
+        {
+            tempNode = initializeNode(toBeAdded);
+            list->head = tempNode;
+            list->tail = tempNode;
+        }
+
+        list->length++;
     }
 	
 }
@@ -110,19 +137,24 @@ void insertBack(List* list, void* toBeAdded){
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
 void insertFront(List* list, void* toBeAdded){
-	if (list == NULL || toBeAdded == NULL){
-		return;
-	}
-	
-	Node* newNode = initializeNode(toBeAdded);
-	
-    if (list->head == NULL && list->tail == NULL){
-        list->head = newNode;
-        list->tail = list->head;
-    }else{
-		newNode->next = list->head;
-        list->head->previous = newNode;
-    	list->head = newNode;
+	if(list != NULL && toBeAdded != NULL)
+    {
+        Node * tempNode = NULL;
+
+        if(list->head == NULL)
+        {
+            tempNode = initializeNode(toBeAdded);
+            list->head = tempNode;
+            list->tail = tempNode;
+        }
+        else
+        {
+            tempNode = initializeNode(toBeAdded);
+            list->head->previous = tempNode;
+            tempNode->next = list->head;
+            list->head = tempNode;
+        }
+        list->length++;
     }
 }
 
@@ -179,6 +211,7 @@ void* deleteDataFromList(List* list, void* toBeDeleted){
 				list->tail = delNode->previous;
 			}
 			
+			list->length--;
 			void* data = delNode->data;
 			free(delNode);
 			
@@ -281,9 +314,6 @@ char* toString(List list){
 ListIterator createIterator(List list){
     ListIterator iter;
 
-    //Assert creates a partial function...
-    assert (list != NULL);
-	
     iter.current = list.head;
     
     return iter;
@@ -298,5 +328,51 @@ void* nextElement(ListIterator* iter){
     }else{
         return NULL;
     }
+}
+
+
+int getLength(List list)
+{
+
+    if(list.head != NULL)
+    {     
+    	List temp = list;
+        void* elem;
+        int lengthCount = 0;
+        ListIterator listIter = createIterator(temp);
+        while((elem = nextElement(&listIter)) != NULL)
+        {
+            lengthCount++;
+        }
+        return lengthCount;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+void* findElement(List list, bool (*customCompare)(const void* first,const void* second), const void* searchRecord)
+{
+
+    if(list.head != NULL)
+    {     
+    	List * temp = &list;
+    	Node * tempNode = temp->head;
+        while(tempNode != NULL)
+        {
+            if(customCompare(tempNode->data, searchRecord) == true)
+            {
+                return tempNode->data;
+            }
+            tempNode = tempNode->next;
+        }
+        return NULL;
+    }
+    else
+    {
+        return NULL;
+    }
+
 }
 
