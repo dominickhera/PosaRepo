@@ -4,7 +4,7 @@ program ticTacToe
     implicit none
 
     character(len=1) :: WINNER
-	logical :: OVER
+    logical :: OVER
     character ,dimension(3,3) :: TICTAC = reshape((/' ',' ',' ',' ',' ',' ',' ',' ',' ' /), (/3,3/))
 
     write(*,'(A)') 'PLAY TIC-TAC-TOE. ENTER 1-9 TO PLAY', &
@@ -178,327 +178,328 @@ contains
                 TICTAC(2,2) = 'O'
             elseif (CHKPLAY(TICTAC, 6) .eqv. .TRUE.) then
                 TICTAC(2,3) = 'O'
-			endif
-		elseif (w3 == 2) then
-			if(CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
-				TICTAC(3,1) = 'O'
-			elseif (CHKPLAY(TICTAC, 8) .eqv. .TRUE.) then
-				TICTAC(3,2) = 'O'
-			elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
-				TICTAC(3,3) = 'O'
-			endif
-		elseif (w4 == 2) then
-			if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
-				TICTAC(1,1) = 'O'
-			elseif (CHKPLAY(TICTAC, 4) .eqv. .TRUE.) then
-				TICTAC(2,1) = 'O'
-			elseif (CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
-				TICTAC(3,1) = 'O'
-			endif
-		elseif (w5 == 2) then
-			if(CHKPLAY(TICTAC, 2) .eqv. .TRUE.) then
-				TICTAC(1,2) = 'O'
-			elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
-				TICTAC(2,2) = 'O'
-			elseif (CHKPLAY(TICTAC, 8) .eqv. .TRUE.) then
-				TICTAC(3,2) = 'O'
-			endif
-		elseif (w6 == 2) then
-			if(CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
-				TICTAC(1,3) = 'O'
-			elseif (CHKPLAY(TICTAC, 6) .eqv. .TRUE.) then
-				TICTAC(2,3) = 'O'
-			elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
-				TICTAC(3,3) = 'O'
-			endif
-		elseif (w7 == 2) then
-			if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
-				TICTAC(1,1) = 'O'
-			elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
-				TICTAC(2,2) = 'O'
-			elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
-				TICTAC(3,3) = 'O'
-			endif
-		elseif (w8 == 2) then
-			if(CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
-				TICTAC(1,3) = 'O'
-			elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
-				TICTAC(2,2) = 'O'
-			elseif (CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
-				TICTAC(3,1) = 'O'
-			endif
-		elseif(w1 == 8) then
-			if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
-				TICTAC(1,1) = 'O'
-			elseif (CHKPLAY(TICTAC, 2) .eqv. .TRUE.) then
-				TICTAC(1,2) = 'O'
-			elseif (CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
-				TICTAC(1,3) = 'O'
-			endif
-		elseif (w2 == 8) then
-			if(CHKPLAY(TICTAC, 4) .eqv. .TRUE.) then
-				TICTAC(2,1) = 'O'
-			elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
-				TICTAC(2,2) = 'O'
-			elseif (CHKPLAY(TICTAC, 6) .eqv. .TRUE.) then
-				TICTAC(2,3) = 'O'
-			endif
-		elseif (w3 == 8) then
-			if(CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
-				TICTAC(3,1) = 'O'
-			elseif (CHKPLAY(TICTAC, 8) .eqv. .TRUE.) then
-				TICTAC(3,2) = 'O'
-			elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
-				TICTAC(3,3) = 'O'
-			endif
-		elseif (w4 == 8) then
-			if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
-				TICTAC(1,1) = 'O'
-			elseif (CHKPLAY(TICTAC, 4) .eqv. .TRUE.) then
-				TICTAC(2,1) = 'O'
-			elseif (CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
-				TICTAC(3,1) = 'O'
-			endif
-		elseif (w5 == 8) then
-			if(CHKPLAY(TICTAC, 2) .eqv. .TRUE.) then
-				TICTAC(1,2) = 'O'
-			elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
-				TICTAC(2,2) = 'O'
-			elseif (CHKPLAY(TICTAC, 8) .eqv. .TRUE.) then
-				TICTAC(3,2) = 'O'
-			endif
-		elseif (w6 == 8) then
-			if(CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
-				TICTAC(1,3) = 'O'
-			elseif (CHKPLAY(TICTAC, 6) .eqv. .TRUE.) then
-				TICTAC(2,3) = 'O'
-			elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
-				TICTAC(3,3) = 'O'
-			endif
-		elseif (w7 == 8) then
-			if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
-				TICTAC(1,1) = 'O'
-			elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
-				TICTAC(2,2) = 'O'
-			elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
-				TICTAC(3,3) = 'O'
-			endif
-		elseif (w8 == 8) then
-			if(CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
-				TICTAC(1,3) = 'O'
-			elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
-				TICTAC(2,2) = 'O'
-			elseif (CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
-				TICTAC(3,1) = 'O'
-			endif
-		else
+            endif
+        elseif (w3 == 2) then
+            if(CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
+                TICTAC(3,1) = 'O'
+            elseif (CHKPLAY(TICTAC, 8) .eqv. .TRUE.) then
+                TICTAC(3,2) = 'O'
+            elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
+                TICTAC(3,3) = 'O'
+            endif
+        elseif (w4 == 2) then
+            if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
+                TICTAC(1,1) = 'O'
+            elseif (CHKPLAY(TICTAC, 4) .eqv. .TRUE.) then
+                TICTAC(2,1) = 'O'
+            elseif (CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
+                TICTAC(3,1) = 'O'
+            endif
+        elseif (w5 == 2) then
+            if(CHKPLAY(TICTAC, 2) .eqv. .TRUE.) then
+                TICTAC(1,2) = 'O'
+            elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
+                TICTAC(2,2) = 'O'
+            elseif (CHKPLAY(TICTAC, 8) .eqv. .TRUE.) then
+                TICTAC(3,2) = 'O'
+            endif
+        elseif (w6 == 2) then
+            if(CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
+                TICTAC(1,3) = 'O'
+            elseif (CHKPLAY(TICTAC, 6) .eqv. .TRUE.) then
+                TICTAC(2,3) = 'O'
+            elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
+                TICTAC(3,3) = 'O'
+            endif
+        elseif (w7 == 2) then
+            if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
+                TICTAC(1,1) = 'O'
+            elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
+                TICTAC(2,2) = 'O'
+            elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
+                TICTAC(3,3) = 'O'
+            endif
+        elseif (w8 == 2) then
+            if(CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
+                TICTAC(1,3) = 'O'
+            elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
+                TICTAC(2,2) = 'O'
+            elseif (CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
+                TICTAC(3,1) = 'O'
+            endif
+        elseif(w1 == 8) then
+            if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
+                TICTAC(1,1) = 'O'
+            elseif (CHKPLAY(TICTAC, 2) .eqv. .TRUE.) then
+                TICTAC(1,2) = 'O'
+            elseif (CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
+                TICTAC(1,3) = 'O'
+            endif
+        elseif (w2 == 8) then
+            if(CHKPLAY(TICTAC, 4) .eqv. .TRUE.) then
+                TICTAC(2,1) = 'O'
+            elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
+                TICTAC(2,2) = 'O'
+            elseif (CHKPLAY(TICTAC, 6) .eqv. .TRUE.) then
+                TICTAC(2,3) = 'O'
+            endif
+        elseif (w3 == 8) then
+            if(CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
+                TICTAC(3,1) = 'O'
+            elseif (CHKPLAY(TICTAC, 8) .eqv. .TRUE.) then
+                TICTAC(3,2) = 'O'
+            elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
+                TICTAC(3,3) = 'O'
+            endif
+        elseif (w4 == 8) then
+            if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
+                TICTAC(1,1) = 'O'
+            elseif (CHKPLAY(TICTAC, 4) .eqv. .TRUE.) then
+                TICTAC(2,1) = 'O'
+            elseif (CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
+                TICTAC(3,1) = 'O'
+            endif
+        elseif (w5 == 8) then
+            if(CHKPLAY(TICTAC, 2) .eqv. .TRUE.) then
+                TICTAC(1,2) = 'O'
+            elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
+                TICTAC(2,2) = 'O'
+            elseif (CHKPLAY(TICTAC, 8) .eqv. .TRUE.) then
+                TICTAC(3,2) = 'O'
+            endif
+        elseif (w6 == 8) then
+            if(CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
+                TICTAC(1,3) = 'O'
+            elseif (CHKPLAY(TICTAC, 6) .eqv. .TRUE.) then
+                TICTAC(2,3) = 'O'
+            elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
+                TICTAC(3,3) = 'O'
+            endif
+        elseif (w7 == 8) then
+            if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
+                TICTAC(1,1) = 'O'
+            elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
+                TICTAC(2,2) = 'O'
+            elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
+                TICTAC(3,3) = 'O'
+            endif
+        elseif (w8 == 8) then
+            if(CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
+                TICTAC(1,3) = 'O'
+            elseif (CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
+                TICTAC(2,2) = 'O'
+            elseif (CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
+                TICTAC(3,1) = 'O'
+            endif
+        else
 ! 			user did first move
-			if(sumB == 4) then
+            if(sumB == 4) then
 ! 				if user starts in a corner
-				if(b1 == 4 .or. b3 == 4 .or. b7 == 4 .or. b9 == 4) then
-					if(CHKPLAY(TICTAC, 2) .eqv. .TRUE.) then
-						TICTAC(1,2) = 'O'
-					elseif (CHKPLAY(TICTAC, 6) .eqv. .TRUE.) then
-						TICTAC(2,3) = 'O'
-					elseif (CHKPLAY(TICTAC, 8) .eqv. .TRUE.) then
-						TICTAC(3,2) = 'O'
-					elseif (CHKPLAY(TICTAC, 4) .eqv. .TRUE.) then
-						TICTAC(2,1) = 'O'
-					endif
-				elseif(b2 == 4 .or. b6 == 4 .or. b8 == 4 .or. b4 == 4) then
+                if(b1 == 4 .or. b3 == 4 .or. b7 == 4 .or. b9 == 4) then
+                    if(CHKPLAY(TICTAC, 2) .eqv. .TRUE.) then
+                        TICTAC(1,2) = 'O'
+                    elseif (CHKPLAY(TICTAC, 6) .eqv. .TRUE.) then
+                        TICTAC(2,3) = 'O'
+                    elseif (CHKPLAY(TICTAC, 8) .eqv. .TRUE.) then
+                        TICTAC(3,2) = 'O'
+                    elseif (CHKPLAY(TICTAC, 4) .eqv. .TRUE.) then
+                        TICTAC(2,1) = 'O'
+                    endif
+                elseif(b2 == 4 .or. b6 == 4 .or. b8 == 4 .or. b4 == 4) then
 
-					if(CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
-						TICTAC(2,2) = 'O'
-					endif
+                    if(CHKPLAY(TICTAC, 5) .eqv. .TRUE.) then
+                        TICTAC(2,2) = 'O'
+                    endif
 
-				elseif(b5 == 4) then
-					if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
-						TICTAC(1,1) = 'O'
-					elseif (CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
-						TICTAC(1,3) = 'O'
-					elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
-						TICTAC(3,3) = 'O'
-					elseif (CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
-						TICTAC(3,1) = 'O'
-					endif
-				endif
-			else
-				do i = 1, 9, 1
-					if(CHKPLAY(TICTAC, i) .eqv. .TRUE.) exit
-				end do
+                elseif(b5 == 4) then
+                    if(CHKPLAY(TICTAC, 1) .eqv. .TRUE.) then
+                        TICTAC(1,1) = 'O'
+                    elseif (CHKPLAY(TICTAC, 3) .eqv. .TRUE.) then
+                        TICTAC(1,3) = 'O'
+                    elseif (CHKPLAY(TICTAC, 9) .eqv. .TRUE.) then
+                        TICTAC(3,3) = 'O'
+                    elseif (CHKPLAY(TICTAC, 7) .eqv. .TRUE.) then
+                        TICTAC(3,1) = 'O'
+                    endif
+                endif
+            else
+                do i = 1, 9, 1
+                    if(CHKPLAY(TICTAC, i) .eqv. .TRUE.) exit
+                end do
 
-				select case (i)
-					case (1)
-						TICTAC(1,1) = 'O'
-					case (2)
-						TICTAC(1,2) = 'O'
-					case (3)
-						TICTAC(1,3) = 'O'
-					case (4)
-						TICTAC(2,1) = 'O'
-					case (5)
-						TICTAC(2,2) = 'O'
-					case (6)
-						TICTAC(2,3) = 'O'
-					case (7)
-						TICTAC(3,1) = 'O'
-					case (8)
-						TICTAC(3,2) = 'O'
-					case (9)
-						TICTAC(3,3) = 'O'
-					case default
-						write(*,*) 'Error has occured'
-				end select
-			endif
-		endif
+                select case (i)
+                    case (1)
+                        TICTAC(1,1) = 'O'
+                    case (2)
+                        TICTAC(1,2) = 'O'
+                    case (3)
+                        TICTAC(1,3) = 'O'
+                    case (4)
+                        TICTAC(2,1) = 'O'
+                    case (5)
+                        TICTAC(2,2) = 'O'
+                    case (6)
+                        TICTAC(2,3) = 'O'
+                    case (7)
+                        TICTAC(3,1) = 'O'
+                    case (8)
+                        TICTAC(3,2) = 'O'
+                    case (9)
+                        TICTAC(3,3) = 'O'
+                    case default
+                        write(*,*) 'Error has occured'
+                    end select
+            endif
+        endif
 
-	end subroutine pickMove
+    end subroutine pickMove
 
-	integer function getMove(TICTAC)
+    integer function getMove(TICTAC)
 
-		implicit none
+        implicit none
 
-		integer :: move
-		character(len=1) :: TICTAC(3,3)
-
-		do 
-			write(*,*) 'Your Move?'
-			read(*,*) move
-			if(move > 0 .AND. move < 10 .and. CHKPLAY(TICTAC, move) .eqv. .TRUE.) exit
-			write(*,*) 'Error, Please Try Again'
-		end do
-
-		getMove = move
-
-	end function getMove
+        integer :: move
+        character(len=1) :: TICTAC(3,3)
 
 
-	logical function CHKPLAY(TICTAC, MOVE)
+        do
+            write(*,*) 'Your Move?'
+            read(*,*) move
+            if(move > 0 .AND. move < 10 .and. CHKPLAY(TICTAC, move) .eqv. .TRUE.) exit
+            write(*,*) 'Error, Please Try Again'
+        end do
 
-		implicit none
-		character(len=1) :: TICTAC(3,3)
-		integer, intent(in) :: MOVE
+        getMove = move
 
-		select case (MOVE)
-			case(1)
-				if(TICTAC(1,1) == ' ') then
-					CHKPLAY = .TRUE.
-				else
-					CHKPLAY = .FALSE.
-				endif
-			case (2)
-				if(TICTAC(1,2) == ' ') then
-					CHKPLAY = .TRUE.
-				else
-					CHKPLAY = .FALSE.
-				endif
-			case (3)
-				if(TICTAC(1,3) == ' ') then
-					CHKPLAY = .TRUE.
-				else
-					CHKPLAY = .FALSE.
-				endif
-			case (4)
-				if(TICTAC(2,1) == ' ') then
-					CHKPLAY = .TRUE.
-				else
-					CHKPLAY = .FALSE.
-				endif
-			case (5)
-				if(TICTAC(2,2) == ' ') then
-					CHKPLAY = .TRUE.
-				else
-					CHKPLAY = .FALSE.
-				endif
-			case (6)
-				if(TICTAC(2,3) == ' ') then
-					CHKPLAY = .TRUE.
-				else
-					CHKPLAY = .FALSE.
-				endif
-			case (7)
-				if(TICTAC(3,1) == ' ') then
-					CHKPLAY = .TRUE.
-				else
-					CHKPLAY = .FALSE.
-				endif
-			case (8)
-				if(TICTAC(3,2) == ' ') then
-					CHKPLAY = .TRUE.
-				else
-					CHKPLAY = .FALSE.
-				endif
-			case (9)
-				if(TICTAC(3,3) == ' ') then
-					CHKPLAY = .TRUE.
-				else
-					CHKPLAY = .FALSE.
-				endif
-		    case default
-		        CHKPLAY = .FALSE.
-		end select 
-	end function CHKPLAY
+    end function getMove
 
-	subroutine CHKOVR(TICTAC, OVER, WINNER)
 
-		character(len=1) :: TICTAC(3,3), WINNER, BLANK, DRAW
-		logical :: DSAME, OVER
-		integer :: IR, IC
+    logical function CHKPLAY(TICTAC, MOVE)
 
-		BLANK = ' '
-		DRAW = 'D'
-		OVER = .TRUE.
+        implicit none
+        character(len=1) :: TICTAC(3,3)
+        integer, intent(in) :: MOVE
 
-		do IR = 1, 3
-			if (same(TICTAC(IR,1), TICTAC(IR,2), TICTAC(IR,3))) then
-				WINNER = TICTAC(IR,1)
-				return
-			endif
-		end do
+        select case (MOVE)
+            case(1)
+                if(TICTAC(1,1) == ' ') then
+                    CHKPLAY = .TRUE.
+                else
+                    CHKPLAY = .FALSE.
+                endif
+            case (2)
+                if(TICTAC(1,2) == ' ') then
+                    CHKPLAY = .TRUE.
+                else
+                    CHKPLAY = .FALSE.
+                endif
+            case (3)
+                if(TICTAC(1,3) == ' ') then
+                    CHKPLAY = .TRUE.
+                else
+                    CHKPLAY = .FALSE.
+                endif
+            case (4)
+                if(TICTAC(2,1) == ' ') then
+                    CHKPLAY = .TRUE.
+                else
+                    CHKPLAY = .FALSE.
+                endif
+            case (5)
+                if(TICTAC(2,2) == ' ') then
+                    CHKPLAY = .TRUE.
+                else
+                    CHKPLAY = .FALSE.
+                endif
+            case (6)
+                if(TICTAC(2,3) == ' ') then
+                    CHKPLAY = .TRUE.
+                else
+                    CHKPLAY = .FALSE.
+                endif
+            case (7)
+                if(TICTAC(3,1) == ' ') then
+                    CHKPLAY = .TRUE.
+                else
+                    CHKPLAY = .FALSE.
+                endif
+            case (8)
+                if(TICTAC(3,2) == ' ') then
+                    CHKPLAY = .TRUE.
+                else
+                    CHKPLAY = .FALSE.
+                endif
+            case (9)
+                if(TICTAC(3,3) == ' ') then
+                    CHKPLAY = .TRUE.
+                else
+                    CHKPLAY = .FALSE.
+                endif
+            case default
+                CHKPLAY = .FALSE.
+        end select 
+    end function CHKPLAY
 
-		do IC = 1, 3
-			if (same(TICTAC(1,IC), TICTAC(2,IC), TICTAC(3,IC))) then
-				WINNER = TICTAC(1,IC)
-				return
-			endif
-		end do
-		DSAME = same(TICTAC(1,1), TICTAC(2,2), TICTAC(3,3)) .OR. same(TICTAC(1,3),TICTAC(2,2), TICTAC(3,1))
-		if (DSAME) then
-			WINNER = TICTAC(2,2)
-			return
-		endif
+    subroutine CHKOVR(TICTAC, OVER, WINNER)
 
-		do IR = 1, 3
-			do IC = 1,3
-				if(TICTAC(IR,IC) == BLANK) then
-					OVER = .FALSE.
-					return
-				endif
-			end do
-		end do
+        character(len=1) :: TICTAC(3,3), WINNER, BLANK, DRAW
+        logical :: DSAME, OVER
+        integer :: IR, IC
 
-		WINNER = DRAW
+        BLANK = ' '
+        DRAW = 'D'
+        OVER = .TRUE.
 
-		return
+        do IR = 1, 3
+            if (same(TICTAC(IR,1), TICTAC(IR,2), TICTAC(IR,3))) then
+                WINNER = TICTAC(IR,1)
+                return
+            endif
+        end do
 
-	end subroutine CHKOVR
+        do IC = 1, 3
+            if (same(TICTAC(1,IC), TICTAC(2,IC), TICTAC(3,IC))) then
+                WINNER = TICTAC(1,IC)
+                return
+            endif
+        end do
+        DSAME = same(TICTAC(1,1), TICTAC(2,2), TICTAC(3,3)) .OR. same(TICTAC(1,3),TICTAC(2,2), TICTAC(3,1))
+        if (DSAME) then
+            WINNER = TICTAC(2,2)
+            return
+        endif
+
+        do IR = 1, 3
+            do IC = 1,3
+                if(TICTAC(IR,IC) == BLANK) then
+                    OVER = .FALSE.
+                    return
+                endif
+            end do
+        end do
+
+        WINNER = DRAW
+
+        return
+
+    end subroutine CHKOVR
 
 
 
 ! calls 3 different direct locations on map, compare 
 ! values of 3 to see if they are the same or not
 
-	logical function same(SPOT1, SPOT2, SPOT3)
+    logical function same(SPOT1, SPOT2, SPOT3)
 
-		character(len=1) :: SPOT1,SPOT2,SPOT3
+        character(len=1) :: SPOT1,SPOT2,SPOT3
 
-		if((SPOT1 == 'X' .and. SPOT2 == 'X' .and. SPOT3 == 'X') .or. (SPOT1 == 'O' .and. SPOT2 == 'O' .and. SPOT3 == 'O')) then
-			same = .TRUE.
-		else
-			same = .FALSE.
-		endif
+        if((SPOT1 == 'X' .and. SPOT2 == 'X' .and. SPOT3 == 'X') .or. (SPOT1 == 'O' .and. SPOT2 == 'O' .and. SPOT3 == 'O')) then
+            same = .TRUE.
+        else
+            same = .FALSE.
+        endif
 
 
-	end function same
+    end function same
 
 end program ticTacToe
