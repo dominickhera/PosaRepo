@@ -45,12 +45,14 @@ type jumbleArray is array (positive range <>) of character;
 
 	-- end findAnagram
 	length: integer;
-	jumble : string(1..1_000);
+	-- jumble : string(1..1_000);
+	jumble : constant String := inputJumble;
+	-- test: array (positive range <>) of character;
 begin
-	Put_Line("how many words do you wn");
+	Put_Line("how many words do you want to enter?");
 	Ada.Integer_Text_IO.get(length);
 	put("you entered this number: "); put(length); new_line;
 	-- jumble := inputJumble;
 	-- jumble := inputJumble;
-	-- Put_Line(jumble);
+	Put_Line(jumble);
 end solveJumble;
