@@ -1015,7 +1015,13 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
         char * gedcomReturn = malloc(sizeof(char) * 1000);
         if(obj != NULL)
         {
+            if(obj->header != NULL)
+            {
+                sprintf(gedcomReturn + malloc(sizeof(gedcomReturn) * 1000), "Header\n Type: %s\nDate:%s\nPlace:%s\n" ,obj->header.type, obj->header.date, obj->header.place);
+                if(getLength(obj->header.otherFields)!= 0)
+                
 
+            }
         }
 
     }
@@ -1093,11 +1099,38 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             while((individualFamilyFindElem = nextElement(&individualFamilyFindElemIter)) != NULL)
             {
                 //this will go through all the families this person has, add all the children of each person, spouse etc
+                if((customIndividualCompareFunction(individualFamilyTreePerson, individualFamilyFindElem->husband)) ||(customIndividualCompareFunction(individualFamilyTreePerson, individualFamilyFindElem->wife)))
+                {
+                    if(getLength(individualFamilyFindElem->children) != 0)
+                    {
+                        
+                    }
+                } 
             }
         }
+    }
+/*
+Family * getChild()
+{
+    if(getLength(childFamily->children) != 0)
+    {
+        void *childElem;
+        ListIterator childElemIter = createIterator(childFamily->children);
+        while((childElem = nextElement(&childElemIter)) != NULL)
+        {
+            Individual *child = (Individual*)childElem;
+            insertBack(&individualDescendants, child);
+            getChild(child, 
 
+        } 
 
     }
+
+}
+*/
+
+
+
 
 
     //************************************************************************************************************
