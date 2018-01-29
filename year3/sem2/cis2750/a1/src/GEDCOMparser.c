@@ -105,11 +105,11 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
     int tempSize = 0;
     int tempSizeTwo = 0;
-    int headFlag = 0;
-    int indiFlag = 0;
-    int submFlag = 0;
-    int famFlag = 0;
-    int endFlag = 0;
+    // int headFlag = 0;
+    // int indiFlag = 0;
+    // int submFlag = 0;
+    // int famFlag = 0;
+    // int endFlag = 0;
     int count = 0;
 
 
@@ -121,6 +121,10 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             {
                 while(fgets(line, sizeof(line), fp) != NULL)
                 {
+                    if(line[strlen(line) - 1] == '\n')
+                    {
+                        line[strlen(line) - 1] = '\0';
+                    }
                     strcpy(lineStorage[count], line);
                     count++;
                 }
@@ -158,40 +162,23 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
         familyWifeFindArray[i] = -1;
     }
 
+    GEDCOMobject * tempObject = initializeGEDCOMobject();
+
     for(int i = 0; i < count; i++)
     {
-
+        // printf("line[%d]: <%s>\n", i, lineStorage[i]);
         //start of thing
         if(lineStorage[i][0] == '0')
         {
+
             if(strcasestr(lineStorage[i], "HEAD"))
             {
-                headFlag = 1;
-            }
-            else if(strcasestr(lineStorage[i], "INDI"))
-            {
-                indiFlag = 1;
-            }
-            else if(strcasestr(lineStorage[i], "FAM"))
-            {
-                famFlag = 1;
-            }
-            else if(strcasestr(lineStorage[i], "SUBM"))
-            {
-                submFlag = 1;
-            }
-            else if(strcasestr(lineStorage[i], "TRLR"))
-            {
-                endFlag = 1;
-            }
-        }
-        //stuff in thing
-        else
-        {
-            if(headFlag == 1)
-            {
+                printf("head found\n");
+                // headFlag = 1;
                 while(lineStorage[i+1][0] != '0')
                 {
+                    i++;
+                    printf("first item of line is <%c>\n", lineStorage[i][0]);
                     if(strcasestr(lineStorage[i], "SOUR"))
                     {
                         for(int j = 7; j < strlen(lineStorage[i]); j++)
@@ -207,6 +194,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
 
                         strcpy(sourceStore, tempFieldStorage);
+                        // printf("sourceStore:<%s>\n", sourceStore);
                         memset(tempFieldStorage, '\0', 1000);
                         tempSize = 0;
                     }
@@ -218,7 +206,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;   
                         }
-
+                        // printf("gedc: %s\n", tempFieldStorage);
                         strcpy(gedcVersionStore, tempFieldStorage);
                         memset(tempFieldStorage, '\0', 1000);
                         tempSize = 0;
@@ -231,27 +219,30 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;   
                         }
-
+                        // printf("char: <%s>\n", tempFieldStorage);
                         strcpy(encodingTypeStore, tempFieldStorage);
                         memset(tempFieldStorage, '\0', 1000);
                         tempSize = 0;
                     }
                     else
                     {
-                        for(int j = 1; j < strlen(lineStorage[i]); j++)
+                        for(int j = 2; j < strlen(lineStorage[i]); j++)
                         {
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;
                             if(lineStorage[i][j+1] == ' ')
                             {
-                                while(lineStorage[i][j+1] != '\0')
+                                j+=2;
+                                while(lineStorage[i][j] != '\0')
                                 {
                                     tempDataStorage[tempSizeTwo] = lineStorage[i][j];
                                     tempSizeTwo++;
+                                    j++;
                                 }
                             }
                         }
 
+                        // printf("header tag: <%s>, value: <%s>\n", tempFieldStorage, tempDataStorage);
                         strcpy(headerOtherFieldTagStorage[headerOtherFieldCount], tempFieldStorage);
                         strcpy(headerOtherFieldValueStorage[headerOtherFieldCount], tempDataStorage);
                         headerOtherFieldCount++;
@@ -264,19 +255,21 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
                     i++;
                 }
-
-                headFlag = 0;
             }
-            else if(indiFlag == 1)
+            else if(strcasestr(lineStorage[i], "INDI"))
             {
+                // printf("indi found\n");
+                // indiFlag = 1;
+                printf("indi found on line %d\n", i);
                 while(lineStorage[i+1][0] != '0')
                 {
+                    i++;
 
                     if(strcasestr(lineStorage[i], "NAME"))
                     {
                         for(int j = 7; j < strlen(lineStorage[i]) ; j++)
                         {
-                            while(lineStorage[i][j+1] != ' ')
+                            while(lineStorage[i][j] != '/')
                             {
                                 tempFieldStorage[tempSize] = lineStorage[i][j];
                                 tempSize++;
@@ -284,13 +277,14 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             }
 
                             j++;
-                            while(lineStorage[i][j+1] != '/')
+                            while(lineStorage[i][j] != '/')
                             {
                                 tempDataStorage[tempSizeTwo] = lineStorage[i][j];
                                 tempSizeTwo++;
                                 j++;
                             }
                         }
+                        // printf("given name: %s\nsurname: %s\n", tempFieldStorage, tempDataStorage);
 
                         strcpy(individualGivenNameStorage[totalIndividualCount], tempFieldStorage);
                         strcpy(individualSurNameStorage[totalIndividualCount], tempDataStorage);
@@ -352,7 +346,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             while(lineStorage[i+1][0] != '1')
                             {
 
-                                for(int j = 1; j < strlen(lineStorage[i]); j++)
+                                for(int j = 2; j < strlen(lineStorage[i]); j++)
                                 {
                                     tempFieldStorage[tempSize] = lineStorage[i][j];
                                     tempSize++;
@@ -386,19 +380,23 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         else
                         {
 
-                            for(int j = 1; j < strlen(lineStorage[i]); j++)
+                            for(int j = 2; j < strlen(lineStorage[i]); j++)
                             {
                                 tempFieldStorage[tempSize] = lineStorage[i][j];
                                 tempSize++;
                                 if(lineStorage[i][j+1] == ' ')
                                 {
+                                    j= j+2;
                                     while(lineStorage[i][j+1] != '\0')
                                     {
                                         tempDataStorage[tempSizeTwo] = lineStorage[i][j];
                                         tempSizeTwo++;
+                                        j++;
                                     }
                                 }
                             }
+
+
 
                             strcpy(individualOtherFieldValueStorage[totalIndividualOtherFieldCount], tempFieldStorage);
                             strcpy(individualOtherFieldTagStorage[totalIndividualOtherFieldCount], tempDataStorage);
@@ -417,13 +415,14 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 }
                 totalIndividualEventArray[totalIndividualCount] = totalIndividualEventCount;
                 totalIndividualCount++;
-                indiFlag = 0;
-
             }
-            else if(famFlag == 1)
+            else if(strcasestr(lineStorage[i], "FAM"))
             {
+                printf("fam found\n");
+                // famFlag = 1;
                 while(lineStorage[i+1][0] != '0')
                 {
+                    i++;
                     if(strcasestr(lineStorage[i], "HUSB"))
                     {
                         for(int j = 7; j < strlen(lineStorage[i]); j++)
@@ -565,6 +564,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                     {
                                         tempDataStorage[tempSizeTwo] = lineStorage[i][j];
                                         tempSizeTwo++;
+                                        j++;
                                     }
                                 }
                             }
@@ -586,16 +586,23 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 }
                 familyChildFindCountArray[totalFamilyCount] = familyChildCount;
                 totalFamilyCount++;
-                // familyChildCount = 0;
-                famFlag = 0;
-
             }
-            else if(submFlag == 1)
+            else if(strcasestr(lineStorage[i], "SUBM"))
             {
+                printf("subm found on line %d\n", i);
+                // submFlag = 1;
+                // if(strcasestr(lineStorage[i+1], "NAME"))
+                // { 
+                // printf("next line has name\n");
+                i++;
+
                 while(lineStorage[i+1][0] != '0')
                 {
+                    // printf("this line\n");
+                    i++;
                     if(strcasestr(lineStorage[i], "NAME"))
                     {
+                        // printf("hellfadjsklfasdfo\n");
                         for(int j = 7; j < strlen(lineStorage[i]) ; j++)
                         {
                             // while(lineStorage[i][j+1] != ' ')
@@ -625,6 +632,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 }
 
                                 strcpy(submitterAddress, tempFieldStorage);
+
                                 memset(tempFieldStorage, '\0', 1000);
                                 tempSize = 0;
                             }
@@ -640,6 +648,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                         {
                                             tempDataStorage[tempSizeTwo] = lineStorage[i][j];
                                             tempSizeTwo++;
+                                            j++;
                                         }
                                     }
                                 }
@@ -656,350 +665,360 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         }
 
                         i++;
-                    }
-
-                    submFlag = 0;
-
+                        // }
                 }
-                //where all the creation and insertion happens
-                else if(endFlag == 1)
+
+            }
+            else if(strcasestr(lineStorage[i], "TRLR"))
+            {
+                // printf("end found\n");
+                // endFlag = 1;
+                printf("enddddd\n");
+
+                // GEDCOMobject * tempObject;   
+                Individual * tempIndividual;
+                Family * tempFamily;
+                Header * tempHeader;
+                Field * tempOtherField;
+                Event * tempEvent;
+                Submitter * tempSubm;
+
+                // initializeHeader(char* source, char* gedcVersion, char* encodingType, char* submitterName, char* address)
+                // {
+                // tempObject->submitter = initializeHeader(char* source, char* gedcVersionStore, char* encodingTypeStore, char* submitterNameStore, char* submitterAddress);
+                // tempObject = initializeGEDCOMobject();
+                printf("submittername: %s, submitterAddress: %s\n", submitterNameStore, submitterAddress);
+                tempSubm = initializeSubmitter(submitterNameStore, submitterAddress);
+                if(submitterOtherFieldCount != 0)
+                {
+                    for(int j = 0; j < submitterOtherFieldCount; j++)
+                    {
+
+                        // (char* (*printFunction)(void* toBePrinted),void (*deleteFunction)(void* toBeDeleted),int (*compareFunction)(const void* first,const void* second));
+                        tempOtherField = initializeOtherField(submitterOtherFieldTagStorage[j], submitterOtherFieldValueStorage[j]);
+                        insertBack(&tempSubm->otherFields, (void*)tempOtherField);
+                        // tempSubm->otherFields = initializeList(printField, deleteField, compareFields);
+                    }
+                }
+
+                tempHeader = initializeHeader(sourceStore, gedcVersionStore, encodingTypeStore);
+                if(headerOtherFieldCount != 0)
+                {
+                    for(int j = 0; j < headerOtherFieldCount; j++)
+                    {
+                        tempOtherField = initializeOtherField(headerOtherFieldTagStorage[j], (void*)headerOtherFieldValueStorage[j]);
+                        insertBack(&tempHeader->otherFields, (void*)tempOtherField);
+                    }
+                }
+
+                tempHeader->submitter = tempSubm;
+                tempObject->submitter = tempSubm;
+
+                if(totalIndividualCount != 0)
                 {
 
-                    GEDCOMobject * tempObject;
-                    Individual * tempIndividual;
-                    Family * tempFamily;
-                    Header * tempHeader;
-                    Field * tempOtherField;
-                    Event * tempEvent;
-                    Submitter * tempSubm;
-
-                    // initializeHeader(char* source, char* gedcVersion, char* encodingType, char* submitterName, char* address)
-                    // {
-                    // tempObject->submitter = initializeHeader(char* source, char* gedcVersionStore, char* encodingTypeStore, char* submitterNameStore, char* submitterAddress);
-                    tempObject = initializeGEDCOMobject();
-                    tempSubm = initializeSubmitter(submitterNameStore, submitterAddress);
-                    if(submitterOtherFieldCount != 0)
-                    {
-                        for(int j = 0; j < submitterOtherFieldCount; j++)
-                        {
-
-                            // (char* (*printFunction)(void* toBePrinted),void (*deleteFunction)(void* toBeDeleted),int (*compareFunction)(const void* first,const void* second));
-                            tempOtherField = initializeOtherField(submitterOtherFieldTagStorage[j], submitterOtherFieldValueStorage[j]);
-                            insertBack(&tempSubm->otherFields, (void*)tempOtherField);
-                            // tempSubm->otherFields = initializeList(printField, deleteField, compareFields);
-                        }
-                    }
-
-                    tempHeader = initializeHeader(sourceStore, gedcVersionStore, encodingTypeStore);
-                    if(headerOtherFieldCount != 0)
-                    {
-                        for(int j = 0; j < headerOtherFieldCount; j++)
-                        {
-                            tempOtherField = initializeOtherField(headerOtherFieldTagStorage[j], (void*)headerOtherFieldValueStorage[j]);
-                            insertBack(&tempHeader->otherFields, (void*)tempOtherField);
-                        }
-                    }
-
-                    tempHeader->submitter = tempSubm;
-                    tempObject->submitter = tempSubm;
-
-                    if(totalIndividualCount != 0)
+                    for(int j = 0; j < totalIndividualCount; j++)
                     {
 
-                        for(int j = 0; j < totalIndividualCount; j++)
+                        tempIndividual = initializeIndividual(individualGivenNameStorage[j], individualSurNameStorage[j]);
+                        if(totalIndividualEventArray[j] != 0)
                         {
-
-                            tempIndividual = initializeIndividual(individualGivenNameStorage[j], individualSurNameStorage[j]);
-                            if(totalIndividualEventArray[j] != 0)
+                            if(j == 0)
                             {
-                                if(j == 0)
+                                for(int k = 0; k < totalIndividualEventArray[j]; k++)
                                 {
-                                    for(int k = 0; k < totalIndividualEventArray[j]; k++)
+
+                                    // Event * initializeEvent(char* type, char* date, char* place)
+                                    tempEvent = initializeEvent(individualEventTypeStorage[k], individualEventDateStorage[k], individualEventPlaceStorage[k]);
+                                    if(totalIndividualEventOtherFieldArray[k] != 0)
                                     {
-
-                                        // Event * initializeEvent(char* type, char* date, char* place)
-                                        tempEvent = initializeEvent(individualEventTypeStorage[k], individualEventDateStorage[k], individualEventPlaceStorage[k]);
-                                        if(totalIndividualEventOtherFieldArray[k] != 0)
-                                        {
-                                            if(k == 0)
-                                            {
-                                                for(int m = 0; m < totalIndividualEventOtherFieldArray[k]; m++)
-                                                {
-                                                    tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
-                                                    insertBack(&tempEvent->otherFields, (void*)tempOtherField);
-                                                }
-                                            }
-                                            else
-                                            {
-                                                for(int m = totalIndividualEventOtherFieldArray[k - 1]; m < totalIndividualEventOtherFieldArray[k] + 1; m++)
-                                                {
-                                                    tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
-                                                    insertBack(&tempEvent->otherFields, (void*)tempOtherField);   
-                                                }
-                                            }
-                                        }
-
-                                        insertBack(&tempIndividual->events, tempEvent);
-                                    }
-
-                                }
-                                else
-                                {
-                                    for(int k = totalIndividualEventArray[j - 1]; k < totalIndividualEventArray[j]+1; k++)
-                                    {
-                                        tempEvent = initializeEvent(individualEventTypeStorage[k], individualEventDateStorage[k], individualEventPlaceStorage[k]);
-                                        if(totalIndividualEventOtherFieldArray[k] != 0)
-                                        {
-                                            if(k == 0)
-                                            {
-                                                for(int m = 0; m < totalIndividualEventOtherFieldArray[k]; m++)
-                                                {
-                                                    tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
-                                                    insertBack(&tempEvent->otherFields, (void*)tempOtherField);
-                                                }
-                                            }
-                                            else
-                                            {
-                                                for(int m = totalIndividualEventOtherFieldArray[k - 1]; m < totalIndividualEventOtherFieldArray[k] + 1; m++)
-                                                {
-                                                    tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
-                                                    insertBack(&tempEvent->otherFields, (void*)tempOtherField);   
-                                                }
-                                            }
-                                        }
-
-                                        insertBack(&tempIndividual->events, tempEvent);
-
-                                    }
-
-                                }
-                            }
-
-
-                            if(totalIndividualOtherFieldArray[j] != 0)
-                            {
-                                if(j == 0)
-                                {
-                                    for(int k = 0; k < totalIndividualOtherFieldArray[j]; k++)
-                                    {
-
-                                        // Event * initializeEvent(char* type, char* date, char* place)
-                                        tempOtherField = initializeOtherField(individualOtherFieldTagStorage[k], individualOtherFieldValueStorage[k]);
-                                        insertBack(&tempIndividual->otherFields, (void*)tempOtherField);
-                                    }
-                                }
-                                else
-                                {
-                                    for(int k = totalIndividualOtherFieldArray[j - 1]; k < totalIndividualOtherFieldArray[j] + 1; k++)
-                                    {
-
-                                        // Event * initializeEvent(char* type, char* date, char* place)
-                                        tempOtherField = initializeOtherField(individualOtherFieldTagStorage[k], individualOtherFieldValueStorage[k]);
-                                        insertBack(&tempIndividual->otherFields, (void*)tempOtherField);
-                                    }
-                                }
-                            }
-
-                            insertBack(&tempObject->individuals, tempIndividual);
-                        }
-
-                    }
-
-
-                    //DO FAMILIES NOWWWWWWW
-
-                    //there are more than 0 families
-                    if(totalFamilyCount != 0)
-                    {
-                        //cycle through all the families starting at 0
-                        for(int j = 0; j < totalFamilyCount; j++)
-                        {
-
-                            //initialize the first family , which is all just lists
-                            tempFamily = initializeFamily();
-
-
-                            //check to see if there are any events for this family
-                            if(totalFamilyEventArray[j] != 0)
-                            {
-
-                                //cycle through 
-                                if(j == 0)
-                                {
-                                    for(int k = 0; k < totalFamilyEventArray[j]; k++)
-                                    {
-                                        tempEvent = initializeEvent(familyEventTypeStorage[k], familyEventDateStorage[k], familyEventPlaceStorage[k]);
                                         if(k == 0)
                                         {
-                                            if(totalFamilyEventOtherFieldArray[k] != 0)
+                                            for(int m = 0; m < totalIndividualEventOtherFieldArray[k]; m++)
                                             {
-                                                for(int m = 0; m < totalFamilyOtherFieldArray[k]; m++)
-                                                {
-                                                    tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
-                                                    insertBack(&tempEvent->otherFields, (void*)tempOtherField);
-                                                }
-                                            }   
+                                                tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
+                                                insertBack(&tempEvent->otherFields, (void*)tempOtherField);
+                                            }
                                         }
                                         else
                                         {
-                                            if(totalFamilyEventOtherFieldArray[k] != 0)
+                                            for(int m = totalIndividualEventOtherFieldArray[k - 1]; m < totalIndividualEventOtherFieldArray[k] + 1; m++)
                                             {
-                                                for(int m = totalFamilyOtherFieldArray[k-1]; m < totalFamilyOtherFieldArray[k]+1; m++)
-                                                {
-                                                    tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
-                                                    insertBack(&tempEvent->otherFields, (void*)tempOtherField);
-                                                }
-                                            } 
+                                                tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
+                                                insertBack(&tempEvent->otherFields, (void*)tempOtherField);   
+                                            }
                                         }
-                                        insertBack(&tempFamily->events, tempEvent);
                                     }
+
+                                    insertBack(&tempIndividual->events, tempEvent);
                                 }
-                                else
+
+                            }
+                            else
+                            {
+                                for(int k = totalIndividualEventArray[j - 1]; k < totalIndividualEventArray[j]+1; k++)
                                 {
-                                    for(int k = totalFamilyEventArray[j - 1]; k < totalFamilyEventArray[j] + 1; k++)
+                                    tempEvent = initializeEvent(individualEventTypeStorage[k], individualEventDateStorage[k], individualEventPlaceStorage[k]);
+                                    if(totalIndividualEventOtherFieldArray[k] != 0)
                                     {
-                                        tempEvent = initializeEvent(familyEventTypeStorage[k], familyEventDateStorage[k], familyEventPlaceStorage[k]);
                                         if(k == 0)
                                         {
-                                            if(totalFamilyEventOtherFieldArray[k] != 0)
+                                            for(int m = 0; m < totalIndividualEventOtherFieldArray[k]; m++)
                                             {
-                                                for(int m = 0; m < totalFamilyOtherFieldArray[k]; m++)
-                                                {
-                                                    tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
-                                                    insertBack(&tempEvent->otherFields, (void*)tempOtherField);
-                                                }
-                                            }   
+                                                tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
+                                                insertBack(&tempEvent->otherFields, (void*)tempOtherField);
+                                            }
                                         }
                                         else
                                         {
-                                            if(totalFamilyEventOtherFieldArray[k] != 0)
+                                            for(int m = totalIndividualEventOtherFieldArray[k - 1]; m < totalIndividualEventOtherFieldArray[k] + 1; m++)
                                             {
-                                                for(int m = totalFamilyOtherFieldArray[k-1]; m < totalFamilyOtherFieldArray[k]+1; m++)
-                                                {
-                                                    tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
-                                                    insertBack(&tempEvent->otherFields, (void*)tempOtherField);
-                                                }
-                                            } 
+                                                tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
+                                                insertBack(&tempEvent->otherFields, (void*)tempOtherField);   
+                                            }
                                         }
-                                        insertBack(&tempFamily->events, tempEvent); 
                                     }
 
+                                    insertBack(&tempIndividual->events, tempEvent);
+
                                 }
+
                             }
+                        }
 
-                            if(totalFamilyOtherFieldArray[j] != 0)
+
+                        if(totalIndividualOtherFieldArray[j] != 0)
+                        {
+                            if(j == 0)
                             {
-                                if(j == 0)
+                                for(int k = 0; k < totalIndividualOtherFieldArray[j]; k++)
                                 {
 
-                                    for(int k = 0; k < totalFamilyOtherFieldArray[j]; k++)
-                                    {
-
-                                        tempOtherField = initializeOtherField(familyOtherFieldTagStorage[k], familyEventOtherFieldValueStorage[k]);
-                                        insertBack(&tempFamily->otherFields, (void*)tempOtherField);
-                                    }
-
-                                }
-                                else
-                                {
-                                    for(int k = totalFamilyOtherFieldArray[j-1]; k < totalFamilyOtherFieldArray[j]+1; k++)
-                                    {
-                                        tempOtherField = initializeOtherField(familyOtherFieldTagStorage[k], familyEventOtherFieldValueStorage[k]);
-                                        insertBack(&tempFamily->otherFields, (void*)tempOtherField);
-                                    }
-                                }
-                            }
-
-
-                            if(familyHusbandFindArray[j] != -1)
-                            {
-                                void *individualElem;
-                                ListIterator individualElemIter = createIterator(tempObject->individuals);
-                                while((individualElem = nextElement(&individualElemIter)) != NULL)
-                                {
-                                    Individual * tempIndividualFind = (Individual*)individualElem;
-                                    if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyHusbandFindArray[j]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyHusbandFindArray[j]]) == 0)
-                                    {
-                                        tempFamily->husband = tempIndividualFind;
-                                        insertBack(&tempIndividualFind->families, tempFamily);
-                                    }
+                                    // Event * initializeEvent(char* type, char* date, char* place)
+                                    tempOtherField = initializeOtherField(individualOtherFieldTagStorage[k], individualOtherFieldValueStorage[k]);
+                                    insertBack(&tempIndividual->otherFields, (void*)tempOtherField);
                                 }
                             }
                             else
                             {
-                                tempFamily->husband = NULL;
-                            }
+                                for(int k = totalIndividualOtherFieldArray[j - 1]; k < totalIndividualOtherFieldArray[j] + 1; k++)
+                                {
 
-                            if(familyWifeFindArray[j] != -1)
-                            {
-                                void *individualElem;
-                                ListIterator individualElemIter = createIterator(tempObject->individuals);
-                                while((individualElem = nextElement(&individualElemIter)) != NULL)
-                                {
-                                    Individual * tempIndividualFind = (Individual*)individualElem;
-                                    if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyHusbandFindArray[j]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyHusbandFindArray[j]]) == 0)
-                                    {
-                                        tempFamily->wife = tempIndividualFind;
-                                        insertBack(&tempIndividualFind->families, tempFamily);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                tempFamily->wife = NULL;
-                            }
-
-                            if(familyChildFindCountArray[j] != 0)
-                            {
-                                if(j == 0)
-                                {
-                                    for(int k = 0; k < familyChildFindCountArray[j]; k++)
-                                    {
-                                        void *individualElem;
-                                        ListIterator individualElemIter = createIterator(tempObject->individuals);
-                                        while((individualElem = nextElement(&individualElemIter)) != NULL)
-                                        {
-                                            Individual * tempIndividualFind = (Individual*)individualElem;
-                                            if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyChildFindArray[k]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyChildFindArray[k]]) == 0)
-                                            {
-                                                insertBack(&tempFamily->children, tempIndividualFind);
-                                                insertBack(&tempIndividualFind->families, tempFamily);
-                                                // tempFamily->wife = tempIndividualFind;
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    for(int k = familyChildFindCountArray[j - 1]; k < familyChildFindCountArray[j]+1; k++)
-                                    {
-                                        void *individualElem;
-                                        ListIterator individualElemIter = createIterator(tempObject->individuals);
-                                        while((individualElem = nextElement(&individualElemIter)) != NULL)
-                                        {
-                                            Individual * tempIndividualFind = (Individual*)individualElem;
-                                            if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyChildFindArray[k]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyChildFindArray[k]]) == 0)
-                                            {
-                                                insertBack(&tempFamily->children, tempIndividualFind);
-                                                insertBack(&tempIndividualFind->families, tempFamily);
-                                                // tempFamily->wife = tempIndividualFind;
-                                            }
-                                        }
-                                    }
+                                    // Event * initializeEvent(char* type, char* date, char* place)
+                                    tempOtherField = initializeOtherField(individualOtherFieldTagStorage[k], individualOtherFieldValueStorage[k]);
+                                    insertBack(&tempIndividual->otherFields, (void*)tempOtherField);
                                 }
                             }
                         }
-                    }
 
+                        insertBack(&tempObject->individuals, tempIndividual);
+                    }
 
                 }
 
-                // }
+
+                //DO FAMILIES NOWWWWWWW
+
+                //there are more than 0 families
+                if(totalFamilyCount != 0)
+                {
+                    //cycle through all the families starting at 0
+                    for(int j = 0; j < totalFamilyCount; j++)
+                    {
+
+                        //initialize the first family , which is all just lists
+                        tempFamily = initializeFamily();
+
+
+                        //check to see if there are any events for this family
+                        if(totalFamilyEventArray[j] != 0)
+                        {
+
+                            //cycle through 
+                            if(j == 0)
+                            {
+                                for(int k = 0; k < totalFamilyEventArray[j]; k++)
+                                {
+                                    tempEvent = initializeEvent(familyEventTypeStorage[k], familyEventDateStorage[k], familyEventPlaceStorage[k]);
+                                    if(k == 0)
+                                    {
+                                        if(totalFamilyEventOtherFieldArray[k] != 0)
+                                        {
+                                            for(int m = 0; m < totalFamilyOtherFieldArray[k]; m++)
+                                            {
+                                                tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
+                                                insertBack(&tempEvent->otherFields, (void*)tempOtherField);
+                                            }
+                                        }   
+                                    }
+                                    else
+                                    {
+                                        if(totalFamilyEventOtherFieldArray[k] != 0)
+                                        {
+                                            for(int m = totalFamilyOtherFieldArray[k-1]; m < totalFamilyOtherFieldArray[k]+1; m++)
+                                            {
+                                                tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
+                                                insertBack(&tempEvent->otherFields, (void*)tempOtherField);
+                                            }
+                                        } 
+                                    }
+                                    insertBack(&tempFamily->events, tempEvent);
+                                }
+                            }
+                            else
+                            {
+                                for(int k = totalFamilyEventArray[j - 1]; k < totalFamilyEventArray[j] + 1; k++)
+                                {
+                                    tempEvent = initializeEvent(familyEventTypeStorage[k], familyEventDateStorage[k], familyEventPlaceStorage[k]);
+                                    if(k == 0)
+                                    {
+                                        if(totalFamilyEventOtherFieldArray[k] != 0)
+                                        {
+                                            for(int m = 0; m < totalFamilyOtherFieldArray[k]; m++)
+                                            {
+                                                tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
+                                                insertBack(&tempEvent->otherFields, (void*)tempOtherField);
+                                            }
+                                        }   
+                                    }
+                                    else
+                                    {
+                                        if(totalFamilyEventOtherFieldArray[k] != 0)
+                                        {
+                                            for(int m = totalFamilyOtherFieldArray[k-1]; m < totalFamilyOtherFieldArray[k]+1; m++)
+                                            {
+                                                tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
+                                                insertBack(&tempEvent->otherFields, (void*)tempOtherField);
+                                            }
+                                        } 
+                                    }
+                                    insertBack(&tempFamily->events, tempEvent); 
+                                }
+
+                            }
+                        }
+
+                        if(totalFamilyOtherFieldArray[j] != 0)
+                        {
+                            if(j == 0)
+                            {
+
+                                for(int k = 0; k < totalFamilyOtherFieldArray[j]; k++)
+                                {
+
+                                    tempOtherField = initializeOtherField(familyOtherFieldTagStorage[k], familyEventOtherFieldValueStorage[k]);
+                                    insertBack(&tempFamily->otherFields, (void*)tempOtherField);
+                                }
+
+                            }
+                            else
+                            {
+                                for(int k = totalFamilyOtherFieldArray[j-1]; k < totalFamilyOtherFieldArray[j]+1; k++)
+                                {
+                                    tempOtherField = initializeOtherField(familyOtherFieldTagStorage[k], familyEventOtherFieldValueStorage[k]);
+                                    insertBack(&tempFamily->otherFields, (void*)tempOtherField);
+                                }
+                            }
+                        }
+
+
+                        if(familyHusbandFindArray[j] != -1)
+                        {
+                            void *individualElem;
+                            ListIterator individualElemIter = createIterator(tempObject->individuals);
+                            while((individualElem = nextElement(&individualElemIter)) != NULL)
+                            {
+                                Individual * tempIndividualFind = (Individual*)individualElem;
+                                if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyHusbandFindArray[j]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyHusbandFindArray[j]]) == 0)
+                                {
+                                    tempFamily->husband = tempIndividualFind;
+                                    insertBack(&tempIndividualFind->families, tempFamily);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            tempFamily->husband = NULL;
+                        }
+
+                        if(familyWifeFindArray[j] != -1)
+                        {
+                            void *individualElem;
+                            ListIterator individualElemIter = createIterator(tempObject->individuals);
+                            while((individualElem = nextElement(&individualElemIter)) != NULL)
+                            {
+                                Individual * tempIndividualFind = (Individual*)individualElem;
+                                if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyHusbandFindArray[j]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyHusbandFindArray[j]]) == 0)
+                                {
+                                    tempFamily->wife = tempIndividualFind;
+                                    insertBack(&tempIndividualFind->families, tempFamily);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            tempFamily->wife = NULL;
+                        }
+
+                        if(familyChildFindCountArray[j] != 0)
+                        {
+                            if(j == 0)
+                            {
+                                for(int k = 0; k < familyChildFindCountArray[j]; k++)
+                                {
+                                    void *individualElem;
+                                    ListIterator individualElemIter = createIterator(tempObject->individuals);
+                                    while((individualElem = nextElement(&individualElemIter)) != NULL)
+                                    {
+                                        Individual * tempIndividualFind = (Individual*)individualElem;
+                                        if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyChildFindArray[k]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyChildFindArray[k]]) == 0)
+                                        {
+                                            insertBack(&tempFamily->children, tempIndividualFind);
+                                            insertBack(&tempIndividualFind->families, tempFamily);
+                                            // tempFamily->wife = tempIndividualFind;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                for(int k = familyChildFindCountArray[j - 1]; k < familyChildFindCountArray[j]+1; k++)
+                                {
+                                    void *individualElem;
+                                    ListIterator individualElemIter = createIterator(tempObject->individuals);
+                                    while((individualElem = nextElement(&individualElemIter)) != NULL)
+                                    {
+                                        Individual * tempIndividualFind = (Individual*)individualElem;
+                                        if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyChildFindArray[k]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyChildFindArray[k]]) == 0)
+                                        {
+                                            insertBack(&tempFamily->children, tempIndividualFind);
+                                            insertBack(&tempIndividualFind->families, tempFamily);
+                                            // tempFamily->wife = tempIndividualFind;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        insertBack(&tempObject->families, tempFamily);
+                    }
+                    *obj = tempObject;
+                }
+                *obj = tempObject;
 
             }
 
-        }
+            // }
+            }
+            *obj = tempObject;
 
+            // char * str = printGEDCOM(tempObject);
+            // printf("temp idea\n%s\n", str);
+
+        }
+        // char * str = printGEDCOM(tempObject);
+        // printf("temp idea\n%s\n", str);
+        // *obj = tempObject;
         GEDCOMerror err;
         err.type = OK;
         err.line = count;
@@ -1019,233 +1038,235 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             sprintf(gedcomReturn, "\n\nFamily Tree\n\n");
             if(obj->header != NULL)
             {
-                sprintf(gedcomReturn, "Header\nSource: %s\nGEDCOM Version: %f\nEncoding:%u\n\nHeader Other Fields:\n\n" ,obj->header->source, obj->header->gedcVersion, obj->header->encoding);
+                // Header * tempHeader = (Header*)obj->header;
+                // sprintf(gedcomReturn, "Header\nSource: %s\nGEDCOM Version: %f\nEncoding:%u\n\nHeader Other Fields:\n\n" ,tempHeader->source, tempHeader->gedcVersion, tempHeader->encoding);
 
-                if(getLength(obj->header->otherFields)!= 0)
+                // if(getLength(obj->header->otherFields)!= 0)
+                // {
+                // void* headerFieldsElem;
+                // ListIterator headerFieldsElemIter = createIterator(obj->header->otherFields);
+                // while((headerFieldsElem = nextElement(&headerFieldsElemIter)) != NULL)
+                // {
+                // Field* tempField = (Field*)headerFieldsElem;
+                // sprintf(gedcomReturn + strlen(gedcomReturn), "%s : %s\n", tempField->tag, tempField->value);
+                // }
+                // }
+
+                //     if(obj->header->submitter != NULL)
+                //     {
+                //         Submitter * tempSubmitter = (Submitter*)obj->header->submitter;
+                //         sprintf("Submitter\nName: %s\nAddress: %s\n\nSubmitter Other Fields:\n\n",tempSubmitter->submitterName, tempSubmitter->address);
+                //         if(getLength(tempSubmitter->otherFields)!= 0)
+                //         {
+                //             void* submitterFieldsElem;
+                //             ListIterator submitterFieldsElemIter = createIterator(tempSubmitter->otherFields);
+                //             while((submitterFieldsElem = nextElement(&submitterFieldsElemIter)) != NULL)
+                //             {
+                //                 Field * tempField = (Field*)submitterFieldsElem;
+                //                 sprintf(gedcomReturn + strlen(gedcomReturn), "%s : %s\n", tempField->tag, tempField->value);
+                //             }
+                //         }
+
+                //     }
+            }
+
+            if(getLength(obj->families)!= 0)
+            {
+                // printf("hello\n");
+                void* familiesElem;
+                ListIterator familiesElemIter = createIterator(obj->families);
+                while((familiesElem = nextElement(&familiesElemIter))!= NULL)
                 {
-                    void* headerFieldsElem;
-                    ListIterator headerFieldsElemIter = createIterator(obj->header->otherFields);
-                    while((headerFieldsElem = nextElement(&headerFieldsElemIter)) != NULL)
+                    Family * tempFamily = (Family*)familiesElem;
+                    if(tempFamily->wife != NULL)
                     {
-                        Field* tempField = (Field*)headerFieldsElem;
-                        sprintf(gedcomReturn + strlen(gedcomReturn), "%s : %s\n", tempField->tag, tempField->value);
-                    }
-                }
-
-                if(obj->header->submitter != NULL)
-                {
-                    Submitter * tempSubmitter = (Submitter*)obj->header->submitter;
-                    sprintf("Submitter\nName: %s\nAddress: %s\n\nSubmitter Other Fields:\n\n",tempSubmitter->submitterName, tempSubmitter->address);
-                    if(getLength(tempSubmitter->otherFields)!= 0)
-                    {
-                        void* submitterFieldsElem;
-                        ListIterator submitterFieldsElemIter = createIterator(tempSubmitter->otherFields);
-                        while((submitterFieldsElem = nextElement(&submitterFieldsElemIter)) != NULL)
-                        {
-                            Field * tempField = (Field*)submitterFieldsElem;
-                            sprintf(gedcomReturn + strlen(gedcomReturn), "%s : %s\n", tempField->tag, tempField->value);
-                        }
-                    }
-
-                }
-
-                if(getLength(obj->families)!= 0)
-                {
-
-                    void* familiesElem;
-                    ListIterator familiesElemIter = createIterator(obj->families);
-                    while((familiesElem = nextElement(&familiesElemIter))!= NULL)
-                    {
-                        Family * tempFamily = (Family*)familiesElem;
-                        if(tempFamily->wife != NULL)
-                        {
-                            Individual * tempWife = (Individual*)tempFamily->wife;
-                            sprintf(gedcomReturn + strlen(gedcomReturn), "Wife: %s %s\n", tempWife->givenName, tempWife->surname);
-
-                        }
-                        else
-                        {
-                            sprintf(gedcomReturn, "Wife: NULL\n");
-                        }
-
-                        if(tempFamily->husband != NULL)
-                        {
-                            Individual * tempHubby = (Individual*)tempFamily->wife;
-                            sprintf(gedcomReturn + strlen(gedcomReturn), "Husband: %s %s\n", tempHubby->givenName, tempHubby->surname);
-                        }
-                        else
-                        {
-                            sprintf(gedcomReturn, "Husband: NULL\n");
-                        }
-
-                        if(getLength(tempFamily->children)!= 0)
-                        {
-                            void* childElem;
-                            ListIterator childElemIter = createIterator(tempFamily->children);
-                            while((childElem = nextElement(&childElemIter)) != NULL)
-                            {
-                                Individual * tempChild = (Individual*)childElem;
-                                sprintf(gedcomReturn + strlen(gedcomReturn), "Child: %s %s\n", tempChild->givenName, tempChild->surname);
-                            }
-                        }
-
-                        if(getLength(tempFamily->events)!= 0)
-                        {
-                            void* eventElem;
-                            ListIterator eventElemIter = createIterator(tempFamily->events);
-                            while((eventElem = nextElement(&eventElemIter))!= NULL)
-                            {
-                                Event* tempEvent = (Event*)eventElem;
-                                sprintf(gedcomReturn + strlen(gedcomReturn), "Event\nType: %s\nDate: %s\nPlace: %s\n Event Fields:\n\n", tempEvent->type, tempEvent->date, tempEvent->place);
-
-                                if(getLength(tempEvent->otherFields)!= 0)
-                                {
-                                    void* eventFieldElem;
-                                    ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
-                                    while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
-                                    {
-                                        Field * tempField = (Field*)eventFieldElem;
-                                        sprintf(gedcomReturn + strlen(gedcomReturn), "%s:%s\n", tempField->tag, tempField->value);
-
-                                    }
-                                }
-                            }
-                        }
-
-                        if(getLength(tempFamily->otherFields)!= 0)
-                        {
-
-                            void* familyFieldElem;
-                            ListIterator familyFieldElemIter = createIterator(tempFamily->otherFields);
-                            while((familyFieldElem = nextElement(&familyFieldElemIter)) != NULL)
-                            {
-                                Field * tempField = (Field*)familyFieldElem;
-                                sprintf(gedcomReturn + strlen(gedcomReturn), "%s:%s\n", tempField->tag, tempField->value);
-                            }
-
-
-                        }
-                        // sprintf(gedcomReturn + strlen(gedcomReturn), "")
+                        Individual * tempWife = (Individual*)tempFamily->wife;
+                        sprintf(gedcomReturn + strlen(gedcomReturn), "Wife: %s %s\n", tempWife->givenName, tempWife->surname);
 
                     }
+                    else
+                    {
+                        sprintf(gedcomReturn, "Wife: NULL\n");
+                    }
+
+                    if(tempFamily->husband != NULL)
+                    {
+                        Individual * tempHubby = (Individual*)tempFamily->wife;
+                        sprintf(gedcomReturn + strlen(gedcomReturn), "Husband: %s %s\n", tempHubby->givenName, tempHubby->surname);
+                    }
+                    else
+                    {
+                        sprintf(gedcomReturn, "Husband: NULL\n");
+                    }
+
+                    if(getLength(tempFamily->children)!= 0)
+                    {
+                        void* childElem;
+                        ListIterator childElemIter = createIterator(tempFamily->children);
+                        while((childElem = nextElement(&childElemIter)) != NULL)
+                        {
+                            Individual * tempChild = (Individual*)childElem;
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "Child: %s %s\n", tempChild->givenName, tempChild->surname);
+                        }
+                    }
+
+                    if(getLength(tempFamily->events)!= 0)
+                    {
+                        void* eventElem;
+                        ListIterator eventElemIter = createIterator(tempFamily->events);
+                        while((eventElem = nextElement(&eventElemIter))!= NULL)
+                        {
+                            Event* tempEvent = (Event*)eventElem;
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "Event\nType: %s\nDate: %s\nPlace: %s\n Event Fields:\n\n", tempEvent->type, tempEvent->date, tempEvent->place);
+
+                            if(getLength(tempEvent->otherFields)!= 0)
+                            {
+                                void* eventFieldElem;
+                                ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
+                                while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
+                                {
+                                    Field * tempField = (Field*)eventFieldElem;
+                                    sprintf(gedcomReturn + strlen(gedcomReturn), "%s:%s\n", tempField->tag, tempField->value);
+
+                                }
+                            }
+                        }
+                    }
+
+                    if(getLength(tempFamily->otherFields)!= 0)
+                    {
+
+                        void* familyFieldElem;
+                        ListIterator familyFieldElemIter = createIterator(tempFamily->otherFields);
+                        while((familyFieldElem = nextElement(&familyFieldElemIter)) != NULL)
+                        {
+                            Field * tempField = (Field*)familyFieldElem;
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "%s:%s\n", tempField->tag, tempField->value);
+                        }
+
+
+                    }
+                    // sprintf(gedcomReturn + strlen(gedcomReturn), "")
 
                 }
 
-                if(getLength(obj->individuals)!= 0)
+            }
+
+            if(getLength(obj->individuals)!= 0)
+            {
+                sprintf(gedcomReturn, "Individuals\n\n");
+                void* individualElem;
+                ListIterator individualElemIter = createIterator(obj->individuals);
+                while((individualElem = nextElement(&individualElemIter)) != NULL)
                 {
-                    sprintf(gedcomReturn, "Individuals\n\n");
-                    void* individualElem;
-                    ListIterator individualElemIter = createIterator(obj->individuals);
-                    while((individualElem = nextElement(&individualElemIter)) != NULL)
-                    {
-                        Individual * tempIndividual = (Individual*)individualElem;
-                        sprintf(gedcomReturn + strlen(gedcomReturn), "Given Name: %s\nSurname: %s\n", tempIndividual->givenName, tempIndividual->surname);
-                        if(getLength(tempIndividual->events)!= 0)
-                        { 
-                            sprintf(gedcomReturn, "events\n");
-                            void* individualEventElem;
-                            ListIterator individualEventElemIter = createIterator(tempIndividual->events);
-                            while((individualEventElem = nextElement(&individualEventElemIter)) != NULL)
-                            {
-
-                                Event * tempEvent = (Event*)individualEventElem;
-                                sprintf(gedcomReturn + strlen(gedcomReturn), "type: %s\ndate: %s\nplace%s\n", tempEvent->type, tempEvent->date, tempEvent->place);
-                                if(getLength(tempEvent->otherFields)!= 0)
-                                {
-                                    sprintf(gedcomReturn, "event other fields\n\n");
-                                    void* eventFieldElem;
-                                    ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
-                                    while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
-                                    {
-                                        Field * tempField = (Field*)eventFieldElem;
-                                        sprintf(gedcomReturn + strlen(gedcomReturn), "%s: %s\n", tempField->tag, tempField->value);
-                                    }
-                                }
-
-                            }
-                        }
-
-                        if(getLength(tempIndividual->families)!= 0)
+                    Individual * tempIndividual = (Individual*)individualElem;
+                    sprintf(gedcomReturn + strlen(gedcomReturn), "Given Name: %s\nSurname: %s\n", tempIndividual->givenName, tempIndividual->surname);
+                    if(getLength(tempIndividual->events)!= 0)
+                    { 
+                        sprintf(gedcomReturn, "events\n");
+                        void* individualEventElem;
+                        ListIterator individualEventElemIter = createIterator(tempIndividual->events);
+                        while((individualEventElem = nextElement(&individualEventElemIter)) != NULL)
                         {
 
-                            void* familiesElem;
-                            ListIterator familiesElemIter = createIterator(tempIndividual->families);
-                            while((familiesElem = nextElement(&familiesElemIter))!= NULL)
+                            Event * tempEvent = (Event*)individualEventElem;
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "type: %s\ndate: %s\nplace%s\n", tempEvent->type, tempEvent->date, tempEvent->place);
+                            if(getLength(tempEvent->otherFields)!= 0)
                             {
-                                Family * tempFamily = (Family*)familiesElem;
-                                if(tempFamily->wife != NULL)
+                                sprintf(gedcomReturn, "event other fields\n\n");
+                                void* eventFieldElem;
+                                ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
+                                while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
                                 {
-                                    Individual * tempWife = (Individual*)tempFamily->wife;
-                                    sprintf(gedcomReturn + strlen(gedcomReturn), "Wife: %s %s\n", tempWife->givenName, tempWife->surname);
+                                    Field * tempField = (Field*)eventFieldElem;
+                                    sprintf(gedcomReturn + strlen(gedcomReturn), "%s: %s\n", tempField->tag, tempField->value);
+                                }
+                            }
 
-                                }
-                                else
-                                {
-                                    sprintf(gedcomReturn, "Wife: NULL\n");
-                                }
+                        }
+                    }
 
-                                if(tempFamily->husband != NULL)
-                                {
-                                    Individual * tempHubby = (Individual*)tempFamily->wife;
-                                    sprintf(gedcomReturn + strlen(gedcomReturn), "Husband: %s %s\n", tempHubby->givenName, tempHubby->surname);
-                                }
-                                else
-                                {
-                                    sprintf(gedcomReturn, "Husband: NULL\n");
-                                }
+                    if(getLength(tempIndividual->families)!= 0)
+                    {
 
-                                if(getLength(tempFamily->children)!= 0)
+                        void* familiesElem;
+                        ListIterator familiesElemIter = createIterator(tempIndividual->families);
+                        while((familiesElem = nextElement(&familiesElemIter))!= NULL)
+                        {
+                            Family * tempFamily = (Family*)familiesElem;
+                            if(tempFamily->wife != NULL)
+                            {
+                                Individual * tempWife = (Individual*)tempFamily->wife;
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "Wife: %s %s\n", tempWife->givenName, tempWife->surname);
+
+                            }
+                            else
+                            {
+                                sprintf(gedcomReturn, "Wife: NULL\n");
+                            }
+
+                            if(tempFamily->husband != NULL)
+                            {
+                                Individual * tempHubby = (Individual*)tempFamily->wife;
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "Husband: %s %s\n", tempHubby->givenName, tempHubby->surname);
+                            }
+                            else
+                            {
+                                sprintf(gedcomReturn, "Husband: NULL\n");
+                            }
+
+                            if(getLength(tempFamily->children)!= 0)
+                            {
+                                void* childElem;
+                                ListIterator childElemIter = createIterator(tempFamily->children);
+                                while((childElem = nextElement(&childElemIter)) != NULL)
                                 {
-                                    void* childElem;
-                                    ListIterator childElemIter = createIterator(tempFamily->children);
-                                    while((childElem = nextElement(&childElemIter)) != NULL)
+                                    Individual * tempChild = (Individual*)childElem;
+                                    sprintf(gedcomReturn + strlen(gedcomReturn), "Child: %s %s\n", tempChild->givenName, tempChild->surname);
+                                }
+                            }
+
+                            if(getLength(tempFamily->events)!= 0)
+                            {
+                                void* eventElem;
+                                ListIterator eventElemIter = createIterator(tempFamily->events);
+                                while((eventElem = nextElement(&eventElemIter))!= NULL)
+                                {
+                                    Event* tempEvent = (Event*)eventElem;
+                                    sprintf(gedcomReturn + strlen(gedcomReturn), "Event\nType: %s\nDate: %s\nPlace: %s\n Event Fields:\n\n", tempEvent->type, tempEvent->date, tempEvent->place);
+
+                                    if(getLength(tempEvent->otherFields)!= 0)
                                     {
-                                        Individual * tempChild = (Individual*)childElem;
-                                        sprintf(gedcomReturn + strlen(gedcomReturn), "Child: %s %s\n", tempChild->givenName, tempChild->surname);
-                                    }
-                                }
-
-                                if(getLength(tempFamily->events)!= 0)
-                                {
-                                    void* eventElem;
-                                    ListIterator eventElemIter = createIterator(tempFamily->events);
-                                    while((eventElem = nextElement(&eventElemIter))!= NULL)
-                                    {
-                                        Event* tempEvent = (Event*)eventElem;
-                                        sprintf(gedcomReturn + strlen(gedcomReturn), "Event\nType: %s\nDate: %s\nPlace: %s\n Event Fields:\n\n", tempEvent->type, tempEvent->date, tempEvent->place);
-
-                                        if(getLength(tempEvent->otherFields)!= 0)
+                                        void* eventFieldElem;
+                                        ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
+                                        while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
                                         {
-                                            void* eventFieldElem;
-                                            ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
-                                            while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
-                                            {
-                                                Field * tempField = (Field*)eventFieldElem;
-                                                sprintf(gedcomReturn + strlen(gedcomReturn), "%s:%s\n", tempField->tag, tempField->value);
+                                            Field * tempField = (Field*)eventFieldElem;
+                                            sprintf(gedcomReturn + strlen(gedcomReturn), "%s:%s\n", tempField->tag, tempField->value);
 
-                                            }
                                         }
                                     }
                                 }
                             }
                         }
-
-                        if(getLength(tempIndividual->otherFields)!= 0)
-                        {
-
-                            sprintf(gedcomReturn, "Individual Other Fields\n\n");
-                            void* fieldElem;
-                            ListIterator fieldElemIter = createIterator(tempIndividual->otherFields);
-                            while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-                            {
-                                Field * tempField = (Field*)fieldElem;
-                                sprintf(gedcomReturn + strlen(gedcomReturn), "%s: %s\n", tempField->tag, tempField->value);
-                            }
-
-                        }
                     }
 
+                    if(getLength(tempIndividual->otherFields)!= 0)
+                    {
+
+                        sprintf(gedcomReturn, "Individual Other Fields\n\n");
+                        void* fieldElem;
+                        ListIterator fieldElemIter = createIterator(tempIndividual->otherFields);
+                        while((fieldElem = nextElement(&fieldElemIter)) != NULL)
+                        {
+                            Field * tempField = (Field*)fieldElem;
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "%s: %s\n", tempField->tag, tempField->value);
+                        }
+
+                    }
                 }
+
+
             }
 
         }
@@ -1475,7 +1496,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
         Header* tempHeader = malloc(sizeof(Header));
 
         strcpy(tempHeader->source, source);
-        tempHeader->gedcVersion = atof(gedcVersion);
+        tempHeader->gedcVersion = 5.1;
         tempHeader->otherFields = initializeList(printField, deleteField, compareFields);
         // tempHeader->submitter = initializeSubmitter(submitterName, address);
 

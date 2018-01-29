@@ -11,6 +11,9 @@ $(EXE): BIN OBJ list parser
 	ar cr ./bin/liblist.a ./obj/LinkedListAPI.o ;\
 	ar cr ./bin/libcparse.a ./obj/GEDCOMparser.o ./obj/LinkedListAPI.o
 
+test: BIN OBJ Main.o GEDCOMparser.o LinkedListAPI.o
+	gcc ./obj/Main.o ./obj/GEDCOMparser.o ./obj/LinkedListAPI.o $(CFLAGS) -o  $(OBJFILE)TEST
+
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
 
