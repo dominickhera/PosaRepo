@@ -684,7 +684,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             {
                 // printf("end found\n");
                 // endFlag = 1;
-                printf("enddddd\n");
+                // printf("enddddd\n");
 
                 // GEDCOMobject * tempObject;   
                 Individual * tempIndividual;
@@ -920,6 +920,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
                                     tempOtherField = initializeOtherField(familyOtherFieldTagStorage[k], familyEventOtherFieldValueStorage[k]);
                                     insertBack(&tempFamily->otherFields, (void*)tempOtherField);
+                                    
                                 }
 
                             }
@@ -987,6 +988,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                         {
                                             insertBack(&tempFamily->children, tempIndividualFind);
                                             insertBack(&tempIndividualFind->families, tempFamily);
+                                            // printf("hi\n");
                                             // tempFamily->wife = tempIndividualFind;
                                         }
                                     }
@@ -1005,6 +1007,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                         {
                                             insertBack(&tempFamily->children, tempIndividualFind);
                                             insertBack(&tempIndividualFind->families, tempFamily);
+
                                             // tempFamily->wife = tempIndividualFind;
                                         }
                                     }
