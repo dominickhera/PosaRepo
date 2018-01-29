@@ -1015,15 +1015,241 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
         char * gedcomReturn = malloc(sizeof(char) * 1000);
         if(obj != NULL)
         {
+
+            sprintf(gedcomReturn, "\n\nFamily Tree\n\n");
             if(obj->header != NULL)
             {
-                sprintf(gedcomReturn + malloc(sizeof(gedcomReturn) * 1000), "Header\n Type: %s\nDate:%s\nPlace:%s\n" ,obj->header.type, obj->header.date, obj->header.place);
-                if(getLength(obj->header.otherFields)!= 0)
-                
+                sprintf(gedcomReturn, "Header\nSource: %s\nGEDCOM Version: %f\nEncoding:%u\n\nHeader Other Fields:\n\n" ,obj->header->source, obj->header->gedcVersion, obj->header->encoding);
 
+                if(getLength(obj->header->otherFields)!= 0)
+                {
+                    void* headerFieldsElem;
+                    ListIterator headerFieldsElemIter = createIterator(obj->header->otherFields);
+                    while((headerFieldsElem = nextElement(&headerFieldsElemIter)) != NULL)
+                    {
+                        Field* tempField = (Field*)headerFieldsElem;
+                        sprintf(gedcomReturn + strlen(gedcomReturn), "%s : %s\n", tempField->tag, tempField->value);
+                    }
+                }
+
+                if(obj->header->submitter != NULL)
+                {
+                    Submitter * tempSubmitter = (Submitter*)obj->header->submitter;
+                    sprintf("Submitter\nName: %s\nAddress: %s\n\nSubmitter Other Fields:\n\n",tempSubmitter->submitterName, tempSubmitter->address);
+                    if(getLength(tempSubmitter->otherFields)!= 0)
+                    {
+                        void* submitterFieldsElem;
+                        ListIterator submitterFieldsElemIter = createIterator(tempSubmitter->otherFields);
+                        while((submitterFieldsElem = nextElement(&submitterFieldsElemIter)) != NULL)
+                        {
+                            Field * tempField = (Field*)submitterFieldsElem;
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "%s : %s\n", tempField->tag, tempField->value);
+                        }
+                    }
+
+                }
+
+                if(getLength(obj->families)!= 0)
+                {
+
+                    void* familiesElem;
+                    ListIterator familiesElemIter = createIterator(obj->families);
+                    while((familiesElem = nextElement(&familiesElemIter))!= NULL)
+                    {
+                        Family * tempFamily = (Family*)familiesElem;
+                        if(tempFamily->wife != NULL)
+                        {
+                            Individual * tempWife = (Individual*)tempFamily->wife;
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "Wife: %s %s\n", tempWife->givenName, tempWife->surname);
+
+                        }
+                        else
+                        {
+                            sprintf(gedcomReturn, "Wife: NULL\n");
+                        }
+
+                        if(tempFamily->husband != NULL)
+                        {
+                            Individual * tempHubby = (Individual*)tempFamily->wife;
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "Husband: %s %s\n", tempHubby->givenName, tempHubby->surname);
+                        }
+                        else
+                        {
+                            sprintf(gedcomReturn, "Husband: NULL\n");
+                        }
+
+                        if(getLength(tempFamily->children)!= 0)
+                        {
+                            void* childElem;
+                            ListIterator childElemIter = createIterator(tempFamily->children);
+                            while((childElem = nextElement(&childElemIter)) != NULL)
+                            {
+                                Individual * tempChild = (Individual*)childElem;
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "Child: %s %s\n", tempChild->givenName, tempChild->surname);
+                            }
+                        }
+
+                        if(getLength(tempFamily->events)!= 0)
+                        {
+                            void* eventElem;
+                            ListIterator eventElemIter = createIterator(tempFamily->events);
+                            while((eventElem = nextElement(&eventElemIter))!= NULL)
+                            {
+                                Event* tempEvent = (Event*)eventElem;
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "Event\nType: %s\nDate: %s\nPlace: %s\n Event Fields:\n\n", tempEvent->type, tempEvent->date, tempEvent->place);
+
+                                if(getLength(tempEvent->otherFields)!= 0)
+                                {
+                                    void* eventFieldElem;
+                                    ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
+                                    while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
+                                    {
+                                        Field * tempField = (Field*)eventFieldElem;
+                                        sprintf(gedcomReturn + strlen(gedcomReturn), "%s:%s\n", tempField->tag, tempField->value);
+
+                                    }
+                                }
+                            }
+                        }
+
+                        if(getLength(tempFamily->otherFields)!= 0)
+                        {
+
+                            void* familyFieldElem;
+                            ListIterator familyFieldElemIter = createIterator(tempFamily->otherFields);
+                            while((familyFieldElem = nextElement(&familyFieldElemIter)) != NULL)
+                            {
+                                Field * tempField = (Field*)familyFieldElem;
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "%s:%s\n", tempField->tag, tempField->value);
+                            }
+
+
+                        }
+                        // sprintf(gedcomReturn + strlen(gedcomReturn), "")
+
+                    }
+
+                }
+
+                if(getLength(obj->individuals)!= 0)
+                {
+                    sprintf(gedcomReturn, "Individuals\n\n");
+                    void* individualElem;
+                    ListIterator individualElemIter = createIterator(obj->individuals);
+                    while((individualElem = nextElement(&individualElemIter)) != NULL)
+                    {
+                        Individual * tempIndividual = (Individual*)individualElem;
+                        sprintf(gedcomReturn + strlen(gedcomReturn), "Given Name: %s\nSurname: %s\n", tempIndividual->givenName, tempIndividual->surname);
+                        if(getLength(tempIndividual->events)!= 0)
+                        { 
+                            sprintf(gedcomReturn, "events\n");
+                            void* individualEventElem;
+                            ListIterator individualEventElemIter = createIterator(tempIndividual->events);
+                            while((individualEventElem = nextElement(&individualEventElemIter)) != NULL)
+                            {
+
+                                Event * tempEvent = (Event*)individualEventElem;
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "type: %s\ndate: %s\nplace%s\n", tempEvent->type, tempEvent->date, tempEvent->place);
+                                if(getLength(tempEvent->otherFields)!= 0)
+                                {
+                                    sprintf(gedcomReturn, "event other fields\n\n");
+                                    void* eventFieldElem;
+                                    ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
+                                    while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
+                                    {
+                                        Field * tempField = (Field*)eventFieldElem;
+                                        sprintf(gedcomReturn + strlen(gedcomReturn), "%s: %s\n", tempField->tag, tempField->value);
+                                    }
+                                }
+
+                            }
+                        }
+
+                        if(getLength(tempIndividual->families)!= 0)
+                        {
+
+                            void* familiesElem;
+                            ListIterator familiesElemIter = createIterator(tempIndividual->families);
+                            while((familiesElem = nextElement(&familiesElemIter))!= NULL)
+                            {
+                                Family * tempFamily = (Family*)familiesElem;
+                                if(tempFamily->wife != NULL)
+                                {
+                                    Individual * tempWife = (Individual*)tempFamily->wife;
+                                    sprintf(gedcomReturn + strlen(gedcomReturn), "Wife: %s %s\n", tempWife->givenName, tempWife->surname);
+
+                                }
+                                else
+                                {
+                                    sprintf(gedcomReturn, "Wife: NULL\n");
+                                }
+
+                                if(tempFamily->husband != NULL)
+                                {
+                                    Individual * tempHubby = (Individual*)tempFamily->wife;
+                                    sprintf(gedcomReturn + strlen(gedcomReturn), "Husband: %s %s\n", tempHubby->givenName, tempHubby->surname);
+                                }
+                                else
+                                {
+                                    sprintf(gedcomReturn, "Husband: NULL\n");
+                                }
+
+                                if(getLength(tempFamily->children)!= 0)
+                                {
+                                    void* childElem;
+                                    ListIterator childElemIter = createIterator(tempFamily->children);
+                                    while((childElem = nextElement(&childElemIter)) != NULL)
+                                    {
+                                        Individual * tempChild = (Individual*)childElem;
+                                        sprintf(gedcomReturn + strlen(gedcomReturn), "Child: %s %s\n", tempChild->givenName, tempChild->surname);
+                                    }
+                                }
+
+                                if(getLength(tempFamily->events)!= 0)
+                                {
+                                    void* eventElem;
+                                    ListIterator eventElemIter = createIterator(tempFamily->events);
+                                    while((eventElem = nextElement(&eventElemIter))!= NULL)
+                                    {
+                                        Event* tempEvent = (Event*)eventElem;
+                                        sprintf(gedcomReturn + strlen(gedcomReturn), "Event\nType: %s\nDate: %s\nPlace: %s\n Event Fields:\n\n", tempEvent->type, tempEvent->date, tempEvent->place);
+
+                                        if(getLength(tempEvent->otherFields)!= 0)
+                                        {
+                                            void* eventFieldElem;
+                                            ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
+                                            while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
+                                            {
+                                                Field * tempField = (Field*)eventFieldElem;
+                                                sprintf(gedcomReturn + strlen(gedcomReturn), "%s:%s\n", tempField->tag, tempField->value);
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(getLength(tempIndividual->otherFields)!= 0)
+                        {
+
+                            sprintf(gedcomReturn, "Individual Other Fields\n\n");
+                            void* fieldElem;
+                            ListIterator fieldElemIter = createIterator(tempIndividual->otherFields);
+                            while((fieldElem = nextElement(&fieldElemIter)) != NULL)
+                            {
+                                Field * tempField = (Field*)fieldElem;
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "%s: %s\n", tempField->tag, tempField->value);
+                            }
+
+                        }
+                    }
+
+                }
             }
-        }
 
+        }
+        return gedcomReturn;
     }
 
     void deleteGEDCOM(GEDCOMobject* obj)
@@ -1089,45 +1315,45 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
     {
 
-        Individual * individualFamilyTreePerson = findPerson(familyRecord, customIndividualCompareFunction, (void*)person);
-        List individualDescendants = initializeList(printIndividual, deleteIndividual, compareIndividuals);
+        // Individual * individualFamilyTreePerson = findPerson(familyRecord, customIndividualCompareFunction, (void*)person);
+        // List individualDescendants = initializeList(printIndividual, deleteIndividual, compareIndividuals);
 
-        if(getLength(individualFamilyTreePerson->families) != 0)
-        {
-            void *individualFamilyFindElem;
-            ListIterator individualFamilyFindElemIter = createIterator(individualFamilyTreePerson->families);
-            while((individualFamilyFindElem = nextElement(&individualFamilyFindElemIter)) != NULL)
-            {
-                //this will go through all the families this person has, add all the children of each person, spouse etc
-                if((customIndividualCompareFunction(individualFamilyTreePerson, individualFamilyFindElem->husband)) ||(customIndividualCompareFunction(individualFamilyTreePerson, individualFamilyFindElem->wife)))
-                {
-                    if(getLength(individualFamilyFindElem->children) != 0)
-                    {
-                        
-                    }
-                } 
-            }
-        }
+        // if(getLength(individualFamilyTreePerson->families) != 0)
+        // {
+        //     void *individualFamilyFindElem;
+        //     ListIterator individualFamilyFindElemIter = createIterator(individualFamilyTreePerson->families);
+        //     while((individualFamilyFindElem = nextElement(&individualFamilyFindElemIter)) != NULL)
+        //     {
+        //         //this will go through all the families this person has, add all the children of each person, spouse etc
+        //         if((customIndividualCompareFunction(individualFamilyTreePerson, individualFamilyFindElem->husband)) ||(customIndividualCompareFunction(individualFamilyTreePerson, individualFamilyFindElem->wife)))
+        //         {
+        //             if(getLength(individualFamilyFindElem->children) != 0)
+        //             {
+
+        //             }
+        //         } 
+        //     }
+        // }
     }
-/*
-Family * getChild()
-{
-    if(getLength(childFamily->children) != 0)
-    {
-        void *childElem;
-        ListIterator childElemIter = createIterator(childFamily->children);
-        while((childElem = nextElement(&childElemIter)) != NULL)
-        {
-            Individual *child = (Individual*)childElem;
-            insertBack(&individualDescendants, child);
-            getChild(child, 
+    /*
+       Family * getChild()
+       {
+       if(getLength(childFamily->children) != 0)
+       {
+       void *childElem;
+       ListIterator childElemIter = createIterator(childFamily->children);
+       while((childElem = nextElement(&childElemIter)) != NULL)
+       {
+       Individual *child = (Individual*)childElem;
+       insertBack(&individualDescendants, child);
+       getChild(child, 
 
-        } 
+       } 
 
-    }
+       }
 
-}
-*/
+       }
+     */
 
 
 
