@@ -18,9 +18,9 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
     FILE *fp;
     char line[256];
-    char lineStorage[1000][256];
-    char *tempFieldStorage = malloc(sizeof(char) * 256);
-    char *tempDataStorage = malloc(sizeof(char) * 256);
+    char lineStorage[1000][500];
+    char *tempFieldStorage = malloc(sizeof(char) * 500);
+    char *tempDataStorage = malloc(sizeof(char) * 500);
 
     // handles other fields in each event
     // char eventOtherFieldTagStorage[256][500];
@@ -34,9 +34,9 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
 
     //handles other fields for header file, and other header parts
-    char headerOtherFieldTagStorage[500][500];
-    char headerOtherFieldValueStorage[500][500];
-    char sourceStore[256];
+    char headerOtherFieldTagStorage[1000][500];
+    char headerOtherFieldValueStorage[1000][500];
+    char sourceStore[249];
     char gedcVersionStore[64];
     char encodingTypeStore[64];
 
@@ -167,9 +167,9 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
     GEDCOMobject * tempObject = initializeGEDCOMobject();
 
-    for(int i = 0; i < count + 1; i++)
+    for(int i = 0; i < count; i++)
     {
-        printf("count is %d\n", count);
+        // printf("count is %d\n", count);
         // printf("line[%d]: <%s>\n", i, lineStorage[i]);
         //start of thing
         if(lineStorage[i][0] == '0')
@@ -200,8 +200,8 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
 
                         strcpy(sourceStore, tempFieldStorage);
-                        // printf("sourceStore:<%s>\n", sourceStore);
-                        memset(tempFieldStorage, '\0', 256);
+                        printf("sourceStore:<%s>\n", tempFieldStorage);
+                        memset(tempFieldStorage, '\0', 500);
                         tempSize = 0;
                     }
                     else if(strcasestr(lineStorage[i], "GEDC"))
@@ -212,9 +212,9 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;   
                         }
-                        // printf("gedc: %s\n", tempFieldStorage);
+                        printf("gedc: %s\n", tempFieldStorage);
                         strcpy(gedcVersionStore, tempFieldStorage);
-                        memset(tempFieldStorage, '\0', 256);
+                        memset(tempFieldStorage, '\0', 500);
                         tempSize = 0;
 
                     }
@@ -225,9 +225,9 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;   
                         }
-                        // printf("char: <%s>\n", tempFieldStorage);
+                        printf("char: <%s>\n", tempFieldStorage);
                         strcpy(encodingTypeStore, tempFieldStorage);
-                        memset(tempFieldStorage, '\0', 256);
+                        memset(tempFieldStorage, '\0', 500);
                         tempSize = 0;
                     }
                     else
@@ -236,7 +236,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         {
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;
-                            if(lineStorage[i][j] == ' ')
+                            if(lineStorage[i][j + 1] == ' ')
                             {
                                 j++;
                                 while(j < strlen(lineStorage[i]))
@@ -248,12 +248,12 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             }
                         }
 
-                        // printf("header tag: <%s>, value: <%s>\n", tempFieldStorage, tempDataStorage);
+                        printf("header tag: <%s>, value: <%s>\n", tempFieldStorage, tempDataStorage);
                         strcpy(headerOtherFieldTagStorage[headerOtherFieldCount], tempFieldStorage);
                         strcpy(headerOtherFieldValueStorage[headerOtherFieldCount], tempDataStorage);
                         headerOtherFieldCount++;
-                        memset(tempFieldStorage, '\0', 256);
-                        memset(tempDataStorage, '\0', 256);
+                        memset(tempFieldStorage, '\0', 500);
+                        memset(tempDataStorage, '\0', 500);
                         tempSize = 0;
                         tempSizeTwo = 0;
 
@@ -353,7 +353,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                     tempSize++;
                                     if(lineStorage[i][j+1] == ' ')
                                     {
-                                        while(lineStorage[i][j+1] != '\0')
+                                        while(j < strlen(lineStorage[i]) - 1)
                                         {
                                             tempDataStorage[tempSizeTwo] = lineStorage[i][j];
                                             tempSizeTwo++;
@@ -389,7 +389,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 if(lineStorage[i][j+1] == ' ')
                                 {
                                     j+=2;
-                                    while(lineStorage[i][j] != '\0')
+                                    while(j < strlen(lineStorage[i]) - 1)
                                     {
                                         tempDataStorage[tempSizeTwo] = lineStorage[i][j];
                                         tempSizeTwo++;
@@ -1083,6 +1083,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
             if(getLength(obj->families)!= 0)
             {
+                printf("hiya\n");
                 sprintf(gedcomReturn + strlen(gedcomReturn), "\n\nFamilies\n\n");
                 void* familiesElem;
                 ListIterator familiesElemIter = createIterator(obj->families);
@@ -1123,7 +1124,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             sprintf(gedcomReturn + strlen(gedcomReturn), "    Child: %s %s\n", tempChild->givenName, tempChild->surname);
                         }
                     }
-                    // printf("totalFamilyEventCount is %d\n", getLength(tempFamily->events));
+                    printf("totalFamilyEventCount is %d\n", getLength(tempFamily->events));
                     if(getLength(tempFamily->events)!= 0)
                     {
                         void* eventElem;
