@@ -18,9 +18,9 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
     FILE *fp;
     char line[256];
-    char lineStorage[256][1000];
-    char *tempFieldStorage = malloc(sizeof(char) * 1000);
-    char *tempDataStorage = malloc(sizeof(char) * 1000);
+    char lineStorage[1000][256];
+    char *tempFieldStorage = malloc(sizeof(char) * 256);
+    char *tempDataStorage = malloc(sizeof(char) * 256);
 
     // handles other fields in each event
     // char eventOtherFieldTagStorage[256][500];
@@ -29,42 +29,42 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     //handles submitter struct and other fields for submitter struct
     char submitterNameStore[61];
     char submitterAddress[256];
-    char submitterOtherFieldTagStorage[256][1000];
-    char submitterOtherFieldValueStorage[256][1000];
+    char submitterOtherFieldTagStorage[500][500];
+    char submitterOtherFieldValueStorage[500][500];
 
 
     //handles other fields for header file, and other header parts
-    char headerOtherFieldTagStorage[256][1000];
-    char headerOtherFieldValueStorage[256][1000];
+    char headerOtherFieldTagStorage[500][500];
+    char headerOtherFieldValueStorage[500][500];
     char sourceStore[256];
     char gedcVersionStore[64];
     char encodingTypeStore[64];
 
     //handles inital individual name parts
-    char individualGivenNameStorage[256][1000];
-    char individualSurNameStorage[256][1000];
+    char individualGivenNameStorage[500][500];
+    char individualSurNameStorage[500][500];
 
     //handles individual other field structs
-    char individualOtherFieldTagStorage[256][1000];
-    char individualOtherFieldValueStorage[256][1000];
+    char individualOtherFieldTagStorage[500][500];
+    char individualOtherFieldValueStorage[500][500];
 
     //handles individual event parts including the other field structs
-    char individualEventTypeStorage[256][1000];
-    char individualEventDateStorage[256][1000];
-    char individualEventPlaceStorage[256][1000];
-    char individualEventOtherFieldTagStorage[256][1000];
-    char individualEventOtherFieldValueStorage[256][1000];
+    char individualEventTypeStorage[500][500];
+    char individualEventDateStorage[500][500];
+    char individualEventPlaceStorage[500][500];
+    char individualEventOtherFieldTagStorage[500][500];
+    char individualEventOtherFieldValueStorage[500][500];
 
     //handles family event struct
-    char familyEventTypeStorage[256][5];
-    char familyEventDateStorage[256][500];
-    char familyEventPlaceStorage[256][500];
-    char familyEventOtherFieldTagStorage[256][500];
-    char familyEventOtherFieldValueStorage[256][500];
+    char familyEventTypeStorage[500][5];
+    char familyEventDateStorage[500][500];
+    char familyEventPlaceStorage[500][500];
+    char familyEventOtherFieldTagStorage[500][500];
+    char familyEventOtherFieldValueStorage[500][500];
 
     //handles other fields in family struct
-    char familyOtherFieldTagStorage[256][500];
-    char familyOtherFieldValueStorage[256][500];
+    char familyOtherFieldTagStorage[500][500];
+    char familyOtherFieldValueStorage[500][500];
 
     //handles other fields in gedcome object struct
     // char gedcomObjectOtherFieldTagStorage[256][500];
@@ -201,7 +201,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
                         strcpy(sourceStore, tempFieldStorage);
                         // printf("sourceStore:<%s>\n", sourceStore);
-                        memset(tempFieldStorage, '\0', 1000);
+                        memset(tempFieldStorage, '\0', 256);
                         tempSize = 0;
                     }
                     else if(strcasestr(lineStorage[i], "GEDC"))
@@ -214,7 +214,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         }
                         // printf("gedc: %s\n", tempFieldStorage);
                         strcpy(gedcVersionStore, tempFieldStorage);
-                        memset(tempFieldStorage, '\0', 1000);
+                        memset(tempFieldStorage, '\0', 256);
                         tempSize = 0;
 
                     }
@@ -227,7 +227,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         }
                         // printf("char: <%s>\n", tempFieldStorage);
                         strcpy(encodingTypeStore, tempFieldStorage);
-                        memset(tempFieldStorage, '\0', 1000);
+                        memset(tempFieldStorage, '\0', 256);
                         tempSize = 0;
                     }
                     else
@@ -252,8 +252,8 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         strcpy(headerOtherFieldTagStorage[headerOtherFieldCount], tempFieldStorage);
                         strcpy(headerOtherFieldValueStorage[headerOtherFieldCount], tempDataStorage);
                         headerOtherFieldCount++;
-                        memset(tempFieldStorage, '\0', 1000);
-                        memset(tempDataStorage, '\0', 1000);
+                        memset(tempFieldStorage, '\0', 256);
+                        memset(tempDataStorage, '\0', 256);
                         tempSize = 0;
                         tempSizeTwo = 0;
 
@@ -292,12 +292,12 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 j++;
                             }
                         }
-                        printf("given name: <%s>\nsurname: <%s>\n", tempFieldStorage, tempDataStorage);
+                        // printf("given name: <%s>\nsurname: <%s>\n", tempFieldStorage, tempDataStorage);
 
                         strcpy(individualGivenNameStorage[totalIndividualCount], tempFieldStorage);
                         strcpy(individualSurNameStorage[totalIndividualCount], tempDataStorage);
-                        memset(tempFieldStorage, '\0', 1000);
-                        memset(tempDataStorage, '\0', 1000);
+                        memset(tempFieldStorage, '\0', 256);
+                        memset(tempDataStorage, '\0', 256);
                         tempSize = 0;
                         tempSizeTwo = 0;
                     }
@@ -305,7 +305,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                     {
                         if(strcasestr(lineStorage[i+1], "DATE"))
                         {
-                            printf("(bawer)\n" );
+                            // printf("(bawer)\n" );
                             for(int j = 1; j < strlen(lineStorage[i]); j++)
                             {
                                 tempFieldStorage[tempSize] = lineStorage[i][j];
@@ -313,7 +313,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             }
 
                             strcpy(individualEventTypeStorage[totalIndividualEventCount], tempFieldStorage);
-                            memset(tempFieldStorage, '\0', 1000);
+                            memset(tempFieldStorage, '\0', 256);
                             tempSize = 0;
                             i++;
                             for(int j = 7; j < strlen(lineStorage[i]); j++)
@@ -323,7 +323,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             }
 
                             strcpy(individualEventDateStorage[totalIndividualEventCount], tempFieldStorage);
-                            memset(tempFieldStorage, '\0', 1000);
+                            memset(tempFieldStorage, '\0', 256);
                             tempSize = 0;
 
                             if(strcasestr(lineStorage[i + 1], "PLAC"))
@@ -336,7 +336,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 }
 
                                 strcpy(individualEventPlaceStorage[totalIndividualEventCount], tempFieldStorage);
-                                memset(tempFieldStorage, '\0', 1000);
+                                memset(tempFieldStorage, '\0', 256);
                                 tempSize = 0;
                             }
                             else
@@ -365,8 +365,8 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 strcpy(individualEventOtherFieldValueStorage[totalIndividualEventOtherFieldCount], tempFieldStorage);
                                 strcpy(individualOtherFieldTagStorage[totalIndividualEventOtherFieldCount], tempDataStorage);
                                 totalIndividualEventOtherFieldCount++;
-                                memset(tempFieldStorage, '\0', 1000);
-                                memset(tempDataStorage, '\0', 1000);
+                                memset(tempFieldStorage, '\0', 256);
+                                memset(tempDataStorage, '\0', 256);
                                 tempSize = 0;
                                 tempSizeTwo = 0;
                                 i++;
@@ -388,8 +388,8 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 tempSize++;
                                 if(lineStorage[i][j+1] == ' ')
                                 {
-                                    j= j+2;
-                                    while(lineStorage[i][j+1] != '\0')
+                                    j+=2;
+                                    while(lineStorage[i][j] != '\0')
                                     {
                                         tempDataStorage[tempSizeTwo] = lineStorage[i][j];
                                         tempSizeTwo++;
@@ -398,11 +398,12 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 }
                             }
 
-                            strcpy(individualOtherFieldValueStorage[totalIndividualOtherFieldCount], tempFieldStorage);
-                            strcpy(individualOtherFieldTagStorage[totalIndividualOtherFieldCount], tempDataStorage);
+                            printf("indi tag: <%s> indi field <%s>\n", tempFieldStorage, tempDataStorage);
+                            strcpy(individualOtherFieldValueStorage[totalIndividualOtherFieldCount], tempDataStorage);
+                            strcpy(individualOtherFieldTagStorage[totalIndividualOtherFieldCount], tempFieldStorage);
                             totalIndividualOtherFieldCount++;
-                            memset(tempFieldStorage, '\0', 1000);
-                            memset(tempDataStorage, '\0', 1000);
+                            memset(tempFieldStorage, '\0', 256);
+                            memset(tempDataStorage, '\0', 256);
                             tempSize = 0;
                             tempSizeTwo = 0;
 
@@ -418,7 +419,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             }
             else if(strcasestr(lineStorage[i], "FAM"))
             {
-                printf("fam found\n");
+                // printf("fam found\n");
                 // famFlag = 1;
                 i++;
                 while(lineStorage[i][0] != '0')
@@ -440,7 +441,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         }
                         printf("hus num is <%s>\n", tempFieldStorage);
                         familyHusbandFindArray[totalFamilyCount] = atoi(tempFieldStorage) - 1;
-                        memset(tempFieldStorage, '\0', 1000);
+                        memset(tempFieldStorage, '\0', 256);
                         tempSize = 0;
                     }
                     else if(strcasestr(lineStorage[i], "WIFE"))
@@ -459,7 +460,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         }
                         printf("wife num is <%s>\n", tempFieldStorage);
                         familyWifeFindArray[totalFamilyCount] = atoi(tempFieldStorage) - 1;
-                        memset(tempFieldStorage, '\0', 1000);
+                        memset(tempFieldStorage, '\0', 256);
                         tempSize = 0;
                     }
                     else if(strcasestr(lineStorage[i], "CHIL"))
@@ -479,13 +480,13 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         }
                         printf("child num is <%s>\n", tempFieldStorage);
                         familyChildFindArray[familyChildCount] = atoi(tempFieldStorage) - 1;
-                        memset(tempFieldStorage, '\0', 1000);
+                        memset(tempFieldStorage, '\0', 256);
                         tempSize = 0;
                         familyChildCount++;
                     }
                     else
                     {
-                        
+
                         if(strcasestr(lineStorage[i+1], "DATE"))
                         {
                             // printf("lolcats\n");
@@ -496,7 +497,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             }
                             printf("date storage thing: <%s>\n", tempFieldStorage);
                             strcpy(familyEventTypeStorage[totalFamilyEventCount], tempFieldStorage);
-                            memset(tempFieldStorage, '\0', 1000);
+                            memset(tempFieldStorage, '\0', 256);
                             tempSize = 0;
                             i++;
                             for(int j = 7; j < strlen(lineStorage[i]); j++)
@@ -506,7 +507,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             }
                             printf("next storage thing: <%s>\n", tempFieldStorage);
                             strcpy(familyEventDateStorage[totalFamilyEventCount], tempFieldStorage);
-                            memset(tempFieldStorage, '\0', 1000);
+                            memset(tempFieldStorage, '\0', 256);
                             tempSize = 0;
 
                             if(strcasestr(lineStorage[i + 1], "PLAC"))
@@ -519,7 +520,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 }
                                 printf("third storage thing: <%s>\n", tempFieldStorage);
                                 strcpy(familyEventPlaceStorage[totalFamilyEventCount], tempFieldStorage);
-                                memset(tempFieldStorage, '\0', 1000);
+                                memset(tempFieldStorage, '\0', 256);
                                 tempSize = 0;
                             }
                             else
@@ -548,8 +549,8 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 strcpy(familyEventOtherFieldValueStorage[totalFamilyEventOtherFieldCount], tempFieldStorage);
                                 strcpy(familyEventOtherFieldTagStorage[totalFamilyEventOtherFieldCount], tempDataStorage);
                                 totalFamilyEventOtherFieldCount++;
-                                memset(tempFieldStorage, '\0', 1000);
-                                memset(tempDataStorage, '\0', 1000);
+                                memset(tempFieldStorage, '\0', 256);
+                                memset(tempDataStorage, '\0', 256);
                                 tempSize = 0;
                                 tempSizeTwo = 0;
                                 i++;
@@ -564,11 +565,11 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         }
                         else
                         {
-                        //     if(strcasestr(lineStorage[i+1], "DATE"))
-                        // {
-                        //     printf("lolcats\n");
-                        // }
-                            printf("i+1 %s\n", lineStorage[i+1]);
+                            //     if(strcasestr(lineStorage[i+1], "DATE"))
+                            // {
+                            //     printf("lolcats\n");
+                            // }
+                            // printf("i+1 %s\n", lineStorage[i+1]);
 
                             for(int j = 2; j < strlen(lineStorage[i]); j++)
                             {
@@ -588,8 +589,8 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             strcpy(familyOtherFieldValueStorage[totalFamilyOtherFieldCount], tempFieldStorage);
                             strcpy(familyOtherFieldTagStorage[totalFamilyOtherFieldCount], tempDataStorage);
                             totalFamilyOtherFieldCount++;
-                            memset(tempFieldStorage, '\0', 1000);
-                            memset(tempDataStorage, '\0', 1000);
+                            memset(tempFieldStorage, '\0', 256);
+                            memset(tempDataStorage, '\0', 256);
                             tempSize = 0;
                             tempSizeTwo = 0;
 
@@ -632,7 +633,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
                         strcpy(submitterNameStore, tempFieldStorage);
                         // strcpy(individualSurNameStorage[totalIndividualCount], tempDataStorage);
-                        memset(tempFieldStorage, '\0', 1000);
+                        memset(tempFieldStorage, '\0', 256);
                         // memset(tempDataStorage, '\0', 1000);
                         tempSize = 0;
                         // tempSizeTwo = 0;
@@ -650,7 +651,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
                                 strcpy(submitterAddress, tempFieldStorage);
 
-                                memset(tempFieldStorage, '\0', 1000);
+                                memset(tempFieldStorage, '\0', 256);
                                 tempSize = 0;
                             }
                             else
@@ -673,8 +674,8 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 strcpy(submitterOtherFieldValueStorage[submitterOtherFieldCount], tempFieldStorage);
                                 strcpy(submitterOtherFieldTagStorage[submitterOtherFieldCount], tempDataStorage);
                                 submitterOtherFieldCount++;
-                                memset(tempFieldStorage, '\0', 1000);
-                                memset(tempDataStorage, '\0', 1000);
+                                memset(tempFieldStorage, '\0', 256);
+                                memset(tempDataStorage, '\0', 256);
                                 tempSize = 0;
                                 tempSizeTwo = 0;
                             }
@@ -761,7 +762,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                         }
                                         else
                                         {
-                                            for(int m = totalIndividualEventOtherFieldArray[k - 1]; m < totalIndividualEventOtherFieldArray[k] + 1; m++)
+                                            for(int m = totalIndividualEventOtherFieldArray[k - 1]; m < totalIndividualEventOtherFieldArray[k]; m++)
                                             {
                                                 tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
                                                 insertBack(&tempEvent->otherFields, (void*)tempOtherField);   
@@ -775,7 +776,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             }
                             else
                             {
-                                for(int k = totalIndividualEventArray[j - 1]; k < totalIndividualEventArray[j]+1; k++)
+                                for(int k = totalIndividualEventArray[j - 1]; k < totalIndividualEventArray[j]; k++)
                                 {
                                     tempEvent = initializeEvent(individualEventTypeStorage[k], individualEventDateStorage[k], individualEventPlaceStorage[k]);
                                     if(totalIndividualEventOtherFieldArray[k] != 0)
@@ -790,7 +791,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                         }
                                         else
                                         {
-                                            for(int m = totalIndividualEventOtherFieldArray[k - 1]; m < totalIndividualEventOtherFieldArray[k] + 1; m++)
+                                            for(int m = totalIndividualEventOtherFieldArray[k - 1]; m < totalIndividualEventOtherFieldArray[k]; m++)
                                             {
                                                 tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
                                                 insertBack(&tempEvent->otherFields, (void*)tempOtherField);   
@@ -820,7 +821,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             }
                             else
                             {
-                                for(int k = totalIndividualOtherFieldArray[j - 1]; k < totalIndividualOtherFieldArray[j] + 1; k++)
+                                for(int k = totalIndividualOtherFieldArray[j - 1]; k < totalIndividualOtherFieldArray[j]; k++)
                                 {
 
                                     // Event * initializeEvent(char* type, char* date, char* place)
@@ -837,7 +838,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
 
                 //DO FAMILIES NOWWWWWWW
-                printf("total family is %d\n", totalFamilyCount);
+                // printf("total family is %d\n", totalFamilyCount);
                 //there are more than 0 families
                 if(totalFamilyCount != 0)
                 {
@@ -847,12 +848,12 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
                         //initialize the first family , which is all just lists
                         tempFamily = initializeFamily();
-                        printf("insert stuff is %d\n", totalFamilyEventArray[j]);
+                        // printf("insert stuff is %d\n", totalFamilyEventArray[j]);
 
                         //check to see if there are any events for this family
                         if(totalFamilyEventArray[j] != 0)
                         {
-                            printf("hello\n");
+                            // printf("hello\n");
                             //cycle through 
                             if(j == 0)
                             {
@@ -874,7 +875,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                     {
                                         if(totalFamilyEventOtherFieldArray[k] != 0)
                                         {
-                                            for(int m = totalFamilyOtherFieldArray[k-1]; m < totalFamilyOtherFieldArray[k]+1; m++)
+                                            for(int m = totalFamilyOtherFieldArray[k-1]; m < totalFamilyOtherFieldArray[k]; m++)
                                             {
                                                 tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
                                                 insertBack(&tempEvent->otherFields, (void*)tempOtherField);
@@ -904,7 +905,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                     {
                                         if(totalFamilyEventOtherFieldArray[k] != 0)
                                         {
-                                            for(int m = totalFamilyOtherFieldArray[k-1]; m < totalFamilyOtherFieldArray[k]+1; m++)
+                                            for(int m = totalFamilyOtherFieldArray[k-1]; m < totalFamilyOtherFieldArray[k]; m++)
                                             {
                                                 tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
                                                 insertBack(&tempEvent->otherFields, (void*)tempOtherField);
@@ -927,13 +928,13 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
                                     tempOtherField = initializeOtherField(familyOtherFieldTagStorage[k], familyEventOtherFieldValueStorage[k]);
                                     insertBack(&tempFamily->otherFields, (void*)tempOtherField);
-                                    
+
                                 }
 
                             }
                             else
                             {
-                                for(int k = totalFamilyOtherFieldArray[j-1]; k < totalFamilyOtherFieldArray[j]+1; k++)
+                                for(int k = totalFamilyOtherFieldArray[j-1]; k < totalFamilyOtherFieldArray[j]; k++)
                                 {
                                     tempOtherField = initializeOtherField(familyOtherFieldTagStorage[k], familyEventOtherFieldValueStorage[k]);
                                     insertBack(&tempFamily->otherFields, (void*)tempOtherField);
@@ -995,7 +996,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                         {
                                             insertBack(&tempFamily->children, tempIndividualFind);
                                             insertBack(&tempIndividualFind->families, tempFamily);
-                                            printf("hi\n");
+                                            // printf("hi\n");
                                             // tempFamily->wife = tempIndividualFind;
                                         }
                                     }
@@ -1053,12 +1054,12 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     char* printGEDCOM(const GEDCOMobject* obj)
     {
 
-        char * gedcomReturn = malloc(sizeof(char) * 10000);
+        char * gedcomReturn = malloc(sizeof(char) * 1000);
         if(obj != NULL)
         {
 
             sprintf(gedcomReturn + strlen(gedcomReturn), "\n\nFamily Tree\n\n");
-            // printf("fucker\n");
+            printf("fucker\n");
             if(obj->header != NULL)
             {
                 // printf("b00ty\n");
@@ -1078,23 +1079,6 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         sprintf(gedcomReturn + strlen(gedcomReturn), "     -%s : %s\n", tempField->tag, tempField->value);
                     }
                 }
-
-                // if(obj->header->submitter != NULL)
-                // {
-                //     Submitter * tempSubmitter = (Submitter*)obj->header->submitter;
-                //     sprintf("Submitter\nName: %s\nAddress: %s\n\nSubmitter Other Fields:\n\n",tempSubmitter->submitterName, tempSubmitter->address);
-                //     if(getLength(tempSubmitter->otherFields)!= 0)
-                //     {
-                //         void* submitterFieldsElem;
-                //         ListIterator submitterFieldsElemIter = createIterator(tempSubmitter->otherFields);
-                //         while((submitterFieldsElem = nextElement(&submitterFieldsElemIter)) != NULL)
-                //         {
-                //             Field * tempField = (Field*)submitterFieldsElem;
-                //             sprintf(gedcomReturn + strlen(gedcomReturn), "%s : %s\n", tempField->tag, tempField->value);
-                //         }
-                //     }
-
-                // } 
             }
 
             if(getLength(obj->families)!= 0)
@@ -1147,16 +1131,17 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         while((eventElem = nextElement(&eventElemIter))!= NULL)
                         {
                             Event* tempEvent = (Event*)eventElem;
-                            sprintf(gedcomReturn + strlen(gedcomReturn), "        Event\n          Type: %s\n          Date: %s\n          Place: %s\n            Event Fields:\n\n", tempEvent->type, tempEvent->date, tempEvent->place);
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "        Event:\n          Type: %s\n          Date: %s\n          Place: %s\n", tempEvent->type, tempEvent->date, tempEvent->place);
 
                             if(getLength(tempEvent->otherFields)!= 0)
                             {
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "            Event Fields:\n\n");
                                 void* eventFieldElem;
                                 ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
                                 while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
                                 {
                                     Field * tempField = (Field*)eventFieldElem;
-                                    sprintf(gedcomReturn + strlen(gedcomReturn), "%s:%s\n", tempField->tag, tempField->value);
+                                    sprintf(gedcomReturn + strlen(gedcomReturn), "              %s:%s\n", tempField->tag, tempField->value);
 
                                 }
                             }
@@ -1170,7 +1155,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         ListIterator familyFieldElemIter = createIterator(tempFamily->otherFields);
                         while((familyFieldElem = nextElement(&familyFieldElemIter)) != NULL)
                         {
-                            printf("stuff\n");
+                            // printf("\n");
                             Field * tempField = (Field*)familyFieldElem;
                             sprintf(gedcomReturn + strlen(gedcomReturn), "%s:%s\n", tempField->tag, tempField->value);
                         }
@@ -1191,7 +1176,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 while((individualElem = nextElement(&individualElemIter)) != NULL)
                 {
                     Individual * tempIndividual = (Individual*)individualElem;
-                    sprintf(gedcomReturn + strlen(gedcomReturn), "\nGiven Name: %s\nSurname: %s\n", tempIndividual->givenName, tempIndividual->surname);
+                    sprintf(gedcomReturn + strlen(gedcomReturn), "\nIndividual\n    Given Name: %s\n    Surname: %s\n", tempIndividual->givenName, tempIndividual->surname);
                     if(getLength(tempIndividual->events)!= 0)
                     { 
                         sprintf(gedcomReturn + strlen(gedcomReturn), "events\n");
@@ -1201,10 +1186,10 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         {
 
                             Event * tempEvent = (Event*)individualEventElem;
-                            sprintf(gedcomReturn + strlen(gedcomReturn), "type: %s\ndate: %s\nplace%s\n", tempEvent->type, tempEvent->date, tempEvent->place);
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "Type: %s\nDate: %s\nPlace%s\n", tempEvent->type, tempEvent->date, tempEvent->place);
                             if(getLength(tempEvent->otherFields)!= 0)
                             {
-                                sprintf(gedcomReturn, "event other fields\n\n");
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "event other fields\n\n");
                                 void* eventFieldElem;
                                 ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
                                 while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
@@ -1217,47 +1202,48 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         }
                     }
 
-                     if(getLength(tempIndividual->otherFields)!= 0)
+                    if(getLength(tempIndividual->otherFields)!= 0)
                     {
 
-                        sprintf(gedcomReturn + strlen(gedcomReturn), "\nIndividual Other Fields\n");
+                        sprintf(gedcomReturn + strlen(gedcomReturn), "       Other Fields\n");
                         void* fieldElem;
                         ListIterator fieldElemIter = createIterator(tempIndividual->otherFields);
                         while((fieldElem = nextElement(&fieldElemIter)) != NULL)
                         {
                             Field * tempField = (Field*)fieldElem;
-                            sprintf(gedcomReturn + strlen(gedcomReturn), "IOF %s: %s\n", tempField->tag, tempField->value);
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "         %s:%s\n", tempField->tag, tempField->value);
                         }
 
                     }
 
                     if(getLength(tempIndividual->families)!= 0)
                     {
-
+                        sprintf(gedcomReturn + strlen(gedcomReturn), "       Individual Families\n");
                         void* familiesElem;
                         ListIterator familiesElemIter = createIterator(tempIndividual->families);
                         while((familiesElem = nextElement(&familiesElemIter))!= NULL)
                         {
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "         Family\n");
                             Family * tempFamily = (Family*)familiesElem;
                             if(tempFamily->wife != NULL)
                             {
                                 Individual * tempWife = (Individual*)tempFamily->wife;
-                                sprintf(gedcomReturn + strlen(gedcomReturn), "I Wife: %s %s\n", tempWife->givenName, tempWife->surname);
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "           Wife: %s %s\n", tempWife->givenName, tempWife->surname);
 
                             }
                             else
                             {
-                                sprintf(gedcomReturn + strlen(gedcomReturn), "I Wife: NULL\n");
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "           Wife: NULL\n");
                             }
 
                             if(tempFamily->husband != NULL)
                             {
-                                Individual * tempHubby = (Individual*)tempFamily->wife;
-                                sprintf(gedcomReturn + strlen(gedcomReturn), "I Husband: %s %s\n", tempHubby->givenName, tempHubby->surname);
+                                Individual * tempHubby = (Individual*)tempFamily->husband;
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "           Husband: %s %s\n", tempHubby->givenName, tempHubby->surname);
                             }
                             else
                             {
-                                sprintf(gedcomReturn + strlen(gedcomReturn), "Husband: NULL\n");
+                                sprintf(gedcomReturn + strlen(gedcomReturn), "           Husband: NULL\n");
                             }
 
                             if(getLength(tempFamily->children)!= 0)
@@ -1267,7 +1253,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 while((childElem = nextElement(&childElemIter)) != NULL)
                                 {
                                     Individual * tempChild = (Individual*)childElem;
-                                    sprintf(gedcomReturn + strlen(gedcomReturn), "Child: %s %s\n", tempChild->givenName, tempChild->surname);
+                                    sprintf(gedcomReturn + strlen(gedcomReturn), "           Child: %s %s\n", tempChild->givenName, tempChild->surname);
                                 }
                             }
 
@@ -1278,55 +1264,31 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 while((eventElem = nextElement(&eventElemIter))!= NULL)
                                 {
                                     Event* tempEvent = (Event*)eventElem;
-                                    sprintf(gedcomReturn + strlen(gedcomReturn), "Event\nType: %s\nDate: %s\nPlace: %s\n Event Fields:\n\n", tempEvent->type, tempEvent->date, tempEvent->place);
+                                    sprintf(gedcomReturn + strlen(gedcomReturn), "               Event:\n                 Type: %s\n                 Date: %s\n                 Place: %s\n", tempEvent->type, tempEvent->date, tempEvent->place);
 
                                     if(getLength(tempEvent->otherFields)!= 0)
                                     {
+                                        sprintf(gedcomReturn + strlen(gedcomReturn), "                 Event Other Fields:\n");
                                         void* eventFieldElem;
                                         ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
                                         while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
                                         {
                                             Field * tempField = (Field*)eventFieldElem;
-                                            sprintf(gedcomReturn + strlen(gedcomReturn), "IFOF %s:%s\n", tempField->tag, tempField->value);
+                                            sprintf(gedcomReturn + strlen(gedcomReturn), "                   %s:%s\n", tempField->tag, tempField->value);
 
                                         }
                                     }
                                 }
                             }
                         }
-                         // if(getLength(tempIndividual->otherFields)!= 0)
-                    // {
-
-                    //     sprintf(gedcomReturn, "Individual Other Fields\n\n");
-                    //     void* fieldElem;
-                    //     ListIterator fieldElemIter = createIterator(tempIndividual->otherFields);
-                    //     while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-                    //     {
-                    //         Field * tempField = (Field*)fieldElem;
-                    //         sprintf(gedcomReturn + strlen(gedcomReturn), "IOF %s: %s\n", tempField->tag, tempField->value);
-                    //     }
-
-                    // }
                     }
-
-                    // if(getLength(tempIndividual->otherFields)!= 0)
-                    // {
-
-                    //     sprintf(gedcomReturn, "Individual Other Fields\n\n");
-                    //     void* fieldElem;
-                    //     ListIterator fieldElemIter = createIterator(tempIndividual->otherFields);
-                    //     while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-                    //     {
-                    //         Field * tempField = (Field*)fieldElem;
-                    //         sprintf(gedcomReturn + strlen(gedcomReturn), "IOF %s: %s\n", tempField->tag, tempField->value);
-                    //     }
-
-                    // }
 
                 }
 
 
             }
+
+
 
         }
         return gedcomReturn;
