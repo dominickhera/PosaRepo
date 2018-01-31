@@ -1298,6 +1298,90 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     void deleteGEDCOM(GEDCOMobject* obj)
     {
 
+        if(obj != NULL)
+        {
+            if(obj->header != NULL)
+            {
+                if(getLength(obj->header->otherFields) != 0)
+                {
+                    void* headerFieldsElem;
+                    ListIterator headerFieldsElemIter = createIterator(obj->header->otherFields);
+                    while((headerFieldsElem = nextElement(&headerFieldsElemIter)) != NULL)
+                    {
+                        Field* headerFieldDelete = (Field*)headerFieldsElem;
+                        free(headerFieldDelete->tag);
+                        free(headerFieldDelete->value);
+                    }
+                    clearList(obj->header->otherFields);
+                }
+
+            }
+
+            if(getLength(obj->families) != 0)
+            {
+                void* familyDeleteElem;
+                ListIterator familyDeleteElemIter = createIterator(obj->families);
+                while((familyDeleteElem = nextElement(&familyDeleteElemIter)) != NULL)
+                {
+                    Family* familyDelete = (Family*)familiyDeleteElem;
+                    if(getLength(familyDelete->events) != 0)
+                    {
+                        void* familyEventsElem;
+                        ListIterator familyEventsElemIter = createIterator(familyDelete->events);
+                        while((familyEventsElem = nextElement(&familyEventsElemIter)) != NULL)
+                        {
+                            Event* familyEventDelete = (Event*)familyEventsElem;
+                            free(familyEventDelete->date);
+                            free(familyEventDelete->place);
+                            if(getLength(familyEventDelete->otherFields) != 0)
+                            {
+                                void* familyEventOtherElem;
+                                ListIterator familyEventOtherElemIter = createIterator(familyEventDelete->otherFields);
+                                while((familyEventOtherElem = nextElement(&familyEventOtherElemIter)) != NULL)
+                                {
+                                    Field* familyEventOtherDelete = (Field*)familyEventOtherElem;
+                                    free(familyEventOtherDelete->tag);
+                                    free(familyEventOtherDelete->value);
+                                }
+
+                                clearList(familyEventDelete->otherFields);
+                            }
+                        }
+                    }
+
+                    if(getLength(familyDelete->children) != 0)
+                    {
+                        void* familyChildrenElem;
+                        ListIterator familyChildrenElemIter = createIterator(familyDelete->children);
+                        while((familyChildrenElem = nextElement(&familyChildrenElemIter)) != NULL)
+                        {
+                            
+                        }
+                    }
+
+                    if(getLength(familyDelete->otherFields) != 0)
+                    {
+                        void* familyOtherElem;
+                        ListIterator familyOtherElemIter = createIterator(familyDelete->otherFields);
+                        while((familyOtherElem = nextElement(&familyOtherElemIter)) != NULL)
+                        {
+                            Field* familyOtherDelete = (Field*)familyOtherElem;
+                            free(familyOtherDelete->tag);
+                            free(familyOtherDelete->value);
+                        }
+                        clearList(familyDelete->otherFields);
+                    }
+
+                }
+            }
+
+                if(getLength(obj->individuals) != 0)
+                {
+
+                }
+            
+
+        }
     }
 
     char* printError(GEDCOMerror err)
