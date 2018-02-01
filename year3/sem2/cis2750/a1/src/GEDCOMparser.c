@@ -1464,8 +1464,8 @@ void deleteGEDCOM(GEDCOMobject* obj)
                     while((familyChildrenElem = nextElement(&familyChildrenElemIter)) != NULL)
                     {
                         Individual* individualDelete = (Individual*)familyChildrenElem;
-                        free(individualDelete->givenName);
-                        free(individualDelete->surname);
+                        // free(individualDelete->givenName);
+                        // free(individualDelete->surname);
                         if(getLength(individualDelete->events) != 0)
                         {
                             void* individualEventsElem;
@@ -1535,8 +1535,8 @@ void deleteGEDCOM(GEDCOMobject* obj)
             while((individualElem = nextElement(&individualElemIter)) != NULL)
             {
                 Individual* individualDelete = (Individual*)individualElem;
-                // free(individualDelete->givenName);
-                // free(individualDelete->surname);
+                free(individualDelete->givenName);
+                free(individualDelete->surname);
                 if(getLength(individualDelete->events) != 0)
                 {
                     void* individualEventsElem;
@@ -1583,25 +1583,27 @@ void deleteGEDCOM(GEDCOMobject* obj)
             }
         }
 
-        // if(obj->submitter != NULL)
-        // {
+        if(obj->submitter != NULL)
+        {
+            if(strlen(obj->submitter->address) != 0)
+            {
+                free(obj->submitter->address);
+            }
+            if(getLength(obj->submitter->otherFields) != 0)
+            {
+                void* submitterOtherElem;
+                ListIterator submitterOtherElemIter = createIterator(obj->submitter->otherFields);
+                while((submitterOtherElem = nextElement(&submitterOtherElemIter)) != NULL)
+                {
+                    Field* submitterOther = (Field*)submitterOtherElem;
+                    free(submitterOther->tag);
+                    free(submitterOther->value);
 
-        //     free(obj->submitter->address);
-        //     if(getLength(obj->submitter->otherFields) != 0)
-        //     {
-        //         void* submitterOtherElem;
-        //         ListIterator submitterOtherElemIter = createIterator(obj->submitter->otherFields);
-        //         while((submitterOtherElem = nextElement(&submitterOtherElemIter)) != NULL)
-        //         {
-        //             Field* submitterOther = (Field*)submitterOtherElem;
-        //             free(submitterOther->tag);
-        //             free(submitterOther->value);
+                }
+                clearList(&obj->submitter->otherFields);
+            }
 
-        //         }
-        //         clearList(&obj->submitter->otherFields);
-        //     }
-
-        // }
+        }
         free(obj);
 
     }
