@@ -1355,7 +1355,41 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         ListIterator familyChildrenElemIter = createIterator(familyDelete->children);
                         while((familyChildrenElem = nextElement(&familyChildrenElemIter)) != NULL)
                         {
-                            
+                            Individual* individualDelete = (Individual*)familyChildrenElem;
+                            free(individualDelete->givenName);
+                            free(individualDelete->surname);
+                            if(getLength(individualDelete->events) != 0)
+                            {
+                                void* individualEventsElem;
+                                ListIterator individualEventsElemIter = createIterator(individualDelete->events);
+                                while((individualEventsElem = nextElement(&individualEventsElemIter)) != NULL)
+                                {
+                                    Event* eventDelete = (Event*)individualEventElem;
+                                    free(eventDelete->date);
+                                    free(eventDelete->place);
+                                    if(getLength(eventDelete->otherFields) != 0)
+                                    {
+                                        void* eventOtherElem;
+                                        ListIterator eventOtherElemIter = createIterator(eventDelete->otherFields);
+                                        while((eventOtherElem = nextElement(&eventOtherElemIter)) != NULL)
+                                        {
+                                            Field* eventOther = (Field*)eventOtherElem;
+                                            free(eventOther->tag);
+                                            free(eventOther->value);
+                                        }
+                                        clearList(eventDelete->otherFields);
+                                    }
+                                }
+                                clearList(individualDelete->children);
+                            }
+                            if(getLength(individualDelete->families) != 0)
+                            {
+
+                            }
+                            if(getLength(individualDelete->otherFields) != 0)
+                            {
+
+                            }
                         }
                     }
 
