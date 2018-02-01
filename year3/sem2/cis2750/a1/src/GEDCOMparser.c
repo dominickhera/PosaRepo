@@ -1312,7 +1312,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         free(headerFieldDelete->tag);
                         free(headerFieldDelete->value);
                     }
-                    clearList(obj->header->otherFields);
+                    clearList(&obj->header->otherFields);
                 }
 
             }
@@ -1323,7 +1323,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 ListIterator familyDeleteElemIter = createIterator(obj->families);
                 while((familyDeleteElem = nextElement(&familyDeleteElemIter)) != NULL)
                 {
-                    Family* familyDelete = (Family*)familiyDeleteElem;
+                    Family* familyDelete = (Family*)familyDeleteElem;
                     if(getLength(familyDelete->events) != 0)
                     {
                         void* familyEventsElem;
@@ -1344,7 +1344,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                     free(familyEventOtherDelete->value);
                                 }
 
-                                clearList(familyEventDelete->otherFields);
+                                clearList(&familyEventDelete->otherFields);
                             }
                         }
                     }
@@ -1364,7 +1364,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                 ListIterator individualEventsElemIter = createIterator(individualDelete->events);
                                 while((individualEventsElem = nextElement(&individualEventsElemIter)) != NULL)
                                 {
-                                    Event* eventDelete = (Event*)individualEventElem;
+                                    Event* eventDelete = (Event*)individualEventsElem;
                                     free(eventDelete->date);
                                     free(eventDelete->place);
                                     if(getLength(eventDelete->otherFields) != 0)
@@ -1377,17 +1377,28 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                             free(eventOther->tag);
                                             free(eventOther->value);
                                         }
-                                        clearList(eventDelete->otherFields);
+                                        clearList(&eventDelete->otherFields);
                                     }
                                 }
-                                clearList(individualDelete->children);
+                                clearList(&individualDelete->events);
                             }
                             if(getLength(individualDelete->families) != 0)
                             {
-
+                                clearList(&individualDelete->families);
                             }
                             if(getLength(individualDelete->otherFields) != 0)
                             {
+
+                                void* individualOtherElem;
+                                ListIterator individualOtherElemIter = createIterator(individualDelete->otherFields);
+                                while((individualOtherElem = nextElement(&individualOtherElemIter)) != NULL)
+                                {
+                                    Field* individualOther = (Field*)individualOtherElem;
+                                    free(individualOther->tag);
+                                    free(individualOther->value);
+                                }
+
+                                clearList(&individualDelete->otherFields);
 
                             }
                         }
@@ -1403,7 +1414,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             free(familyOtherDelete->tag);
                             free(familyOtherDelete->value);
                         }
-                        clearList(familyDelete->otherFields);
+                        clearList(&familyDelete->otherFields);
                     }
 
                 }
@@ -1411,9 +1422,79 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
                 if(getLength(obj->individuals) != 0)
                 {
+                    void* individualElem;
+                    ListIterator individualElemIter = createIterator(obj->individuals);
+                    while((individualElem = nextElement(&individualElemIter)) != NULL)
+                    {
+                        Individual* individualDelete = (Individual*)individualElem;
+                            free(individualDelete->givenName);
+                            free(individualDelete->surname);
+                            if(getLength(individualDelete->events) != 0)
+                            {
+                                void* individualEventsElem;
+                                ListIterator individualEventsElemIter = createIterator(individualDelete->events);
+                                while((individualEventsElem = nextElement(&individualEventsElemIter)) != NULL)
+                                {
+                                    Event* eventDelete = (Event*)individualEventsElem;
+                                    free(eventDelete->date);
+                                    free(eventDelete->place);
+                                    if(getLength(eventDelete->otherFields) != 0)
+                                    {
+                                        void* eventOtherElem;
+                                        ListIterator eventOtherElemIter = createIterator(eventDelete->otherFields);
+                                        while((eventOtherElem = nextElement(&eventOtherElemIter)) != NULL)
+                                        {
+                                            Field* eventOther = (Field*)eventOtherElem;
+                                            free(eventOther->tag);
+                                            free(eventOther->value);
+                                        }
+                                        clearList(&eventDelete->otherFields);
+                                    }
+                                }
+                                clearList(&individualDelete->events);
+                            }
+                            if(getLength(individualDelete->families) != 0)
+                            {
+                                clearList(&individualDelete->families);
+                            }
+                            if(getLength(individualDelete->otherFields) != 0)
+                            {
+
+                                void* individualOtherElem;
+                                ListIterator individualOtherElemIter = createIterator(individualDelete->otherFields);
+                                while((individualOtherElem = nextElement(&individualOtherElemIter)) != NULL)
+                                {
+                                    Field* individualOther = (Field*)individualOtherElem;
+                                    free(individualOther->tag);
+                                    free(individualOther->value);
+                                }
+
+                                clearList(&individualDelete->otherFields);
+
+                            }
+                        }
+                    }
+
+                if(obj->submitter != NULL)
+                {
+
+                    free(obj->submitter->address);
+                    if(getLength(obj->submitter->otherFields) != 0)
+                    {
+                        void* submitterOtherElem;
+                        ListIterator submitterOtherElemIter = createIterator(obj->submitter->otherFields);
+                        while((submitterOtherElem = nextElement(&submitterOtherElemIter)) != NULL)
+                        {
+                            Field* submitterOther = (Field*)submitterOtherElem;
+                            free(submitterOther->tag);
+                            free(submitterOther->value);
+
+                        }
+                        clearList(&obj->submitter->otherFields);
+                    }
 
                 }
-            
+                free(obj);
 
         }
     }
