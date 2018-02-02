@@ -238,16 +238,16 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                     {
                         for(int j = 0; j < strlen(lineStorage[i]); j++)
                         {
-                            printf("char1[%d]: %c\n", j, lineStorage[i][j]);
-                            if(isblank((unsigned char)lineStorage[i][j+1]) == false)
+                            // printf("char1[%d]: %c\n", j, lineStorage[i][j]);
+                            if(isalpha((unsigned char)lineStorage[i][j+1]) != 0)
                             {
                                 // printf("b00ty j is %d\n",j);
-                                while(isalpha((unsigned char)lineStorage[i][j]) == true)
+                                while(isalpha((unsigned char)lineStorage[i][j]) != 0)
                                 {
                                     tempFieldStorage[tempSize] = lineStorage[i][j];
                                     tempSize++;
                                     j++;
-                                    printf("char2[%d]: %c\n", j, lineStorage[i][j]);
+                                    // printf("char2[%d]: %c\n", j, lineStorage[i][j]);
                                     // printf(";\n");
                                     // }
                                     // printf("lolcooooo j is %d\n",j);
@@ -256,11 +256,11 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                         j++;
                                         // printf("ay lmao\n");
                                         // printf("now j is %d\n", j);
-                                        printf("char3[%d]: %c\n", j, lineStorage[i][j]);
+                                        // printf("char3[%d]: %c\n", j, lineStorage[i][j]);
                                         //     j+=2;
                                         while(j < strlen(lineStorage[i]) )
                                         {
-                                            printf("char4[%d]: %c\n", j, lineStorage[i][j]);
+                                            // printf("char4[%d]: %c\n", j, lineStorage[i][j]);
                                             tempDataStorage[tempSizeTwo] = lineStorage[i][j];
                                             tempSizeTwo++;
                                             j++;
@@ -304,7 +304,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         {
                             // printf("end of name\n");
                             j+=2;
-                            while(isalpha(lineStorage[i][j]) == true)
+                            while(isalpha(lineStorage[i][j]) != 0)
                             {
                                 tempFieldStorage[tempSize] = lineStorage[i][j];
                                 tempSize++;
@@ -346,7 +346,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         // printf("(bawe111r)\n" );
                         for(int j = 0; j < strlen(lineStorage[i]); j++)
                         {
-                            if(isalpha(lineStorage[i][j]))
+                            if(isalpha(lineStorage[i][j]) != 0)
                             {
                                 while(lineStorage[i][j+1] != '\0')
                                 {
@@ -439,10 +439,10 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         for(int j = 0; j < strlen(lineStorage[i]); j++)
                         {
                             // printf("char[%d]: %c\n", j, lineStorage[i][j]);
-                            if(isalpha(lineStorage[i][j+1]) == true)
+                            if(isalpha(lineStorage[i][j+1]) != 0)
                             {
                                 // printf("b00ty j is %d\n",j);
-                                while(isalpha(lineStorage[i][j]) == true)
+                                while(isalpha(lineStorage[i][j]) != 0)
                                 {
                                     // printf("char[%d]: %c\n", j, lineStorage[i][j]);
                                     tempFieldStorage[tempSize] = lineStorage[i][j];
@@ -504,7 +504,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 {
                     while(lineStorage[i][j] != '@')
                     {
-                        if(!(isalpha(lineStorage[i][j])))
+                        if((isalpha(lineStorage[i][j])) == 0)
                         {
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;
@@ -524,7 +524,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 {
                     while(lineStorage[i][j] != '@')
                     {
-                        if(!(isalpha(lineStorage[i][j])))
+                        if((isalpha(lineStorage[i][j])) == 0)
                         {
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;
@@ -544,7 +544,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 {
                     while(lineStorage[i][j] != '@')
                     {
-                        if(!(isalpha(lineStorage[i][j])))
+                        if((isalpha(lineStorage[i][j]))== 0)
                         {
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;
@@ -692,10 +692,10 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                     for(int j = 0; j < strlen(lineStorage[i]); j++)
                     {
                         // printf("char[%d]: %c\n", j, lineStorage[i][j]);
-                        if(isalpha(lineStorage[i][j+1]) == true)
+                        if(isalpha(lineStorage[i][j+1]) != 0)
                         {
                             // printf("b00ty j is %d\n",j);
-                            while(isalpha(lineStorage[i][j]) == true)
+                            while(isalpha(lineStorage[i][j]) != 0)
                             {
                                 tempFieldStorage[tempSize] = lineStorage[i][j];
                                 tempSize++;
