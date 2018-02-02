@@ -272,8 +272,8 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                     strcpy(headerOtherFieldTagStorage[headerOtherFieldCount], tempFieldStorage);
                     strcpy(headerOtherFieldValueStorage[headerOtherFieldCount], tempDataStorage);
                     headerOtherFieldCount++;
-                    memset(tempFieldStorage, '\0', 500);
-                    memset(tempDataStorage, '\0', 500);
+                    memset(tempFieldStorage, '\0', 256);
+                    memset(tempDataStorage, '\0', 256);
                     tempSize = 0;
                     tempSizeTwo = 0;
 
