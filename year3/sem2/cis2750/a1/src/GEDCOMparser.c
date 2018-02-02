@@ -504,7 +504,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 {
                     while(lineStorage[i][j] != '@')
                     {
-                        if((isalpha(lineStorage[i][j])) == 0)
+                        if((isdigit(lineStorage[i][j])) != 0)
                         {
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;
@@ -524,7 +524,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 {
                     while(lineStorage[i][j] != '@')
                     {
-                        if((isalpha(lineStorage[i][j])) == 0)
+                        if((isdigit(lineStorage[i][j])) != 0)
                         {
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;
@@ -544,7 +544,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 {
                     while(lineStorage[i][j] != '@')
                     {
-                        if((isalpha(lineStorage[i][j]))== 0)
+                        if((isdigit(lineStorage[i][j]))!= 0)
                         {
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;
