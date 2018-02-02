@@ -239,7 +239,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         for(int j = 0; j < strlen(lineStorage[i]); j++)
                         {
                             printf("char1[%d]: %c\n", j, lineStorage[i][j]);
-                            if(isalpha(lineStorage[i][j+1]))
+                            if(isalpha((unsigned char)lineStorage[i][j+1]))
                             {
                                 // printf("b00ty j is %d\n",j);
                                 while(isalpha((unsigned char)lineStorage[i][j]) == true)
