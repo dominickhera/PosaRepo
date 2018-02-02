@@ -502,7 +502,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             {
                 for(int j = 7; j < strlen(lineStorage[i]); j++)
                 {
-                    while(lineStorage[i][j] != '@')
+                    while(lineStorage[i][j] != '@' && (j < lineStorage[i]))
                     {
                         if((isalpha(lineStorage[i][j])) == 0)
                         {
@@ -522,7 +522,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             {
                 for(int j = 7; j < strlen(lineStorage[i]); j++)
                 {
-                    while(lineStorage[i][j] != '@')
+                    while(lineStorage[i][j] != '@' && j < strlen(lineStorage[i]))
                     {
                         if((isalpha(lineStorage[i][j])) == 0)
                         {
@@ -541,12 +541,14 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             {
                 // printf("hiya\n");
                 printf("1\n");
+                printf("line is <%s>\n", lineStorage[i]);
                  for(int j = 7; j < strlen(lineStorage[i]); j++)
                 {
-                    while(lineStorage[i][j] != '@')
+                    while(lineStorage[i][j] != '@' && j < strlen(lineStorage[i]) )
                     {
                         if((isalpha(lineStorage[i][j])) == 0)
                         {
+                            printf("lineStorage char is currently <%c>\n", lineStorage[i][j]);
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;
                         }
