@@ -242,7 +242,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             if(isalpha(lineStorage[i][j+1]))
                             {
                                 // printf("b00ty j is %d\n",j);
-                                while(isalpha(lineStorage[i][j]) == true)
+                                while(isalpha((unsigned char)lineStorage[i][j]) == true)
                                 {
                                     tempFieldStorage[tempSize] = lineStorage[i][j];
                                     tempSize++;
