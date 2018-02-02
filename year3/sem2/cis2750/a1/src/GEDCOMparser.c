@@ -502,7 +502,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             {
                 for(int j = 7; j < strlen(lineStorage[i]); j++)
                 {
-                    while(lineStorage[i][j] != '@' && (j < lineStorage[i]))
+                    while(lineStorage[i][j] != '@' && j < strlen(lineStorage[i]))
                     {
                         if((isalpha(lineStorage[i][j])) == 0)
                         {
