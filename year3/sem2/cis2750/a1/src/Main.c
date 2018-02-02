@@ -12,7 +12,7 @@ int main()
 	// enum eCode errorCodeTest;
 	GEDCOMerror errorCodeTest;
 
-	errorCodeTest = createGEDCOM("./assets/simpleGEDCOM.ged", &testObject);
+	errorCodeTest = createGEDCOM("./assets/shakespeare.ged", &testObject);
 
 	char * str = printError(errorCodeTest);
 
