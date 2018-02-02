@@ -540,11 +540,12 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             else if(strcasestr(lineStorage[i], "CHIL"))
             {
                 // printf("hiya\n");
-                for(int j = 7; j < strlen(lineStorage[i]); j++)
+                printf("1\n");
+                 for(int j = 7; j < strlen(lineStorage[i]); j++)
                 {
                     while(lineStorage[i][j] != '@')
                     {
-                        if((isalpha(lineStorage[i][j]))== 0)
+                        if((isalpha(lineStorage[i][j])) == 0)
                         {
                             tempFieldStorage[tempSize] = lineStorage[i][j];
                             tempSize++;
@@ -555,9 +556,13 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 printf("child num is <%d>\n", atoi(tempFieldStorage));
                 // familyChildCount++;
                 familyChildFindArray[familyChildCount] = atoi(tempFieldStorage) - 1;
+printf("2\n");
                 memset(tempFieldStorage, '\0', 256);
+                printf("3\n");
                 tempSize = 0;
+                printf("4\n");
                 familyChildCount++;
+                printf("5\n");
 
             }
             else
