@@ -175,7 +175,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
         //start of thing
         if(lineStorage[i][0] == '0')
         {
-            // printf("line[%d]: <%s>\n", i, lineStorage[i]);
+            printf("line[%d]: <%s>\n", i, lineStorage[i]);
             if(strcasestr(lineStorage[i], "HEAD"))
             {
                 // printf("head found\n");
@@ -396,7 +396,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             strcpy(individualEventPlaceStorage[totalIndividualEventCount], "");
                         }
 
-                        while(lineStorage[i+1][0] != '1')
+                        while(atoi(&lineStorage[i][0]) < 0)
                         {
 
                             for(int j = 2; j < strlen(lineStorage[i]); j++)
@@ -492,10 +492,10 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     {
         // printf("fam found\n");
         // famFlag = 1;
-        i++;
-        while(lineStorage[i][0] != '0')
+        // i++;
+        while(lineStorage[i+1][0] != '0')
         {
-            // i++;
+            i++;
             if(strcasestr(lineStorage[i], "HUSB"))
             {
                 for(int j = 7; j < strlen(lineStorage[i]); j++)
@@ -511,7 +511,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                     }
                 }
 
-                printf("line[%d]:%s\nhus num is <%s>\n",i, lineStorage[i], tempFieldStorage);
+                // printf("line[%d]:%s\nhus num is <%s>\n",i, lineStorage[i], tempFieldStorage);
                 familyHusbandFindArray[totalFamilyCount] = atoi(tempFieldStorage) - 1;
                 memset(tempFieldStorage, '\0', 256);
                 tempSize = 0;
@@ -530,14 +530,14 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         j++;
                     }
                 }
-                printf("wife num is <%s>\n", tempFieldStorage);
+                // printf("wife num is <%s>\n", tempFieldStorage);
                 familyWifeFindArray[totalFamilyCount] = atoi(tempFieldStorage) - 1;
                 memset(tempFieldStorage, '\0', 256);
                 tempSize = 0;
             }
             else if(strcasestr(lineStorage[i], "CHIL"))
             {
-                printf("hiya\n");
+                // printf("hiya\n");
                 for(int j = 7; j < strlen(lineStorage[i]); j++)
                 {
                     while(lineStorage[i][j] != '@')
@@ -550,11 +550,13 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         j++;
                     }
                 }
-                printf("child num is <%s>\n", tempFieldStorage);
+                printf("child num is <%d>\n", atoi(tempFieldStorage));
+                // familyChildCount++;
                 familyChildFindArray[familyChildCount] = atoi(tempFieldStorage) - 1;
                 memset(tempFieldStorage, '\0', 256);
                 tempSize = 0;
                 familyChildCount++;
+
             }
             else
             {
@@ -600,9 +602,9 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         strcpy(familyEventPlaceStorage[totalFamilyEventCount], "");
                     }
 
-                    while(lineStorage[i+1][0] != '1')
+                    while(atoi(&lineStorage[i][0]) < 0)
                     {
-                        printf("f00l\n");
+                        // printf("f00l line: %d\n", i);
                         for(int j = 1; j < strlen(lineStorage[i]); j++)
                         {
                             tempFieldStorage[tempSize] = lineStorage[i][j];
@@ -625,21 +627,63 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         memset(tempDataStorage, '\0', 256);
                         tempSize = 0;
                         tempSizeTwo = 0;
-                        i++;
+                        
 
                     }
+                    // printf("currently at line %d\n", i);
 
                     totalFamilyEventOtherFieldArray[totalFamilyEventCount] = totalFamilyEventOtherFieldCount;
-                    printf("event count is %d\n", totalFamilyEventCount);
+                    // printf("event count is %d\n", totalFamilyEventCount);
                     // eventOtherFieldCount = 0;
                     totalFamilyEventCount++;
-                    printf("event count is %d\n", totalFamilyEventCount);
+                    // printf("event count is %d\n", totalFamilyEventCount);
+                }
+                else if((strcasestr(lineStorage[i+1], "PLAC")))
+                {
+                    for(int j = 2; j < strlen(lineStorage[i]) - 1; j++)
+                    {
+                        tempFieldStorage[tempSize] = lineStorage[i][j];
+                        tempSize++;
+                    }
+                    printf("date storage thing: <%s>\n", tempFieldStorage);
+                    strcpy(familyEventTypeStorage[totalFamilyEventCount], tempFieldStorage);
+                    memset(tempFieldStorage, '\0', 256);
+                    tempSize = 0;
+                    i++;
+                    // for(int j = 7; j < strlen(lineStorage[i]) - 1; j++)
+                    // {
+                    //     tempFieldStorage[tempSize] = lineStorage[i][j];
+                    //     tempSize++;
+                    // }
+                    // // printf("next storage thing: <%s>\n", tempFieldStorage);
+                    // strcpy(familyEventDateStorage[totalFamilyEventCount], tempFieldStorage);
+                    // memset(tempFieldStorage, '\0', 256);
+                    // tempSize = 0;
+
+                    // if(strcasestr(lineStorage[i + 1], "PLAC"))
+                    // {
+                        // i++;
+                        for(int j = 7; j < strlen(lineStorage[i]); j++)
+                        {
+                            tempFieldStorage[tempSize] = lineStorage[i][j];
+                            tempSize++;
+                        }
+                        // printf("third storage thing: <%s>\n", tempFieldStorage);
+                        strcpy(familyEventPlaceStorage[totalFamilyEventCount], tempFieldStorage);
+                        memset(tempFieldStorage, '\0', 256);
+                        tempSize = 0;
+                    // }
+                    // else
+                    // {
+                        // strcpy(familyEventPlaceStorage[totalFamilyEventCount], "");
+                    // }
                 }
                 else
                 {
                     //     if(strcasestr(lineStorage[i+1], "DATE"))
                     // {
-                    //     printf("lolcats\n");
+                    // printf("other at line %d\n", i);
+                        // printf("else line is <%s>\n", lineStorage[i]);
                     // }
                     // printf("i+1 %s\n", lineStorage[i+1]);
 
@@ -671,24 +715,25 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                                         j++;
                                     }
                                 }
+                            }
                         }
                     }
+                    // printf("family other tag: <%s> value: <%s>\n", tempFieldStorage, tempDataStorage);
+                    strcpy(familyOtherFieldValueStorage[totalFamilyOtherFieldCount], tempFieldStorage);
+                    strcpy(familyOtherFieldTagStorage[totalFamilyOtherFieldCount], tempDataStorage);
+                    totalFamilyOtherFieldCount++;
+                    memset(tempFieldStorage, '\0', 256);
+                    memset(tempDataStorage, '\0', 256);
+                    tempSize = 0;
+                    tempSizeTwo = 0;
+
+                    totalFamilyOtherFieldArray[totalFamilyCount] = totalFamilyOtherFieldCount;
+                    // individualOtherFieldCount = 0;
                 }
-                printf("family other tag: <%s> value: <%s>\n", tempFieldStorage, tempDataStorage);
-                strcpy(familyOtherFieldValueStorage[totalFamilyOtherFieldCount], tempFieldStorage);
-                strcpy(familyOtherFieldTagStorage[totalFamilyOtherFieldCount], tempDataStorage);
-                totalFamilyOtherFieldCount++;
-                memset(tempFieldStorage, '\0', 256);
-                memset(tempDataStorage, '\0', 256);
-                tempSize = 0;
-                tempSizeTwo = 0;
-
-                totalFamilyOtherFieldArray[totalFamilyCount] = totalFamilyOtherFieldCount;
-                // individualOtherFieldCount = 0;
+            
             }
-        }
 
-        i++;
+        // i++;
     }
     totalFamilyEventArray[totalFamilyCount] = totalFamilyEventCount;
     familyChildFindCountArray[totalFamilyCount] = familyChildCount;
@@ -701,14 +746,16 @@ else if(strcasestr(lineStorage[i], "SUBM"))
     // if(strcasestr(lineStorage[i+1], "NAME"))
     // { 
     // printf("next line has name\n");
-    i++;
+    // i++;
 
     while(lineStorage[i+1][0] != '0')
     {
+        printf("line[%d]: <%s>\n", i, lineStorage[i]);
         // printf("this line\n");
         // i++;
-        if(strcasestr(lineStorage[i], "NAME"))
+        if(strcasestr(lineStorage[i+1], "NAME"))
         {
+            i++;
             // printf("hellfadjsklfasdfo\n");
             for(int j = 7; j < strlen(lineStorage[i]) ; j++)
             {
@@ -771,7 +818,7 @@ else if(strcasestr(lineStorage[i], "SUBM"))
                 // i++;
             }
 
-            i++;
+            // i++;
             // }
     }
 
@@ -783,6 +830,7 @@ else if(strcasestr(lineStorage[i], "SUBM"))
 // printf("end found\n");
 // endFlag = 1;
 // printf("enddddd\n");
+printf("there are %d families and a total of %d kids overall\n", totalFamilyCount, familyChildCount);
 
 // GEDCOMobject * tempObject;   
 Individual * tempIndividual;
@@ -1074,9 +1122,30 @@ if(totalFamilyCount != 0)
 
         if(familyChildFindCountArray[j] != 0)
         {
-            if(j == 0)
-            {
-                for(int k = 0; k < familyChildFindCountArray[j]; k++)
+            // printf("family child count at %d is %d kids, also %d\n", j, familyChildFindCountArray[j], familyChildFindArray[j]);
+            // if(j == 0)
+            // {
+            //     printf("here at fam %d\n", familyChildFindCountArray[j]);
+            //     for(int k = 0; k < familyChildFindCountArray[j] - 1; k++)
+            //     {
+            //         void *individualElem;
+            //         ListIterator individualElemIter = createIterator(tempObject->individuals);
+            //         while((individualElem = nextElement(&individualElemIter)) != NULL)
+            //         {
+            //             Individual * tempIndividualFind = (Individual*)individualElem;
+            //             if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyChildFindArray[k]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyChildFindArray[k]]) == 0)
+            //             {
+            //                 insertBack(&tempFamily->children, tempIndividualFind);
+            //                 insertBack(&tempIndividualFind->families, tempFamily);
+            //                 printf("surnam is <%s>\n",individualGivenNameStorage[familyChildFindArray[k]]);
+            //                 // tempFamily->wife = tempIndividualFind;
+            //             }
+            //         }
+            //     }
+            // }
+            // else
+            // {
+                for(int k = familyChildFindCountArray[j - 1]; k < familyChildFindCountArray[j]; k++)
                 {
                     void *individualElem;
                     ListIterator individualElemIter = createIterator(tempObject->individuals);
@@ -1085,33 +1154,28 @@ if(totalFamilyCount != 0)
                         Individual * tempIndividualFind = (Individual*)individualElem;
                         if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyChildFindArray[k]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyChildFindArray[k]]) == 0)
                         {
-                            insertBack(&tempFamily->children, tempIndividualFind);
-                            insertBack(&tempIndividualFind->families, tempFamily);
-                            // printf("hi\n");
-                            // tempFamily->wife = tempIndividualFind;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for(int k = familyChildFindCountArray[j - 1]; k < familyChildFindCountArray[j]+1; k++)
-                {
-                    void *individualElem;
-                    ListIterator individualElemIter = createIterator(tempObject->individuals);
-                    while((individualElem = nextElement(&individualElemIter)) != NULL)
-                    {
-                        Individual * tempIndividualFind = (Individual*)individualElem;
-                        if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyChildFindArray[k]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyChildFindArray[k]]) == 0)
-                        {
-                            insertBack(&tempFamily->children, tempIndividualFind);
-                            insertBack(&tempIndividualFind->families, tempFamily);
+                            // void *individualElemDupeCheck;
+                            // ListIterator individualElemDupeCheckIter = createIterator(tempFamily->children);
+                            // while((individualElemDupeCheck = nextElement(&individualElemDupeCheckIter)) != NULL)
+                            // {
+                            //     Individual * tempIndividualFindDupeCheck = (Individual*)individualElemDupeCheck;
+                            //     if(strcmp(tempIndividualFind->surname, tempIndividualFindDupeCheck->surname) == 0 && strcmp(tempIndividualFind->givenName, tempIndividualFindDupeCheck->givenName) == 0)
+                            //     {
+                                    
+                            //         insertBack(&tempFamily->children, tempIndividualFind);
+                            //         insertBack(&tempIndividualFind->families, tempFamily);
 
+                            //         // tempFamily->wife = tempIndividualFind;
+                            //     }
+                            // }
+                            insertBack(&tempFamily->children, tempIndividualFind);
+                            insertBack(&tempIndividualFind->families, tempFamily);
+                            break;
                             // tempFamily->wife = tempIndividualFind;
                         }
                     }
                 }
-            }
+            // }
         }
 
         insertBack(&tempObject->families, tempFamily);
