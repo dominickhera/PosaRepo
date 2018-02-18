@@ -1,6 +1,7 @@
- /**
+/**
  * @file LinkedListAPI.h
- * based on the ListADT from CIS*2520, S17
+ * @author CIS*2750 F17 (based on the ListADT from CIS*2520, S17)
+ * @date September 2017
  * @brief File containing the function definitions of a doubly linked list
  */
 
@@ -11,6 +12,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <assert.h>
 
 /**
  * Node of a linked list. This list is doubly linked, meaning that it has points to both the node immediately in front 
@@ -31,10 +33,10 @@ typedef struct listNode{
 typedef struct listHead{
     Node* head;
     Node* tail;
+    int length;
     void (*deleteData)(void* toBeDeleted);
     int (*compare)(const void* first,const void* second);
     char* (*printData)(void* toBePrinted);
-    int length;
 } List;
 
 
@@ -74,7 +76,7 @@ Node* initializeNode(void* data);
 /**Inserts a Node at the front of a linked list.  List metadata is updated
 * so that head and tail pointers are correct.
 *@pre 'List' type must exist and be used in order to keep track of the linked list.
-*@param list pointer to the dummy head of the list
+*@param list pointer to the _tDummy head of the list
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
 void insertFront(List* list, void* toBeAdded);
@@ -84,7 +86,7 @@ void insertFront(List* list, void* toBeAdded);
 /**Inserts a Node at the back of a linked list. 
 *List metadata is updated so that head and tail pointers are correct.
 *@pre 'List' type must exist and be used in order to keep track of the linked list.
-*@param list pointer to the dummy head of the list
+*@param list pointer to the _tDummy head of the list
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
 void insertBack(List* list, void* toBeAdded);
@@ -94,7 +96,7 @@ void insertBack(List* list, void* toBeAdded);
 /** Clears the contents linked list, freeing all memory asspociated with these contents.
 * uses the supplied function pointer to release allocated memory for the data
 *@pre 'List' type must exist and be used in order to keep track of the linked list.
-*@param list pointer to the List-type dummy node
+*@param list pointer to the List-type _tDummy node
 **/
 void clearList(List* list);
 
@@ -104,7 +106,7 @@ void clearList(List* list);
 * should be used as the only insert function if a sorted list is required.  
 *@pre List exists and has memory allocated to it. Node to be added is valid.
 *@post The node to be added will be placed immediately before or after the first occurrence of a related node
-*@param list a pointer to the dummy head of the list containing function pointers for delete and compare, as well 
+*@param list a pointer to the _tDummy head of the list containing function pointers for delete and compare, as well 
 as a pointer to the first and last element of the list.
 *@param toBeAdded a pointer to data that is to be added to the linked list
 **/
@@ -118,7 +120,7 @@ void insertSorted(List* list, void* toBeAdded);
  * You can assume that the list contains no duplicates
  *@pre List must exist and have memory allocated to it
  *@post toBeDeleted will have its memory freed if it exists in the list.
- *@param list pointer to the dummy head of the list containing deleteFunction function pointer
+ *@param list pointer to the _tDummy head of the list containing deleteFunction function pointer
  *@param toBeDeleted pointer to data that is to be removed from the list
  *@return on success: void * pointer to data  on failure: NULL
  **/
@@ -148,7 +150,7 @@ void* getFromBack(List list);
 the list traversed from  head to tail. Utilize the list's printData function pointer to create the string.
 returned string must be freed by the calling function.
  *@pre List must exist, but does not have to have elements.
- *@param list Pointer to linked list dummy head.
+ *@param list Pointer to linked list _tDummy head.
  *@return on success: char * to string representation of list (must be freed after use).  on failure: NULL
  **/
 char* toString(List list);
@@ -175,7 +177,26 @@ ListIterator createIterator(List list);
 *@param iter - an iterator to a list.
 **/
 void* nextElement(ListIterator* iter);
+
+/**Returns the number of elements in the list.
+ *@pre List must exist, but does not have to have elements.
+ *@param list - the list struct.
+ *@return on success: number of eleemnts in the list (0 or more).  on failure: -1 (e.g. list not initlized correctly)
+ **/
 int getLength(List list);
+
+/** Function that searches for an element in the list using a comparator function.
+ * If an element is found, a pointer to the data of that element is returned
+ * Returns NULL if the element is not found.
+ *@pre List exists and is valid.  Comparator function has been provided.
+ *@post List remains unchanged.
+ *@return The data associated with the list element that matches the search criteria.  If element is not found, return NULL.
+ *@param list - a list sruct
+ *@param customCompare - a pointer to comparator fuction for customizing the search
+ *@param searchRecord - a pointer to search data, which contains seach criteria
+ *Note: while the arguments of compare() and searchRecord are all void, it is assumed that records they point to are
+ *      all of the same type - just like arguments to the compare() function in the List struct
+ **/
 void* findElement(List list, bool (*customCompare)(const void* first,const void* second), const void* searchRecord);
 
 #endif
