@@ -238,7 +238,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                     {
                         // printf("line[%d]: %s\n", i, lineStorage[i]);
                     }
-                    if(atoi(&lineStorage[i+1][0]) > atoi(&lineStorage[i][0]) + 1 && atoi(&lineStorage[i+1][0]) != atoi(&lineStorage[i][0]) && atoi(&lineStorage[i+1][0]) != 0)
+                    if(atoi(&lineStorage[i+1][0]) >= atoi(&lineStorage[i][0]) + 2 && atoi(&lineStorage[i+1][0]) != atoi(&lineStorage[i][0]) && atoi(&lineStorage[i+1][0]) != 0)
                     {
                             GEDCOMerror err;
                             err.type = INV_RECORD;
@@ -281,7 +281,15 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                     else if(strcasestr(lineStorage[i], "GEDC"))
                     {
                         versionFlag = 1;
-                        i++;
+                        // i++;
+                        if(atoi(&lineStorage[i+1][0]) != atoi(&lineStorage[i][0]) + 1)
+                    {
+                            GEDCOMerror err;
+                            err.type = INV_RECORD;
+                            err.line = -1;
+                            return err;
+                    }
+                    i++;
                         for(int j = 7; j < strlen(lineStorage[i]); j++)
                         {
                             tempFieldStorage[tempSize] = lineStorage[i][j];
@@ -313,7 +321,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         memset(tempFieldStorage, '\0', 256);
                         tempSize = 0;
                     }
-                    else
+                    else if(lineStorage[i][0] == '1')
                     {
                         
                         if(strcasestr(lineStorage[i], "SUBM"))
@@ -363,10 +371,17 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             err.line = -1;
                             return err;
                         }
+                        else if(strlen(tempDataStorage) > 255)
+                        {
+                            GEDCOMerror err;
+                            err.type = INV_HEADER;
+                            err.line = -1;
+                            return err;
+                        }
                         if(testFlag == 1)
                         {
-                    printf("header tag: <%s>, value: <%s>\n", tempFieldStorage, tempDataStorage);
-                }
+                            printf("header tag: <%s>, value: <%s>\n", tempFieldStorage, tempDataStorage);
+                        }
                     strcpy(headerOtherFieldTagStorage[headerOtherFieldCount], tempFieldStorage);
                     strcpy(headerOtherFieldValueStorage[headerOtherFieldCount], tempDataStorage);
                     headerOtherFieldCount++;
@@ -389,7 +404,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             while(lineStorage[i+1][0] != '0')
             {
                 // i++;
-                if(atoi(&lineStorage[i+1][0]) > atoi(&lineStorage[i][0]) + 1 && atoi(&lineStorage[i+1][0]) != atoi(&lineStorage[i][0]) && atoi(&lineStorage[i+1][0]) != 0)
+                if(atoi(&lineStorage[i+1][0]) >= atoi(&lineStorage[i][0]) + 2 && atoi(&lineStorage[i+1][0]) != atoi(&lineStorage[i][0]) && atoi(&lineStorage[i+1][0]) != 0)
                     {
                             GEDCOMerror err;
                             err.type = INV_RECORD;
@@ -451,7 +466,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         {
                             if(isalpha(lineStorage[i][j]) != 0)
                             {
-                                while(lineStorage[i][j+1] != '\0')
+                                while(lineStorage[i][j] != '\0')
                                 {
                                     tempFieldStorage[tempSize] = lineStorage[i][j];
                                     tempSize++;
@@ -469,7 +484,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             if(lineStorage[i][j] == 'E')
                             {
                                 j+=2;
-                                while(lineStorage[i][j+1] != lineStorage[i][strlen(lineStorage[i])])
+                                while(lineStorage[i][j] != lineStorage[i][strlen(lineStorage[i])])
                                 {
                                     tempFieldStorage[tempSize] = lineStorage[i][j];
                                     tempSize++;
@@ -486,10 +501,14 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                         {
                             // printf("lol\n");
                             i++;
-                            for(int j = 7; j < strlen(lineStorage[i]); j++)
+                            int j = 7;
+                            while(lineStorage[i][j] != '\0')
+                            // for(int j = 7; j < strlen(lineStorage[i]); j++)
                             {
                                 tempFieldStorage[tempSize] = lineStorage[i][j];
+                                // printf("char %c\n", lineStorage[i][j]);
                                 tempSize++;
+                                j++;
                             }
 
                             strcpy(individualEventPlaceStorage[totalIndividualEventCount], tempFieldStorage);
@@ -674,7 +693,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                 }
                 // printf("child num is <%d>\n", atoi(tempFieldStorage));
                 // familyChildCount++;
-                familyChildFindArray[familyChildCount] = atoi(tempFieldStorage) - 1;
+                familyChildFindArray[familyChildCount] = (atoi(tempFieldStorage) - 1);
                 memset(tempFieldStorage, '\0', 256);
                 // printf("3\n");
                 tempSize = 0;
@@ -851,13 +870,13 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
                             }
                         }
                     }
-                    // if(strlen(tempFieldStorage) == 0 || strlen(tempDataStorage) == 0)
-                    // {
-                    //     GEDCOMerror err;
-                    //     err.type = INV_RECORD;
-                    //     err.line = i;
-                    //     return err;
-                    // }
+                    if(strlen(tempFieldStorage) == 0 || strlen(tempDataStorage) == 0)
+                    {
+                        GEDCOMerror err;
+                        err.type = INV_RECORD;
+                        err.line = -1;
+                        return err;
+                    }
                     // printf("family other tag: <%s> value: <%s>\n", tempFieldStorage, tempDataStorage);
                     strcpy(familyOtherFieldValueStorage[totalFamilyOtherFieldCount], tempFieldStorage);
                     strcpy(familyOtherFieldTagStorage[totalFamilyOtherFieldCount], tempDataStorage);
@@ -999,7 +1018,7 @@ else if(strcasestr(lineStorage[i], "SUBM"))
     return err;
     }
 
-    if(versionFlag != 1 && sourceFlag != 1 && encordingFlag != 1 && submFlag != 1)
+    if(versionFlag != 1 && sourceFlag != 1 && encordingFlag != 1 && subRefFlag != 1)
     {
         GEDCOMerror err;
         err.type = INV_HEADER;
@@ -1325,29 +1344,10 @@ if(totalFamilyCount != 0)
         if(familyChildFindCountArray[j] != 0)
         {
             // printf("family child count at %d is %d kids, also %d\n", j, familyChildFindCountArray[j], familyChildFindArray[j]);
-            // if(j == 0)
-            // {
-            //     printf("here at fam %d\n", familyChildFindCountArray[j]);
-            //     for(int k = 0; k < familyChildFindCountArray[j] - 1; k++)
-            //     {
-            //         void *individualElem;
-            //         ListIterator individualElemIter = createIterator(tempObject->individuals);
-            //         while((individualElem = nextElement(&individualElemIter)) != NULL)
-            //         {
-            //             Individual * tempIndividualFind = (Individual*)individualElem;
-            //             if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyChildFindArray[k]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyChildFindArray[k]]) == 0)
-            //             {
-            //                 insertBack(&tempFamily->children, tempIndividualFind);
-            //                 insertBack(&tempIndividualFind->families, tempFamily);
-            //                 printf("surnam is <%s>\n",individualGivenNameStorage[familyChildFindArray[k]]);
-            //                 // tempFamily->wife = tempIndividualFind;
-            //             }
-            //         }
-            //     }
-            // }
-            // else
-            // {
-                for(int k = familyChildFindCountArray[j - 1]; k < familyChildFindCountArray[j]; k++)
+            if(j == 0)
+            {
+                // printf("here at fam %d\n", familyChildFindCountArray[j]);
+                for(int k = 0; k < familyChildFindCountArray[j]; k++)
                 {
                     void *individualElem;
                     ListIterator individualElemIter = createIterator(tempObject->individuals);
@@ -1355,6 +1355,25 @@ if(totalFamilyCount != 0)
                     {
                         Individual * tempIndividualFind = (Individual*)individualElem;
                         if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyChildFindArray[k]]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyChildFindArray[k]]) == 0)
+                        {
+                            insertBack(&tempFamily->children, tempIndividualFind);
+                            insertBack(&tempIndividualFind->families, tempFamily);
+                            // printf("surnam is <%s>\n",individualGivenNameStorage[familyChildFindArray[k]]);
+                            // tempFamily->wife = tempIndividualFind;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for(int k = familyChildFindCountArray[j - 1]; k < familyChildFindCountArray[j]; k++)
+                {
+                    void *individualElem;
+                    ListIterator individualElemIter = createIterator(tempObject->individuals);
+                    while((individualElem = nextElement(&individualElemIter)) != NULL)
+                    {
+                        Individual * tempIndividualFind = (Individual*)individualElem;
+                        if(strcmp(tempIndividualFind->surname, individualSurNameStorage[familyChildFindArray[k]-1]) == 0 && strcmp(tempIndividualFind->givenName, individualGivenNameStorage[familyChildFindArray[k]-1]) == 0)
                         {
                             // void *individualElemDupeCheck;
                             // ListIterator individualElemDupeCheckIter = createIterator(tempFamily->children);
@@ -1372,12 +1391,12 @@ if(totalFamilyCount != 0)
                             // }
                             insertBack(&tempFamily->children, tempIndividualFind);
                             insertBack(&tempIndividualFind->families, tempFamily);
-                            break;
+                            // break;
                             // tempFamily->wife = tempIndividualFind;
                         }
                     }
                 }
-            // }
+            }
         }
 
         insertBack(&tempObject->families, tempFamily);
@@ -1409,55 +1428,15 @@ return err;
 }
 
 
-GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
-{
+// GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
+// {
 
-}
+// }
 
-ErrorCode validateGEDCOM(const GEDCOMobject* obj)
-{
+// GEDCOMerror validateGEDCOM(const GEDCOMobject* obj)
+// {
 
-}
-
-List getDescendantListN(const GEDCOMobject* familyRecord, const Individual* person, unsigned int maxGen)
-{
-
-}
-
-List getAncestorListN(const GEDCOMobject* familyRecord, const Individual* person, int maxGen)
-{
-
-}
-
-char* indToJSON(const Individual* ind)
-{
-
-}
-
-Individual* JSONtoInd(const char* str)
-{
-
-}
-
-GEDCOMobject* JSONtoGEDCOM(const char* str)
-{
-
-}
-
-void addIndividual(GEDCOMobject* obj, const Individual* toBeAdded)
-{
-
-}
-
-char* iListToJSON(List iList)
-{
-
-}
-
-char* gListToJSON(List gList)
-{
-    
-}
+// }
 
 
 char* printGEDCOM(const GEDCOMobject* obj)
@@ -1598,7 +1577,7 @@ char* printGEDCOM(const GEDCOMobject* obj)
                     {
 
                         Event * tempEvent = (Event*)individualEventElem;
-                        sprintf(gedcomReturn + strlen(gedcomReturn), "           Type: %s\n           Date: %s\n           Place%s\n", tempEvent->type, tempEvent->date, tempEvent->place);
+                        sprintf(gedcomReturn + strlen(gedcomReturn), "           Type: %s\n           Date: %s\n           Place: %s\n", tempEvent->type, tempEvent->date, tempEvent->place);
                         if(getLength(tempEvent->otherFields)!= 0)
                         {
                             sprintf(gedcomReturn + strlen(gedcomReturn), "\n          Event other fields\n\n");
@@ -1929,6 +1908,59 @@ void deleteGEDCOM(GEDCOMobject* obj)
     }
 }
 
+
+GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
+{
+
+}
+
+ErrorCode validateGEDCOM(const GEDCOMobject* obj)
+{
+
+}
+
+List getDescendantListN(const GEDCOMobject* familyRecord, const Individual* person, unsigned int maxGen)
+{
+
+}
+
+List getAncestorListN(const GEDCOMobject* familyRecord, const Individual* person, int maxGen)
+{
+
+}
+
+char* indToJSON(const Individual* ind)
+{
+
+}
+
+Individual* JSONtoInd(const char* str)
+{
+
+}
+
+GEDCOMobject* JSONtoGEDCOM(const char* str)
+{
+
+}
+
+void addIndividual(GEDCOMobject* obj, const Individual* toBeAdded)
+{
+
+}
+
+char* iListToJSON(List iList)
+{
+
+}
+
+char* gListToJSON(List gList)
+{
+    
+}
+
+
+
 char* printError(GEDCOMerror err)
 {
 
@@ -1979,12 +2011,21 @@ Individual* findPerson(const GEDCOMobject* familyRecord, bool (*compare)(const v
             ListIterator individualElemIter = createIterator(familyRecord->individuals);
             while((individualElem = nextElement(&individualElemIter)) != NULL)
             {
-                Individual * tempIndividualFind = (Individual*)individualElem;
-                if(compareIndividuals(tempIndividualFind, (Individual*)person) == 0)
+            
+                Individual* testInd = (Individual*)individualElem;
+                Individual* refInd = (Individual*)person;
+                
+                if (refInd->givenName != NULL && testInd->givenName != NULL && (strcmp(testInd->givenName, refInd->givenName ) == 0))
                 {
-                    return tempIndividualFind;
+                    // printf("given names are fucked, test is <%s> ref is <%s>\n", testInd->givenName, refInd->givenName);
+                    
+                    if (refInd->surname != NULL && testInd->surname != NULL && (strcmp(testInd->surname, refInd->surname ) == 0)){
+                        // printf("surnames are fucked\n");
+                        return testInd;
+                    }
                 }
             }
+            return NULL;
         }
     }
     return NULL;
@@ -1999,19 +2040,19 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
         Individual * individualFamilyTreePerson = findPerson(familyRecord, customIndividualCompareFunction, person);
         if(individualFamilyTreePerson != NULL && getLength(individualFamilyTreePerson->families) >= 2)
         {
-        // List individualDescendants = initializeList(printIndividual, deleteIndividual, compareIndividuals);
+        List individualDescendants = initializeList(printIndividual, deleteIndividual, compareIndividuals);
         // Individual * tempInsert = getChild(familyRecord, person);
         // insertBack(&individualDescendants, tempInsert);
         // if(getLength(individualFamilyTreePerson->families) != 0)
         // {
-        //     void *individualFamilyFindElem;
-        //     ListIterator individualFamilyFindElemIter = createIterator(individualFamilyTreePerson->families);
-        //     while((individualFamilyFindElem = nextElement(&individualFamilyFindElemIter)) != NULL)
-        //     {
+            // void *individualFamilyFindElem;
+            // ListIterator individualFamilyFindElemIter = createIterator(individualFamilyTreePerson->families);
+            // while((individualFamilyFindElem = nextElement(&individualFamilyFindElemIter)) != NULL)
+            // {
         //         //this will go through all the families this person has, add all the children of each person, spouse etc
-        //         if((customIndividualCompareFunction(individualFamilyTreePerson, individualFamilyFindElem->husband)) ||(customIndividualCompareFunction(individualFamilyTreePerson, individualFamilyFindElem->wife)))
-        //         {
-        //             if(getLength(individualFamilyFindElem->children) != 0)
+                // if((customIndividualCompareFunction(individualFamilyTreePerson, individualFamilyFindElem->husband)) ||(customIndividualCompareFunction(individualFamilyTreePerson, individualFamilyFindElem->wife)))
+                // {
+                    // if(getLength(individualFamilyFindElem->children) != 0)
         //             {
 
         //             }
@@ -2199,7 +2240,7 @@ Header * initializeHeader(char* source, char* gedcVersion, char* encodingType)
         tempHeader->encoding = ANSEL;
         // printf("heading: %s\n", (char*)tempHeader->encoding);
     }
-    else if (strcmp(encodingType, "UTF8")==0)
+    else if (strcmp(encodingType, "UTF-8")==0)
     {
         tempHeader->encoding = UTF8;
     }
@@ -2271,7 +2312,7 @@ Field * initializeOtherField(char* tag, char* value)
     Field* tempField = malloc(sizeof(Field));
 
     tempField->tag = malloc(sizeof(tag));
-    tempField->value = malloc(sizeof(value) * 3);
+    tempField->value = malloc(sizeof(value) * 10);
     strcpy(tempField->tag, tag);
     strcpy(tempField->value, value);
 
@@ -2286,7 +2327,7 @@ Event * initializeEvent(char* type, char* date, char* place)
     strcpy(tempEvent->type, type);
     tempEvent->date = malloc(sizeof(date));
     strcpy(tempEvent->date, date);
-    tempEvent->place = malloc(sizeof(place));
+    tempEvent->place = malloc(sizeof(place)*10);
     strcpy(tempEvent->place, place);
     tempEvent->otherFields = initializeList(printField, deleteField, compareFields);
 
