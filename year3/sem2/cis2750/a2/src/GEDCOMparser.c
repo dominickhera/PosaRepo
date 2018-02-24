@@ -1417,6 +1417,125 @@ GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
 ErrorCode validateGEDCOM(const GEDCOMobject* obj)
 {
 
+    if(obj != NULL)
+    {
+        if(obj->header == NULL)
+        {
+            return INV_HEADER;
+        }
+        else
+        {
+            Header * tempHeader = (Header*)obj->header;
+            if(strlen(tempHeader->source) == 0)
+            {
+                return INV_HEADER;
+            }
+
+            if(tempHeader->version == NULL)
+            {
+                return INV_HEADER;
+            }
+
+            if(tempHeader->encoding == NULL)
+            {
+                return INV_HEADER;
+            }
+
+            if(getLength(tempHeader->otherFields) != 0)
+            {
+                void* tempElem;
+                ListIterator tempElemIter = createIterator(tempHeader->otherFields);
+                while((tempElem = nextElement(&tempElemIter)) != NULL)
+                {
+                    Field * tempField = (Field*)tempElem;
+                    if(strlen(tempField->tag) == 0 || strlen(tempField->value) == 0)
+                    {
+                        return INV_HEADER;
+                    }
+                }
+            }
+        }
+
+        if(obj->submitter == NULL)
+        {
+            return OTHER_ERROR;
+        }
+        else
+        {
+            Submitter * tempSubm = (Submitter*)obj->submitter;
+            if(strlen(tempSubm->submitterName) == 0)
+            {
+                return INV_GEDCOM;
+            }
+            if(getLength(tempSubm->otherFields) != 0)
+            {
+                void* tempElem;
+                ListIterator tempElemIter = createIterator(tempSubm->otherFields);
+                while((tempElem = nextElement(&tempElemIter)) != NULL)
+                {
+                    Field * tempField = (Field*)tempElem;
+                    if(strlen(tempField->tag) == 0 || strlen(tempField->value) == 0)
+                    {
+                        return INV_GEDCOM;
+                    }
+                }
+            }
+        }
+
+        if(obj->families != NULL)
+        {
+            if(getLength(obj->families) != 0)
+            {  
+
+                void* tempFamilyElem;
+                ListIterator tempElemIter = createIterator(obj->families);
+                while((tempFamilyElem = nextElement(&tempElemIter)) != NULL)
+                {
+                    Family * tempFamily = (Family*)tempFamilyElem;
+                    if(tempFamily->wife != NULL)
+                    {
+
+                    }
+
+                    if(tempFamily->husband != NULL)
+                    {
+
+                    }
+
+                    if(getLength(tempFamily->children) != 0)
+                    {
+
+                    }
+                    if(getLength(tempFamily->events) != 0)
+                    {
+
+                    }
+
+                    if(getLength(tempFamily->otherFields) != 0)
+                    {
+
+                    }
+                }
+
+            }
+        }
+
+        if(obj->individuals != NULL)
+        {
+            if(getLength(obj->individuals) != 0)
+            {
+
+            }
+        }
+
+        return OK;
+    }
+    else
+    {
+        return INV_GEDCOM;
+    }
+
+
 }
 
 List getDescendantListN(const GEDCOMobject* familyRecord, const Individual* person, unsigned int maxGen)
@@ -1456,7 +1575,7 @@ char* iListToJSON(List iList)
 
 char* gListToJSON(List gList)
 {
-    
+
 }
 
 
@@ -1955,6 +2074,10 @@ char* printError(GEDCOMerror err)
     else if (err.type == OTHER_ERROR)
     {
         strcpy(errorCodeReturn, "OTHER: Some other error has happened\n");
+    }
+    else if (err.type == WRITE_ERROR)
+    {
+        strcpy(errorCodeReturn, "WRITE ERROR: Some write error has happened\n");
     }
     else if(err.type == OK)
     {
