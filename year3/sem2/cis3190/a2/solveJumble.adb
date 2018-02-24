@@ -5,7 +5,8 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Unbounded.Text_IO; use Ada.Strings.Unbounded.Text_IO;
 procedure solveJumble is
 -- delcare variables here
-type stringArray is array (positive range <>) of character;
+-- type stringArray is array (positive range <>) of character;
+type anagramArray is array (positive range <>) of unbounded_string;
 -- type dictionary is array (positive range <>) of stringArray;
 type jumbleArray is array (1..1000) of unbounded_string;
 type dictionary is array (positive range <>) of unbounded_string;
@@ -72,10 +73,13 @@ type dictionary is array (positive range <>) of unbounded_string;
 		return buildDictionary;
 	end buildLEXICON;
 
-	-- procedure findAnagram is
-	-- begin
+	procedure findAnagram(anagramFind: in out anagramArray; dictionarySearch: in dictionary; jumbleSearch: in jumbleArray) return jumbleArray is
+	begin
 
-	-- end findAnagram
+
+
+	return anagramFind;
+	end findAnagram;
 	-- length: integer;
 	jumble : jumbleArray := inputJumble;
 	wordDictionary : dictionary := buildLEXICON;
