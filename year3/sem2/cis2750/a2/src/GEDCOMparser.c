@@ -1948,6 +1948,8 @@ ErrorCode validateGEDCOM(const GEDCOMobject* obj)
 
 }
 
+
+//FINISH THIS
 List getDescendantListN(const GEDCOMobject* familyRecord, const Individual* person, unsigned int maxGen)
 {
 
@@ -1965,6 +1967,8 @@ List getDescendantListN(const GEDCOMobject* familyRecord, const Individual* pers
 
 }
 
+
+//FINISH THIS
 List getAncestorListN(const GEDCOMobject* familyRecord, const Individual* person, int maxGen)
 {
 
@@ -2055,6 +2059,8 @@ Individual* JSONtoInd(const char* str)
 
 }
 
+
+//FINISH THIS
 GEDCOMobject* JSONtoGEDCOM(const char* str)
 {
 
