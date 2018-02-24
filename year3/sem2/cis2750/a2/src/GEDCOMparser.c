@@ -1471,19 +1471,18 @@ return err;
 }
 
 
-// GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
-// {
-
-// }
-
-// GEDCOMerror validateGEDCOM(const GEDCOMobject* obj)
-// {
-
-// }
-
 
 GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
 {
+
+    char * writeReturn = malloc(sizeof(char) *1000);
+
+
+
+    GEDCOMerror err;
+    err.type = OK;
+    err.line = -1;
+    return err;
 
 }
 
@@ -1608,26 +1607,99 @@ ErrorCode validateGEDCOM(const GEDCOMobject* obj)
         return INV_GEDCOM;
     }
 
+    return OK;
+
 
 }
 
 List getDescendantListN(const GEDCOMobject* familyRecord, const Individual* person, unsigned int maxGen)
 {
 
+    List individualDescendantsN = initializeList(printIndividual, deleteIndividual, compareIndividuals);
+
+    return individualDescendantsN;
+
 }
 
 List getAncestorListN(const GEDCOMobject* familyRecord, const Individual* person, int maxGen)
 {
 
+    List individualAncestorsN = initializeList(printIndividual, deleteIndividual, compareIndividuals);
+
+    return individualAncestorsN;
 }
 
 char* indToJSON(const Individual* ind)
 {
+    char * jsonReturn = malloc(sizeof(char) * 1000);
 
+    if(ind->givenName != NULL)
+    {
+        sprintf(jsonReturn + strlen(jsonReturn), "{\"givenName\":\"%s\"", ind->givenName);
+
+    }
+    else
+    {
+      sprintf(jsonReturn + strlen(jsonReturn), "{\"givenName\":\"\"");  
+    }
+
+    if(ind->surname != NULL)
+    {
+        sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"%s\"}", ind->surname);
+
+    }
+    else
+    {
+      sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"\"}");  
+    }
+
+    return jsonReturn;
 }
 
 Individual* JSONtoInd(const char* str)
 {
+     char *tempFieldStorage = malloc(sizeof(char) * 256);
+    char *tempDataStorage = malloc(sizeof(char) * 256);
+    int tempCount = 0;
+    int secondTempCount = 0;
+
+    int nameCount = 0;
+    for(int i = 0; i < strlen(str); i++)
+    {
+        if(str[i] == ':')
+        {
+            i++;
+            if(nameCount == 0)
+            {
+                nameCount++;
+                while(str[i] != '"')
+                {
+                    tempFieldStorage[tempCount] = str[i];
+                    tempCount++;
+                    i++;
+                }
+            }
+            else
+            {
+                while(str[i] != '"')
+                {
+                    tempDataStorage[secondTempCount] = str[i];
+                    secondTempCount++;
+                    i++;
+                }
+            }
+
+        }
+    }
+
+    Individual * tempIndividual = initializeIndividual(tempFieldStorage, tempDataStorage);
+    tempCount = 0;
+    secondTempCount = 0;
+    memset(tempFieldStorage, '\0', 256);
+    memset(tempDataStorage, '\0', 256);
+
+    return tempIndividual;
+
 
 }
 
@@ -1639,10 +1711,79 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
 void addIndividual(GEDCOMobject* obj, const Individual* toBeAdded)
 {
 
+    insertBack(&obj->individuals, (void*)toBeAdded);
+
+}
+
+char* iListToJSON(List iList)
+{
+    char * indListReturn = malloc(sizeof(char) * 1000);
+
+    if(getLength(iList) != 0)
+    {
+        int lengthTrack = 0;
+        int realLength = getLength(iList);
+        sprintf(indListReturn + strlen(indListReturn), "[");
+        void* elem;
+        ListIterator elemIter = createIterator(iList);
+        while((elem = nextElement(&elemIter)) != NULL)
+        {
+
+         Individual * tempIndividual = (Individual*)elem;
+         char * indStr = indToJSON(tempIndividual);
+         if(lengthTrack != realLength)
+         {
+             sprintf(indListReturn + strlen(indListReturn), "%s,", indStr);
+         }
+         else
+         {
+            sprintf(indListReturn + strlen(indListReturn), "%s", indStr);
+         }
+
+         lengthTrack++;
+        }
+        sprintf(indListReturn + strlen(indListReturn), "]");
+    }
+    // else if(getLength(iList) == 0)
+    // {
+    //     sprintf(indListReturn + strlen(indListReturn) , "[]");
+    // }
+
+    return indListReturn;
+
 }
 
 char* gListToJSON(List gList)
 {
+
+    char * listReturn = malloc(sizeof(char) * 1000);
+    if(getLength(gList) != 0)
+    {
+        sprintf(listReturn + strlen(listReturn), "[\n");
+        int lengthTrack = 0;
+        int realLength = getLength(gList);    
+        void* elem;
+        ListIterator elemIter = createIterator(gList);
+        while((elem = nextElement(&elemIter)) != NULL)
+        {
+            List * tempList = (List*)elem;
+            char * listStr = iListToJSON(*tempList);
+            if(lengthTrack != realLength)
+            {
+                sprintf(listReturn + strlen(listReturn), "%s,\n", listStr);
+            }
+            else
+            {
+                sprintf(listReturn + strlen(listReturn), "%s\n", listStr);
+            }
+            
+            lengthTrack++;
+        }
+
+        sprintf(listReturn + strlen(listReturn), "]\n");
+    }
+
+    return listReturn;
 
 }
 
@@ -2138,6 +2279,10 @@ char* printError(GEDCOMerror err)
 
         strcpy(errorCodeReturn, "INV_Record: the calendar itself is invalid (missing required properties or components, invalid opening - closingtags,etc.)\n");
     }
+    else if (err.type == WRITE_ERROR)
+    {
+        strcpy(errorCodeReturn, "WRITE_ERROR: Some WRITE error has happened\n");
+    }
     else if (err.type == OTHER_ERROR)
     {
         strcpy(errorCodeReturn, "OTHER: Some other error has happened\n");
@@ -2200,16 +2345,16 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
             // if(getLength(individualFamilyTreePerson->families) != 1)
             // {
             individualDescendants = getChild(familyRecord, person, individualDescendants);
-            // printf("list size is %d\n", getLength(individualDescendants));
+            printf("list size is %d\n", getLength(individualDescendants));
 
 
-            // void* tempElem;
-            // ListIterator tempElemIter = createIterator(individualDescendants);
-            // while((tempElem = nextElement(&tempElemIter)) != NULL)
-            // {
-            //     Individual * tempPerson = (Individual*)tempElem;
-            //     printf("name is %s %s\n", tempPerson->givenName, tempPerson->surname);
-            // }
+            void* tempElem;
+            ListIterator tempElemIter = createIterator(individualDescendants);
+            while((tempElem = nextElement(&tempElemIter)) != NULL)
+            {
+                Individual * tempPerson = (Individual*)tempElem;
+                printf("name is %s %s\n", tempPerson->givenName, tempPerson->surname);
+            }
 
         }
         }
@@ -2230,56 +2375,70 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
             // printf("line 4\n");
             //         //this will go through all the families this person has, add all the children of each person, spouse etc
             Family * tempFamily = (Family*)individualFamilyFindElem;
-            if((customIndividualCompareFunction(person, tempFamily->husband)) || (customIndividualCompareFunction(person, tempFamily->wife)))
+            Individual * tempHubby = (Individual*)tempFamily->husband;
+            Individual * tempWifey = (Individual*)tempFamily->wife;
+            if ((tempHubby->givenName != NULL && person->givenName != NULL && (strcmp(person->givenName, tempHubby->givenName ) == 0)) || (tempWifey->givenName != NULL && person->givenName != NULL && (strcmp(person->givenName, tempWifey->givenName ) == 0)))
             {
-                // printf("line 5\n");
-                if(getLength(tempFamily->children) != 0)
+                // printf("given names are fucked, test is <%s> ref is <%s>\n", testInd->givenName, refInd->givenName);
+                // printf("sur names are fucked, test is <%s> ref is <%s>\n", testInd->surname, refInd->surname);
+
+                if ((tempHubby->surname != NULL && person->surname != NULL && (strcmp(person->surname, tempHubby->surname ) == 0)))
                 {
-                    // printf("line 6\n");
-                    void *childElem;
-                    ListIterator childElemIter = createIterator(tempFamily->children);
-                    while((childElem = nextElement(&childElemIter)) != NULL)
+                    // if((customIndividualCompareFunction(person, tempFamily->husband)) || (customIndividualCompareFunction(person, tempFamily->wife)))
+                    // {
+                    // printf("line 5\n");
+                    if(getLength(tempFamily->children) != 0)
                     {
-                        // printf("hello\n");
-                        Individual * tempIndividual = (Individual*)childElem;
-                        void* dupeElem;
-                        ListIterator dupeElemIter = createIterator(newList);
-                        while((dupeElem = nextElement(&dupeElemIter)) != NULL)
+                        // printf("line 6\n");
+                        void *childElem;
+                        ListIterator childElemIter = createIterator(tempFamily->children);
+                        while((childElem = nextElement(&childElemIter)) != NULL)
                         {
-                            Individual* testInd = (Individual*)childElem;
-                            Individual* refInd = (Individual*)dupeElem;
-
-                            if (refInd->givenName != NULL && testInd->givenName != NULL && (strcmp(testInd->givenName, refInd->givenName ) == 0))
+                            // printf("hello\n");
+                            Individual * tempIndividual = (Individual*)childElem;
+                            void* dupeElem;
+                            ListIterator dupeElemIter = createIterator(newList);
+                            while((dupeElem = nextElement(&dupeElemIter)) != NULL)
                             {
-                                // printf("given names are fucked, test is <%s> ref is <%s>\n", testInd->givenName, refInd->givenName);
-                                // printf("sur names are fucked, test is <%s> ref is <%s>\n", testInd->surname, refInd->surname);
+                                Individual* testInd = (Individual*)childElem;
+                                Individual* refInd = (Individual*)dupeElem;
 
-                                if (refInd->surname != NULL && testInd->surname != NULL && (strcmp(testInd->surname, refInd->surname ) == 0))
+                                if (refInd->givenName != NULL && testInd->givenName != NULL && (strcmp(testInd->givenName, refInd->givenName ) == 0))
                                 {
-                                    childElem = nextElement(&childElemIter);
-                                    break;
+                                    // printf("given names are fucked, test is <%s> ref is <%s>\n", testInd->givenName, refInd->givenName);
+                                    // printf("sur names are fucked, test is <%s> ref is <%s>\n", testInd->surname, refInd->surname);
+
+                                    if (refInd->surname != NULL && testInd->surname != NULL && (strcmp(testInd->surname, refInd->surname ) == 0))
+                                    {
+                                        childElem = nextElement(&childElemIter);
+
+                                        // Individual * tempIndividual = (Individual*)childElem;
+                                        // insertBack(&newList,)
+                                        // newList = getChild(familyRecord, tempIndividual, newList);
+                                        break;
+                                    }
                                 }
                             }
+                            // Individual * tempIndividual = (Individual*)childElem;
+                            insertBack(&newList, tempIndividual);
+                            newList = getChild(familyRecord, tempIndividual, newList);
+
+                            // printf("line 7\n");
+                            // printf("list size is %d\n", getLength(list));
                         }
-                        // Indi,vidual * tempIndividual = (Individual*)childElem;
-                        insertBack(&newList, tempIndividual);
-                        newList = getChild(familyRecord, tempIndividual, newList);
 
-                        // printf("line 7\n");
+
+                        // newList = getChild(familyRecord, person, newList);
                         // printf("list size is %d\n", getLength(list));
+                        return newList;
+
                     }
+                    }
+                } 
+            }
 
-
-
-                    // printf("list size is %d\n", getLength(list));
-                    return newList;
-
-                }
-            } 
+            return newList;
         }
-
-        return newList;
-    }
 
 
 
