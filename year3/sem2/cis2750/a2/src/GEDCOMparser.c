@@ -1475,8 +1475,274 @@ return err;
 GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
 {
 
-    char * writeReturn = malloc(sizeof(char) *1000);
+    if(obj != NULL)
+    {
 
+        if(fileName != NULL && fileName[0] != '\0')
+        {
+            if(strcasestr(fileName, ".ged"))
+            {
+                FILE * fp;
+                if((fp = fopen(fileName, "w")) != NULL)
+                {
+                    char * writeReturn = malloc(sizeof(char) *1000);
+                    Header * tempHeader = (Header*)obj->header;
+                    sprintf(writeReturn + strlen(writeReturn), "0 HEAD\n1 SOUR %s\n", tempHeader->source);
+                    if(getLength(tempHeader->otherFields)!= 0)
+                    {
+                        void* tempElem;
+                        ListIterator tempElemIter = createIterator(tempHeader->otherFields);
+                        while((tempElem = nextElement(&tempElemIter)) != NULL)
+                        {
+                            Field * tempField = (Field*)tempElem;
+                            sprintf(writeReturn + strlen(writeReturn), "2 %s %s\n", tempField->tag, tempField->value);
+                        }
+                       
+                    }
+                    sprintf(writeReturn + strlen(writeReturn), "1 GEDC\n2 VERS %.2f\n1 CHAR %u\n1 SUBM @U1@\n", tempHeader->gedcVersion, tempHeader->encoding);
+
+                    if(getLength(obj->individuals) != 0)
+                    {
+                        int personCount = 1;
+                        void* tempPersonElem;
+                        ListIterator tempPersonElemIter = createIterator(obj->individuals);
+                        while((tempPersonElem = nextElement(&tempPersonElemIter)) != NULL)
+                        {
+                            Individual * tempIndividual = (Individual*)tempPersonElem;
+                            sprintf(writeReturn + strlen(writeReturn), "0 @I%d@ INDI\n1 NAME %s /%s/\n",personCount, tempIndividual->givenName, tempIndividual->surname);
+                            if(getLength(tempIndividual->otherFields) != 0)
+                            {
+                                void* tempElem;
+                                ListIterator tempElemIter = createIterator(tempIndividual->otherFields);
+                                while((tempElem = nextElement(&tempElemIter)) != NULL)
+                                {
+                                    Field * tempField = (Field*)tempElem;
+                                    sprintf(writeReturn + strlen(writeReturn), "1 %s %s\n", tempField->tag, tempField->value);
+                                }
+                            }
+
+                            if(getLength(tempIndividual->events) != 0)
+                            {
+                                void* tempEventElem;
+                                ListIterator tempEventElemIter = createIterator(tempIndividual->events);
+                                while((tempEventElem = nextElement(&tempEventElemIter)) != NULL)
+                                {
+                                    Event * tempEvent = (Event*)tempEventElem;
+                                    sprintf(writeReturn + strlen(writeReturn), "1 %s\n", tempEvent->type);
+                                    if(strlen(tempEvent->date) != 0)
+                                    {
+                                        sprintf(writeReturn + strlen(writeReturn), "2 %s\n", tempEvent->date);
+                                    }
+                                    if(strlen(tempEvent->place) != 0)
+                                    {
+                                        sprintf(writeReturn + strlen(writeReturn), "2 %s\n", tempEvent->place);
+                                    }
+
+                                    if(getLength(tempEvent->otherFields) != 0)
+                                    {
+                                        void* tempElem;
+                                        ListIterator tempElemIter = createIterator(tempEvent->otherFields);
+                                        while((tempElem = nextElement(&tempElemIter)) != NULL)
+                                        {
+                                            Field * tempField = (Field*)tempElem;
+                                            sprintf(writeReturn + strlen(writeReturn), "2 %s %s\n", tempField->tag, tempField->value);
+                                        }
+                                    }
+
+                                }
+                            }
+
+                            if(getLength(tempIndividual->families) != 0)
+                            {
+                                int familyCount = 1;
+                                void* tempFamilyElem;
+                                ListIterator tempFamilyElemIter = createIterator(tempIndividual->families);
+                                while((tempFamilyElem = nextElement(&tempFamilyElemIter)) != NULL)
+                                {
+
+                                    Family * tempFamily = (Family*)tempFamilyElem;
+                                    Individual * tempHubby = (Individual*)tempFamily->husband;
+                                    Individual * tempWifey = (Individual*)tempFamily->wife;
+                                    if ((tempHubby->givenName != NULL && tempIndividual->givenName != NULL && (strcmp(tempIndividual->givenName, tempHubby->givenName ) == 0)) || (tempWifey->givenName != NULL && tempIndividual->givenName != NULL && (strcmp(tempIndividual->givenName, tempWifey->givenName ) == 0)))
+                                    {
+                                        // printf("given names are fucked, test is <%s> ref is <%s>\n", testInd->givenName, refInd->givenName);
+                                        // printf("sur names are fucked, test is <%s> ref is <%s>\n", testInd->surname, refInd->surname);
+
+                                        if ((tempHubby->surname != NULL && tempIndividual->surname != NULL && (strcmp(tempIndividual->surname, tempHubby->surname ) == 0)))
+                                        {
+                                            void* objFamilyListElem;
+                                            ListIterator objFamilyListElemIter = createIterator(obj->families);
+                                            while((objFamilyListElem = nextElement(&objFamilyListElemIter)) != NULL)
+                                            {
+                                                Family * tempCompFamily = (Family*)objFamilyListElem;
+                                                if(tempFamily == tempCompFamily)
+                                                {
+                                                    sprintf(writeReturn + strlen(writeReturn), "1 FAMS @F%d@\n", familyCount);
+                                                }
+                                                familyCount++;
+                                            }
+
+                                        }
+                                        familyCount = 1;
+                                    }
+                                    else
+                                    {
+                                
+                                        void* objFamilyListElem;
+                                        ListIterator objFamilyListElemIter = createIterator(obj->families);
+                                        while((objFamilyListElem = nextElement(&objFamilyListElemIter)) != NULL)
+                                        {
+                                            Family * tempCompFamily = (Family*)objFamilyListElem;
+                                            if(tempFamily == tempCompFamily)
+                                            {
+                                                sprintf(writeReturn + strlen(writeReturn), "1 FAMC @F%d@\n", familyCount);
+                                            }
+                                            familyCount++;
+                                        }
+                                        // sprintf(writeReturn + strlen(writeReturn), "1 FAMC @F%d@\n", familyCount);
+                                        familyCount = 1;
+                                        
+                                    }
+                                    // familyCount++;
+
+                                }
+                            }
+                            personCount++;
+                        }
+                    }
+
+                    if(getLength(obj->families) != 0)
+                    {
+                        int familyCount = 1;
+                        void* tempFamilyElem;
+                        ListIterator tempFamilyElemIter = createIterator(obj->families);
+                        while((tempFamilyElem = nextElement(&tempFamilyElemIter)) != NULL)
+                        {
+                            Family * tempFamily = (Family*)tempFamilyElem;
+                            sprintf(writeReturn + strlen(writeReturn), "0 @F%d@ FAM\n", familyCount);
+                            if(tempFamily->husband != NULL)
+                            {
+                                int personCount = 1;
+                                void* tempPersonFindElem;
+                                ListIterator tempPersonFindElemIter = createIterator(obj->individuals);
+                                while((tempPersonFindElem = nextElement(&tempPersonFindElemIter))!= NULL)
+                                {
+                                    Individual * tempIndividual = (Individual*)tempPersonFindElem;
+                                    if(tempIndividual == tempFamily->husband)
+                                    {
+                                        sprintf(writeReturn + strlen(writeReturn), "1 HUSB @I%d@\n", personCount);
+                                    }
+                                    personCount++;
+                                }
+                                
+                            }
+
+                            if(tempFamily->wife != NULL)
+                            {
+                                int personCount = 1;
+                                void* tempPersonFindElem;
+                                ListIterator tempPersonFindElemIter = createIterator(obj->individuals);
+                                while((tempPersonFindElem = nextElement(&tempPersonFindElemIter))!= NULL)
+                                {
+                                    Individual * tempIndividual = (Individual*)tempPersonFindElem;
+                                    if(tempIndividual == tempFamily->wife)
+                                    {
+                                        sprintf(writeReturn + strlen(writeReturn), "1 WIFE @I%d@\n", personCount);
+                                    }
+                                    personCount++;
+                                }
+                                
+                            }
+
+                            if(getLength(tempFamily->events) != 0)
+                            {
+                                void *tempEventElem;
+                                ListIterator tempEventElemIter = createIterator(tempFamily->events);
+                                while((tempEventElem = nextElement(&tempEventElemIter)) != NULL)
+                                {
+
+                                    Event * tempEvent = (Event*)tempEventElem;
+                                    sprintf(writeReturn + strlen(writeReturn), "1 %s\n", tempEvent->type);
+                                    if(strlen(tempEvent->date) != 0)
+                                    {
+                                        sprintf(writeReturn + strlen(writeReturn), "2 %s\n", tempEvent->date);
+                                    }
+                                    if(strlen(tempEvent->place) != 0)
+                                    {
+                                        sprintf(writeReturn + strlen(writeReturn), "2 %s\n", tempEvent->place);
+                                    }
+
+                                    if(getLength(tempEvent->otherFields) != 0)
+                                    {
+                                        void* tempElem;
+                                        ListIterator tempElemIter = createIterator(tempEvent->otherFields);
+                                        while((tempElem = nextElement(&tempElemIter)) != NULL)
+                                        {
+                                            Field * tempField = (Field*)tempElem;
+                                            sprintf(writeReturn + strlen(writeReturn), "2 %s %s\n", tempField->tag, tempField->value);
+                                        }
+                                    }
+
+                                }
+                                
+                            }
+
+                            if(getLength(tempFamily->children) != 0)
+                            {
+                                int personCount = 1;
+                                void* tempChildElem;
+                                ListIterator tempChildElemIter = createIterator(tempFamily->children);
+                                while((tempChildElem = nextElement(&tempChildElemIter)) != NULL)
+                                {
+                                    Individual * tempChild = (Individual*)tempChildElem;
+                                    void* tempPersonFindElem;
+                                    ListIterator tempPersonFindElemIter = createIterator(obj->individuals);
+                                    while((tempPersonFindElem = nextElement(&tempPersonFindElemIter))!= NULL)
+                                    {
+                                        Individual * tempIndividual = (Individual*)tempPersonFindElem;
+                                        if(tempIndividual == tempChild)
+                                        {
+                                            sprintf(writeReturn + strlen(writeReturn), "1 CHIL @I%d@\n", personCount);
+                                        }
+                                        personCount++;
+                                    }
+                                    personCount = 1;
+                                }
+                            }
+
+                            familyCount++;
+                        }
+                    }
+
+                    sprintf(writeReturn + strlen(writeReturn), "0 TRLR");
+                    fputs(writeReturn, fp);
+                    fclose(fp);
+                }
+                else
+                {
+                    GEDCOMerror err;
+                    err.type = INV_FILE;
+                    err.line = -1;
+                    return err;
+                }
+            }
+            else
+            {
+                GEDCOMerror err;
+                err.type = INV_FILE;
+                err.line = -1;
+                return err;
+            }
+        }
+        else
+        {
+            GEDCOMerror err;
+            err.type = INV_FILE;
+            err.line = -1;
+            return err;
+        }
+    
+    }
 
 
     GEDCOMerror err;
