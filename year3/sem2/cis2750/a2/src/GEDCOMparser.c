@@ -1503,12 +1503,12 @@ ErrorCode validateGEDCOM(const GEDCOMobject* obj)
                 return INV_HEADER;
             }
 
-            if(tempHeader->version == NULL)
+            if(tempHeader->gedcVersion == 0)
             {
                 return INV_HEADER;
             }
 
-            if(tempHeader->encoding == NULL)
+            if(tempHeader->encoding != ANSEL && tempHeader->encoding != UTF8 && tempHeader->encoding != UNICODE && tempHeader->encoding != ASCII)
             {
                 return INV_HEADER;
             }
@@ -1554,8 +1554,8 @@ ErrorCode validateGEDCOM(const GEDCOMobject* obj)
             }
         }
 
-        if(obj->families != NULL)
-        {
+        // if(getLength)
+        // {
             if(getLength(obj->families) != 0)
             {  
 
@@ -1564,41 +1564,111 @@ ErrorCode validateGEDCOM(const GEDCOMobject* obj)
                 while((tempFamilyElem = nextElement(&tempElemIter)) != NULL)
                 {
                     Family * tempFamily = (Family*)tempFamilyElem;
-                    if(tempFamily->wife != NULL)
-                    {
+                    // if(tempFamily->wife != NULL)
+                    // {
 
-                    }
+                    // }
 
-                    if(tempFamily->husband != NULL)
-                    {
+                    // if(tempFamily->husband != NULL)
+                    // {
 
-                    }
+                    // }
 
-                    if(getLength(tempFamily->children) != 0)
-                    {
+                    // if(getLength(tempFamily->children) != 0)
+                    // {
 
-                    }
+                    // }
                     if(getLength(tempFamily->events) != 0)
                     {
 
+                        void* eventElem;
+                        ListIterator tempEventElem = createIterator(tempFamily->events);
+                        while((eventElem = nextElement(&tempEventElem)) != NULL)
+                        {
+                            Event * tempEvent = (Event*)eventElem;
+                            if(getLength(tempEvent->otherFields) != 0)
+                            {
+                                void* tempElem;
+                                ListIterator tempElemIter = createIterator(tempEvent->otherFields);
+                                while((tempElem = nextElement(&tempElemIter)) != NULL)
+                                {
+                                    Field * tempField = (Field*)tempElem;
+                                    if(strlen(tempField->tag) == 0 || strlen(tempField->value) == 0)
+                                    {
+                                        return INV_GEDCOM;
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     if(getLength(tempFamily->otherFields) != 0)
                     {
-
+                        void* tempElem;
+                        ListIterator tempElemIter = createIterator(tempFamily->otherFields);
+                        while((tempElem = nextElement(&tempElemIter)) != NULL)
+                        {
+                            Field * tempField = (Field*)tempElem;
+                            if(strlen(tempField->tag) == 0 || strlen(tempField->value) == 0)
+                            {
+                                return INV_GEDCOM;
+                            }
+                        }
                     }
                 }
 
             }
-        }
+        // }
 
-        if(obj->individuals != NULL)
-        {
+        // if(obj->individuals != NULL)
+        // {
             if(getLength(obj->individuals) != 0)
             {
+                void* personElem;
+                ListIterator personElemIter = createIterator(obj->individuals);
+                while((personElem = nextElement(&personElemIter)) != NULL)
+                {
+                    Individual * tempIndividual = (Individual*)personElem;
+                    if(getLength(tempIndividual->events) != 0)
+                    {
 
+                        void* eventElem;
+                        ListIterator tempEventElem = createIterator(tempIndividual->events);
+                        while((eventElem = nextElement(&tempEventElem)) != NULL)
+                        {
+                            Event * tempEvent = (Event*)eventElem;
+                            if(getLength(tempEvent->otherFields) != 0)
+                            {
+                                void* tempElem;
+                                ListIterator tempElemIter = createIterator(tempEvent->otherFields);
+                                while((tempElem = nextElement(&tempElemIter)) != NULL)
+                                {
+                                    Field * tempField = (Field*)tempElem;
+                                    if(strlen(tempField->tag) == 0 || strlen(tempField->value) == 0)
+                                    {
+                                        return INV_GEDCOM;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if(getLength(tempIndividual->otherFields) != 0)
+                    {
+                        void* tempElem;
+                        ListIterator tempElemIter = createIterator(tempIndividual->otherFields);
+                        while((tempElem = nextElement(&tempElemIter)) != NULL)
+                        {
+                            Field * tempField = (Field*)tempElem;
+                            if(strlen(tempField->tag) == 0 || strlen(tempField->value) == 0)
+                            {
+                                return INV_GEDCOM;
+                            }
+                        }
+                    }
+                }
             }
-        }
+        // }
 
         return OK;
     }
@@ -1617,6 +1687,14 @@ List getDescendantListN(const GEDCOMobject* familyRecord, const Individual* pers
 
     List individualDescendantsN = initializeList(printIndividual, deleteIndividual, compareIndividuals);
 
+    if(familyRecord != NULL)
+    {
+        if(person != NULL)
+        {
+
+        }
+    }
+
     return individualDescendantsN;
 
 }
@@ -1625,6 +1703,14 @@ List getAncestorListN(const GEDCOMobject* familyRecord, const Individual* person
 {
 
     List individualAncestorsN = initializeList(printIndividual, deleteIndividual, compareIndividuals);
+
+    if(familyRecord != NULL)
+    {
+        if(person != NULL)
+        {
+
+        }
+    }
 
     return individualAncestorsN;
 }
@@ -1705,6 +1791,19 @@ Individual* JSONtoInd(const char* str)
 
 GEDCOMobject* JSONtoGEDCOM(const char* str)
 {
+
+
+    if(str != NULL)
+    {
+        GEDCOMobject * tempObject = initializeGEDCOMobject();
+
+
+
+        return tempObject;
+    }
+    
+    return NULL;
+    
 
 }
 
@@ -2589,6 +2688,10 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
         else if (strcmp(encodingType, "UNICODE")==0)
         {
             tempHeader->encoding = UNICODE;
+        }
+        else
+        {
+            tempHeader->encoding = 9;
         }
 
         return tempHeader;
