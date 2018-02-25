@@ -1,0 +1,52 @@
+======================
+a3
+25/2/81
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+
+Dining Philosophers:
+./bin/dine 3 2
+
+Simple Memory Management:
+./bin/holes ./assets/testfile1
+
+==========
+to compile
+==========
+type 'make' to run the makeFile
+
+=============
+description
+=============
+
+- dine takes the amount of philosophers and the amount of times they will eat, and proceeds to use pthreads and mutex locks to cycle through the different threads which are represented by the philosophers and when they are able to eat and when they are able to think
+- holes takes a data file and runs each of the lines through four different sorting algorithms with all varying times to complete them, swapping each of the functions through the simulated memory, seeing which one runs the fastest
+
+====================
+known limitations
+====================
+
+dine
+- after the first process, the program seems to organise the numbers
+- wasnt able to figure out how to properly get the amount of times the philosophers eat so the amount of forks is hardcoded to 5000 at the top and then limited during the actual function
+- all philosophers dont completely wait to think before eating
+
+holes
+- only first fit partially works, wont fully work if all the parsed lines equates more than 128 Mb
+- no other algorithms currently work
+- first fit doesn't check to see if there isn't any space left
+
+=============
+references
+=============
+- http://pseudomuto.com/development/2014/03/01/dining-philosophers-in-c/
+- https://osandnetworkingcslab.wordpress.com/implementation-of-dining-philosophers-using-threads/
+- https://wwwhome.ewi.utwente.nl/~pieter/CS-OS/Philosophers.c
+- http://compsciz.blogspot.ca/2015/03/dining-philosophers-problem-using.html
+- lab 5 pdf
