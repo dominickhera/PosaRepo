@@ -14,6 +14,8 @@ typedef struct
 	int threadSwitch;
 	int processSwitch;
 	List processes;
+	List runningProcesses;
+	List waitingProcesses;
 
 }simSystem;
 
@@ -32,13 +34,14 @@ typedef struct
 	int threadIOTime;
 	int turnaroundTime;
 	int threadFinishTime;
+	char *state;
 	List bursts;
 
 }thread;
 
 typedef struct
 {
-
+	int startTime;
 	int cpuTime;
 	int ioTime;
 	
@@ -50,5 +53,7 @@ thread * initializeThread(int arrivalTime);
 burst * initializeBurst(int cpuTime, int ioTime);
 int compareData(const void* first,const void* second);
 char* printGivenData(void* toBePrinted);
+void verbosePrint(int timeNum, int threadNum, int processNum, char* currentState, char* newState);
+void detailPrint(int threadNum, int processNum, int arrivalTime, int serviceTime, int ioTime, int turnaroundTime, int finishTime);
 
 #endif

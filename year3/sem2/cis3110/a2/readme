@@ -1,0 +1,52 @@
+======================
+a2
+8/2/18
+dominick hera
+0943778
+dhera@mail.uoguelph.ca
+======================
+
+======
+to run
+======
+
+./bin/simcpu < ./assets/testCase1.txt
+
+==========
+to compile
+==========
+type 'make' to run the makeFile
+
+=============
+description
+=============
+
+- 
+
+===========
+questions
+===========
+
+1. Does your simulator include switch overhead for the first ready state to running state transition? Explain.
+
+	- 
+
+2. Does your simulator include switch overhead if a thread moves from ready state to running state and the CPU is idle? Explain.
+
+	- 
+
+3. Does your simulator include switch overhead if a thread moves from running state to blocked state and the ready queue is empty? Explain.
+
+	- 
+
+4. Does your simulation include switch overhead if a thread is interrupted
+(due to a time slice) and either the ready queue is empty or the thread has
+the highest priority? Explain.
+
+	- 
+
+====================
+known limitations
+====================
+
+- 

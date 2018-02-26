@@ -58,16 +58,6 @@ int main(int argc, char **argv)
     //takes the textfile and copys it all over into a 2D array
     while(fgets(line, sizeof(line), stdin) != NULL)
     {
-        // int lineNumCount = 0;
-        // for(int i = 0; line[i] != '\n'; i++)
-        // {
-            // if(line[i] == ' ')
-            // {
-                // lineNumCount++;
-            // }
-        // }
-        // printf("%s which has %d numbers\n", line, lineNumCount + 1);
-
         strcpy(fileStorage[count], line);
         count++;
     }
