@@ -84,15 +84,15 @@ int main(int argc, char **argv)
                 {
                     case 0:
                         processCount = strtol(parse, &p, 10);
-                        printf("overall Process Count: %d\n", processCount);
+                        // printf("overall Process Count: %d\n", processCount);
                         break;
                     case 1:
                         simSystem->threadSwitch = strtol(parse, &p, 10);
-                        printf("overall Thread Switch: %d\n", simSystem->threadSwitch);
+                        // printf("overall Thread Switch: %d\n", simSystem->threadSwitch);
                         break;
                     case 2:
                         simSystem->processSwitch = strtol(parse, &p, 10);
-                        printf("overall Process Switch: %d\n", simSystem->processSwitch);
+                        // printf("overall Process Switch: %d\n", simSystem->processSwitch);
                         break;
                     default:
                         // printf("default case\n");
@@ -108,7 +108,7 @@ int main(int argc, char **argv)
         for(int k = 0; k < processCount; k++)
         {
             i++;
-            printf("process[%d] at line[%d]\n",k + 1, i);
+            // printf("process[%d] at line[%d]\n",k + 1, i);
             // printf("process[%d] at line[%d]\n", k, i + 1);
             // i++;
             int initCount = 0;
@@ -117,14 +117,14 @@ int main(int argc, char **argv)
             {
                 switch(initCount)
                 {
-                    case 0:
-                    //     threadCount = strtol(parse, &p, 10);
-                        // printf("process[%d] Count: %ld\n",k,strtol(parse, &p, 10));
-                        break;
+                    // case 0:
+                    // //     threadCount = strtol(parse, &p, 10);
+                    //     // printf("process[%d] Count: %ld\n",k,strtol(parse, &p, 10));
+                    //     break;
                     case 1:
                         threadCount = 0;
                         threadCount = strtol(parse, &p, 10);
-                        printf("process Thread count %d\n", threadCount);
+                        // printf("process Thread count %d\n", threadCount);
                         break;
                     default:
                         // printf("default case\n");
@@ -141,7 +141,7 @@ int main(int argc, char **argv)
             {
                 // printf(" -thread[%d] - line[%d]\n", m, i + m + k);
                 i++;
-                printf("thread[%d] at line [%d]\n", m, i+1);
+                // printf("thread[%d] at line [%d]\n", m, i+1);
                 int initCount = 0;
                 int tempArrivalTime = 0;
                 parse = strtok(fileStorage[i], " ");
@@ -149,18 +149,18 @@ int main(int argc, char **argv)
                 {
                     switch(initCount)
                     {
-                        case 0:
-                        //     processCount = strtol(parse, &p, 10);
-                            // printf("2Process Count%ld\n", strtol(parse, &p, 10));
-                            break;
+                        // case 0:
+                        // //     processCount = strtol(parse, &p, 10);
+                        //     // printf("2Process Count%ld\n", strtol(parse, &p, 10));
+                        //     break;
                         case 1:
                             tempArrivalTime = strtol(parse, &p, 10);
-                            printf("arrival time: %d\n", tempArrivalTime);
+                            // printf("arrival time: %d\n", tempArrivalTime);
                             break;
                         case 2:
                             burstCount = 0;
                             burstCount = strtol(parse, &p, 10);
-                            printf("burst count: %d\n", burstCount);
+                            // printf("burst count: %d\n", burstCount);
                             break;
                         default:
                             // printf("default case\n");
@@ -177,7 +177,7 @@ int main(int argc, char **argv)
                 {
                     i++;
                     // printf("   -burst[%d]\n", j + 1);
-                    // printf("burst[%d] at line[%d]\n", j,i);
+                    // printf("burst[%d] at line[%d]\n", j + 1,i + 1);
                     // i++;
                     if(j >= burstCount)
                     {
@@ -188,18 +188,18 @@ int main(int argc, char **argv)
                         {
                             switch(initCount)
                             {
-                                case 0:
-                                    processCount = strtol(parse, &p, 10);
-                                    // printf("Process Count: %d\n", process->processCount);
-                                    break;
+                                // case 0:
+                                    // processCount = strtol(parse, &p, 10);
+                                    // printf("Process Count: %d\n", processCount);
+                                    // break;
                                 case 1:
                                     tempCPUTime = strtol(parse, &p, 10);
-                                    // printf("Thread Switch: %d\n", process->threadSwitch);
+                                    // printf("cpu time: %d\n\n\n", tempCPUTime);
                                     break;
-                                case 2:
+                                // case 2:
                                 //     simSystem->processSwitch = strtol(parse, &p, 10);
                                     // printf("3Process Switch\n");
-                                    break;
+                                    // break;
                                 default:
                                     // printf("default case\n");
                                     break;
@@ -222,18 +222,18 @@ int main(int argc, char **argv)
                         {
                             switch(initCount)
                             {
-                                case 0:
+                                // case 0:
 
-                                //     processCount = strtol(parse, &p, 10);
-                                    // printf("4Process Count %ld\n", strtol(parse, &p, 10));
-                                    break;
+                                // //     processCount = strtol(parse, &p, 10);
+                                //     // printf("4Process Count %ld\n", strtol(parse, &p, 10));
+                                //     break;
                                 case 1:
                                     tempCPUTime = strtol(parse, &p, 10);
-                                    // printf("Thread Switch: %d\n", process->threadSwitch);
+                                    // printf("\ntempCPUTime: %d ", tempCPUTime);
                                     break;
                                 case 2:
                                     tempIOTime = strtol(parse, &p, 10);
-                                    // printf("Process Switch: %d\n", process->processSwitch);
+                                    // printf("tempIOTime: %d\n\n", tempIOTime);
                                     break;
                                 default:
                                     // printf("default case\n");
