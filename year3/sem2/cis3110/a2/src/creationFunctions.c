@@ -144,11 +144,13 @@ void FCFSSim(simSystem * simSystem)
 {
     moveProcessReady(simSystem, simSystem->verboseFlag, simSystem->detailFlag);
 
-    while(getLength(simSystem->readyProcesses) != 0 || getLength(simSystem->runningProcesses) != 0 || getLength(simSystem->waitingProcesses) != 0 || getLength(simSystem->terminatedProcesses) != 0)
-    {
+    // while(getLength(simSystem->readyProcesses) != 0 || getLength(simSystem->runningProcesses) != 0 || getLength(simSystem->waitingProcesses) != 0 || getLength(simSystem->terminatedProcesses) != 0)
+    // {
         FCFSProcessRun(simSystem);
+        finishPrint(1, simSystem->quantumInteger, simSystem->simTime, 0,0);
+        // void finishPrint(int scheduleType, int quantumInteger, int totalTime, int turnaroundTime, int cpuUtilization)
         simSystem->simTime++;
-    }
+    // }
 }
 
 void moveProcessReady(simSystem * simSystem, int verboseFlag, int detailFlag)
@@ -239,15 +241,15 @@ void FCFSProcessRun(simSystem * simSystem)
 
     if(getLength(simSystem->runningProcesses) != 0)
     {
-        int timeInt = 0;
-        ListIterator elemIter = createIterator(simSystem->runningProcesses);
-        process * tempProcess = (process*)elemIter;
-        ListIterator processIter = createIterator(tempProcess->threads);
-        thread * tempThread = (thread*)processIter;
-        ListIterator threadIter = createIterator(tempThread->threads);
-        burst * tempBurst = (burst*)threadIter;
+        // int timeInt = 0;
+        // ListIterator elemIter = createIterator(simSystem->runningProcesses);
+        // process * tempProcess = (process*)elemIter;
+        // ListIterator processIter = createIterator(tempProcess->threads);
+        // thread * tempThread = (thread*)processIter;
+        // ListIterator threadIter = createIterator(tempThread->threads);
+        // burst * tempBurst = (burst*)threadIter;
 
-        timeInt = tempBurst->cpuTime - (simSystem->simTime - tempBurst->startTime);
+        // timeInt = tempBurst->cpuTime - (simSystem->simTime - tempBurst->startTime);
         simSystem->busyFlag = 1;
     }
     else

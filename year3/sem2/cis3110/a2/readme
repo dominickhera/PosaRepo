@@ -21,7 +21,7 @@ type 'make' to run the makeFile
 description
 =============
 
-- 
+- the program is an attempt at a cpu scheduling system that requires the student to simulate two different scheduling methods of that First Come First Server, and the more complex Round Robin method. Due to lack of time and oversight on my time yet again, 
 
 ===========
 questions
@@ -29,24 +29,31 @@ questions
 
 1. Does your simulator include switch overhead for the first ready state to running state transition? Explain.
 
-	- 
+	- It does somewhat implement the switch overhead in the form of the busy flag which informs the program as to when the simulation cpu is occupied with a taska t hand that would in turn send other threads to the waiting queue.
 
 2. Does your simulator include switch overhead if a thread moves from ready state to running state and the CPU is idle? Explain.
 
-	- 
+	- my simulator is not able to do to that.
 
 3. Does your simulator include switch overhead if a thread moves from running state to blocked state and the ready queue is empty? Explain.
 
-	- 
+	- I am not able to have my program do that.
 
 4. Does your simulation include switch overhead if a thread is interrupted
 (due to a time slice) and either the ready queue is empty or the thread has
 the highest priority? Explain.
 
-	- 
+	- My program is at no level able to do that.
 
 ====================
 known limitations
 ====================
 
-- 
+- round robin is not completed
+- program currently only switches state from new to ready and from ready to running but proceeds no further
+
+==============
+references
+==============
+- my program utilises a generic linked list API from my current W18 CIS2750 course that was provided to us by our professor of that class. The linked list api is used to store all the threads and bursts and processes into a easily manageable and traversable manner.
+- https://www.tutorialspoint.com/operating_system/os_process_scheduling_algorithms.htm
