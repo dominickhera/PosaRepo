@@ -143,13 +143,12 @@ char* printGivenData(void* toBePrinted)
 void FCFSSim(simSystem * simSystem)
 {
     moveProcessReady(simSystem, simSystem->verboseFlag, simSystem->detailFlag);
-    moveProcessRunning(simSystem, simSystem->verboseFlag, simSystem->detailFlag);
 
-    // while(getLength(simSystem->readyProcesses) != 0 || getLength(simSystem->runningProcesses) != 0 || getLength(simSystem->waitingProcesses) != 0 || getLength(simSystem->terminatedProcesses) != 0)
-    // {
-        // FCFSProcessRun(simSystem);
-        // simSystem->simTime++;
-    // }
+    while(getLength(simSystem->readyProcesses) != 0 || getLength(simSystem->runningProcesses) != 0 || getLength(simSystem->waitingProcesses) != 0 || getLength(simSystem->terminatedProcesses) != 0)
+    {
+        FCFSProcessRun(simSystem);
+        simSystem->simTime++;
+    }
 }
 
 void moveProcessReady(simSystem * simSystem, int verboseFlag, int detailFlag)
@@ -215,17 +214,21 @@ void moveProcessRunning(simSystem * simSystem, int verboseFlag, int detailFlag)
             {
                 burst * tempBurst = (burst*)burstElem;
                 burst * newBurst = initializeBurst(tempBurst->cpuTime, tempBurst->ioTime);
+                newBurst->startTime = simSystem->simTime;
                 insertBack(&newThread->bursts, newBurst);
+                deleteDataFromList(&tempThread->bursts, tempBurst);
             }if(verboseFlag == 1)
             {
     //             // verbosePrint(int timeNum, int threadNum, int processNum, char* currentState, char* newState)
                 verbosePrint(simSystem->simTime, tempThreadCount, tempProcessCount, tempThread->state, newThread->state);
             }
             insertBack(&newProcess->threads, newThread);
+            deleteDataFromList(&tempProcess->threads, tempThread);
             tempThreadCount++;
         }
 
         insertBack(&simSystem->runningProcesses, newProcess);
+        deleteDataFromList(&simSystem->readyProcesses, tempProcess);
         tempProcessCount++;
     }
 
@@ -236,12 +239,21 @@ void FCFSProcessRun(simSystem * simSystem)
 
     if(getLength(simSystem->runningProcesses) != 0)
     {
+        int timeInt = 0;
+        ListIterator elemIter = createIterator(simSystem->runningProcesses);
+        process * tempProcess = (process*)elemIter;
+        ListIterator processIter = createIterator(tempProcess->threads);
+        thread * tempThread = (thread*)processIter;
+        ListIterator threadIter = createIterator(tempThread->threads);
+        burst * tempBurst = (burst*)threadIter;
+
+        timeInt = tempBurst->cpuTime - (simSystem->simTime - tempBurst->startTime);
         simSystem->busyFlag = 1;
     }
     else
     {
 
-        if(simSystem->busyFlag == 0)
+        if(simSystem->busyFlag == 1)
         {
 
         }
