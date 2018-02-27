@@ -13,9 +13,17 @@ typedef struct
 
 	int threadSwitch;
 	int processSwitch;
+	int busyFlag;
+	int simTime;
+	int verboseFlag;
+	int detailFlag;
+	int quantumInteger;
+	int rrFlag;
 	List processes;
+	List readyProcesses;
 	List runningProcesses;
 	List waitingProcesses;
+	List terminatedProcesses;
 
 }simSystem;
 
@@ -49,11 +57,18 @@ typedef struct
 
 simSystem * initializeSimSystem(int threadSwitch, int processSwitch);
 process * initializeProcess();
-thread * initializeThread(int arrivalTime);
+thread * initializeThread(int arrivalTime, char* state);
 burst * initializeBurst(int cpuTime, int ioTime);
 int compareData(const void* first,const void* second);
 char* printGivenData(void* toBePrinted);
 void verbosePrint(int timeNum, int threadNum, int processNum, char* currentState, char* newState);
 void detailPrint(int threadNum, int processNum, int arrivalTime, int serviceTime, int ioTime, int turnaroundTime, int finishTime);
+void finishPrint(int scheduleType, int quantumInteger, int totalTime, int turnaroundTime, int cpuUtilization);
+int averageTurnAroundTimeCalc(List * threadList);
+void moveProcessReady(simSystem * simSystem, int verboseFlag, int detailFlag);
+void moveProcessRunning(simSystem * simSystem, int verboseFlag, int detailFlag);
+void FCFSProcessRun(simSystem * simSystem);
+void FCFSSim(simSystem * simSystem);
+
 
 #endif

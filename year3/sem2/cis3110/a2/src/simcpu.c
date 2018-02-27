@@ -54,6 +54,10 @@ int main(int argc, char **argv)
     }
 
     simSystem * simSystem = initializeSimSystem(threadSwitch, processSwitch);
+    simSystem->verboseFlag = verboseFlag;
+    simSystem->detailFlag = detailFlag;
+    simSystem->quantumInteger = quantumInteger;
+    simSystem->rrFlag = roundRobinFlag;
 
     //takes the textfile and copys it all over into a 2D array
     while(fgets(line, sizeof(line), stdin) != NULL)
@@ -160,7 +164,7 @@ int main(int argc, char **argv)
                     initCount++; 
                 }
 
-                thread * tempThread = initializeThread(tempArrivalTime);
+                thread * tempThread = initializeThread(tempArrivalTime, "new");
                 // printf("burst[%d]\n", burstCount);
                 // i++;
                 for(int j = 0; j < burstCount; j++)
@@ -249,8 +253,25 @@ int main(int argc, char **argv)
     }
 
 
+    if(roundRobinFlag != 1)
+    {    
+        FCFSSim(simSystem);
+    }
+    else
+    {
+        printf("do roundrobin type shit here\n");
+    }
+
+
     return 0;
 }
+
+
+// void roundRobinSim()
+// {
+
+// }
+
 
 
 
