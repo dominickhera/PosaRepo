@@ -16,7 +16,7 @@ RV NO_DYNAMIC_SIZED_OBJECTS
 RV NO_IMPLICIT_LOOPS
 RV SPARK_05
 
-U solvejumble%b		solvejumble.adb		b00f6185 NE OO SU
+U solvejumble%b		solvejumble.adb		5fc0b7d9 NE OO SU
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
 W ada.float_text_io%s	a-flteio.ads		a-flteio.ali
@@ -54,7 +54,7 @@ D a-tiinio.ads		20170516105950 aa04e5d6 ada.text_io.integer_io%s
 D a-unccon.ads		20170516105954 31484697 ada.unchecked_conversion%s
 D interfac.ads		20170516105950 5ab55268 interfaces%s
 D i-cstrea.ads		20170516105950 e53d8b8e interfaces.c_streams%s
-D solvejumble.adb	20180206155419 55a410cd solvejumble%b
+D solvejumble.adb	20180304051630 ba6bc691 solvejumble%b
 D system.ads		20170516105953 085b6ffb system%s
 D s-atocou.ads		20170516105956 b45c2d8d system.atomic_counters%s
 D s-crtl.ads		20170516105948 0ebbdb71 system.crtl%s
@@ -77,56 +77,56 @@ D s-traent.ads		20170516105950 005bf670 system.traceback_entries%s
 D s-unstyp.ads		20170516105953 34867c83 system.unsigned_types%s
 D s-wchcon.ads		20170516105954 1b7d22d2 system.wch_con%s
 X 1 ada.ads
-16K9*Ada 20e8 21|1r6 1r23 2r6 2r31 3r6 3r29 4r6 4r33 5r6 5r41 21r17
+16K9*Ada 20e8 21|1r6 1r23 2r6 2r31 3r6 3r29 4r6 4r33 5r6 5r41 22r17
 X 6 a-flteio.ads
 20K13*Float_Text_IO[16|46] 21|3w10 3r33
 X 7 a-inteio.ads
-18K13*Integer_Text_IO[17|46] 21|2w10 2r35 21r21
+18K13*Integer_Text_IO[17|46] 21|2w10 2r35 22r21
 X 10 a-string.ads
 16K13*Strings 35e16 21|4r10 4r37 5r10 5r45
 X 12 a-strunb.ads
 76K21*Unbounded 490e26 21|4w18 4r45 5r18 5r53
-79R9*Unbounded_String<5|43R9> 474e14 21|10r40 11r49 14r16 38r24 56r24
-170V14*"="{boolean} 21|89s37
+79R9*Unbounded_String<5|43R9> 474e14 21|9r51 11r40 12r49 15r16 39r24 58r24
+170V14*"="{boolean} 21|95s37
 X 13 a-suteio.ads
 39K31*Text_IO 61e34 21|5w28 5r63
-47U14*Get_Line 21|44s25 63s25
-50U14*Get_Line 21|24s25
-53U14*Put 21|90s47
+47U14*Get_Line 21|46s25 66s25
+50U14*Get_Line 21|25s25
+53U14*Put 21|96s47
 X 15 a-textio.ads
 49K13*Text_IO 471e16 21|1w10 1r27
-52P9*File_Type 21|39r24 52r24
-53n23*In_File{53E9} 21|41r28 60r28
-92U14*Open 21|41s17 60s17
-98U14*Close 21|47s17 70s17
-166U14*New_Line 21|20s74 90s62
-183V13*End_Of_File{boolean} 21|43s35 62s35
-242U14*Put 21|20s17 23s25 90s17
+52P9*File_Type 21|40r24 54r24
+53n23*In_File{53E9} 21|42r28 62r28
+92U14*Open 21|42s17 62s17
+98U14*Close 21|49s17 73s17
+166U14*New_Line 21|21s74 96s62
+183V13*End_Of_File{boolean} 21|45s35 65s35
+242U14*Put 21|21s17 27s25 96s17
 X 17 a-tiinio.ads
-56U14*Get 21|21s37[7|18]
+56U14*Get 21|22s37[7|18]
 X 21 solvejumble.adb
-6U11*solveJumble 6b11 96l5 96t16
-8A6 stringArray(character)<integer>
-10A6 jumbleArray(12|79R9)<integer> 12r37 13r22 80r18
-11A6 dictionary(12|79R9)<integer> 51r38 57r35 81r26
-12V18 inputJumble{10A6} 12b18 30l13 30t24 80s33
-13a9 jumbleList{10A6} 25m25 28r24
-14r9 test{12|79R9} 24m34 25r42
-16i9 length{integer} 21m41 22r29
-22i21 i{integer} 25r36
-36V18 getFileLength{integer} 36b18 49l13 49t26 54s41
-37i17 fileLength{integer} 45m25 45r39 48r24
-38r17 line{12|79R9} 44m40
-39p17 infp{15|52P9} 41m22 41r22 43r47 44r34 47m23 47r23
-51V18 buildLEXICON{11A6} 51b18 73l13 73t25 81s40
-52p17 infp{15|52P9} 60m22 60r22 62r47 63r34 70m23 70r23
-53i17 k{integer} 65r41 66m25 66r30 69m17
-54i17 fileLength{integer} 57r49
-56r17 line{12|79R9} 63m40 65r47
-57a17 buildDictionary{11A6} 65m25 72r24
-80a9 jumble{10A6} 88r21 89r27 90r51
-81a9 wordDictionary{11A6}
-88i13 i{integer} 89r34 90r58
+6U11*solveJumble 6b11 102l5 102t16
+9A6 anagramArray(12|79R9)<integer>
+11A6 jumbleArray(12|79R9)<integer> 13r37 14r22 86r18
+12A6 dictionary(12|79R9)<integer> 53r38 59r35 87r26
+13V18 inputJumble{11A6} 13b18 31l13 31t24 86s33
+14a9 jumbleList{11A6} 26m25 29r24
+15r9 test{12|79R9} 25m34 26r42
+17i9 length{integer} 22m41 23r29
+23i21 i{integer} 26r36
+37V18 getFileLength{integer} 37b18 51l13 51t26 56s41
+38i17 fileLength{integer} 47m25 47r39 50r24
+39r17 line{12|79R9} 46m40
+40p17 infp{15|52P9} 42m22 42r22 45r47 46r34 49m23 49r23
+53V18 buildLEXICON{12A6} 53b18 76l13 76t25 87s40
+54p17 infp{15|52P9} 62m22 62r22 65r47 66r34 73m23 73r23
+55i17 k{integer} 68r41 69m25 69r30 72m17
+56i17 fileLength{integer} 59r49
+58r17 line{12|79R9} 66m40 68r47
+59a17 buildDictionary{12A6} 68m25 75r24
+86a9 jumble{11A6} 94r21 95r27 96r51
+87a9 wordDictionary{12A6}
+94i13 i{integer} 95r34 96r58
 X 22 system.ads
 67M9*Address
 X 29 s-memory.ads

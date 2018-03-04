@@ -21,10 +21,10 @@ type dictionary is array (positive range <>) of unbounded_string;
 		put("how many words do you want to add to the jumble?"); new_line;
 		Ada.Integer_Text_IO.get(length);
 		for i in 1..length+1 loop
-			put("\> ");
+			
 			get_line(test);
 			jumbleList(i) := test;
-			
+			put("\> ");
 		end loop;
 		return jumbleList;
 		-- return word(1..last);
@@ -40,6 +40,7 @@ type dictionary is array (positive range <>) of unbounded_string;
 		infp : file_type;
 	begin
 		open(infp, in_file, "/usr/share/dict/words");
+		-- open(infp, in_file, "/usr/share/dict/canadian-english-small");
 		loop
 			exit when end_of_file(infp);
 			get_line(infp, line);
@@ -59,6 +60,7 @@ type dictionary is array (positive range <>) of unbounded_string;
 	begin
 		-- buildDictionary := buildLEXICON;
 		open(infp, in_file, "/usr/share/dict/words");
+		-- open(infp, in_file, "/usr/share/dict/canadian-english-small");
 		loop
 			exit when end_of_file(infp);
 			get_line(infp, line);
@@ -73,13 +75,13 @@ type dictionary is array (positive range <>) of unbounded_string;
 		return buildDictionary;
 	end buildLEXICON;
 
-	procedure findAnagram(anagramFind: in out anagramArray; dictionarySearch: in dictionary; jumbleSearch: in jumbleArray) return jumbleArray is
-	begin
+	-- procedure findAnagram(anagramFind: in out anagramArray; dictionarySearch: in dictionary; jumbleSearch: in jumbleArray) return jumbleArray is
+	-- begin
 
 
 
-	return anagramFind;
-	end findAnagram;
+	-- return anagramFind;
+	-- end findAnagram;
 	-- length: integer;
 	jumble : jumbleArray := inputJumble;
 	wordDictionary : dictionary := buildLEXICON;
