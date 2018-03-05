@@ -116,7 +116,7 @@ typedef struct {
 //Represents a GEDCOM object
 typedef struct {
 
-	//Header.  Must not be NULL.
+    //Header.  Must not be NULL.
     Header*     header;
     
     //Family records.  All objects in the list will be of type Family.  It may be empty.
@@ -298,15 +298,13 @@ char* iListToJSON(List iList);
  **/
 char* gListToJSON(List gList);
 
+//************************************************************************************************************
 
-//****************************************** List helper functions added for A2 *******************************************
+//****************************************** List helper functions *******************************************
 void deleteGeneration(void* toBeDeleted);
 int compareGenerations(const void* first,const void* second);
 char* printGeneration(void* toBePrinted);
 
-//************************************************************************************************************
-
-//****************************************** List helper functions *******************************************
 void deleteEvent(void* toBeDeleted);
 int compareEvents(const void* first,const void* second);
 char* printEvent(void* toBePrinted);
