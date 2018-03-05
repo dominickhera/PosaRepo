@@ -10,6 +10,7 @@ type anagramArray is array (positive range <>) of unbounded_string;
 -- type dictionary is array (positive range <>) of stringArray;
 type jumbleArray is array (1..1000) of unbounded_string;
 type dictionary is array (positive range <>) of unbounded_string;
+type realAnagramArray is array (positive range <>) of unbounded_string;
 	
 
 	function inputJumble return jumbleArray is
@@ -77,6 +78,7 @@ type dictionary is array (positive range <>) of unbounded_string;
 		return buildDictionary;
 	end buildLEXICON;
 
+
 	procedure swapChars(swapString: in out unbounded_string; charA: integer; charB: integer) is
 		tempString: string := Ada.Strings.Unbounded.To_String(swapString);
 		temp: string := tempString(charA..charA);
@@ -101,72 +103,91 @@ type dictionary is array (positive range <>) of unbounded_string;
 		tempString(charB..charB) := temp;
 		-- Element(tempString, charA) := B;
 		-- Element(string, charB) := temp;
-		put("new word is ");put(tempString);new_line;
+		-- put("new word is ");put(tempString);new_line;
 		swapString := Ada.Strings.Unbounded.To_Unbounded_String(tempString);
 		-- charB := temp;
 
 	
 	end swapChars;
 
-	procedure anagramSearch(string: in out unbounded_string; beginNum: in out integer; endNum: in out integer) is
+
+
+	procedure anagramSearch(anagramFind: in out anagramArray; string: in out unbounded_string; beginNum: in out integer; endNum: in out integer) is
 		intCount: integer := beginNum;
 		endCount: integer := endNum;
 		intTempNum: integer;
-		intTempLength: integer;
-		intSecondTempLength: integer;
-		tempCharOne: unbounded_string;
-		tempCharTwo: unbounded_string;
-		tempCharThree: unbounded_string;
-		tempCharFour: unbounded_string;
+		intTempLength: integer := length(string);
+		-- intSecondTempLength: integer;
+		anagramArrayInt: integer := 1;
+		-- tempCharOne: unbounded_string;
+		-- tempCharTwo: unbounded_string;
+		-- tempCharThree: unbounded_string;
+		-- tempCharFour: unbounded_string;
 	begin
-		for i in 1..length(string) loop
-		-- loop
-			-- exit when intCount = endCount;
-			-- put(string); new_line;put("begin numb before swap is ");put(intCount);new_line;put("end count before swap is ");put(endCount);new_line;
-			swapChars(string, beginNum, i);
-			-- intTempLength:= string'size + beginNum;
-			-- intSecondTempLength:= string'size + intCount;
-			-- tempCharOne := Element(string, intCount);
-			-- put(tempCharOne); new_line;
-			-- tempCharTwo := Element(string, intSecondTempLength);
-			-- swapChars(tempCharOne, tempCharTwo);
-			if beginNum = endCount then
-				intTempNum:= 0;
-			else
-				intTempNum:= beginNum + 1;
-			end if;
-			
-			-- put(string); new_line;
-			anagramSearch(string, intTempNum, endCount);
+		if beginNum = intTempLength then
+			-- put("word is ");put(string);new_line;
+			-- endNum := 1;
+			for k in 1..anagramFind'length loop
+					exit when anagramFind(k) = "";
+					anagramArrayInt := anagramArrayInt + 1;
+				end loop;
+			anagramFind(anagramArrayInt) := string;
+			 -- put("word is ");put(anagramFind(anagramArrayInt));new_line;
+			beginNum := 1;
+		else
 
-			swapChars(string, beginNum, endCount);
-			-- intTempLength:= string'size + beginNum;
-			-- intSecondTempLength:= string'size + intCount;
-			-- tempCharThree := Element(string, intTempLength);
-			-- tempCharFour := Element(string, intSecondTempLength);
-			-- swapChars(tempCharThree, tempCharFour);
-			-- intCount := intCount + 1;
-		end loop;
+			for i in 1..length(string) loop
+				-- put("word is ");put(string);new_line;
+
+				swapChars(string, beginNum, i);
+				intTempNum := beginNum + 1;
+				-- if intTempNum = endNum then
+				intTempLength := length(string);
+				-- 	intTempNum := 1;
+				-- end if;
+				anagramSearch(anagramFind, string, intTempNum, intTempLength);
+				swapChars(string, beginNum, i);
+
+
+			end loop;
+		end if;
+
 	end anagramSearch;
 
-	function findAnagram(anagramFind: in out anagramArray; dictionarySearch: in dictionary; jumbleSearch: in jumbleArray) return anagramArray is
+
+	function findAnagram(realAnagramFind: in out realAnagramArray; anagramFind: in out anagramArray; dictionarySearch: in dictionary; jumbleSearch: in jumbleArray) return realAnagramArray is
 		line: unbounded_string;
 		beginNum: integer := 1;
-		endNum: integer;
+		endNum: integer := 1;
+		realWordCount: integer := 1;
 	begin
-		for i in 2..jumbleSearch'length + 2 loop
+		for i in 2..jumbleSearch'length loop
 			exit when jumbleSearch(i) = "";
 			line := jumbleSearch(i);
-			-- for k in 1..length(line) loop
+			for k in 1..length(line) loop
 				-- exit when Element(line, k) = "";
-				-- endNum := endNum + 1;
-			-- end loop;
-			endNum := (length(line));
-			anagramSearch(line, beginNum, endNum);
+				endNum := endNum * k;
+				-- put("end num is "); put(k); new_line;
+			end loop;
+			-- put("end num is "); put(endNum); new_line;
+			endNum := endNum - 1;
+			anagramSearch(anagramFind, line, beginNum, endNum);
+		end loop;
+
+		for i in 2..dictionarySearch'length loop
+			exit when dictionarySearch(i) = "";
+			-- realWordCount := 1;
+			for k in 2..anagramFind'length loop
+			exit when anagramFind(k) = "";
+				if anagramFind(k) = dictionarySearch(i) then
+					realAnagramFind(realWordCount) := anagramFind(k);
+					realWordCount := realWordCount + 1;
+				end if;
+			end loop;
 		end loop;
 
 
-	return anagramFind;
+	return realAnagramFind;
 	end findAnagram;
 
 
@@ -176,6 +197,7 @@ type dictionary is array (positive range <>) of unbounded_string;
 	jumble : jumbleArray := inputJumble;
 	wordDictionary : dictionary := buildLEXICON;
 	anagramDictionary : anagramArray(1..10000);
+	realWordsList: realAnagramArray(1..10000);
 	-- jumble : string(1..1_000);
 	-- jumble : constant String := inputJumble;
 	-- test: array (positive range <>) of character;
@@ -187,7 +209,11 @@ begin
 		put("entered this jumble: "); put(jumble(i));new_line;
 	end loop;
 
-	anagramDictionary := findAnagram(anagramDictionary, wordDictionary, jumble);
+	realWordsList := findAnagram(realWordsList, anagramDictionary, wordDictionary, jumble);
+	for i in 2..realWordsList'length loop
+		exit when realWordsList(i) = "";
+		put("anagrams found: ");put(realWordsList(i));new_line;
+	end loop;
 	-- put("you entered this number: "); put(jumble(2)); new_line;
 	-- jumble := inputJumble;
 	-- jumble := inputJumble;
