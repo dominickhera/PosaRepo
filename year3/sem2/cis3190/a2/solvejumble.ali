@@ -17,7 +17,7 @@ RV NO_DYNAMIC_SIZED_OBJECTS
 RV NO_IMPLICIT_LOOPS
 RV SPARK_05
 
-U solvejumble%b		solvejumble.adb		e656fea8 NE OO SU
+U solvejumble%b		solvejumble.adb		5542d4c8 NE OO SU
 W ada%s			ada.ads			ada.ali
 W ada.exceptions%s	a-except.adb		a-except.ali
 W ada.float_text_io%s	a-flteio.ads		a-flteio.ali
@@ -56,7 +56,7 @@ D a-tiinio.ads		20170516105950 aa04e5d6 ada.text_io.integer_io%s
 D a-unccon.ads		20170516105954 31484697 ada.unchecked_conversion%s
 D interfac.ads		20170516105950 5ab55268 interfaces%s
 D i-cstrea.ads		20170516105950 e53d8b8e interfaces.c_streams%s
-D solvejumble.adb	20180305033641 03fd8fe0 solvejumble%b
+D solvejumble.adb	20180305034908 b0e9a580 solvejumble%b
 D system.ads		20170516105953 085b6ffb system%s
 D s-atocou.ads		20170516105956 b45c2d8d system.atomic_counters%s
 D s-crtl.ads		20170516105948 0ebbdb71 system.crtl%s
@@ -79,101 +79,104 @@ D s-traent.ads		20170516105950 005bf670 system.traceback_entries%s
 D s-unstyp.ads		20170516105953 34867c83 system.unsigned_types%s
 D s-wchcon.ads		20170516105954 1b7d22d2 system.wch_con%s
 X 1 ada.ads
-16K9*Ada 20e8 21|1r6 1r23 2r6 2r31 3r6 3r29 4r6 4r33 5r6 5r41 25r17 83r39
-. 107r31
+16K9*Ada 20e8 21|1r6 1r23 2r6 2r31 3r6 3r29 4r6 4r33 5r6 5r41 25r17 88r39
+. 98r31
 X 6 a-flteio.ads
 20K13*Float_Text_IO[16|46] 21|3w10 3r33
 X 7 a-inteio.ads
 18K13*Integer_Text_IO[17|46] 21|2w10 2r35 25r21
 X 10 a-string.ads
-16K13*Strings 35e16 21|4r10 4r37 5r10 5r45 83r43 107r35
+16K13*Strings 35e16 21|4r10 4r37 5r10 5r45 88r43 98r35
 X 12 a-strunb.ads
-76K21*Unbounded 490e26 21|4w18 4r45 5r18 5r53 83r51 107r43
-79R9*Unbounded_String<5|43R9> 474e14 21|9r51 11r40 12r49 13r55 18r16 42r24
-. 61r24 82r48 115r82 159r23
-84V13*Length{natural} 21|119s43 139s37 145s50 167s37
-94V13*To_Unbounded_String{79R9} 21|107s53
-100V13*To_String{string} 21|83s61
-166V14*"="{boolean} 21|182s51
-170V14*"="{boolean} 21|131s66 165s51 178s55 181s50 208s37 214s44
+76K21*Unbounded 490e26 21|4w18 4r45 5r18 5r53 88r51 98r43
+79R9*Unbounded_String<5|43R9> 474e14 21|9r51 11r40 12r49 13r55 18r16 47r24
+. 66r24 87r48 105r82 144r23
+84V13*Length{natural} 21|109s43 124s37 130s50 152s37
+94V13*To_Unbounded_String{79R9} 21|98s53
+100V13*To_String{string} 21|88s61
+166V14*"="{boolean} 21|167s51
+170V14*"="{boolean} 21|116s66 150s51 163s55 166s50 194s37 200s44
 X 13 a-suteio.ads
 39K31*Text_IO 61e34 21|5w28 5r63
-47U14*Get_Line 21|49s25 69s25
+47U14*Get_Line 21|54s25 74s25
 50U14*Get_Line 21|28s25
-53U14*Put 21|135s42 209s47 215s41
+53U14*Put 21|195s47 201s41
 X 15 a-textio.ads
 49K13*Text_IO 471e16 21|1w10 1r27
-52P9*File_Type 21|43r24 57r24
-53n23*In_File{53E9} 21|45r28 65r28
-92U14*Open 21|45s17 65s17
-98U14*Close 21|52s17 76s17
-166U14*New_Line 21|24s74 135s76 209s62 215s63
-183V13*End_Of_File{boolean} 21|48s35 68s35
-242U14*Put 21|24s17 30s25 135s26 209s17 215s17
+52P9*File_Type 21|48r24 62r24
+53n23*In_File{53E9} 21|50r28 70r28
+92U14*Open 21|50s17 70s17
+98U14*Close 21|57s17 81s17
+166U14*New_Line 21|24s74 39s128 195s62 201s63
+183V13*End_Of_File{boolean} 21|53s35 73s35
+242U14*Put 21|24s17 30s25 39s17 195s17 201s17
 X 17 a-tiinio.ads
 56U14*Get 21|25s37[7|18]
 X 21 solvejumble.adb
-6U11*solveJumble 6b11 221l5 221t16
-9A6 anagramArray(12|79R9)<integer> 115r53 158r92 199r29
-11A6 jumbleArray(12|79R9)<integer> 16r37 17r22 158r156 197r18
-12A6 dictionary(12|79R9)<integer> 56r38 62r35 158r127 198r26
-13A6 realAnagramArray(12|79R9)<integer> 158r54 158r176 200r24
-16V18 inputJumble{11A6} 16b18 34l13 34t24 197s33
+6U11*solveJumble 6b11 208l5 208t16
+9A6 anagramArray(12|79R9)<integer> 105r53 143r92 184r29
+11A6 jumbleArray(12|79R9)<integer> 16r37 17r22 143r156 182r18
+12A6 dictionary(12|79R9)<integer> 61r38 67r35 143r127 183r26
+13A6 realAnagramArray(12|79R9)<integer> 143r54 143r176 185r24
+16V18 inputJumble{11A6} 16b18 34l13 34t24 182s33
 17a9 jumbleList{11A6} 29m25 32r24
 18r9 test{12|79R9} 28m34 29r42
 20i9 length{integer} 25m41 26r29
 26i21 i{integer} 29r36
-40V18 getFileLength{integer} 40b18 54l13 54t26 59s41
-41i17 fileLength{integer} 50m25 50r39 53r24
-42r17 line{12|79R9} 49m40
-43p17 infp{15|52P9} 45m22 45r22 48r47 49r34 52m23 52r23
-56V18 buildLEXICON{12A6} 56b18 79l13 79t25 198s40
-57p17 infp{15|52P9} 65m22 65r22 68r47 69r34 76m23 76r23
-58i17 k{integer} 71r41 72m25 72r30 75m17
-59i17 fileLength{integer} 62r49
-61r17 line{12|79R9} 69m40 71r47
-62a17 buildDictionary{12A6} 71m25 78r24
-82U19 swapChars 82b19 82=29 82>66 82>82 111l13 111t22 142s33 149s33
-82r29 swapString{12|79R9} 83r71 107m17
-82i66 charA{integer} 84r44 84r51 85r41 85r48 97r33 97r40 102r28 102r35
-82i82 charB{integer} 86r41 86r48 98r33 98r40 103r28 103r35
-83a17 tempString{string} 84r33 85r30 86r30 97r22 98r22 102r17 103r17 107r73
-84a17 temp{string} 103r45
-85a17 A{string} 97m17
-86a17 B{string} 98m17 102r45
-115U19 anagramSearch 115b19 115=33 115=67 115=100 115=126 148s33 155l13 155t26
-. 174s25
-115a33 anagramFind{9A6} 130r37 131r51 134m25 135r46 148m47
-115r67 string{12|79R9} 119r50 134r57 139r44 142m43 145r57 148m60 149m43
-115i100 beginNum{integer} 116r38 127r20 136m25 142r51 143r47 149r51
-115i126 endNum{integer} 117r38
-116i17 intCount{integer}
-117i17 endCount{integer}
-118i17 intTempNum{integer} 143m33 148m68 148r68
-119i17 intTempLength{integer} 127r31 145m33 148m80 148r80
-121i17 anagramArrayInt{integer} 132m41 132r60 134r37 135r58
-130i29 k{integer} 131r63
-139i29 i{integer} 142r61 149r61
-158V18 findAnagram{13A6} 158b18 158=30 158=72 158>106 158>139 191l13 191t24
-. 212s26
-158a30 realAnagramFind{13A6} 183m41 190r16
-158a72 anagramFind{9A6} 174m39 180r37 181r35 182r36 183r75
-158a106 dictionarySearch{12A6} 177r29 178r35 182r53
-158a139 jumbleSearch{11A6} 164r29 165r35 166r33
-159r17 line{12|79R9} 166m25 167r44 174m52 174r52
-160i17 beginNum{integer} 174m58 174r58
-161i17 endNum{integer} 169m33 169r43 173m25 173r35 174m68 174r68
-162i17 realWordCount{integer} 183r57 184m41 184r58
-164i21 i{integer} 165r48 166r46
-167i29 k{integer} 169r52
-177i21 i{integer} 178r52 182r70
-180i29 k{integer} 181r47 182r48 183r87
-197a9 jumble{11A6} 207r21 208r27 209r51 212r88
-198a9 wordDictionary{12A6} 212r72
-199a9 anagramDictionary{9A6} 212m53 212r53
-200a9 realWordsList{13A6} 212m9 212m38 212r38 213r21 214r27 215r45
-207i13 i{integer} 208r34 209r58
-213i13 i{integer} 214r41 215r59
+36V18 generateAnagram{integer} 36b18 42l13 42t28 186s31
+37i9 fillerInt{integer} 41r24
+45V18 getFileLength{integer} 45b18 59l13 59t26 64s41
+46i17 fileLength{integer} 55m25 55r39 58r24
+47r17 line{12|79R9} 54m40
+48p17 infp{15|52P9} 50m22 50r22 53r47 54r34 57m23 57r23
+61V18 buildLEXICON{12A6} 61b18 84l13 84t25 183s40
+62p17 infp{15|52P9} 70m22 70r22 73r47 74r34 81m23 81r23
+63i17 k{integer} 76r41 77m25 77r30 80m17
+64i17 fileLength{integer} 67r49
+66r17 line{12|79R9} 74m40 76r47
+67a17 buildDictionary{12A6} 76m25 83r24
+87U19 swapChars 87b19 87=29 87>66 87>82 101l13 101t22 127s33 134s33
+87r29 swapString{12|79R9} 88r71 98m17
+87i66 charA{integer} 89r44 89r51 90r41 90r48 94r33 94r40 96r28 96r35
+87i82 charB{integer} 91r41 91r48 95r33 95r40 97r28 97r35
+88a17 tempString{string} 89r33 90r30 91r30 94r22 95r22 96r17 97r17 98r73
+89a17 temp{string} 97r45
+90a17 A{string} 94m17
+91a17 B{string} 95m17 96r45
+105U19 anagramSearch 105b19 105=33 105=67 105=100 105=126 133s33 140l13 140t26
+. 159s25
+105a33 anagramFind{9A6} 115r37 116r51 119m25 133m47
+105r67 string{12|79R9} 109r50 119r57 124r44 127m43 130r57 133m60 134m43
+105i100 beginNum{integer} 106r38 112r20 121m25 127r51 128r47 134r51
+105i126 endNum{integer} 107r38
+106i17 intCount{integer}
+107i17 endCount{integer}
+108i17 intTempNum{integer} 128m33 133m68 133r68
+109i17 intTempLength{integer} 112r31 130m33 133m80 133r80
+110i17 anagramArrayInt{integer} 117m41 117r60 119r37
+115i29 k{integer} 116r63
+124i29 i{integer} 127r61 134r61
+143V18 findAnagram{13A6} 143b18 143=30 143=72 143>106 143>139 176l13 176t24
+. 198s26
+143a30 realAnagramFind{13A6} 168m41 175r16
+143a72 anagramFind{9A6} 159m39 165r37 166r35 167r36 168r75
+143a106 dictionarySearch{12A6} 162r29 163r35 167r53
+143a139 jumbleSearch{11A6} 149r29 150r35 151r33
+144r17 line{12|79R9} 151m25 152r44 159m52 159r52
+145i17 beginNum{integer} 159m58 159r58
+146i17 endNum{integer} 154m33 154r43 158m25 158r35 159m68 159r68
+147i17 realWordCount{integer} 168r57 169m41 169r58
+149i21 i{integer} 150r48 151r46
+152i29 k{integer} 154r52
+162i21 i{integer} 163r52 167r70
+165i29 k{integer} 166r47 167r48 168r87
+182a9 jumble{11A6} 193r21 194r27 195r51 198r88
+183a9 wordDictionary{12A6} 198r72
+184a9 anagramDictionary{9A6} 198m53 198r53
+185a9 realWordsList{13A6} 198m9 198m38 198r38 199r21 200r27 201r45
+186i9 fillerInt{integer}
+193i13 i{integer} 194r34 195r58
+199i13 i{integer} 200r41 201r59
 X 22 system.ads
 67M9*Address
 X 29 s-memory.ads

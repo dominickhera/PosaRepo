@@ -33,17 +33,22 @@ type realAnagramArray is array (positive range <>) of unbounded_string;
 		-- return word(1..last);
 	end inputJumble;
 
-	-- function generateAnagram(anagram: string(1..80)) return string is
-	-- begin
+	function generateAnagram return integer is
+	fillerInt: integer := 1;
+	begin
+		put("this shouldve generatedAnagrams but i procrastinated and forgot to make enough time to do this function");new_line;
 
-	-- end generateAnagram
+		return fillerInt;
+	end generateAnagram;
+	
+
 	function getFileLength return integer is
 		fileLength : integer := 1;
 		line : unbounded_string;
 		infp : file_type;
 	begin
-		open(infp, in_file, "/usr/share/dict/words");
-		-- open(infp, in_file, "/usr/share/dict/canadian-english-small");
+		-- open(infp, in_file, "/usr/share/dict/words");
+		open(infp, in_file, "/usr/share/dict/canadian-english-small");
 		loop
 			exit when end_of_file(infp);
 			get_line(infp, line);
@@ -62,8 +67,8 @@ type realAnagramArray is array (positive range <>) of unbounded_string;
 		buildDictionary : dictionary(1..fileLength);
 	begin
 		-- buildDictionary := buildLEXICON;
-		open(infp, in_file, "/usr/share/dict/words");
-		-- open(infp, in_file, "/usr/share/dict/canadian-english-small");
+		-- open(infp, in_file, "/usr/share/dict/words");
+		open(infp, in_file, "/usr/share/dict/canadian-english-small");
 		loop
 			exit when end_of_file(infp);
 			get_line(infp, line);
@@ -86,26 +91,11 @@ type realAnagramArray is array (positive range <>) of unbounded_string;
 		B: string := tempString(charB..charB);
 	begin
 
-		-- A := B;
-		-- B := temp;
-		-- tempString(charA..charA) := A;
-		-- tempString(charB..charB) := B;
-		-- temp := Element(tempString, charA);
-		-- A := Element(tempString, charA);
-		-- B := Element(tempString, charB);
-		-- temp := tempString(charA..charA);
 		A := tempString(charA..charA);
 		B := tempString(charB..charB);
-		-- charA := charB;
-		-- put("A is ");put(A);new_line;
-		-- put("b is now ");put(B);new_line;
 		tempString(charA..charA) := B;
 		tempString(charB..charB) := temp;
-		-- Element(tempString, charA) := B;
-		-- Element(string, charB) := temp;
-		-- put("new word is ");put(tempString);new_line;
 		swapString := Ada.Strings.Unbounded.To_Unbounded_String(tempString);
-		-- charB := temp;
 
 	
 	end swapChars;
@@ -117,12 +107,7 @@ type realAnagramArray is array (positive range <>) of unbounded_string;
 		endCount: integer := endNum;
 		intTempNum: integer;
 		intTempLength: integer := length(string);
-		-- intSecondTempLength: integer;
 		anagramArrayInt: integer := 1;
-		-- tempCharOne: unbounded_string;
-		-- tempCharTwo: unbounded_string;
-		-- tempCharThree: unbounded_string;
-		-- tempCharFour: unbounded_string;
 	begin
 		if beginNum = intTempLength then
 			-- put("word is ");put(string);new_line;
@@ -142,7 +127,7 @@ type realAnagramArray is array (positive range <>) of unbounded_string;
 				swapChars(string, beginNum, i);
 				intTempNum := beginNum + 1;
 				-- if intTempNum = endNum then
-				intTempLength := length(string);
+				intTempLength := length(string) - 1;
 				-- 	intTempNum := 1;
 				-- end if;
 				anagramSearch(anagramFind, string, intTempNum, intTempLength);
@@ -190,23 +175,17 @@ type realAnagramArray is array (positive range <>) of unbounded_string;
 	return realAnagramFind;
 	end findAnagram;
 
-
-
-
-	-- length: integer;
 	jumble : jumbleArray := inputJumble;
 	wordDictionary : dictionary := buildLEXICON;
 	anagramDictionary : anagramArray(1..10000);
 	realWordsList: realAnagramArray(1..10000);
-	-- jumble : string(1..1_000);
-	-- jumble : constant String := inputJumble;
-	-- test: array (positive range <>) of character;
+	fillerInt: integer := generateAnagram;
 begin
 	-- Put_Line("how many words do you want to enter?");
 	-- Ada.Integer_Text_IO.get(length);
 	for i in 2..jumble'length loop
 		exit when jumble(i) = "";
-		put("entered this jumble: "); put(jumble(i));new_line;
+		put("entered this word: "); put(jumble(i));new_line;
 	end loop;
 
 	realWordsList := findAnagram(realWordsList, anagramDictionary, wordDictionary, jumble);
@@ -214,8 +193,4 @@ begin
 		exit when realWordsList(i) = "";
 		put("anagrams found: ");put(realWordsList(i));new_line;
 	end loop;
-	-- put("you entered this number: "); put(jumble(2)); new_line;
-	-- jumble := inputJumble;
-	-- jumble := inputJumble;
-	-- Put_Line(jumble);
 end solveJumble;
