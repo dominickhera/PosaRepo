@@ -9,7 +9,7 @@
     <meta name="author" content="Dominick Hera">
     <!-- Load jquery, bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script scriptc="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Custom CSS -->
@@ -31,11 +31,11 @@
 
     <!-- <button class="accordion"><b>Status</b></button> -->
     <h5>Status</h5>
-    <div class="panel">
+    <!-- <div class="panel"> -->
       <textarea name="message" rows="auto" cols="60" readonly>The cat was playing in the garden.</textarea>
       <br>
       <button>Clear</button>
-    </div>
+    <!-- </div> -->
     <hr>
     <button class="accordion"><b>File Log</b></button>
     <div class="panel">
@@ -110,19 +110,60 @@
         </div>
     </div>
     <hr>
-    <div class="panel">
+    <!-- <div class="panel"> -->
         <div class="btn-group">
           <button id="uploadFile">Upload GEDCOM File</button>
           <button id="createSimpleGedcom">Create Simple GEDCOM</button>
           <button id="addIndividual">Add Individual</button>
           <button id="getDescendants">Get Descendants</button>
         </div>
-    </div>
+    <!-- </div> -->
     <hr>
     <p>If simpleValid.ged exists in the uploads/ directory on the server, then clicking on the link below will download it from the server.<br>
     <a href="/uploads/simpleValid.ged">simpleValid.ged</a></p>
+
+
+    <div id="uploadModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="uploadClose" class="close">&times;</span>
+        <p>upload modal</p>
+      </div>
+
+    </div>
+
+    <div id="createModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="createClose" class="close">&times;</span>
+        <p>Some text in the create Modal..</p>
+      </div>
+
+    </div>
+
+    <div id="addModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="addClose" class="close">&times;</span>
+        <p>Some text in the add Modal..</p>
+      </div>
+
+    </div>
+
+    <div id="getModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="getClose" class="close">&times;</span>
+        <p>Some text in the get Modal..</p>
+      </div>
+
+    </div>
     <!-- Leave me at the bottom of body -->
-<script src="./index.js"></script>
+<script src="index.js"></script>
 </body>
 </html>
 
