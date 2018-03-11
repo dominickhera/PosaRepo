@@ -1,28 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>CHANGE ME</title>
+    <title>Geneology App</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CHANGE ME">
+    <meta name="description" content="Geneology Application Page">
     <meta name="keywords" content="CHANGE ME">
-    <meta name="author" content="CHANGE ME">
+    <meta name="author" content="Dominick Hera">
     <!-- Load jquery, bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="/style.css">
+
+    <link rel="stylesheet" type="text/css" href="./style.css">
     <!-- Custom CSS End -->
 </head>
 <body>
-    <h3>Download test</h3>
-    If simpleValid.ged exists in the uploads/ directory on the server, then clicking on the link below will download it from the server.<br>
-    <a href="/uploads/simpleValid.ged">simpleValid.ged</a>
+    <h3><br>Geneology App - CIS 2750</h3>
+    <h6>Dominick Hera</h6>
     <hr>
+
+   <!--  <h4>Status</h4>
+    <hr>
+    <h4>File Log</h4>
+    <hr>
+    <h4>GEDCOM View</h4>
+    <hr> -->
+
+    <!-- <button class="accordion"><b>Status</b></button> -->
+    <h5>Status</h5>
+    <div class="panel">
+      <textarea name="message" rows="auto" cols="60" readonly>The cat was playing in the garden.</textarea>
+      <br>
+      <button>Clear</button>
+    </div>
+    <hr>
+    <button class="accordion"><b>File Log</b></button>
+    <div class="panel">
+     <br>
+     <div style="overflow-x:auto;">
+          <table>
+            <tr>
+              <th>File Name (click to download)</th>
+              <th>Source</th>
+              <th>GEDC Version</th>
+              <th>Encoding</th>
+              <th>Submitter Name</th>
+              <th>Submitter Address</th>
+              <th>Number of Individuals</th>
+              <th>Number of Families</th>
+            </tr>
+            <tr>
+              <td><a href="/uploads/simpleValid.ged">simpleValid.ged</a></td>
+              <td>PAF</td>
+              <td>5.5</td>
+              <td>ANSEL</td>
+              <td>Submitter</td>
+              <td></td>
+              <td>3</td>
+              <td>1</td>
+            </tr>
+          </table>
+          <br>
+        </div>
+    </div>
+    <button class="accordion"><b>GEDCOM Viewer</b></button>
+    <div class="panel">
+    <br>
+
+    <div class="dropdown">
+  <button class="dropbtn">Files</button>
+  <div class="dropdown-content">
+     <a href="/uploads/simpleValid.ged">simpleValid.ged</a>
+     <a href="/uploads/minValid.ged">minValid.ged</a>
+  </div>
+
+</div>
+<br>
+     <div style="overflow-x:auto;">
+          <table>
+            <tr>
+              <th>Given Name</th>
+              <th>Surname</th>
+              <th>Sex</th>
+              <th>Family Size</th>
+            </tr>
+            <tr>
+              <td>Jill</td>
+              <td>Smith</td>
+              <td>F</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>Eve</td>
+              <td>Jackson</td>
+              <td>F</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>Adam</td>
+              <td>Johnson</td>
+              <td>F</td>
+              <td>2</td>
+            </tr>
+          </table>
+          <br>
+        </div>
+    </div>
+    <hr>
+    <div class="panel">
+        <div class="btn-group">
+          <button id="uploadFile">Upload GEDCOM File</button>
+          <button id="createSimpleGedcom">Create Simple GEDCOM</button>
+          <button id="addIndividual">Add Individual</button>
+          <button id="getDescendants">Get Descendants</button>
+        </div>
+    </div>
+    <hr>
+    <p>If simpleValid.ged exists in the uploads/ directory on the server, then clicking on the link below will download it from the server.<br>
+    <a href="/uploads/simpleValid.ged">simpleValid.ged</a></p>
     <!-- Leave me at the bottom of body -->
-    <script src="/index.js"></script>
+<script src="./index.js"></script>
 </body>
 </html>
 

@@ -1,4 +1,6 @@
 // Put all onload AJAX calls here, and event listeners
+
+
 $(document).ready(function() {
     // On page-load AJAX Example
     $.ajax({
@@ -11,6 +13,7 @@ $(document).ready(function() {
                 so we do not need to parse it on the server.
                 JavaScript really does handle JSONs seamlessly
             */
+            
 
             //We write the object to the console to show that the request was successful
             console.log(data); 
