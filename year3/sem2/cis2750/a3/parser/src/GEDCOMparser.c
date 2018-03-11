@@ -2027,7 +2027,7 @@ List getAncestorListN(const GEDCOMobject* familyRecord, const Individual* person
 
     List individualAncestorsN = initializeList(printIndividual, deleteIndividual, compareIndividuals);
 
-    if(familyRecord != NULL)
+    if(familyRecord != NULL && person != NULL)
     {
         if(person != NULL)
         {
@@ -2041,32 +2041,42 @@ List getAncestorListN(const GEDCOMobject* familyRecord, const Individual* person
 char* indToJSON(const Individual* ind)
 {
     char * jsonReturn = malloc(sizeof(char) * 1000);
-
-    if(ind->givenName != NULL)
+    if(ind != NULL)
     {
-        sprintf(jsonReturn + strlen(jsonReturn), "{\"givenName\":\"%s\"", ind->givenName);
+        // char * jsonReturn = malloc(sizeof(char) * 1000);
 
-    }
-    else
-    {
-        sprintf(jsonReturn + strlen(jsonReturn), "{\"givenName\":\"\"");  
-    }
+        if(ind->givenName != NULL)
+        {
+            sprintf(jsonReturn + strlen(jsonReturn), "{\"givenName\":\"%s\"", ind->givenName);
 
-    if(ind->surname != NULL)
-    {
-        sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"%s\"}", ind->surname);
+        }
+        else
+        {
+            sprintf(jsonReturn + strlen(jsonReturn), "{\"givenName\":\"\"");  
+        }
 
-    }
-    else
-    {
-        sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"\"}");  
-    }
+        if(ind->surname != NULL)
+        {
+            sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"%s\"}", ind->surname);
 
+        }
+        else
+        {
+            sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"\"}");  
+        }
+
+        // return jsonReturn;
+    }
     return jsonReturn;
 }
 
 Individual* JSONtoInd(const char* str)
 {
+
+    if(str != NULL)
+    {
+        if(strlen(str) != 0)
+        {
     char *tempFieldStorage = malloc(sizeof(char) * 256);
     char *tempDataStorage = malloc(sizeof(char) * 256);
     int tempCount = 0;
@@ -2100,14 +2110,20 @@ Individual* JSONtoInd(const char* str)
 
         }
     }
+        if(secondTempCount != 0 || tempCount != 0)
+        {
 
-    Individual * tempIndividual = initializeIndividual(tempFieldStorage, tempDataStorage);
-    tempCount = 0;
-    secondTempCount = 0;
-    memset(tempFieldStorage, '\0', 256);
-    memset(tempDataStorage, '\0', 256);
+            Individual * tempIndividual = initializeIndividual(tempFieldStorage, tempDataStorage);
+            tempCount = 0;
+            secondTempCount = 0;
+            memset(tempFieldStorage, '\0', 256);
+            memset(tempDataStorage, '\0', 256);
 
-    return tempIndividual;
+            return tempIndividual;
+        }
+    }
+}
+return NULL;
 
 
 }
@@ -2120,6 +2136,8 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
 
     if(str != NULL)
     {
+        if(strlen(str) != 0)
+        {
         GEDCOMobject * tempObject = initializeGEDCOMobject();
 
         char *tempFieldStorage = malloc(sizeof(char) * 256);
@@ -2214,6 +2232,8 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
             }
         }
 
+        if(tempCount != 0 && secondTempCount != 0)
+        {
         Submitter * tempSubm = initializeSubmitter(tempFourStorage, tempFiveStorage);
         Header * tempHeader = initializeHeader(tempFieldStorage, tempDataStorage, tempThreeStorage);
         tempObject->submitter = tempSubm;
@@ -2232,6 +2252,8 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
 
         return tempObject;
     }
+    }
+    }
 
     return NULL;
 
@@ -2240,8 +2262,11 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
 
 void addIndividual(GEDCOMobject* obj, const Individual* toBeAdded)
 {
+    if(obj != NULL && toBeAdded != NULL)
+    {
 
-    insertBack(&obj->individuals, (void*)toBeAdded);
+        insertBack(&obj->individuals, (void*)toBeAdded);
+    }
 
 }
 
@@ -2274,10 +2299,10 @@ char* iListToJSON(List iList)
         }
         sprintf(indListReturn + strlen(indListReturn), "]");
     }
-    // else if(getLength(iList) == 0)
-    // {
-    //     sprintf(indListReturn + strlen(indListReturn) , "[]");
-    // }
+    else if(getLength(iList) == 0)
+    {
+        sprintf(indListReturn + strlen(indListReturn) , "[]");
+    }
 
     return indListReturn;
 
@@ -2311,6 +2336,10 @@ char* gListToJSON(List gList)
         }
 
         sprintf(listReturn + strlen(listReturn), "]\n");
+    }
+    else
+    {
+        sprintf(listReturn + strlen(listReturn) , "[]");
     }
 
     return listReturn;
@@ -3027,6 +3056,26 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
         }
 
         char* printFamily(void* toBePrinted)
+        {
+            if(toBePrinted!=NULL){
+                return (char *)toBePrinted;
+            }
+            return NULL;
+        }
+
+        void deleteGeneration(void* toBeDeleted)
+        {
+            toBeDeleted = NULL;
+            // free(toBeDeleted);
+            // free((Family*)toBeDeleted);
+        }
+
+        int compareGenerations(const void* first,const void* second)
+        {
+            return strcmp((char*)first, (char*)second);
+        }
+
+        char* printGeneration(void* toBePrinted)
         {
             if(toBePrinted!=NULL){
                 return (char *)toBePrinted;
