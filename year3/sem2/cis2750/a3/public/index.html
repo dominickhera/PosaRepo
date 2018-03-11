@@ -32,7 +32,7 @@
     <!-- <button class="accordion"><b>Status</b></button> -->
     <h5>Status</h5>
     <!-- <div class="panel"> -->
-      <textarea name="message" rows="auto" cols="60" readonly>The cat was playing in the garden.</textarea>
+      <textarea name="message" rows="auto" cols="60" readonly>Log Message would go here.</textarea>
       <br>
       <button>Clear</button>
     <!-- </div> -->
@@ -128,7 +128,13 @@
       <!-- Modal content -->
       <div class="modal-content">
         <span id="uploadClose" class="close">&times;</span>
-        <p>upload modal</p>
+        <!-- <p>upload modal</p> -->
+        <h3>Upload GEDCOM File</h3>
+        <form>
+          <input type="file">
+          <br></br>
+           <input type="submit" value="Upload GEDCOM">
+        </form>
       </div>
 
     </div>
@@ -138,7 +144,29 @@
       <!-- Modal content -->
       <div class="modal-content">
         <span id="createClose" class="close">&times;</span>
-        <p>Some text in the create Modal..</p>
+        <!-- <p>Some text in the create Modal..</p> -->
+        <form>
+          <h3>Create Simple GEDCOM</h3>
+        Source:<br>
+        <input type="text" name="source">
+        <br>
+        GEDC Version:<br>
+        <input type="text" name="gedcVersion">
+        <br>Encoding:<br>
+         <select name="encoding">
+          <option value="ANSEL">ANSEL</option>
+          <option value="UTF8">UTF-8</option>
+          <option value="ASCII">ASCII</option>
+          <option value="UNICODE">UNICODE</option>
+        </select>
+        <br>Submitter Name:<br>
+        <input type="text" name="subName">
+        <br>
+        Submitter Address:<br>
+        <input type="text" name="subAddress">
+        <br><br>
+        <input type="submit" value="Create GEDCOM">
+      </form>
       </div>
 
     </div>
@@ -148,8 +176,21 @@
       <!-- Modal content -->
       <div class="modal-content">
         <span id="addClose" class="close">&times;</span>
-        <p>Some text in the add Modal..</p>
-      </div>
+        <form>
+          <h3>Add Individual to GEDCOM</h3>
+        Given Name:<br>
+        <input type="text" name="givenname">
+        <br>
+        Surname:<br>
+        <input type="text" name="surname">
+        <br>GEDCOM File:<br>
+         <select name="gedcomFile">
+          <option value="simpleValid">simpleValid.ged</option>
+          <option value="minValid">minValid.ged</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Add Individual">
+      </form>
 
     </div>
 
