@@ -1,6 +1,5 @@
 // Put all onload AJAX calls here, and event listeners
 
-
 $(document).ready(function() {
     // On page-load AJAX Example
     $.ajax({
@@ -25,11 +24,13 @@ $(document).ready(function() {
     });
 
     // Event listener form replacement example, building a Single-Page-App, no redirects if possible
-    $('#someform').submit(function(e){
+    $('uploadForm').submit(function(e){
         e.preventDefault();
         $.ajax({});
         console.log("hi");
     });
+
+
 
     var acc = document.getElementsByClassName("accordion");
     var i;
@@ -51,6 +52,7 @@ $(document).ready(function() {
     var uploadModal = document.getElementById('uploadModal');
     var uploadBtn = document.getElementById("uploadFile");
     var uploadSpan = document.getElementById("uploadClose");
+    var uploadSubmit = document.getElementById("uploadSubmit");
     uploadBtn.onclick = function() {
         uploadModal.style.display = "block";
     }
@@ -65,6 +67,28 @@ $(document).ready(function() {
         }
         
     }
+
+    // uploadSubmit.onclick = function(event) {
+    //     event.preventDefault();
+    // }
+    // app.use(fileUpload());
+    // app.post('/uploads', function(req, res) {
+    //     if(!req.files)
+    //     {
+    //         return res.status(400).send('Error uploading file');
+    //     }
+
+    //     let gedcomFile = req.files.gedcomFile;
+
+    //     gedcomFile.mv('/uploads', function(err) {
+    //         if(err)
+    //         {
+    //             return res.status(500).send(err);
+    //         }
+
+    //         res.send('File Uploaded');
+    //     });
+    // });
 
     var createModal = document.getElementById('createModal');
     var createBtn = document.getElementById("createSimpleGedcom");
@@ -99,6 +123,7 @@ $(document).ready(function() {
             addModal.style.display = "none";
         }
     }
+
 
     var getModal = document.getElementById('getModal');
     var getBtn = document.getElementById("getDescendants");

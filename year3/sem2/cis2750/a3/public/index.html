@@ -32,9 +32,11 @@
     <!-- <button class="accordion"><b>Status</b></button> -->
     <h5>Status</h5>
     <!-- <div class="panel"> -->
-      <textarea name="message" rows="auto" cols="60" readonly>Log Message would go here.</textarea>
+    <form>
+      <textarea name="message" id="statusBox" rows="auto" cols="60" readonly>Log Message would go here.</textarea>
       <br>
-      <button>Clear</button>
+      <input type="reset" value="Clear">
+      </form>
     <!-- </div> -->
     <hr>
     <button class="accordion"><b>File Log</b></button>
@@ -130,10 +132,10 @@
         <span id="uploadClose" class="close">&times;</span>
         <!-- <p>upload modal</p> -->
         <h3>Upload GEDCOM File</h3>
-        <form>
-          <input type="file">
+        <form ref='uploadForm' id='uploadForm' action='/upload' method='post'>
+          <input type="file" name="gedcomFile">
           <br></br>
-           <input type="submit" value="Upload GEDCOM">
+           <input type="submit" id="uploadSubmit" value="Upload GEDCOM">
         </form>
       </div>
 
@@ -165,7 +167,7 @@
         Submitter Address:<br>
         <input type="text" name="subAddress">
         <br><br>
-        <input type="submit" value="Create GEDCOM">
+        <input id="createSubmit" type="submit" value="Create GEDCOM">
       </form>
       </div>
 
