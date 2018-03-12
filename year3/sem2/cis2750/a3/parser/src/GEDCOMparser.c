@@ -1483,11 +1483,20 @@ GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
             if(strcasestr(fileName, ".ged"))
             {
                 FILE * fp;
-                if((fp = fopen(fileName, "w+")) != NULL)
+                if((fp = fopen(fileName, "w")) != NULL)
                 {
                     // char * str = printGEDCOM(obj);
                     // printf("ref obj is %s\n", str);
                     char * writeReturn = malloc(sizeof(char) *1000);
+                    GEDCOMerror err;
+                    err.type = validateGEDCOM(obj);
+                    err.line = -1;
+                    if(err.type != 0)
+                    {
+                        return err;
+                    }
+                    if(obj->header != NULL)
+                    {
                     Header * tempHeader = (Header*)obj->header;
                     sprintf(writeReturn + strlen(writeReturn), "0 HEAD\n1 SOUR %s\n", tempHeader->source);
                     if(getLength(tempHeader->otherFields)!= 0)
@@ -1525,6 +1534,14 @@ GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
                         default:
                             break;
                     }
+                }
+                else
+                {
+                    GEDCOMerror err;
+                    err.type = INV_HEADER;
+                    err.line = -1;
+                    return err;
+                }
                     // sprintf(writeReturn + strlen(writeReturn), "1 CHAR %u\n1 SUBM @U1@\n",  tempHeader->encoding);
 
                     if(getLength(obj->individuals) != 0)
@@ -1766,6 +1783,13 @@ GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
                             }
                         }
                     }
+                    else
+                    {
+                        GEDCOMerror err;
+                        err.type = INV_RECORD;
+                        err.line = -1;
+                        return err;
+                    }
 
                     sprintf(writeReturn + strlen(writeReturn), "0 TRLR\n");
                     fputs(writeReturn, fp);
@@ -1812,7 +1836,7 @@ ErrorCode validateGEDCOM(const GEDCOMobject* obj)
     {
         if(obj->header == NULL)
         {
-            return INV_HEADER;
+            return INV_GEDCOM;
         }
         else
         {
@@ -1823,6 +1847,11 @@ ErrorCode validateGEDCOM(const GEDCOMobject* obj)
             }
 
             if(tempHeader->gedcVersion == 0)
+            {
+                return INV_HEADER;
+            }
+
+            if(tempHeader->submitter == NULL)
             {
                 return INV_HEADER;
             }
@@ -1849,14 +1878,14 @@ ErrorCode validateGEDCOM(const GEDCOMobject* obj)
 
         if(obj->submitter == NULL)
         {
-            return OTHER_ERROR;
+            return INV_GEDCOM;
         }
         else
         {
             Submitter * tempSubm = (Submitter*)obj->submitter;
             if(strlen(tempSubm->submitterName) == 0)
             {
-                return INV_GEDCOM;
+                return INV_RECORD;
             }
             if(getLength(tempSubm->otherFields) != 0)
             {
@@ -2077,53 +2106,53 @@ Individual* JSONtoInd(const char* str)
     {
         if(strlen(str) != 0)
         {
-    char *tempFieldStorage = malloc(sizeof(char) * 256);
-    char *tempDataStorage = malloc(sizeof(char) * 256);
-    int tempCount = 0;
-    int secondTempCount = 0;
+            char *tempFieldStorage = malloc(sizeof(char) * 256);
+            char *tempDataStorage = malloc(sizeof(char) * 256);
+            int tempCount = 0;
+            int secondTempCount = 0;
 
-    int nameCount = 0;
-    for(int i = 0; i < strlen(str); i++)
-    {
-        if(str[i] == ':')
-        {
-            i+=2;
-            if(nameCount == 0)
+            int nameCount = 0;
+            for(int i = 0; i < strlen(str); i++)
             {
-                nameCount++;
-                while(str[i] != '"')
+                if(str[i] == ':')
                 {
-                    tempFieldStorage[tempCount] = str[i];
-                    tempCount++;
-                    i++;
+                    i+=2;
+                    if(nameCount == 0)
+                    {
+                        nameCount++;
+                        while(str[i] != '"')
+                        {
+                            tempFieldStorage[tempCount] = str[i];
+                            tempCount++;
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        while(str[i] != '"')
+                        {
+                            tempDataStorage[secondTempCount] = str[i];
+                            secondTempCount++;
+                            i++;
+                        }
+                    }
+
                 }
             }
-            else
+            if(secondTempCount != 0 || tempCount != 0)
             {
-                while(str[i] != '"')
-                {
-                    tempDataStorage[secondTempCount] = str[i];
-                    secondTempCount++;
-                    i++;
-                }
+
+                Individual * tempIndividual = initializeIndividual(tempFieldStorage, tempDataStorage);
+                tempCount = 0;
+                secondTempCount = 0;
+                memset(tempFieldStorage, '\0', 256);
+                memset(tempDataStorage, '\0', 256);
+
+                return tempIndividual;
             }
-
         }
     }
-        if(secondTempCount != 0 || tempCount != 0)
-        {
-
-            Individual * tempIndividual = initializeIndividual(tempFieldStorage, tempDataStorage);
-            tempCount = 0;
-            secondTempCount = 0;
-            memset(tempFieldStorage, '\0', 256);
-            memset(tempDataStorage, '\0', 256);
-
-            return tempIndividual;
-        }
-    }
-}
-return NULL;
+    return NULL;
 
 
 }
@@ -2138,121 +2167,106 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
     {
         if(strlen(str) != 0)
         {
-        GEDCOMobject * tempObject = initializeGEDCOMobject();
+            GEDCOMobject * tempObject = initializeGEDCOMobject();
 
-        char *tempFieldStorage = malloc(sizeof(char) * 256);
-        char *tempDataStorage = malloc(sizeof(char) * 256);
-        char *tempThreeStorage = malloc(sizeof(char) *256);
-        char *tempFourStorage = malloc(sizeof(char) *256);
-        char *tempFiveStorage = malloc(sizeof(char) *256);
-        int tempCount = 0;
-        int secondTempCount = 0;
-        int countThree = 0;
-        int countFour = 0;
-        int countFive = 0;
+            char *tempFieldStorage = malloc(sizeof(char) * 256);
+            char *tempDataStorage = malloc(sizeof(char) * 256);
+            char *tempThreeStorage = malloc(sizeof(char) *256);
+            char *tempFourStorage = malloc(sizeof(char) *256);
+            char *tempFiveStorage = malloc(sizeof(char) *256);
+            int tempCount = 0;
+            int secondTempCount = 0;
+            int countThree = 0;
+            int countFour = 0;
+            int countFive = 0;
 
-        int categoryFind = 0;
-        for(int i = 0; i < strlen(str); i++)
-        {
-            if(str[i] == ':')
+            int categoryFind = 0;
+            for(int i = 0; i < strlen(str); i++)
             {
-                i+=2;
-                switch(categoryFind)
+                if(str[i] == ':')
                 {
-                    case 0:
-                        categoryFind++;
-                        while(str[i] != '"')
-                        {
-                            tempFieldStorage[tempCount] = str[i];
-                            tempCount++;
-                            i++;
-                        }
-                        break;
-                    case 1:
-                        categoryFind++;
-                        while(str[i] != '"')
-                        {
-                            tempDataStorage[secondTempCount] = str[i];
-                            secondTempCount++;
-                            i++;
-                        }
-                        break;
-                    case 2:
-                        categoryFind++;
-                        while(str[i] != '"')
-                        {
-                            tempThreeStorage[countThree] = str[i];
-                            countThree++;
-                            i++;
-                        }
-                        
-                        break;
-                    case 3:
-                        categoryFind++;
-                        while(str[i] != '"')
-                        {
-                            tempFourStorage[countFour] = str[i];
-                            countFour++;
-                            i++;
-                        }
-                        break;
-                    case 4:
-                        categoryFind++;
-                        while(str[i] != '"')
-                        {
-                            tempFiveStorage[countFive] = str[i];
-                            countFive++;
-                            i++;
-                        }
-                        break;
-                    default:
-                        printf("error\n");
-                        break;
-                }
-                // if(categoryFind == 0)
-                // {
-                //     categoryFind++;
-                //     while(str[i] != '"')
-                //     {
-                //         tempFieldStorage[tempCount] = str[i];
-                //         tempCount++;
-                //         i++;
-                //     }
-                // }
-                // else
-                // {
-                //     while(str[i] != '"')
-                //     {
-                //         tempDataStorage[secondTempCount] = str[i];
-                //         secondTempCount++;
-                //         i++;
-                //     }
-                // }
+                    i+=2;
+                    switch(categoryFind)
+                    {
+                        case 0:
+                            categoryFind++;
+                            while(str[i] != '"')
+                            {
+                                tempFieldStorage[tempCount] = str[i];
+                                tempCount++;
+                                i++;
+                            }
+                            printf("case 1: <%s>\n", tempFieldStorage);
+                            break;
+                        case 1:
+                            categoryFind++;
+                            while(str[i] != '"')
+                            {
+                                tempDataStorage[secondTempCount] = str[i];
+                                secondTempCount++;
+                                i++;
+                            }
+                            printf("case 2: <%s>\n", tempDataStorage);
+                            break;
+                        case 2:
+                            categoryFind++;
+                            while(str[i] != '"')
+                            {
+                                tempThreeStorage[countThree] = str[i];
+                                countThree++;
+                                i++;
+                            }
+                            printf("case 3: <%s>\n", tempThreeStorage);
+                            break;
+                        case 3:
+                            categoryFind++;
+                            while(str[i] != '"')
+                            {
+                                tempFourStorage[countFour] = str[i];
+                                countFour++;
+                                i++;
+                            }
+                            printf("case 4: <%s>\n", tempFourStorage);
+                            break;
+                        case 4:
+                            categoryFind++;
+                            while(str[i] != '"')
+                            {
+                                tempFiveStorage[countFive] = str[i];
+                                countFive++;
+                                i++;
+                            }
+                            printf("case 5: <%s>\n\n", tempFiveStorage);
+                            break;
+                        default:
+                            printf("error\n");
+                            break;
+                    }
 
+                }
+            }
+
+            if(tempCount != 0 && secondTempCount != 0 && countThree != 0 && countFour != 0)
+            {
+                Submitter * tempSubm = initializeSubmitter(tempFourStorage, tempFiveStorage);
+                Header * tempHeader = initializeHeader(tempFieldStorage, tempDataStorage, tempThreeStorage);
+                tempObject->submitter = tempSubm;
+                tempObject->header = tempHeader;
+                // Individual * tempIndividual = initializeIndividual(tempFieldStorage, tempDataStorage);
+                tempCount = 0;
+                secondTempCount = 0;
+                countThree = 0;
+                countFour = 0;
+                countFive = 0;
+                memset(tempFieldStorage, '\0', 256);
+                memset(tempDataStorage, '\0', 256);
+                memset(tempThreeStorage, '\0', 256);
+                memset(tempFourStorage, '\0', 256);
+                memset(tempFiveStorage, '\0', 256);
+
+                return tempObject;
             }
         }
-
-        if(tempCount != 0 && secondTempCount != 0)
-        {
-        Submitter * tempSubm = initializeSubmitter(tempFourStorage, tempFiveStorage);
-        Header * tempHeader = initializeHeader(tempFieldStorage, tempDataStorage, tempThreeStorage);
-        tempObject->submitter = tempSubm;
-        tempObject->header = tempHeader;
-        // Individual * tempIndividual = initializeIndividual(tempFieldStorage, tempDataStorage);
-        tempCount = 0;
-        secondTempCount = 0;
-        countThree = 0;
-        countFour = 0;
-        countFive = 0;
-        memset(tempFieldStorage, '\0', 256);
-        memset(tempDataStorage, '\0', 256);
-        memset(tempThreeStorage, '\0', 256);
-        memset(tempFourStorage, '\0', 256);
-        memset(tempFiveStorage, '\0', 256);
-
-        return tempObject;
-    }
-    }
     }
 
     return NULL;
@@ -2907,26 +2921,24 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
             // printf("list size is %d\n", getLength(individualDescendants));
 
 
-            // void* tempElem;
-            // ListIterator tempElemIter = createIterator(individualDescendants);
-            // while((tempElem = nextElement(&tempElemIter)) != NULL)
-            // {
-            //     Individual * tempPerson = (Individual*)tempElem;
-            //     printf("name is %s %s\n", tempPerson->givenName, tempPerson->surname);
-            // }
+            void* tempElem;
+            ListIterator tempElemIter = createIterator(individualDescendants);
+            while((tempElem = nextElement(&tempElemIter)) != NULL)
+            {
+                Individual * tempPerson = (Individual*)tempElem;
+                printf("name is %s %s\n", tempPerson->givenName, tempPerson->surname);
+            }
 
         }
-        }
+    }
+    printf("\n\n");
         return individualDescendants;
 
     }
 
     List getChild(const GEDCOMobject* familyRecord, const Individual* person, List list)
     {
-        List newList = list;
-        // printf("line 3\n");
-        // Individual * individualFamilyTreePerson = findPerson(familyRecord, customIndividualCompareFunction, person);
-        // individualDescendants = getChild(familyRecord, individualFamilyTreePerson, individualDescendants);
+       
         void *individualFamilyFindElem;
         ListIterator individualFamilyFindElemIter = createIterator(person->families);
         while((individualFamilyFindElem = nextElement(&individualFamilyFindElemIter)) != NULL)
@@ -2936,16 +2948,10 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
             Family * tempFamily = (Family*)individualFamilyFindElem;
             Individual * tempHubby = (Individual*)tempFamily->husband;
             Individual * tempWifey = (Individual*)tempFamily->wife;
-            if ((tempHubby->givenName != NULL && person->givenName != NULL && (strcmp(person->givenName, tempHubby->givenName ) == 0)) || (tempWifey->givenName != NULL && person->givenName != NULL && (strcmp(person->givenName, tempWifey->givenName ) == 0)))
+            if (((strcmp(person->givenName, tempHubby->givenName) == 0)) || ((strcmp(person->givenName, tempWifey->givenName ) == 0)))
             {
-                // printf("given names are fucked, test is <%s> ref is <%s>\n", testInd->givenName, refInd->givenName);
-                // printf("sur names are fucked, test is <%s> ref is <%s>\n", testInd->surname, refInd->surname);
-
-                if ((tempHubby->surname != NULL && person->surname != NULL && (strcmp(person->surname, tempHubby->surname ) == 0)))
+                if (((strcmp(person->surname, tempHubby->surname) == 0)))
                 {
-                    // if((customIndividualCompareFunction(person, tempFamily->husband)) || (customIndividualCompareFunction(person, tempFamily->wife)))
-                    // {
-                    // printf("line 5\n");
                     if(getLength(tempFamily->children) != 0)
                     {
                         // printf("line 6\n");
@@ -2954,49 +2960,48 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                         while((childElem = nextElement(&childElemIter)) != NULL)
                         {
                             // printf("hello\n");
+                           
                             Individual * tempIndividual = (Individual*)childElem;
+                             if(getLength(list) == 0)
+                            {
+                               insertBack(&list, tempIndividual);
+                               list = getChild(familyRecord, tempIndividual, list); 
+                            }
+                            else
+                            {
                             void* dupeElem;
-                            ListIterator dupeElemIter = createIterator(newList);
+                            ListIterator dupeElemIter = createIterator(list);
                             while((dupeElem = nextElement(&dupeElemIter)) != NULL)
                             {
                                 Individual* testInd = (Individual*)childElem;
                                 Individual* refInd = (Individual*)dupeElem;
 
-                                if (refInd->givenName != NULL && testInd->givenName != NULL && (strcmp(testInd->givenName, refInd->givenName ) == 0))
+                                if ((strcmp(testInd->givenName, refInd->givenName) != 0))
                                 {
-                                    // printf("given names are fucked, test is <%s> ref is <%s>\n", testInd->givenName, refInd->givenName);
-                                    // printf("sur names are fucked, test is <%s> ref is <%s>\n", testInd->surname, refInd->surname);
-
-                                    if (refInd->surname != NULL && testInd->surname != NULL && (strcmp(testInd->surname, refInd->surname ) == 0))
+                                    if((strcmp(testInd->surname, refInd->surname) != 0))
                                     {
-                                        childElem = nextElement(&childElemIter);
-
-                                        // Individual * tempIndividual = (Individual*)childElem;
-                                        // insertBack(&newList,)
-                                        // newList = getChild(familyRecord, tempIndividual, newList);
-                                        break;
+                                        insertBack(&list, tempIndividual);
+                                        list = getChild(familyRecord, tempIndividual, list);
                                     }
                                 }
+
                             }
-                            // Individual * tempIndividual = (Individual*)childElem;
-                            insertBack(&newList, tempIndividual);
-                            newList = getChild(familyRecord, tempIndividual, newList);
-
-                            // printf("line 7\n");
-                            // printf("list size is %d\n", getLength(list));
                         }
-
-
-                        // newList = getChild(familyRecord, person, newList);
-                        // printf("list size is %d\n", getLength(list));
-                        return newList;
+                            // childElem = nextElement(&childElemIter);
+                            // break;
+                            // Individual * tempIndividual = (Individual*)childElem;
+                            // insertBack(&list, tempIndividual);
+                            // list = getChild(familyRecord, tempIndividual, list);
+                        }
+                        return list;
 
                     }
+
                 }
                 } 
             }
 
-            return newList;
+            return list;
         }
 
 
@@ -3147,7 +3152,6 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
         Header * initializeHeader(char* source, char* gedcVersion, char* encodingType)
         {
             Header* tempHeader = malloc(sizeof(Header));
-
             strcpy(tempHeader->source, source);
             tempHeader->gedcVersion = atof(gedcVersion);
             tempHeader->otherFields = initializeList(printField, deleteField, compareFields);
@@ -3168,10 +3172,6 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
             else if (strcmp(encodingType, "UNICODE")==0)
             {
                 tempHeader->encoding = UNICODE;
-            }
-            else
-            {
-                tempHeader->encoding = 4;
             }
 
             return tempHeader;
