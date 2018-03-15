@@ -42,7 +42,7 @@ $(document).ready(function() {
                 var option2 = document.createElement('option');
                 option2.innerHTML = data.fileArrayList[i];
                 gedcomViewerOptions.appendChild(option);
-                addIndFileList.appendChild(option);
+                addIndFileList.appendChild(option2);
                 // fileTableArray.append( '<tr><td><a href="/uploads/' + data.fileArrayList[i] + '">' + data.fileArrayList[i] + '</a></td></tr>\n');
                 // <td><a href="/uploads/simpleValid.ged">simpleValid.ged</a></td>
                 // fileTableArray.append('<tr><td><a href="/uploads/simpleValid.ged">simpleValid.ged</a></td><td>PAF</td><td>5.5</td><td>ANSEL</td><td>Submitter</td><td></td><td>3</td><td>1</td></tr>');

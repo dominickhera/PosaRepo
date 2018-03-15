@@ -94,11 +94,11 @@ var fileArray = [];
 fs.readdir('./uploads/', (err, files) => {
   files.forEach((file) => {
     fileArray.push(file);
-    // var array = fs.readFileSync(testFolder + file).toString().split("\n");
-      
+    var array = fs.readFileSync(testFolder + file).toString().split("\n");
+     console.log("\n\n\n",array); 
     // console.log(file);
   });
-  // console.log("\n\n\n",fileArray);
+  // console.log("\n\n\n",array);
   app.get('/uploads/', function(req , res){
   res.send({
     foo: "bar",
