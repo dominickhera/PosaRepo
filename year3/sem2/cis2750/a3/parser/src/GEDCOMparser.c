@@ -161,13 +161,13 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 
                     }
 
-                    // if(strlen(line) >= 255)
-                    // {
-                    //     GEDCOMerror err;
-                    //     err.type = INV_RECORD;
-                    //     err.line = -1;
-                    //     return err;
-                    // }
+                    if(strlen(line) > 255)
+                    {
+                        GEDCOMerror err;
+                        err.type = INV_RECORD;
+                        err.line = -1;
+                        return err;
+                    }
                     strcpy(lineStorage[count], line);
 
                     count++;
@@ -266,7 +266,7 @@ for(int i = 0; i < count; i++)
                 // }
                 i++;
 
-                printf("line[%d]<%s>\n",i, lineStorage[i]);
+                // printf("line[%d]<%s>\n",i, lineStorage[i]);
                 // printf("first item of line is <%c>\n", lineStorage[i][0]);
                 if(strcasestr(lineStorage[i], "SOUR"))
                 {
@@ -422,7 +422,7 @@ for(int i = 0; i < count; i++)
         // printf("indi found\n");
         // indiFlag = 1;
         // i++;
-        printf("indi found %s\n", lineStorage[i]);
+        // printf("indi found %s\n", lineStorage[i]);
         while(lineStorage[i + 1][0] != '0')
         {
 
@@ -668,7 +668,7 @@ for(int i = 0; i < count; i++)
 }
 else if(strcasestr(lineStorage[i], "FAM"))
 {
-    printf("fam found\n");
+    // printf("fam found\n");
     // printf("family starts on line: %s\n", lineStorage[i]);
     // famFlag = 1;
     // i++;
@@ -956,7 +956,7 @@ totalFamilyCount++;
 }
 else if(strcasestr(lineStorage[i], "SUBM"))
 {
-    printf("subm found on line %d\n", i);
+    // printf("subm found on line %d\n", i);
     submFlag = 1;
     // if(strcasestr(lineStorage[i+1], "NAME"))
     // { 
@@ -1468,10 +1468,10 @@ if(totalFamilyCount != 0)
             }
             else
             {
-                printf("not 0\n");
+                // printf("not 0\n");
                 for(int k = familyChildFindCountArray[j]; k < familyChildFindCountArray[j]+1; k++)
                 {
-                    printf("k is %d\n", k);
+                    // printf("k is %d\n", k);
                     void *individualElem;
                     ListIterator individualElemIter = createIterator(tempObject->individuals);
                     while((individualElem = nextElement(&individualElemIter)) != NULL)
@@ -1565,13 +1565,13 @@ GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
                     // char * str = printGEDCOM(obj);
                     // printf("ref obj is %s\n", str);
                     char * writeReturn = malloc(sizeof(char) *1000);
-                    GEDCOMerror err;
-                    err.type = validateGEDCOM(obj);
-                    err.line = -1;
-                    if(err.type != 0)
-                    {
-                        return err;
-                    }
+                    // GEDCOMerror err;
+                    // err.type = validateGEDCOM(obj);
+                    // err.line = -1;
+                    // if(err.type != 0)
+                    // {
+                    //     return err;
+                    // }
                     if(obj->header != NULL)
                     {
                         Header * tempHeader = (Header*)obj->header;
@@ -1857,7 +1857,10 @@ GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
                             while((tempElem = nextElement(&tempElemIter)) != NULL)
                             {
                                 Field * tempField = (Field*)tempElem;
-                                sprintf(writeReturn + strlen(writeReturn), "1 %s %s\n", tempField->tag, tempField->value);
+                                if(!(strcasestr(tempField->tag, "SUBM")))
+                                {
+                                    sprintf(writeReturn + strlen(writeReturn), "1 %s %s\n", tempField->tag, tempField->value);
+                                }
                             }
                         }
                     }
@@ -1870,6 +1873,8 @@ GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
                     }
 
                     sprintf(writeReturn + strlen(writeReturn), "0 TRLR\n");
+
+                    // printf("write return returns this \n%s\n", writeReturn);
                     fputs(writeReturn, fp);
                     fclose(fp);
                 }
@@ -2274,7 +2279,7 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
                                 tempCount++;
                                 i++;
                             }
-                            printf("case 1: <%s>\n", tempFieldStorage);
+                            // printf("case 1: <%s>\n", tempFieldStorage);
                             break;
                         case 1:
                             categoryFind++;
@@ -2284,7 +2289,7 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
                                 secondTempCount++;
                                 i++;
                             }
-                            printf("case 2: <%s>\n", tempDataStorage);
+                            // printf("case 2: <%s>\n", tempDataStorage);
                             break;
                         case 2:
                             categoryFind++;
@@ -2294,7 +2299,7 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
                                 countThree++;
                                 i++;
                             }
-                            printf("case 3: <%s>\n", tempThreeStorage);
+                            // printf("case 3: <%s>\n", tempThreeStorage);
                             break;
                         case 3:
                             categoryFind++;
@@ -2304,7 +2309,7 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
                                 countFour++;
                                 i++;
                             }
-                            printf("case 4: <%s>\n", tempFourStorage);
+                            // printf("case 4: <%s>\n", tempFourStorage);
                             break;
                         case 4:
                             categoryFind++;
@@ -2314,7 +2319,7 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
                                 countFive++;
                                 i++;
                             }
-                            printf("case 5: <%s>\n\n", tempFiveStorage);
+                            // printf("case 5: <%s>\n\n", tempFiveStorage);
                             break;
                         default:
                             printf("error\n");
@@ -2380,7 +2385,7 @@ char* iListToJSON(List iList)
 
             Individual * tempIndividual = (Individual*)elem;
             char * indStr = indToJSON(tempIndividual);
-            if(lengthTrack != realLength)
+            if(lengthTrack + 1 != realLength)
             {
                 sprintf(indListReturn + strlen(indListReturn), "%s,", indStr);
             }
@@ -2398,6 +2403,7 @@ char* iListToJSON(List iList)
         sprintf(indListReturn + strlen(indListReturn) , "[]");
     }
 
+    
     return indListReturn;
 
 }
@@ -2408,7 +2414,7 @@ char* gListToJSON(List gList)
     char * listReturn = malloc(sizeof(char) * 1000);
     if(getLength(gList) != 0)
     {
-        sprintf(listReturn + strlen(listReturn), "[\n");
+        sprintf(listReturn + strlen(listReturn), "[");
         int lengthTrack = 0;
         int realLength = getLength(gList);    
         void* elem;
@@ -2417,25 +2423,26 @@ char* gListToJSON(List gList)
         {
             List * tempList = (List*)elem;
             char * listStr = iListToJSON(*tempList);
-            if(lengthTrack != realLength)
+            if(lengthTrack + 1 != realLength)
             {
-                sprintf(listReturn + strlen(listReturn), "%s,\n", listStr);
+                sprintf(listReturn + strlen(listReturn), "%s,", listStr);
             }
             else
             {
-                sprintf(listReturn + strlen(listReturn), "%s\n", listStr);
+                sprintf(listReturn + strlen(listReturn), "%s", listStr);
             }
 
             lengthTrack++;
         }
 
-        sprintf(listReturn + strlen(listReturn), "]\n");
+        sprintf(listReturn + strlen(listReturn), "]");
     }
     else
     {
         sprintf(listReturn + strlen(listReturn) , "[]");
     }
 
+    printf("ilist returns %s\n", listReturn);
     return listReturn;
 
 }
@@ -3001,13 +3008,13 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
             // printf("list size is %d\n", getLength(individualDescendants));
 
 
-            void* tempElem;
-            ListIterator tempElemIter = createIterator(individualDescendants);
-            while((tempElem = nextElement(&tempElemIter)) != NULL)
-            {
-                Individual * tempPerson = (Individual*)tempElem;
-                printf("name is %s %s\n", tempPerson->givenName, tempPerson->surname);
-            }
+            // void* tempElem;
+            // ListIterator tempElemIter = createIterator(individualDescendants);
+            // while((tempElem = nextElement(&tempElemIter)) != NULL)
+            // {
+            //     Individual * tempPerson = (Individual*)tempElem;
+            //     // printf("name is %s %s\n", tempPerson->givenName, tempPerson->surname);
+            // }
 
         }
         }
@@ -3026,7 +3033,7 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
             Family * tempFamily = (Family*)individualFamilyFindElem;
             Individual * tempHubby = tempFamily->husband;
             Individual * tempWifey = tempFamily->wife;
-            printf("Wife: %s %s Husdand: %s %s\n", tempWifey->givenName, tempWifey->surname, tempHubby->givenName, tempHubby->surname);
+            // printf("Wife: %s %s Husdand: %s %s\n", tempWifey->givenName, tempWifey->surname, tempHubby->givenName, tempHubby->surname);
 
             if (((strcmp(person->givenName, tempHubby->givenName) == 0) && ((strcmp(person->surname, tempHubby->surname) == 0))) || ((strcmp(person->givenName, tempWifey->givenName ) == 0) && (strcmp(person->surname, tempWifey->surname) == 0)))
             {
@@ -3037,11 +3044,11 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                     while((childElem = nextElement(&childElemIter)) != NULL)
                     {
                         Individual * tempIndividual = (Individual*)childElem;
-                        printf("    %s %s\n", tempIndividual->givenName, tempIndividual->surname);
+                        // printf("    %s %s\n", tempIndividual->givenName, tempIndividual->surname);
                         /*If the list is empty just add the individual */
                         if(getLength(list) == 0)
                         {
-                            printf("list empty\n");
+                            // printf("list empty\n");
                             insertBack(&list, tempIndividual);
                             list = getChild(familyRecord, tempIndividual, list); 
                         }
