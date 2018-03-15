@@ -12,16 +12,53 @@ $(document).ready(function() {
                 so we do not need to parse it on the server.
                 JavaScript really does handle JSONs seamlessly
             */
-            console.log("hi");
-            $( "<div>" )
-    .append(data.foo )
-    .appendTo( "#statusBox" );
+            // console.log("hi");
+            var uploadFileArrayLength = data.fileArrayList.length;
+            // var fileTableArray = $('$fileTable');
+            var fileTableArray = document.getElementById('fileTable');
+            var gedcomViewerOptions = document.getElementById('gedcomViewFileList');
+            var addIndFileList = document.getElementById('addIndFileList');
+            for (; i < uploadFileArrayLength; i++) { 
+               
+                // $( "<div>" )
+                // .append(data.fileArrayList[i] + "\n" )
+                // .appendTo( "#statusBox" );
+                var newRow = fileTableArray.insertRow(i);
+                var cellOne = newRow.insertCell(0);
+                var cellTwo = newRow.insertCell(1);
+                var cellThree = newRow.insertCell(2);
+                var cellFour = newRow.insertCell(3);
+                var cellFive= newRow.insertCell(4);
+                var cellSix = newRow.insertCell(5);
+                var cellSeven = newRow.insertCell(6);
+                var cellEight = newRow.insertCell(7);
+                // testCell.innerHTML("hello");
+                // cellOne.innerHTML += ('<a href="/uploads/simpleValid.ged">simpleValid.ged</a>');
+                cellOne.innerHTML += ( '<a href="/uploads/' + data.fileArrayList[i] + '">' + data.fileArrayList[i] + '</a>');
+                // gedcomViewerOptions.appendChild(data.fileArrayList[i]);
+                 var option = document.createElement('option');
+                
+                option.innerHTML = data.fileArrayList[i];
+                var option2 = document.createElement('option');
+                option2.innerHTML = data.fileArrayList[i];
+                gedcomViewerOptions.appendChild(option);
+                addIndFileList.appendChild(option);
+                // fileTableArray.append( '<tr><td><a href="/uploads/' + data.fileArrayList[i] + '">' + data.fileArrayList[i] + '</a></td></tr>\n');
+                // <td><a href="/uploads/simpleValid.ged">simpleValid.ged</a></td>
+                // fileTableArray.append('<tr><td><a href="/uploads/simpleValid.ged">simpleValid.ged</a></td><td>PAF</td><td>5.5</td><td>ANSEL</td><td>Submitter</td><td></td><td>3</td><td>1</td></tr>');
+                // $("<div>")
+                // .append(<td>data.fileArrayList[i] + "\n" </td>)
+                // .appendTo( "#fileTable" );
+            }
+    //         $( "<div>" )
+    // .append(data.fileArrayList )
+    // .appendTo( "#statusBox" );
 
             //We write the object to the console to show that the request was successful
             console.log(data.name); 
         },
         fail: function(error) {
-            console.log("fuck");
+            
             // Non-200 return, do something with error
             console.log(error); 
         }

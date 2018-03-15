@@ -76,26 +76,37 @@ app.get('/uploads/:name', function(req , res){
 //******************** Your code goes here ******************** 
 
 //Sample endpoint
-app.get('/uploads/', function(req , res){
-  res.send({
-    foo: "bar"
-  });
-// fs.readdir('./uploads/', (err, files) => {
-//   files.forEach((file) => {
-//     res.send({
-//       foo: "test"
-//     })
-// //     // console.log(file);
+// app.get('/uploads/', function(req , res){
+//   res.send({
+//     foo: "bar"
 //   });
+// // fs.readdir('./uploads/', (err, files) => {
+// //   files.forEach((file) => {
+// //     res.send({
+// //       foo: "test"
+// //     })
+// // //     // console.log(file);
+// //   });
+// // });
 // });
+const testFolder = "./uploads/"
+var fileArray = [];
+fs.readdir('./uploads/', (err, files) => {
+  files.forEach((file) => {
+    fileArray.push(file);
+    // var array = fs.readFileSync(testFolder + file).toString().split("\n");
+      
+    // console.log(file);
+  });
+  // console.log("\n\n\n",fileArray);
+  app.get('/uploads/', function(req , res){
+  res.send({
+    foo: "bar",
+    fileArrayList: fileArray
+  });
+});
 });
 
-// fs.readdir('./uploads/', (err, files) => {
-//   files.forEach((file) => {
-
-//     console.log(file);
-//   });
-// });
 
 // const testFolder = './uploads/'
 // fs.readdir(testFolder, (err, files) => {

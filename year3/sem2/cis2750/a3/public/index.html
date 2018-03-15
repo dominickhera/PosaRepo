@@ -48,7 +48,7 @@
     <div class="panel">
      <br>
      <div style="overflow-x:auto;">
-          <table>
+          <table id="fileTable">
             <tr>
               <th>File Name (click to download)</th>
               <th>Source</th>
@@ -60,14 +60,14 @@
               <th>Number of Families</th>
             </tr>
             <tr>
-              <td><a href="/uploads/simpleValid.ged">simpleValid.ged</a></td>
-              <td>PAF</td>
-              <td>5.5</td>
-              <td>ANSEL</td>
-              <td>Submitter</td>
               <td></td>
-              <td>3</td>
-              <td>1</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
           </table>
           <br>
@@ -77,14 +77,18 @@
     <div class="panel">
     <br>
 
-    <div class="dropdown">
-  <button class="dropbtn">Files</button>
-  <div class="dropdown-content">
-     <a href="/uploads/simpleValid.ged">simpleValid.ged</a>
-     <a href="/uploads/minValid.ged">minValid.ged</a>
-  </div>
+    <!-- <div class="dropdown"> -->
+  <!-- <button class="dropbtn">Files</button> -->
+  <!-- <div class="dropdown-content"> -->
+     <!-- <a href="/uploads/simpleValid.ged">simpleValid.ged</a> -->
+     <!-- <a href="/uploads/minValid.ged">minValid.ged</a> -->
+  <!-- </div> -->
+  <select name="fileViewSelect" id="gedcomViewFileList">
+          <!-- <option value="simpleValid">simpleValid.ged</option> -->
+          <!-- <option value="minValid">minValid.ged</option> -->
+        </select>
 
-</div>
+<!-- </div> -->
 <br>
      <div style="overflow-x:auto;">
           <table>
@@ -191,9 +195,9 @@
         Surname:<br>
         <input type="text" name="surname">
         <br>GEDCOM File:<br>
-         <select name="gedcomFile">
-          <option value="simpleValid">simpleValid.ged</option>
-          <option value="minValid">minValid.ged</option>
+         <select name="gedcomFile" id="addIndFileList">
+          <!-- <option value="simpleValid">simpleValid.ged</option> -->
+          <!-- <option value="minValid">minValid.ged</option> -->
         </select>
         <br><br>
         <input type="submit" value="Add Individual">
