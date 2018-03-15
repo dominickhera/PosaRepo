@@ -33,10 +33,15 @@
     <h5>Status</h5>
     <!-- <div class="panel"> -->
     <form>
-      <textarea name="message" id="statusBox" rows="auto" cols="60" readonly>Log Message would go here.</textarea>
+      <textarea name="message" id="statusBox" rows="auto" cols="50" readonly></textarea>
       <br>
-      <input type="reset" value="Clear">
-      </form>
+
+    </form>
+    <button id="clearButton">Clear</button>
+    <button id="testButton">Sample Log</button>
+      <!-- <button action='/upload/minValid.ged' method='get' encType="multipart/form-data">clear button</button> -->
+      
+      <!-- </form> -->
     <!-- </div> -->
     <hr>
     <button class="accordion"><b>File Log</b></button>
@@ -132,10 +137,10 @@
         <span id="uploadClose" class="close">&times;</span>
         <!-- <p>upload modal</p> -->
         <h3>Upload GEDCOM File</h3>
-        <form ref='uploadForm' id='uploadForm' action='/upload' method='post'>
-          <input type="file" name="gedcomFile">
+        <form ref='uploadForm' id='uploadForm' action='/upload' method='post' encType="multipart/form-data">
+          <input type="file" name="uploadFile">
           <br></br>
-           <input type="submit" id="uploadSubmit" value="Upload GEDCOM">
+           <input type="submit" id="uploadSubmit">
         </form>
       </div>
 

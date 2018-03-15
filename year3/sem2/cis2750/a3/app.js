@@ -43,6 +43,11 @@ app.post('/upload', function(req, res) {
   if(!req.files) {
     return res.status(400).send('No files were uploaded.');
   }
+  // else
+  // {
+  //   console.log(req.files.uploadFile.name);
+  // }
+
  
   let uploadFile = req.files.uploadFile;
  
@@ -71,11 +76,35 @@ app.get('/uploads/:name', function(req , res){
 //******************** Your code goes here ******************** 
 
 //Sample endpoint
-app.get('/someendpoint', function(req , res){
+app.get('/uploads/', function(req , res){
   res.send({
     foo: "bar"
   });
+// fs.readdir('./uploads/', (err, files) => {
+//   files.forEach((file) => {
+//     res.send({
+//       foo: "test"
+//     })
+// //     // console.log(file);
+//   });
+// });
 });
+
+// fs.readdir('./uploads/', (err, files) => {
+//   files.forEach((file) => {
+
+//     console.log(file);
+//   });
+// });
+
+// const testFolder = './uploads/'
+// fs.readdir(testFolder, (err, files) => {
+
+    // files.forEach((file) => 
+    // {
+        // console.log(file);
+    // });
+// });
 
 app.listen(portNum);
 console.log('Running app at localhost: ' + portNum);

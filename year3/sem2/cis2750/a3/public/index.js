@@ -1,36 +1,50 @@
 // Put all onload AJAX calls here, and event listeners
-
+// const fs = require('fs');
 $(document).ready(function() {
     // On page-load AJAX Example
     $.ajax({
         type: 'get',            //Request type
         dataType: 'json',       //Data type - we will use JSON for almost everything 
-        url: '/someendpoint',   //The server endpoint we are connecting to
+        url: '/uploads/',   //The server endpoint we are connecting to
         success: function (data) {
             /*  Do something with returned object
                 Note that what we get is an object, not a string, 
                 so we do not need to parse it on the server.
                 JavaScript really does handle JSONs seamlessly
             */
-
+            console.log("hi");
+            $( "<div>" )
+    .append(data.foo )
+    .appendTo( "#statusBox" );
 
             //We write the object to the console to show that the request was successful
-            console.log(data); 
+            console.log(data.name); 
         },
         fail: function(error) {
+            console.log("fuck");
             // Non-200 return, do something with error
             console.log(error); 
         }
     });
 
     // Event listener form replacement example, building a Single-Page-App, no redirects if possible
-    $('uploadForm').submit(function(e){
-        e.preventDefault();
-        $.ajax({});
-        console.log("hi");
-    });
+    // $('testButton').submit(function(e){
+    //     // console.log("hi");
+    //     e.preventDefault();
+    //     $.ajax({});
+    // //     // console.log("hi");
+    // });
 
+    // document.getElementById('testButton').onclick = function() {
+    //     console.log("end submit");
+    // }
 
+    // document.getElementById('getDate').onclick = function () {
+                // $('#data1').html("Current date is "+getCurrentDate());
+                // console.log("Dynamic stuff happened");
+            // };
+
+    
 
     var acc = document.getElementsByClassName("accordion");
     var i;
@@ -52,8 +66,9 @@ $(document).ready(function() {
     var uploadModal = document.getElementById('uploadModal');
     var uploadBtn = document.getElementById("uploadFile");
     var uploadSpan = document.getElementById("uploadClose");
-    var uploadSubmit = document.getElementById("uploadSubmit");
+    // var uploadSubmit = document.getElementById("uploadSubmit");
     uploadBtn.onclick = function() {
+        // console.log("something");
         uploadModal.style.display = "block";
     }
 
@@ -67,28 +82,20 @@ $(document).ready(function() {
         }
         
     }
+    var testButton = document.getElementById('testButton');
 
-    // uploadSubmit.onclick = function(event) {
-    //     event.preventDefault();
-    // }
-    // app.use(fileUpload());
-    // app.post('/uploads', function(req, res) {
-    //     if(!req.files)
-    //     {
-    //         return res.status(400).send('Error uploading file');
-    //     }
-
-    //     let gedcomFile = req.files.gedcomFile;
-
-    //     gedcomFile.mv('/uploads', function(err) {
-    //         if(err)
-    //         {
-    //             return res.status(500).send(err);
-    //         }
-
-    //         res.send('File Uploaded');
-    //     });
-    // });
+    testButton.onclick = function() {
+        // console.log("what");
+         $( "<div>" )
+    .append( "Status\n" )
+    .appendTo( "#statusBox" );
+    }
+    document.getElementById('clearButton').onclick = function() 
+    {
+        // document.getElementById("statusBox").text=" ...";
+        $('#statusBod').val('');
+        // console.log("end submit");
+    }
 
     var createModal = document.getElementById('createModal');
     var createBtn = document.getElementById("createSimpleGedcom");
