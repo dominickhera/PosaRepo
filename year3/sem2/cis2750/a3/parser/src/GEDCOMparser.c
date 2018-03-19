@@ -14,6 +14,9 @@ Individual * initializeIndividual(char* givenName, char* surname);
 bool customIndividualCompareFunction(const void* first, const void* second);
 List getChild(const GEDCOMobject* familyRecord, const Individual* person, List list);
 char* initFilesToJSON(char* fileName);
+char* grabIndList(char* fileName);
+void addIndividualWrapper(char* fileName, const char* IndJSON);
+void createGEDCOMWrapper(const char* str, char * fileName);
 
 GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 {
@@ -2156,6 +2159,25 @@ char* indToJSON(const Individual* ind)
     char * jsonReturn = malloc(sizeof(char) * 1000);
     if(ind != NULL)
     {
+        int genderFlag = 0;
+        int familyCount = getLength(ind->families);
+        void* elem;
+        ListIterator elemIter = createIterator(ind->otherFields);
+        while((elem = nextElement(&elemIter)) != NULL)
+        {
+            Field* tempField = (Field*)elem;
+            if(strcmp(tempField->tag, "SEX") == 0)
+            {
+                if(strcmp(tempField->value , "M") == 0)
+                {
+                    genderFlag = 1;
+                }
+                else
+                {
+                    genderFlag = 2;
+                }
+            }
+        }
         // char * jsonReturn = malloc(sizeof(char) * 1000);
 
         if(ind->givenName != NULL)
@@ -2170,13 +2192,31 @@ char* indToJSON(const Individual* ind)
 
         if(ind->surname != NULL)
         {
-            sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"%s\"}", ind->surname);
+            sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"%s\"", ind->surname);
 
         }
         else
         {
-            sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"\"}");  
+            sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"\"");  
         }
+
+        if(genderFlag != 0)
+        {
+            if(genderFlag == 1)
+            {
+                sprintf(jsonReturn + strlen(jsonReturn), ",\"gender\":\"Male\"");
+            }
+            else
+            {
+                sprintf(jsonReturn + strlen(jsonReturn), ",\"gender\":\"Female\"");   
+            }
+        }
+        else
+        {
+            sprintf(jsonReturn + strlen(jsonReturn), ",\"gender\":\"\""); 
+        }
+
+        sprintf(jsonReturn + strlen(jsonReturn), ",\"familyCount\":\"%d\"}", familyCount);
 
         // return jsonReturn;
     }
@@ -2241,6 +2281,13 @@ Individual* JSONtoInd(const char* str)
 
 }
 
+void createGEDCOMWrapper(const char* str, char * fileName)
+{
+    GEDCOMobject * tempObject = JSONtoGEDCOM(str);
+
+    writeGEDCOM(fileName, tempObject);
+
+}
 
 
 GEDCOMobject* JSONtoGEDCOM(const char* str)
@@ -2430,6 +2477,18 @@ char* initFilesToJSON(char* fileName)
 
 }
 
+void addIndividualWrapper(char* fileName, const char* IndJSON)
+{
+
+    GEDCOMobject * tempObject = initializeGEDCOMobject();
+    createGEDCOM(fileName, &tempObject);
+
+    Individual * tempIndividual = JSONtoInd(IndJSON);
+
+    addIndividual(tempObject, tempIndividual);
+
+}
+
 void addIndividual(GEDCOMobject* obj, const Individual* toBeAdded)
 {
     if(obj != NULL && toBeAdded != NULL)
@@ -2438,6 +2497,19 @@ void addIndividual(GEDCOMobject* obj, const Individual* toBeAdded)
         insertBack(&obj->individuals, (void*)toBeAdded);
     }
 
+}
+
+char* grabIndList(char* fileName)
+{
+    GEDCOMobject * tempObject = initializeGEDCOMobject();
+
+    GEDCOMerror err;
+
+    err = createGEDCOM(fileName, &tempObject);
+
+    char * indList = iListToJSON(tempObject->individuals);
+
+    return indList;
 }
 
 char* iListToJSON(List iList)

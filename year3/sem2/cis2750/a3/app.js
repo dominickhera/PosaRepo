@@ -81,7 +81,8 @@ let sharedLib = ffi.Library('./parser/bin/parserLib', {
 //                   //for void input type, leave argumrnt list empty
 //   'JSONtoGEDCOM': [ 'Object', [ 'string' ] ], //int return, int argument
 //   'getDesc' : [ 'string', [] ],
-    'initFilesToJSON': [ 'string', ['string']]
+    'initFilesToJSON': [ 'string', ['string']],
+    'grabIndList': ['string', ['string']]
 //   'putDesc' : [ 'void', [ 'string' ] ],
 });
 
@@ -103,6 +104,7 @@ let sharedLib = ffi.Library('./parser/bin/parserLib', {
 const testFolder = "./uploads/"
 var fileArray = [];
 var fileInfo = [];
+var indList = [];
 fs.readdir('./uploads/', (err, files) => {
   files.forEach((file) => {
     fileArray.push(file);
@@ -111,15 +113,19 @@ fs.readdir('./uploads/', (err, files) => {
      let testFile = "./uploads/" + file;
      let fileInfoJSON = sharedLib.initFilesToJSON(testFile);
      fileInfo.push(fileInfoJSON);
+     let indListJSON = sharedLib.grabIndList(testFile);
+     indList.push(indListJSON);
+
       // console.log(fileInfoJSON);
-    console.log(file);
+    // console.log(file);
   });
   // console.log("\n\n\n",array);
   app.get('/uploads/', function(req , res){
   res.send({
     foo: "bar",
     fileArrayList: fileArray,
-    fileInfoList: fileInfo
+    fileInfoList: fileInfo,
+    fileIndList: indList
   });
 });
 });

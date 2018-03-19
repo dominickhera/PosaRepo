@@ -19,16 +19,35 @@ $(document).ready(function() {
             var fileTableArray = document.getElementById('fileTable');
             var gedcomViewerOptions = document.getElementById('gedcomViewFileList');
             var addIndFileList = document.getElementById('addIndFileList');
-            console.log(data.fileInfoList);
+            var gedcomViewTableArray = document.getElementById('gedcomTable');
+
+
+
+            // console.log("\n\nUsing for-of loop\n");
+            // let gen = 1;
+            // for (let generation of descendants){
+            //     console.log("Genertation "+ gen);
+            //     for (let ind of generation){
+            //         //Let JavaScript display the object using its default string representation
+            //         console.log(ind);
+
+            //         //Display instance variables of the object
+            //         console.log("Given name: "+ind.givenName);
+            //         console.log("Surname: "+ind.surname);
+
+            //     }
+            //     gen += 1;
+            // }
+            // console.log(data.fileIndList[1][3]);
             for (i = 0; i < uploadFileArrayLength; i++) { 
-               console.log(data.fileArrayList[i]);
+               // console.log(data.fileIndList.length + "at i value:" + i);
                 $( "<div>" )
                 .append(data.fileArrayList[i] + "has successfully been loaded in.\n" )
                 .appendTo( "#statusBox" );
 
 
                 let fileInfo = JSON.parse(data.fileInfoList[i]);
-                console.log(fileInfo.source);
+                // console.log(fileInfo.source);
                 var newRow = fileTableArray.insertRow(i+1);
                 var cellOne = newRow.insertCell(0);
                 var cellTwo = newRow.insertCell(1);
@@ -63,6 +82,47 @@ $(document).ready(function() {
                 // .append(<td>data.fileArrayList[i] + "\n" </td>)
                 // .appendTo( "#fileTable" );
             }
+                let tempTableLength = 0;
+
+             // for(i = 0; i < data.fileIndList[i].length; i++)
+            // {
+                let indInfo = JSON.parse(data.fileIndList[0]);
+                // console.log("indinf is " + indInfo);
+                for(let individuals of indInfo)
+                {
+                    // console.log("person name is : "+ individuals.givenName + " " + individuals.surname);
+                    
+                     var indRow = gedcomViewTableArray.insertRow(tempTableLength+1);
+                var indCellOne = indRow.insertCell(0);
+                var indCellTwo = indRow.insertCell(1);
+                var indCellThree = indRow.insertCell(2);
+                var indCellFour = indRow.insertCell(3);
+                // // // var cellFive= newRow.insertCell(4);
+                // // // var cellSix = newRow.insertCell(5);
+                // // // var cellSeven = newRow.insertCell(6);
+                // // // var cellEight = newRow.insertCell(7);
+                // // // testCell.innerHTML("hello");
+                // // // cellOne.innerHTML += ('<a href="/uploads/simpleValid.ged">simpleValid.ged</a>');
+                indCellOne.innerHTML += (individuals.givenName);
+                // indCellOne.innerHTML += ('test');
+
+                indCellTwo.innerHTML += (individuals.surname);
+                indCellThree.innerHTML += (individuals.gender);
+                indCellFour.innerHTML += (individuals.familyCount);
+                // // cellFive.innerHTML += (fileInfo.submitterName);
+                // // cellSix.innerHTML += (fileInfo.submitterAddress);
+                // // cellSeven.innerHTML += (fileInfo.totalIndividuals);
+                // // cellEight.innerHTML += (fileInfo.totalFamilies);
+                // // gedcomViewerOptions.appendChild(data.fileArrayList[i]);
+                //  // var option = document.createElement('option');
+                
+                // // option.innerHTML = data.fileArrayList[i];
+                // // var option2 = document.createElement('option');
+                // // option2.innerHTML = data.fileArrayList[i];
+                // // gedcomViewerOptions.appendChild(option);
+                // }
+                tempTableLength += 1;
+            }
     //         $( "<div>" )
     // .append(data.fileArrayList )
     // .appendTo( "#statusBox" );
@@ -79,7 +139,7 @@ $(document).ready(function() {
 
     // Event listener form replacement example, building a Single-Page-App, no redirects if possible
     $('form').submit(function(e){
-        console.log(e);
+        // console.log(e);
         if(e.currentTarget.id != 'uploadForm')
         {
             e.preventDefault();
@@ -108,6 +168,8 @@ $(document).ready(function() {
     // //     // console.log("hi");
     });
 
+
+
     // document.getElementById('testButton').onclick = function() {
     //     console.log("end submit");
     // }
@@ -117,7 +179,81 @@ $(document).ready(function() {
                 // console.log("Dynamic stuff happened");
             // };
 
-    
+     $(document).on('change','#gedcomViewFileList',function(){
+               // alert("PROBANDO");
+               console.log(gedcomViewFileList.value);
+                   $.ajax({
+            type: 'get',            //Request type
+            dataType: 'json',       //Data type - we will use JSON for almost everything 
+            url: '/uploads/',   //The server endpoint we are connecting to
+            success: function (data) {
+                var gedcomViewTableArray = document.getElementById('gedcomTable');
+                for(i = 1; i < gedcomViewTableArray.rows.length + 1; i++)
+                {
+                    var deleteRow = gedcomViewTableArray.deleteRow(i);
+                    // var deleteCellOne = deleteRow.deleteCell(0);
+                    // var deleteCellTwo = deleteRow.deleteCell(1);
+                    // var deleteCellThree = deleteRow.deleteCell(2);
+                    // var deleteCellFour = deleteRow.deleteCell(3);
+                }
+                console.log("length of table is " + gedcomViewTableArray.rows.length);
+                var tempInt = 0;
+                for(i = 0; i < data.fileArrayList.length; i++)
+                {
+                    if(data.fileArrayList[i] == gedcomViewFileList.value)
+                    {
+                        console.log('found a match with the two vals:' + data.fileArrayList[i] + gedcomViewFileList.value);
+                        tempInt = i;
+                        break;
+                    }
+                }
+                let tempTableLength = 0;
+                let indInfo = JSON.parse(data.fileIndList[tempInt]);
+                // console.log("indinf is " + tempInt);
+                for(let individuals of indInfo)
+                {
+                    console.log("person name is : "+ individuals.givenName + " " + individuals.surname);
+                    
+                     var indRow = gedcomViewTableArray.insertRow(tempTableLength + 1);
+                var indCellOne = indRow.insertCell(0);
+                var indCellTwo = indRow.insertCell(1);
+                var indCellThree = indRow.insertCell(2);
+                var indCellFour = indRow.insertCell(3);
+                // // // var cellFive= newRow.insertCell(4);
+                // // // var cellSix = newRow.insertCell(5);
+                // // // var cellSeven = newRow.insertCell(6);
+                // // // var cellEight = newRow.insertCell(7);
+                // // // testCell.innerHTML("hello");
+                // // // cellOne.innerHTML += ('<a href="/uploads/simpleValid.ged">simpleValid.ged</a>');
+                indCellOne.innerHTML += (individuals.givenName);
+                // indCellOne.innerHTML += ('test');
+
+                indCellTwo.innerHTML += (individuals.surname);
+                indCellThree.innerHTML += (individuals.gender);
+                indCellFour.innerHTML += (individuals.familyCount);
+                // // cellFive.innerHTML += (fileInfo.submitterName);
+                // // cellSix.innerHTML += (fileInfo.submitterAddress);
+                // // cellSeven.innerHTML += (fileInfo.totalIndividuals);
+                // // cellEight.innerHTML += (fileInfo.totalFamilies);
+                // // gedcomViewerOptions.appendChild(data.fileArrayList[i]);
+                //  // var option = document.createElement('option');
+                
+                // // option.innerHTML = data.fileArrayList[i];
+                // // var option2 = document.createElement('option');
+                // // option2.innerHTML = data.fileArrayList[i];
+                // // gedcomViewerOptions.appendChild(option);
+                // }
+                tempTableLength += 1;
+            }
+                // console.log(data);
+            },
+                fail: function(error) {
+            
+            // Non-200 return, do something with error
+            console.log(error); 
+        }
+    });
+              });
 
     var acc = document.getElementsByClassName("accordion");
     var i;
@@ -134,6 +270,24 @@ $(document).ready(function() {
           console.log(panel.scrollHeight)
         } 
       });
+    }
+
+     var createModal = document.getElementById('createModal');
+    var createBtn = document.getElementById("createSimpleGedcom");
+    var createSpan = document.getElementById("createClose");
+    createBtn.onclick = function() {
+        console.log("hello there");
+        createModal.style.display = "block";
+    }
+
+    createSpan.onclick = function() {
+        createModal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == createModal) {
+            createModal.style.display = "none";
+        }
     }
 
     var uploadModal = document.getElementById('uploadModal');
@@ -155,37 +309,38 @@ $(document).ready(function() {
         }
         
     }
-    var testButton = document.getElementById('testButton');
+    // var testButton = document.getElementById('testButton');
 
-    testButton.onclick = function() {
-        // console.log("what");
-         $( "<div>" )
-    .append( "Status\n" )
-    .appendTo( "#statusBox" );
-    }
+    // testButton.onclick = function() {
+    //     // console.log("what");
+    //      $( "<div>" )
+    // .append( "Status\n" )
+    // .appendTo( "#statusBox" );
+    // }
     document.getElementById('clearButton').onclick = function() 
     {
-        // document.getElementById("statusBox").text=" ...";
-        $('#statusBod').val('');
+        document.getElementById("statusBox").text=" ...";
+        // $('#statusBox').val('');
         // console.log("end submit");
     }
 
-    var createModal = document.getElementById('createModal');
-    var createBtn = document.getElementById("createSimpleGedcom");
-    var createSpan = document.getElementById("createClose");
-    createBtn.onclick = function() {
-        createModal.style.display = "block";
-    }
+    // var createModal = document.getElementById('createModal');
+    // var createBtn = document.getElementById("createSimpleGedcom");
+    // var createSpan = document.getElementById("createClose");
+    // createBtn.onclick = function() {
+    //     console.log("hello there");
+    //     createModal.style.display = "block";
+    // }
 
-    createSpan.onclick = function() {
-        createModal.style.display = "none";
-    }
+    // createSpan.onclick = function() {
+    //     createModal.style.display = "none";
+    // }
 
-    window.onclick = function(event) {
-        if (event.target == createModal) {
-            createModal.style.display = "none";
-        }
-    }
+    // window.onclick = function(event) {
+    //     if (event.target == createModal) {
+    //         createModal.style.display = "none";
+    //     }
+    // }
 
     var addModal = document.getElementById('addModal');
     var addBtn = document.getElementById("addIndividual");

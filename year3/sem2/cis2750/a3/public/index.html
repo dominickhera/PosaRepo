@@ -38,14 +38,14 @@
 
     </form>
     <button id="clearButton">Clear</button>
-    <button id="testButton">Sample Log</button>
+    <!-- <button id="testButton">Sample Log</button> -->
       <!-- <button action='/upload/minValid.ged' method='get' encType="multipart/form-data">clear button</button> -->
       
       <!-- </form> -->
     <!-- </div> -->
     <hr>
     <button class="accordion"><b>File Log</b></button>
-    <div class="panel">
+    <!-- <div class="panel"> -->
      <br>
      <div style="overflow-x:auto;">
           <table id="fileTable">
@@ -72,54 +72,28 @@
           </table>
           <br>
         </div>
-    </div>
+    <!-- </div> -->
     <button class="accordion"><b>GEDCOM Viewer</b></button>
-    <div class="panel">
+    <!-- <div class="panel"> -->
     <br>
-
-    <!-- <div class="dropdown"> -->
-  <!-- <button class="dropbtn">Files</button> -->
-  <!-- <div class="dropdown-content"> -->
-     <!-- <a href="/uploads/simpleValid.ged">simpleValid.ged</a> -->
-     <!-- <a href="/uploads/minValid.ged">minValid.ged</a> -->
-  <!-- </div> -->
   <select name="fileViewSelect" id="gedcomViewFileList">
           <!-- <option value="simpleValid">simpleValid.ged</option> -->
           <!-- <option value="minValid">minValid.ged</option> -->
         </select>
 
-<!-- </div> -->
 <br>
-     <div style="overflow-x:auto;">
-          <table>
+     <div style="overflow-x:1000;">
+          <table id="gedcomTable">
             <tr>
               <th>Given Name</th>
               <th>Surname</th>
               <th>Sex</th>
               <th>Family Size</th>
             </tr>
-            <tr>
-              <td>Jill</td>
-              <td>Smith</td>
-              <td>F</td>
-              <td>3</td>
-            </tr>
-            <tr>
-              <td>Eve</td>
-              <td>Jackson</td>
-              <td>F</td>
-              <td>2</td>
-            </tr>
-            <tr>
-              <td>Adam</td>
-              <td>Johnson</td>
-              <td>F</td>
-              <td>2</td>
-            </tr>
           </table>
           <br>
         </div>
-    </div>
+    <!-- </div> -->
     <hr>
     <!-- <div class="panel"> -->
         <div class="btn-group">
@@ -160,7 +134,7 @@
           <h3>Create Simple GEDCOM</h3>
         Source:<br>
         <input type="text" name="source">
-        <br>
+        <br></br>
         GEDC Version:<br>
         <input type="text" name="gedcVersion">
         <br>Encoding:<br>
@@ -172,7 +146,7 @@
         </select>
         <br>Submitter Name:<br>
         <input type="text" name="subName">
-        <br>
+        <br></br>
         Submitter Address:<br>
         <input type="text" name="subAddress">
         <br><br>
