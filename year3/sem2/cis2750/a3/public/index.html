@@ -59,7 +59,7 @@
               <th>Number of Individuals</th>
               <th>Number of Families</th>
             </tr>
-            <tr>
+           <!--  <tr>
               <td></td>
               <td></td>
               <td></td>
@@ -68,7 +68,7 @@
               <td></td>
               <td></td>
               <td></td>
-            </tr>
+            </tr> -->
           </table>
           <br>
         </div>
@@ -156,7 +156,7 @@
       <div class="modal-content">
         <span id="createClose" class="close">&times;</span>
         <!-- <p>Some text in the create Modal..</p> -->
-        <form>
+        <form id="createForm">
           <h3>Create Simple GEDCOM</h3>
         Source:<br>
         <input type="text" name="source">
@@ -187,20 +187,20 @@
       <!-- Modal content -->
       <div class="modal-content">
         <span id="addClose" class="close">&times;</span>
-        <form>
+        <form id="addIndForm">
           <h3>Add Individual to GEDCOM</h3>
         Given Name:<br>
-        <input type="text" name="givenname">
+        <input type="text" id="addIndGivenname" name="givenname" value="">
         <br>
         Surname:<br>
-        <input type="text" name="surname">
+        <input type="text" id="addIndSurname" name="surname" value="">
         <br>GEDCOM File:<br>
          <select name="gedcomFile" id="addIndFileList">
           <!-- <option value="simpleValid">simpleValid.ged</option> -->
           <!-- <option value="minValid">minValid.ged</option> -->
         </select>
         <br><br>
-        <input type="submit" value="Add Individual">
+        <input type="submit" id="addSubmit" value="Add Individual">
       </form>
 
     </div>

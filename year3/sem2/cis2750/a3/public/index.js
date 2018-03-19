@@ -14,16 +14,22 @@ $(document).ready(function() {
             */
             // console.log("hi");
             var uploadFileArrayLength = data.fileArrayList.length;
+            // console.log("length is" + uploadFileArrayLength);
             // var fileTableArray = $('$fileTable');
             var fileTableArray = document.getElementById('fileTable');
             var gedcomViewerOptions = document.getElementById('gedcomViewFileList');
             var addIndFileList = document.getElementById('addIndFileList');
-            for (; i < uploadFileArrayLength; i++) { 
-               
-                // $( "<div>" )
-                // .append(data.fileArrayList[i] + "\n" )
-                // .appendTo( "#statusBox" );
-                var newRow = fileTableArray.insertRow(i);
+            console.log(data.fileInfoList);
+            for (i = 0; i < uploadFileArrayLength; i++) { 
+               console.log(data.fileArrayList[i]);
+                $( "<div>" )
+                .append(data.fileArrayList[i] + "has successfully been loaded in.\n" )
+                .appendTo( "#statusBox" );
+
+
+                let fileInfo = JSON.parse(data.fileInfoList[i]);
+                console.log(fileInfo.source);
+                var newRow = fileTableArray.insertRow(i+1);
                 var cellOne = newRow.insertCell(0);
                 var cellTwo = newRow.insertCell(1);
                 var cellThree = newRow.insertCell(2);
@@ -35,6 +41,13 @@ $(document).ready(function() {
                 // testCell.innerHTML("hello");
                 // cellOne.innerHTML += ('<a href="/uploads/simpleValid.ged">simpleValid.ged</a>');
                 cellOne.innerHTML += ( '<a href="/uploads/' + data.fileArrayList[i] + '">' + data.fileArrayList[i] + '</a>');
+                cellTwo.innerHTML += (fileInfo.source);
+                cellThree.innerHTML += (fileInfo.version);
+                cellFour.innerHTML += (fileInfo.encoding);
+                cellFive.innerHTML += (fileInfo.submitterName);
+                cellSix.innerHTML += (fileInfo.submitterAddress);
+                cellSeven.innerHTML += (fileInfo.totalIndividuals);
+                cellEight.innerHTML += (fileInfo.totalFamilies);
                 // gedcomViewerOptions.appendChild(data.fileArrayList[i]);
                  var option = document.createElement('option');
                 
@@ -65,12 +78,35 @@ $(document).ready(function() {
     });
 
     // Event listener form replacement example, building a Single-Page-App, no redirects if possible
-    // $('testButton').submit(function(e){
-    //     // console.log("hi");
-    //     e.preventDefault();
-    //     $.ajax({});
+    $('form').submit(function(e){
+        console.log(e);
+        if(e.currentTarget.id != 'uploadForm')
+        {
+            e.preventDefault();
+            switch(e.currentTarget.id) {
+                case 'addIndForm':
+                    //convert boxes into json, use jsontoInd to get individual object
+                    //use individual object to call insertIndividual
+                    // console.log("add form is targeted");
+                    $( "<div>" )
+                     .append( e.target[0].value + " " + e.target[1].value + " has been added to file: " + e.target[2].value + "\n" )
+                    .appendTo( "#statusBox" );
+                    // console.log(e.target[2].value);
+                    document.getElementById('addModal').style.display = "none";
+                    break;
+                case 'createForm':
+                    // console.log("create form is uploaded");
+                    document.getElementById('createModal').style.display = "none";
+                    break;
+                default:
+                    break;
+            }
+        }
+        $.ajax({
+
+        });
     // //     // console.log("hi");
-    // });
+    });
 
     // document.getElementById('testButton').onclick = function() {
     //     console.log("end submit");
@@ -154,6 +190,7 @@ $(document).ready(function() {
     var addModal = document.getElementById('addModal');
     var addBtn = document.getElementById("addIndividual");
     var addSpan = document.getElementById("addClose");
+    
     addBtn.onclick = function() {
         addModal.style.display = "block";
     }
@@ -167,6 +204,8 @@ $(document).ready(function() {
             addModal.style.display = "none";
         }
     }
+
+
 
 
     var getModal = document.getElementById('getModal');

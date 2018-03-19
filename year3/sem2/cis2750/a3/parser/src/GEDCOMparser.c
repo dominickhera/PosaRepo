@@ -13,6 +13,7 @@ Event * initializeEvent(char* type, char* date, char* place);
 Individual * initializeIndividual(char* givenName, char* surname);
 bool customIndividualCompareFunction(const void* first, const void* second);
 List getChild(const GEDCOMobject* familyRecord, const Individual* person, List list);
+char* initFilesToJSON(char* fileName);
 
 GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 {
@@ -2241,7 +2242,7 @@ Individual* JSONtoInd(const char* str)
 }
 
 
-//FINISH THIS
+
 GEDCOMobject* JSONtoGEDCOM(const char* str)
 {
 
@@ -2356,6 +2357,76 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
 
     return NULL;
 
+
+}
+
+//creates object for each file and then 
+//returns basic information as JSON for the file viewer
+char* initFilesToJSON(char* fileName)
+{
+
+    // printf("fileName is %s\n", fileName);
+
+    char * jsonReturn = malloc(sizeof(char) * 500);
+
+    if(strlen(fileName) != 0)
+    {
+        GEDCOMobject * tempObject = initializeGEDCOMobject();
+
+        GEDCOMerror err;
+
+        err = createGEDCOM(fileName, &tempObject);
+
+    
+        // printf("err is %u\n", err.type);
+
+    //SOURCE/GEDVERSION/ENCODING/SUBMITTERNAME/ADDRESS/NUMIND/NUMFAM
+        if(tempObject->header != NULL)
+        {
+            Header * tempHeader = (Header*)tempObject->header;
+            sprintf(jsonReturn + strlen(jsonReturn), "{\"source\":\"%s\", \"version\":\"%.1f\"", tempHeader->source, tempHeader->gedcVersion);
+
+           
+            if(tempHeader->encoding == ANSEL)
+            {
+                sprintf(jsonReturn + strlen(jsonReturn), ", \"encoding\":\"ANSEL\"");
+            }
+            else if (tempHeader->encoding == UTF8)
+            {
+                sprintf(jsonReturn + strlen(jsonReturn), ", \"encoding\":\"UTF-8\"");
+            }
+            else if (tempHeader->encoding == ASCII)
+            {
+                sprintf(jsonReturn + strlen(jsonReturn), ", \"encoding\":\"ASCII\"");
+            }
+            else if (tempHeader->encoding == UNICODE)
+            {
+                sprintf(jsonReturn + strlen(jsonReturn), ", \"encoding\":\"UNICODE\"");
+            }
+
+        }
+        else
+        {
+            sprintf(jsonReturn + strlen(jsonReturn), "{\"source\":\"\", \"version\":\"\", \"encoding\":\"\"");  
+        }
+
+        if(tempObject->submitter != NULL)
+        {
+            Submitter * tempSubm = (Submitter*)tempObject->submitter;
+            sprintf(jsonReturn + strlen(jsonReturn), ",\"submitterName\":\"%s\", \"submitterAddress\":\"%s\"", tempSubm->submitterName, tempSubm->address);
+
+        }
+        else
+        {
+            sprintf(jsonReturn + strlen(jsonReturn), ",\"submitterName\":\"\", \"submitterAddress\":\"\"");  
+        }
+
+        sprintf(jsonReturn + strlen(jsonReturn), ",\"totalIndividuals\":\"%d\", \"totalFamilies\":\"%d\"}", getLength(tempObject->individuals), getLength(tempObject->families));
+
+        // deleteGEDCOM(tempObject);
+    }
+
+    return jsonReturn;
 
 }
 
@@ -2726,7 +2797,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
                     free(headerFieldDelete->tag);
                     free(headerFieldDelete->value);
                 }
-                clearList(&obj->header->otherFields);
+                // clearList(&obj->header->otherFields);
             }
 
         }
@@ -2758,10 +2829,11 @@ void deleteGEDCOM(GEDCOMobject* obj)
                                 free(familyEventOtherDelete->value);
                             }
 
-                            clearList(&familyEventDelete->otherFields);
+                            // clearList(&familyEventDelete->otherFields);
                         }
+                        free(familyEventDelete);
                     }
-                    clearList(&familyDelete->events);
+                    // clearList(&familyDelete->events);
                 }
 
                 if(getLength(familyDelete->children) != 0)
@@ -2792,15 +2864,16 @@ void deleteGEDCOM(GEDCOMobject* obj)
                                         free(eventOther->tag);
                                         free(eventOther->value);
                                     }
-                                    clearList(&eventDelete->otherFields);
+                                    // clearList(&eventDelete->otherFields);
                                 }
+                                free(eventDelete);
                             }
-                            clearList(&individualDelete->events);
+                            // clearList(&individualDelete->events);
                         }
-                        if(getLength(individualDelete->families) != 0)
-                        {
-                            clearList(&individualDelete->families);
-                        }
+                        // if(getLength(individualDelete->families) != 0)
+                        // {
+                            // clearList(&individualDelete->families);
+                        // }
                         if(getLength(individualDelete->otherFields) != 0)
                         {
 
@@ -2813,7 +2886,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
                                 free(individualOther->value);
                             }
 
-                            clearList(&individualDelete->otherFields);
+                            // clearList(&individualDelete->otherFields);
 
                         }
                     }
@@ -2829,7 +2902,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
                         free(familyOtherDelete->tag);
                         free(familyOtherDelete->value);
                     }
-                    clearList(&familyDelete->otherFields);
+                    // clearList(&familyDelete->otherFields);
                 }
 
             }
@@ -2863,15 +2936,16 @@ void deleteGEDCOM(GEDCOMobject* obj)
                                 free(eventOther->tag);
                                 free(eventOther->value);
                             }
-                            clearList(&eventDelete->otherFields);
+                            // clearList(&eventDelete->otherFields);
                         }
+                        free(eventDelete);
                     }
-                    clearList(&individualDelete->events);
+                    // clearList(&individualDelete->events);
                 }
-                if(getLength(individualDelete->families) != 0)
-                {
-                    clearList(&individualDelete->families);
-                }
+                // if(getLength(individualDelete->families) != 0)
+                // {
+                //     clearList(&individualDelete->families);
+                // }
                 if(getLength(individualDelete->otherFields) != 0)
                 {
 
@@ -2884,7 +2958,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
                         free(individualOther->value);
                     }
 
-                    clearList(&individualDelete->otherFields);
+                    // clearList(&individualDelete->otherFields);
 
                 }
             }
@@ -2907,7 +2981,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
                     free(submitterOther->value);
 
                 }
-                clearList(&obj->submitter->otherFields);
+                // clearList(&obj->submitter->otherFields);
             }
 
         }

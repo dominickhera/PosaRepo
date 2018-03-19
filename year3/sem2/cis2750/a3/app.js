@@ -75,6 +75,17 @@ app.get('/uploads/:name', function(req , res){
 
 //******************** Your code goes here ******************** 
 
+
+let sharedLib = ffi.Library('./parser/bin/parserLib', {
+//   'addIndividual': [ 'void', ['Object', 'string' ] ],   //return type first, argument list second
+//                   //for void input type, leave argumrnt list empty
+//   'JSONtoGEDCOM': [ 'Object', [ 'string' ] ], //int return, int argument
+//   'getDesc' : [ 'string', [] ],
+    'initFilesToJSON': [ 'string', ['string']]
+//   'putDesc' : [ 'void', [ 'string' ] ],
+});
+
+
 //Sample endpoint
 // app.get('/uploads/', function(req , res){
 //   res.send({
@@ -91,21 +102,29 @@ app.get('/uploads/:name', function(req , res){
 // });
 const testFolder = "./uploads/"
 var fileArray = [];
+var fileInfo = [];
 fs.readdir('./uploads/', (err, files) => {
   files.forEach((file) => {
     fileArray.push(file);
-    var array = fs.readFileSync(testFolder + file).toString().split("\n");
-     console.log("\n\n\n",array); 
-    // console.log(file);
+    // var array = fs.readFileSync(testFolder + file).toString().split("\n");
+     // console.log("\n\n\n",array); 
+     let testFile = "./uploads/" + file;
+     let fileInfoJSON = sharedLib.initFilesToJSON(testFile);
+     fileInfo.push(fileInfoJSON);
+      // console.log(fileInfoJSON);
+    console.log(file);
   });
   // console.log("\n\n\n",array);
   app.get('/uploads/', function(req , res){
   res.send({
     foo: "bar",
-    fileArrayList: fileArray
+    fileArrayList: fileArray,
+    fileInfoList: fileInfo
   });
 });
 });
+
+
 
 
 // const testFolder = './uploads/'
