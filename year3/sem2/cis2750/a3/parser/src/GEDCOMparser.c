@@ -15,8 +15,8 @@ bool customIndividualCompareFunction(const void* first, const void* second);
 List getChild(const GEDCOMobject* familyRecord, const Individual* person, List list);
 char* initFilesToJSON(char* fileName);
 char* grabIndList(char* fileName);
-void addIndividualWrapper(char* fileName, const char* IndJSON);
-void createGEDCOMWrapper(const char* str, char * fileName);
+void addIndividualWrapper(char* fileName, char* IndJSON);
+void createGEDCOMWrapper(char* str, char * fileName);
 
 GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 {
@@ -2281,7 +2281,7 @@ Individual* JSONtoInd(const char* str)
 
 }
 
-void createGEDCOMWrapper(const char* str, char * fileName)
+void createGEDCOMWrapper(char* str, char * fileName)
 {
     GEDCOMobject * tempObject = JSONtoGEDCOM(str);
 
@@ -2477,7 +2477,7 @@ char* initFilesToJSON(char* fileName)
 
 }
 
-void addIndividualWrapper(char* fileName, const char* IndJSON)
+void addIndividualWrapper(char* fileName, char* IndJSON)
 {
 
     GEDCOMobject * tempObject = initializeGEDCOMobject();
@@ -2486,6 +2486,8 @@ void addIndividualWrapper(char* fileName, const char* IndJSON)
     Individual * tempIndividual = JSONtoInd(IndJSON);
 
     addIndividual(tempObject, tempIndividual);
+
+    writeGEDCOM(fileName, tempObject);
 
 }
 

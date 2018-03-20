@@ -132,23 +132,26 @@
         <!-- <p>Some text in the create Modal..</p> -->
         <form id="createForm">
           <h3>Create Simple GEDCOM</h3>
+          Filename:<br>
+          <input type="text" name="fileName" id="filename">
+          <br></br>
         Source:<br>
-        <input type="text" name="source">
+        <input type="text" id="createSource" name="source">
         <br></br>
         GEDC Version:<br>
-        <input type="text" name="gedcVersion">
+        <input type="text" id="createVersion" name="gedcVersion">
         <br>Encoding:<br>
-         <select name="encoding">
+         <select name="encoding" id="createEncoding">
           <option value="ANSEL">ANSEL</option>
           <option value="UTF8">UTF-8</option>
           <option value="ASCII">ASCII</option>
           <option value="UNICODE">UNICODE</option>
         </select>
         <br>Submitter Name:<br>
-        <input type="text" name="subName">
+        <input type="text" id="subName" name="subName">
         <br></br>
         Submitter Address:<br>
-        <input type="text" name="subAddress">
+        <input type="text" id="subAddress" name="subAddress">
         <br><br>
         <input id="createSubmit" type="submit" value="Create GEDCOM">
       </form>
@@ -163,11 +166,20 @@
         <span id="addClose" class="close">&times;</span>
         <form id="addIndForm">
           <h3>Add Individual to GEDCOM</h3>
+
         Given Name:<br>
         <input type="text" id="addIndGivenname" name="givenname" value="">
         <br>
         Surname:<br>
         <input type="text" id="addIndSurname" name="surname" value="">
+        <br>Gender:<br>
+         <select name="individualGender" id="addIndGenderList">
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+        </select>
+         <br>
+        Number of Families:<br>
+        <input type="text" id="numFamilies" name="numFam" value="">
         <br>GEDCOM File:<br>
          <select name="gedcomFile" id="addIndFileList">
           <!-- <option value="simpleValid">simpleValid.ged</option> -->

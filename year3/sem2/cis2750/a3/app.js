@@ -83,6 +83,7 @@ let sharedLib = ffi.Library('./parser/bin/parserLib', {
 //   'getDesc' : [ 'string', [] ],
     'initFilesToJSON': [ 'string', ['string']],
     'grabIndList': ['string', ['string']]
+    // 'addIndividualWrapper': ['void', ['string' , 'string']]
 //   'putDesc' : [ 'void', [ 'string' ] ],
 });
 
@@ -101,6 +102,19 @@ let sharedLib = ffi.Library('./parser/bin/parserLib', {
 // //   });
 // // });
 // });
+
+
+app.get('/create/:name', function(req, res){
+  let filePath = "./uploads/";
+  let fileCreate = filePath + req.params.name;
+  console.log("file should be " + fileCreate);
+  // let indParse = JSON.stringify(data);
+  // console.log("file params are " + indParse);
+  console.log(req.params);
+  // let surnameVar = req.params.addIndSurname;
+   // console.log("file params are " + surnameVar);
+});
+
 const testFolder = "./uploads/"
 var fileArray = [];
 var fileInfo = [];
@@ -130,17 +144,6 @@ fs.readdir('./uploads/', (err, files) => {
 });
 });
 
-
-
-
-// const testFolder = './uploads/'
-// fs.readdir(testFolder, (err, files) => {
-
-    // files.forEach((file) => 
-    // {
-        // console.log(file);
-    // });
-// });
 
 app.listen(portNum);
 console.log('Running app at localhost: ' + portNum);

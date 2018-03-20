@@ -21,24 +21,6 @@ $(document).ready(function() {
             var addIndFileList = document.getElementById('addIndFileList');
             var gedcomViewTableArray = document.getElementById('gedcomTable');
 
-
-
-            // console.log("\n\nUsing for-of loop\n");
-            // let gen = 1;
-            // for (let generation of descendants){
-            //     console.log("Genertation "+ gen);
-            //     for (let ind of generation){
-            //         //Let JavaScript display the object using its default string representation
-            //         console.log(ind);
-
-            //         //Display instance variables of the object
-            //         console.log("Given name: "+ind.givenName);
-            //         console.log("Surname: "+ind.surname);
-
-            //     }
-            //     gen += 1;
-            // }
-            // console.log(data.fileIndList[1][3]);
             for (i = 0; i < uploadFileArrayLength; i++) { 
                // console.log(data.fileIndList.length + "at i value:" + i);
                 $( "<div>" )
@@ -75,12 +57,6 @@ $(document).ready(function() {
                 option2.innerHTML = data.fileArrayList[i];
                 gedcomViewerOptions.appendChild(option);
                 addIndFileList.appendChild(option2);
-                // fileTableArray.append( '<tr><td><a href="/uploads/' + data.fileArrayList[i] + '">' + data.fileArrayList[i] + '</a></td></tr>\n');
-                // <td><a href="/uploads/simpleValid.ged">simpleValid.ged</a></td>
-                // fileTableArray.append('<tr><td><a href="/uploads/simpleValid.ged">simpleValid.ged</a></td><td>PAF</td><td>5.5</td><td>ANSEL</td><td>Submitter</td><td></td><td>3</td><td>1</td></tr>');
-                // $("<div>")
-                // .append(<td>data.fileArrayList[i] + "\n" </td>)
-                // .appendTo( "#fileTable" );
             }
                 let tempTableLength = 0;
 
@@ -97,11 +73,6 @@ $(document).ready(function() {
                 var indCellTwo = indRow.insertCell(1);
                 var indCellThree = indRow.insertCell(2);
                 var indCellFour = indRow.insertCell(3);
-                // // // var cellFive= newRow.insertCell(4);
-                // // // var cellSix = newRow.insertCell(5);
-                // // // var cellSeven = newRow.insertCell(6);
-                // // // var cellEight = newRow.insertCell(7);
-                // // // testCell.innerHTML("hello");
                 // // // cellOne.innerHTML += ('<a href="/uploads/simpleValid.ged">simpleValid.ged</a>');
                 indCellOne.innerHTML += (individuals.givenName);
                 // indCellOne.innerHTML += ('test');
@@ -110,16 +81,7 @@ $(document).ready(function() {
                 indCellThree.innerHTML += (individuals.gender);
                 indCellFour.innerHTML += (individuals.familyCount);
                 // // cellFive.innerHTML += (fileInfo.submitterName);
-                // // cellSix.innerHTML += (fileInfo.submitterAddress);
-                // // cellSeven.innerHTML += (fileInfo.totalIndividuals);
-                // // cellEight.innerHTML += (fileInfo.totalFamilies);
-                // // gedcomViewerOptions.appendChild(data.fileArrayList[i]);
-                //  // var option = document.createElement('option');
-                
-                // // option.innerHTML = data.fileArrayList[i];
-                // // var option2 = document.createElement('option');
-                // // option2.innerHTML = data.fileArrayList[i];
-                // // gedcomViewerOptions.appendChild(option);
+
                 // }
                 tempTableLength += 1;
             }
@@ -149,10 +111,37 @@ $(document).ready(function() {
                     //use individual object to call insertIndividual
                     // console.log("add form is targeted");
                     $( "<div>" )
-                     .append( e.target[0].value + " " + e.target[1].value + " has been added to file: " + e.target[2].value + "\n" )
+                     .append( e.target[0].value + " " + e.target[1].value + " has been added to file: " + e.target[4].value + "\n" )
                     .appendTo( "#statusBox" );
                     // console.log(e.target[2].value);
                     document.getElementById('addModal').style.display = "none";
+
+                    // $(document).ready(function() {
+    // On page-load AJAX Example
+    $.ajax({
+        type: 'get',            //Request type
+        dataType: 'JSON',
+        
+        // data: {surname:"\"" + e.target[0].value + "\"", givenName:"\"" + e.target[1].value + "\""},       //Data type - we will use JSON for almost everything 
+        url: '/create/' + e.target[4].value, 
+        data: {givenName:"first",surname:"last"},  //The server endpoint we are connecting to
+        success: function (data) {
+    // //           Do something with returned object
+    // //             Note that what we get is an object, not a string, 
+    // //             so we do not need to parse it on the server.
+    // //             JavaScript really does handle JSONs seamlessly
+            
+
+
+    // //         //We write the object to the console to show that the request was successful
+            console.log("yes" + data.name); 
+        },
+        fail: function(error) {
+            
+    // //         // Non-200 return, do something with error
+            console.log(error + " no"); 
+        }
+    });
                     break;
                 case 'createForm':
                     // console.log("create form is uploaded");
