@@ -13,10 +13,6 @@ Event * initializeEvent(char* type, char* date, char* place);
 Individual * initializeIndividual(char* givenName, char* surname);
 bool customIndividualCompareFunction(const void* first, const void* second);
 List getChild(const GEDCOMobject* familyRecord, const Individual* person, List list);
-char* initFilesToJSON(char* fileName);
-char* grabIndList(char* fileName);
-void addIndividualWrapper(char* fileName, char* IndJSON);
-void createGEDCOMWrapper(char* str, char * fileName);
 
 GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
 {
@@ -2159,25 +2155,6 @@ char* indToJSON(const Individual* ind)
     char * jsonReturn = malloc(sizeof(char) * 1000);
     if(ind != NULL)
     {
-        int genderFlag = 0;
-        int familyCount = getLength(ind->families);
-        void* elem;
-        ListIterator elemIter = createIterator(ind->otherFields);
-        while((elem = nextElement(&elemIter)) != NULL)
-        {
-            Field* tempField = (Field*)elem;
-            if(strcmp(tempField->tag, "SEX") == 0)
-            {
-                if(strcmp(tempField->value , "M") == 0)
-                {
-                    genderFlag = 1;
-                }
-                else
-                {
-                    genderFlag = 2;
-                }
-            }
-        }
         // char * jsonReturn = malloc(sizeof(char) * 1000);
 
         if(ind->givenName != NULL)
@@ -2192,31 +2169,13 @@ char* indToJSON(const Individual* ind)
 
         if(ind->surname != NULL)
         {
-            sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"%s\"", ind->surname);
+            sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"%s\"}", ind->surname);
 
         }
         else
         {
-            sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"\"");  
+            sprintf(jsonReturn + strlen(jsonReturn), ",\"surname\":\"\"}");  
         }
-
-        if(genderFlag != 0)
-        {
-            if(genderFlag == 1)
-            {
-                sprintf(jsonReturn + strlen(jsonReturn), ",\"gender\":\"Male\"");
-            }
-            else
-            {
-                sprintf(jsonReturn + strlen(jsonReturn), ",\"gender\":\"Female\"");   
-            }
-        }
-        else
-        {
-            sprintf(jsonReturn + strlen(jsonReturn), ",\"gender\":\"\""); 
-        }
-
-        sprintf(jsonReturn + strlen(jsonReturn), ",\"familyCount\":\"%d\"}", familyCount);
 
         // return jsonReturn;
     }
@@ -2281,15 +2240,8 @@ Individual* JSONtoInd(const char* str)
 
 }
 
-void createGEDCOMWrapper(char* str, char * fileName)
-{
-    GEDCOMobject * tempObject = JSONtoGEDCOM(str);
 
-    writeGEDCOM(fileName, tempObject);
-
-}
-
-
+//FINISH THIS
 GEDCOMobject* JSONtoGEDCOM(const char* str)
 {
 
@@ -2407,90 +2359,6 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
 
 }
 
-//creates object for each file and then 
-//returns basic information as JSON for the file viewer
-char* initFilesToJSON(char* fileName)
-{
-
-    // printf("fileName is %s\n", fileName);
-
-    char * jsonReturn = malloc(sizeof(char) * 500);
-
-    if(strlen(fileName) != 0)
-    {
-        GEDCOMobject * tempObject = initializeGEDCOMobject();
-
-        GEDCOMerror err;
-
-        err = createGEDCOM(fileName, &tempObject);
-
-    
-        // printf("err is %u\n", err.type);
-
-    //SOURCE/GEDVERSION/ENCODING/SUBMITTERNAME/ADDRESS/NUMIND/NUMFAM
-        if(tempObject->header != NULL)
-        {
-            Header * tempHeader = (Header*)tempObject->header;
-            sprintf(jsonReturn + strlen(jsonReturn), "{\"source\":\"%s\", \"version\":\"%.1f\"", tempHeader->source, tempHeader->gedcVersion);
-
-           
-            if(tempHeader->encoding == ANSEL)
-            {
-                sprintf(jsonReturn + strlen(jsonReturn), ", \"encoding\":\"ANSEL\"");
-            }
-            else if (tempHeader->encoding == UTF8)
-            {
-                sprintf(jsonReturn + strlen(jsonReturn), ", \"encoding\":\"UTF-8\"");
-            }
-            else if (tempHeader->encoding == ASCII)
-            {
-                sprintf(jsonReturn + strlen(jsonReturn), ", \"encoding\":\"ASCII\"");
-            }
-            else if (tempHeader->encoding == UNICODE)
-            {
-                sprintf(jsonReturn + strlen(jsonReturn), ", \"encoding\":\"UNICODE\"");
-            }
-
-        }
-        else
-        {
-            sprintf(jsonReturn + strlen(jsonReturn), "{\"source\":\"\", \"version\":\"\", \"encoding\":\"\"");  
-        }
-
-        if(tempObject->submitter != NULL)
-        {
-            Submitter * tempSubm = (Submitter*)tempObject->submitter;
-            sprintf(jsonReturn + strlen(jsonReturn), ",\"submitterName\":\"%s\", \"submitterAddress\":\"%s\"", tempSubm->submitterName, tempSubm->address);
-
-        }
-        else
-        {
-            sprintf(jsonReturn + strlen(jsonReturn), ",\"submitterName\":\"\", \"submitterAddress\":\"\"");  
-        }
-
-        sprintf(jsonReturn + strlen(jsonReturn), ",\"totalIndividuals\":\"%d\", \"totalFamilies\":\"%d\"}", getLength(tempObject->individuals), getLength(tempObject->families));
-
-        // deleteGEDCOM(tempObject);
-    }
-
-    return jsonReturn;
-
-}
-
-void addIndividualWrapper(char* fileName, char* IndJSON)
-{
-
-    GEDCOMobject * tempObject = initializeGEDCOMobject();
-    createGEDCOM(fileName, &tempObject);
-
-    Individual * tempIndividual = JSONtoInd(IndJSON);
-
-    addIndividual(tempObject, tempIndividual);
-
-    writeGEDCOM(fileName, tempObject);
-
-}
-
 void addIndividual(GEDCOMobject* obj, const Individual* toBeAdded)
 {
     if(obj != NULL && toBeAdded != NULL)
@@ -2499,19 +2367,6 @@ void addIndividual(GEDCOMobject* obj, const Individual* toBeAdded)
         insertBack(&obj->individuals, (void*)toBeAdded);
     }
 
-}
-
-char* grabIndList(char* fileName)
-{
-    GEDCOMobject * tempObject = initializeGEDCOMobject();
-
-    GEDCOMerror err;
-
-    err = createGEDCOM(fileName, &tempObject);
-
-    char * indList = iListToJSON(tempObject->individuals);
-
-    return indList;
 }
 
 char* iListToJSON(List iList)
@@ -2871,7 +2726,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
                     free(headerFieldDelete->tag);
                     free(headerFieldDelete->value);
                 }
-                // clearList(&obj->header->otherFields);
+                clearList(&obj->header->otherFields);
             }
 
         }
@@ -2903,11 +2758,10 @@ void deleteGEDCOM(GEDCOMobject* obj)
                                 free(familyEventOtherDelete->value);
                             }
 
-                            // clearList(&familyEventDelete->otherFields);
+                            clearList(&familyEventDelete->otherFields);
                         }
-                        free(familyEventDelete);
                     }
-                    // clearList(&familyDelete->events);
+                    clearList(&familyDelete->events);
                 }
 
                 if(getLength(familyDelete->children) != 0)
@@ -2938,16 +2792,15 @@ void deleteGEDCOM(GEDCOMobject* obj)
                                         free(eventOther->tag);
                                         free(eventOther->value);
                                     }
-                                    // clearList(&eventDelete->otherFields);
+                                    clearList(&eventDelete->otherFields);
                                 }
-                                free(eventDelete);
                             }
-                            // clearList(&individualDelete->events);
+                            clearList(&individualDelete->events);
                         }
-                        // if(getLength(individualDelete->families) != 0)
-                        // {
-                            // clearList(&individualDelete->families);
-                        // }
+                        if(getLength(individualDelete->families) != 0)
+                        {
+                            clearList(&individualDelete->families);
+                        }
                         if(getLength(individualDelete->otherFields) != 0)
                         {
 
@@ -2960,7 +2813,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
                                 free(individualOther->value);
                             }
 
-                            // clearList(&individualDelete->otherFields);
+                            clearList(&individualDelete->otherFields);
 
                         }
                     }
@@ -2976,7 +2829,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
                         free(familyOtherDelete->tag);
                         free(familyOtherDelete->value);
                     }
-                    // clearList(&familyDelete->otherFields);
+                    clearList(&familyDelete->otherFields);
                 }
 
             }
@@ -3010,16 +2863,15 @@ void deleteGEDCOM(GEDCOMobject* obj)
                                 free(eventOther->tag);
                                 free(eventOther->value);
                             }
-                            // clearList(&eventDelete->otherFields);
+                            clearList(&eventDelete->otherFields);
                         }
-                        free(eventDelete);
                     }
-                    // clearList(&individualDelete->events);
+                    clearList(&individualDelete->events);
                 }
-                // if(getLength(individualDelete->families) != 0)
-                // {
-                //     clearList(&individualDelete->families);
-                // }
+                if(getLength(individualDelete->families) != 0)
+                {
+                    clearList(&individualDelete->families);
+                }
                 if(getLength(individualDelete->otherFields) != 0)
                 {
 
@@ -3032,7 +2884,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
                         free(individualOther->value);
                     }
 
-                    // clearList(&individualDelete->otherFields);
+                    clearList(&individualDelete->otherFields);
 
                 }
             }
@@ -3055,7 +2907,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
                     free(submitterOther->value);
 
                 }
-                // clearList(&obj->submitter->otherFields);
+                clearList(&obj->submitter->otherFields);
             }
 
         }

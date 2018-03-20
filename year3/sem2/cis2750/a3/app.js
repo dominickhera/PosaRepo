@@ -43,6 +43,11 @@ app.post('/upload', function(req, res) {
   if(!req.files) {
     return res.status(400).send('No files were uploaded.');
   }
+  // else
+  // {
+  //   console.log(req.files.uploadFile.name);
+  // }
+
  
   let uploadFile = req.files.uploadFile;
  
@@ -70,12 +75,75 @@ app.get('/uploads/:name', function(req , res){
 
 //******************** Your code goes here ******************** 
 
+
+let sharedLib = ffi.Library('./parser/bin/parserLib', {
+//   'addIndividual': [ 'void', ['Object', 'string' ] ],   //return type first, argument list second
+//                   //for void input type, leave argumrnt list empty
+//   'JSONtoGEDCOM': [ 'Object', [ 'string' ] ], //int return, int argument
+//   'getDesc' : [ 'string', [] ],
+    'initFilesToJSON': [ 'string', ['string']],
+    'grabIndList': ['string', ['string']]
+    // 'addIndividualWrapper': ['void', ['string' , 'string']]
+//   'putDesc' : [ 'void', [ 'string' ] ],
+});
+
+
 //Sample endpoint
-app.get('/someendpoint', function(req , res){
+// app.get('/uploads/', function(req , res){
+//   res.send({
+//     foo: "bar"
+//   });
+// // fs.readdir('./uploads/', (err, files) => {
+// //   files.forEach((file) => {
+// //     res.send({
+// //       foo: "test"
+// //     })
+// // //     // console.log(file);
+// //   });
+// // });
+// });
+
+
+app.get('/create/:name', function(req, res){
+  let filePath = "./uploads/";
+  let fileCreate = filePath + req.params.name;
+  console.log("file should be " + fileCreate);
+  // let indParse = JSON.stringify(data);
+  // console.log("file params are " + indParse);
+  console.log(req.params);
+  // let surnameVar = req.params.addIndSurname;
+   // console.log("file params are " + surnameVar);
+});
+
+const testFolder = "./uploads/"
+var fileArray = [];
+var fileInfo = [];
+var indList = [];
+fs.readdir('./uploads/', (err, files) => {
+  files.forEach((file) => {
+    fileArray.push(file);
+    // var array = fs.readFileSync(testFolder + file).toString().split("\n");
+     // console.log("\n\n\n",array); 
+     let testFile = "./uploads/" + file;
+     let fileInfoJSON = sharedLib.initFilesToJSON(testFile);
+     fileInfo.push(fileInfoJSON);
+     let indListJSON = sharedLib.grabIndList(testFile);
+     indList.push(indListJSON);
+
+      // console.log(fileInfoJSON);
+    // console.log(file);
+  });
+  // console.log("\n\n\n",array);
+  app.get('/uploads/', function(req , res){
   res.send({
-    foo: "bar"
+    foo: "bar",
+    fileArrayList: fileArray,
+    fileInfoList: fileInfo,
+    fileIndList: indList
   });
 });
+});
+
 
 app.listen(portNum);
 console.log('Running app at localhost: ' + portNum);
