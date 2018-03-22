@@ -12,6 +12,7 @@ fd STANDARD-OUTPUT.
 
 working-storage section.
 77 I pic S99 usage is comp.
+77 K pic 9(2) value 0.
 77 PREV pic S9(8) usage is comp.
 77 D pic S9(4) usage is comp.
 01 ERROR-MESS.
@@ -22,27 +23,34 @@ linkage section.
 77 ERR  pic S9 usage is comp-3.
 77 SUM1 pic S9(8) usage is comp.
 01 ARRAY-AREA.
+	*> 02 S pic X(30).
 	02 S pic X(1) occurs 30 times.
 
 procedure division using ARRAY-AREA, M, ERR, SUM1.
-	move 0 to SUM1. move 1001 to PREV.
+	move 0 to SUM1. move 1001 to PREV. move 0 to K.
+	inspect ARRAY-AREA tallying K for characters before initial " ".
+	*> display K.
 	perform LOOP thru END-LOOP varying I from 1 by 1
-	until I is greater than M.
+	until I is greater than K.
 	move 1 to ERR. perform B8.
 LOOP.
-	if S(I) is equal to 'I' then 
+	display S(I)
+	*> inspect S(I) tallying K for characters
+	*> display K
+	*> display S(I)
+	if S(I) is equal to 'I' or S(I) is equal to 'i' then 
 		move 1 to D
-	else if S(I) is equal to 'V' then
+	else if S(I) is equal to 'V' or S(I) is equal to 'v' then
 		move 5 to D
-	else if S(I) is equal to 'X' then
+	else if S(I) is equal to 'X' or S(I) is equal to 'x' then
 		move 10 to D
-	else if S(I) is equal to 'L' then 
+	else if S(I) is equal to 'L' or S(I) is equal to 'l' then 
 		move 50 to D
-	else if S(I) is equal to 'C' then
+	else if S(I) is equal to 'C' or S(I) is equal to 'c' then
 		move 100 to D
-	else if S(I) is equal to 'D' then 
+	else if S(I) is equal to 'D' or S(I) is equal to 'd' then 
 		move 500 to D
-	else if S(I) is equal to 'M' then
+	else if S(I) is equal to 'M' or S(I) is equal to 'm' then
 		move 1000 to D
 	else
 		perform B7

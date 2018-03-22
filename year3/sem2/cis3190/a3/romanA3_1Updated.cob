@@ -16,11 +16,13 @@ working-storage section.
 77	N    pic S99 usage is comp.
 77	TEMP pic S9(8) usage is comp.
 77	RET  pic S9 usage is comp-3.
+01	inputType pic x(5).
 01	ARRAY-AREA.
-	02 R pic X(1) occurs 30 times.
+	*> 02 R pic x(30).
+	02 R pic X(30) occurs 30 times.
 01	INPUT-AREA.
-	02 IN-R   pic X(1).
-	02 FILLER pic X(79).
+	02 IN-R   pic X(30).
+	02 FILLER pic X(50).
 01	TITLE-LINE.
 	02 FILLER pic X(11) value SPACES.
 	02 FILLER pic X(24) value 'ROMAN NUMBER EQUIVALENTS'.
@@ -47,19 +49,35 @@ procedure division.
 	write STDOUT-RECORD from UNDERLINE-1 after advancing 1 line. 
 	write STDOUT-RECORD from COL-HEADS after advancing 1 line. 
 	write STDOUT-RECORD from UNDERLINE-2 after advancing 1 line. 
+	write STDOUT-RECORD from PRINT-LINE after advancing 1 line. 
 L1.	move 1 to N. move SPACES to ARRAY-AREA.
-L2.	read STANDARD-INPUT into INPUT-AREA at end perform B3.
+L3. display "Enter 1 for file or 0 for keyboard"
+	accept inputType
+	evaluate inputType
+		when 1 perform L5
+		when 0 perform L4.
+	perform B2.
+L4.	move zero to inputType
+	display "Enter in Roman Numerals and Hit Enter: "
+	accept INPUT-AREA
+	perform L2.
+L5. display "Booty".
+L2.	
+	*> accept INPUT-AREA
+	*> perform B3.
+	*> read ARRAY-AREA into INPUT-AREA at end perform B3.
+	*> read STANDARD-INPUT into INPUT-AREA at end perform B3.
 	move IN-R to R(N).
 	if IN-R is equal to SPACE
 		perform B1.
-	add 1 to N. perform L2.
+	add 1 to N. perform L4.
 B1.	subtract 1 from N.
 	call "conv" using ARRAY-AREA, N, RET, TEMP.
 	move 1 to RET.
 	evaluate RET
 		when 1 perform B2
 		when 0 perform L1.
-	
+	*> go to B2, L1 depending on RET.
 B2.	move TEMP to OUT-EQ. move ARRAY-AREA to OUT-R.
 	write STDOUT-RECORD from PRINT-LINE after advancing 1 line. 
 	go to L1.
