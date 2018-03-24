@@ -1,63 +1,95 @@
-IDENTIFICATION DIVISION.
-PROGRAM-ID. ROMANNUMERALS.
-ENVIRONMENT DIVISION.
-INPUT-OUTPUT SECTION.
-FILE-CONTROL.
-	SELECT STANDARD-INPUT ASSIGN TO KEYBOARD.
-	SELECT STANDARD-OUTPUT ASSIGN TO DISPLAY.
-
-DATA DIVISION.
-FILE SECTION.
-FD STANDARD-INPUT.
-	01 STDIN-RECORD	PICTURE X(80).
-FD STANDARD-OUTPUT.
-	01 STDOUT-RECORD PICTURE X(80).
-WORKING-STORAGE SECTION.
-77	N    PICTURE S99 USAGE IS COMPUTATIONAL.
-77	TEMP PICTURE S9(8) USAGE IS COMPUTATIONAL.
-77	RET  PICTURE S9 USAGE IS COMPUTATIONAL-3.
+identification division.
+program-id. ROMANNUMERALS.
+environment division.
+input-output section.
+file-control.
+	select STANDARD-INPUT assign to KEYBOARD.
+	select STANDARD-OUTPUT assign to DISPLAY.
+	select inputFile assign to "roman.txt"
+		organization is line sequential.
+data division.
+file section.
+fd STANDARD-INPUT.
+	01 STDIN-RECORD	pic X(80).
+fd STANDARD-OUTPUT.
+	01 STDOUT-RECORD pic X(80).
+fd inputFile.
+	01 inputFile-Record pic X(80).
+working-storage section.
+77	N    pic S99 usage is comp.
+77	TEMP pic S9(8) usage is comp.
+77	RET  pic S9 usage is comp-3.
+01	inputType pic x(5).
+*> 01	fileName pic x(30).
 01	ARRAY-AREA.
-	02 R PICTURE X(1) OCCURS 30 TIMES.
+	*> 02 R pic x(30).
+	02 R pic X(30) occurs 30 times.
 01	INPUT-AREA.
-	02 IN-R   PICTURE X(1).
-	02 FILLER PICTURE X(79).
+	02 IN-R   pic X(30).
+	02 FILLER pic X(50).
 01	TITLE-LINE.
-	02 FILLER PICTURE X(11) VALUE SPACES.
-	02 FILLER PICTURE X(24) VALUE 'ROMAN NUMBER EQUIVALENTS'.
+	02 FILLER pic X(11) value SPACES.
+	02 FILLER pic X(24) value 'ROMAN NUMBER EQUIVALENTS'.
 01	UNDERLINE-1.
-	02 FILLER PICTURE X(45) VALUE
+	02 FILLER pic X(45) value
 		' --------------------------------------------'.
 01	COL-HEADS.
-	02 FILLER PICTURE X(9) VALUE SPACES.
-	02 FILLER PICTURE X(12) VALUE 'ROMAN NUMBER'.
-	02 FILLER PICTURE X(13) VALUE SPACES.
-	02 FILLER PICTURE X(11) VALUE 'DEC. EQUIV.'.
+	02 FILLER pic X(9) value SPACES.
+	02 FILLER pic X(12) value 'ROMAN NUMBER'.
+	02 FILLER pic X(13) value SPACES.
+	02 FILLER pic X(11) value 'DEC. EQUIV.'.
 01	UNDERLINE-2.
-	02 FILLER PICTURE X(45) VALUE
+	02 FILLER pic X(45) value
 		' ------------------------------   -----------'.
 01	PRINT-LINE.
-	02 FILLER PICTURE X VALUE SPACE.
-	02 OUT-R PICTURE X(30).
-	02 FILLER PICTURE X(3) VALUE SPACES.
-	02 OUT-EQ PICTURE Z(9).
+	02 FILLER pic X value SPACE.
+	02 OUT-R pic X(30).
+	02 FILLER pic X(3) value SPACES.
+	02 OUT-EQ pic Z(9).
 
-PROCEDURE DIVISION.
-	OPEN INPUT STANDARD-INPUT, OUTPUT STANDARD-OUTPUT.
-	WRITE STDOUT-RECORD FROM TITLE-LINE AFTER ADVANCING 0 LINES. 
-	WRITE STDOUT-RECORD FROM UNDERLINE-1 AFTER ADVANCING 1 LINE. 
-	WRITE STDOUT-RECORD FROM COL-HEADS AFTER ADVANCING 1 LINE. 
-	WRITE STDOUT-RECORD FROM UNDERLINE-2 AFTER ADVANCING 1 LINE. 
-L1.	MOVE 1 TO N. MOVE SPACES TO ARRAY-AREA.
-L2.	READ STANDARD-INPUT INTO INPUT-AREA AT END GO TO B3.
-	MOVE IN-R TO R(N).
-	IF IN-R IS EQUAL TO SPACE GO TO B1.
-	ADD 1 TO N. GO TO L2.
-B1.	SUBTRACT 1 FROM N.
-	CALL "conv" USING ARRAY-AREA, N, RET, TEMP.
-	MOVE 1 TO RET.
-	GO TO B2, L1 DEPENDING ON RET.
-B2.	MOVE TEMP TO OUT-EQ. MOVE ARRAY-AREA TO OUT-R.
-	WRITE STDOUT-RECORD FROM PRINT-LINE AFTER ADVANCING 1 LINE. 
-	GO TO L1.
-B3.	CLOSE STANDARD-INPUT, STANDARD-OUTPUT.
-	STOP RUN.
+procedure division.
+	open input STANDARD-INPUT, output STANDARD-OUTPUT.
+	open input inputFile.
+	write STDOUT-RECORD from TITLE-LINE after advancing 0 lines. 
+	write STDOUT-RECORD from UNDERLINE-1 after advancing 1 line. 
+	write STDOUT-RECORD from COL-HEADS after advancing 1 line. 
+	write STDOUT-RECORD from UNDERLINE-2 after advancing 1 line. 
+	write STDOUT-RECORD from PRINT-LINE after advancing 1 line. 
+L1.	move 1 to N. move SPACES to ARRAY-AREA.
+L3. display "Enter 1 for file or 0 for keyboard"
+	accept inputType
+	evaluate inputType
+		when 1 perform L5
+		when 0 perform L4.
+	perform B2.
+L4.	move zero to inputType
+	accept INPUT-AREA
+	perform L2.
+L5. read inputFile into INPUT-AREA
+		at end
+			write STDOUT-RECORD from INPUT-AREA after advancing 1 line
+			close inputFile
+			perform L2
+		not at end
+			write STDOUT-RECORD from INPUT-AREA after advancing 1 line
+			perform L2.
+	write STDOUT-RECORD from INPUT-AREA after advancing 1 line.
+	perform L2.
+L2.	
+	move IN-R to R(N).
+	if IN-R is equal to SPACE
+		perform B1.
+	add 1 to N. perform L4.
+B1.	subtract 1 from N.
+	call "conv" using ARRAY-AREA, N, RET, TEMP.
+	move 1 to RET.
+	evaluate RET
+		when 1 perform B2
+		when 0 perform L1.
+	*> go to B2, L1 depending on RET.
+B2.	move TEMP to OUT-EQ. move ARRAY-AREA to OUT-R.
+	write STDOUT-RECORD from PRINT-LINE after advancing 1 line. 
+	*> go to L1.
+	perform L3.
+B3.	close STANDARD-INPUT, STANDARD-OUTPUT, inputFile.
+	stop run.
