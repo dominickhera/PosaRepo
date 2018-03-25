@@ -31,6 +31,7 @@ int main(int argc, char **argv)
     }
 
     HoleSystem * holeSystem = initializeHoleSystem();
+    Process * tempProcess;
     //copys an astrerisk for each empty spot in the memory
     // for(int i = 0; i < 128; i++)
     // {
@@ -38,7 +39,7 @@ int main(int argc, char **argv)
         // strcpy(memory[i], "*");
 
     // }
-
+// printf("hello\n");
     printf("\n\n");
 
 
@@ -55,9 +56,10 @@ int main(int argc, char **argv)
         {
             if (parseCount != 0)
             {
+                // printf("nono\n");
                 parseCount--;
                 memoryAmount[count] = strtol(word, &p, 10);
-                Process * tempProcess = initializeProcess(memoryValue[count], memoryAmount[count]);
+                tempProcess = initializeProcess(memoryValue[count], memoryAmount[count]);
                 printf("line %d: char: %s, num: %d\n", count, memoryValue[count], memoryAmount[count]);
                 insertBack(&holeSystem->processes, tempProcess);
                 insertBack(&holeSystem->waitingProcesses, tempProcess);
@@ -66,14 +68,16 @@ int main(int argc, char **argv)
             {
                 parseCount++;
                 count++;
-
+                // printf("fuck\n");
                 strcpy(memoryValue[count], word);
             }
+            // printf("mum\n");
             word = strtok(NULL, " ");
         }
+        // printf("ok\n");
         memset(line, '\0', strlen(line));
     }
-
+    // printf("why\n");
     fclose(fp);
     // holeSystem->waitingProcesses = holeSystem->processes;
 
@@ -85,7 +89,7 @@ int main(int argc, char **argv)
     //function then forloops backwards until the value is copied over all the empty spaces, then proceeds to the next value that was parsed
   
 
-    // firstFit(holeSystem);
+    firstFit(holeSystem);
 
     // printf("\n\nFirst-Fit\n");
 
@@ -135,8 +139,9 @@ void firstFit(HoleSystem * holeSystem)
     printf("First-Fit\n");
     while(getLength(holeSystem->waitingProcesses) != 0)
     {
-
+        // printf("hello\n");
         int nextHoleSize = checkNextHoleSize(holeSystem);
+        // printf("next hole size is %d\n", nextHoleSize);
         if(nextHoleSize == 0)
         {
             swapProcess(holeSystem);
@@ -157,6 +162,7 @@ void firstFit(HoleSystem * holeSystem)
             }
         }
     }
+    printFinishedInfo(holeSystem);
 
 }
 
@@ -170,15 +176,16 @@ void swapProcess(HoleSystem * holeSystem)
     ListIterator elemIter = createIterator(holeSystem->runningProcesses);
     while((elem = nextElement(&elemIter)) != NULL)
     {
+
         Process * currentProcess = (Process*)elem;
-        if((currentProcess->processSize + checkNextHoleSize(holeSystem)) >= replacementProcess->processSize)
+        if(currentProcess->processSize >= replacementProcess->processSize)
         {
             if(currentProcess->swapCount < 3)
             {
                 currentProcess->swapCount++;
                 for(int i = 0; i < 128; i++)
                 {
-                    if(holeSystem->memory[i] == currentProcess->processID)
+                     if(strcmp(&holeSystem->memory[i], currentProcess->processID)== 0)
                     {
                         strcpy(&holeSystem->memory[i], "*");
                     }
@@ -200,7 +207,7 @@ void swapProcess(HoleSystem * holeSystem)
             {
                 for(int i = 0; i < 128; i++)
                 {
-                    if(holeSystem->memory[i] == currentProcess->processID)
+                    if(strcmp(&holeSystem->memory[i], currentProcess->processID)== 0)
                     {
                         strcpy(&holeSystem->memory[i], "*");
                     }
@@ -259,17 +266,18 @@ int checkNextHoleSize(HoleSystem * holeSystem)
     int holeCount = 0;
     for(int i = 0; i < 128; i++)
     {
-        if(holeSystem->memory[i] != '*')
+        if(holeSystem->memory[i] == '*')
         {
-            while(holeSystem->memory[i] != '*')
+            while(holeSystem->memory[i] == '*')
             {
                 holeCount++;
+                i++;
             }
-            return holeCount;
+            
         }
     }
 
-    return 0;
+    return holeCount;
 }
 
 int checkHoleCount(HoleSystem * holeSystem)
@@ -290,25 +298,28 @@ int checkHoleCount(HoleSystem * holeSystem)
     return holeCount;
 }
 
-int checkMemUsage(HoleSystem * HoleSystem)
+int checkMemUsage(HoleSystem * holeSystem)
 {
     int memUsage = 0;
     for(int i = 0; i < 128; i++)
     {
-        if(HoleSystem->memory[i] != '*')
+        if(holeSystem->memory[i] != '*')
         {
             memUsage++;
         }
     }
+    printf("memusage is %d\n", memUsage);
 
-    return memUsage/128;
+    return memUsage;
 }
 
 void printProcessInfo(HoleSystem * holeSystem, Process * Process)
 {
-
-    printf("test\n");
-    // printf("pid loaded, #processes = %d, #holes = %d, %%memusage = %d, cumulative %%mem = %d\n", Process->processSize, checkHoles(HoleSystem), checkMemUsage(HoleSystem));
+    int memUsage = checkMemUsage(holeSystem);
+    double newMemUsage = memUsage / 128 ;
+    printf("pls work %f\n", newMemUsage);
+    // printf("test\n");
+    printf("pid loaded, #processes = %d, #holes = %d, %%memusage = %f, cumulative %%mem = %.01d\n", Process->processSize, checkHoleCount(holeSystem), newMemUsage, holeSystem->cumulativeMemUsage);
 
 }
 
@@ -320,12 +331,15 @@ void printFinishedInfo(HoleSystem * holeSystem)
 
 Process * initializeProcess(char* processID, int processSize)
 {
-    Process* tempProcess = malloc(sizeof(Process));
-    // tempProcess->processID = malloc(sizeof(processID));
+    // printf("process id is %s, size is %d\n", processID, processSize);
+    Process * tempProcess = malloc(sizeof(Process));
+    tempProcess->processID = malloc(sizeof(processID));
     strcpy(tempProcess->processID, processID);
     tempProcess->processSize = processSize;
     tempProcess->swapCount = 0;
 
+
+    // printf("process id is %s, size is %d\n", processID, processSize);
     return tempProcess;
 }
 
@@ -335,7 +349,7 @@ HoleSystem * initializeHoleSystem()
 
     for(int i = 0; i < 128; i++)
     {
-
+        // printf("i is %d\n", i);
         strcpy(&tempSystem->memory[i], "*");
 
     }

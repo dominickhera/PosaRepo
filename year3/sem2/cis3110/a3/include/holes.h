@@ -8,7 +8,7 @@
 
 typedef struct
 {
-	char memory[127];
+	char memory[128];
 	int cumulativeMemUsage;
 	int averageHoleCount;
 	int averageProcessCount;
@@ -21,7 +21,7 @@ typedef struct
 
 typedef struct 
 {
-	char processID[1];
+	char * processID;
 	int processSize;
 	int swapCount;
 
@@ -37,7 +37,7 @@ void insertProcess(HoleSystem * holeSystem);
 int checkBeginningHoleNum(HoleSystem * holeSystem);
 int checkNextHoleSize(HoleSystem * holeSystem);
 int checkHoleCount(HoleSystem * holeSystem);
-int checkMemUsage(HoleSystem * HoleSystem);
+int checkMemUsage(HoleSystem * holeSystem);
 void printProcessInfo(HoleSystem * holeSystem, Process * Process);
 void printFinishedInfo(HoleSystem * holeSystem);
 
