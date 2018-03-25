@@ -85,7 +85,7 @@ int main(int argc, char **argv)
     //function then forloops backwards until the value is copied over all the empty spaces, then proceeds to the next value that was parsed
   
 
-    firstFit(holeSystem);
+    // firstFit(holeSystem);
 
     // printf("\n\nFirst-Fit\n");
 
