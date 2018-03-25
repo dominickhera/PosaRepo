@@ -7,20 +7,27 @@ EXE2 = holes
 
 all: $(EXE1) $(EXE2)
 
-$(EXE1): dine.o BIN
-	gcc dine.o -o ./bin/$(EXE1) -lpthread
+$(EXE1): BIN OBJ dine.o 
+	gcc ./obj/dine.o -o ./bin/$(EXE1) -lpthread
 
-$(EXE2): holes.o BIN
-	$(CC) holes.o -o ./bin/$(EXE2)
+$(EXE2): BIN OBJ holes.o LinkedListAPI.o
+	$(CC) ./obj/holes.o ./obj/LinkedListAPI.o -o ./bin/$(EXE2)
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
 
+OBJ:
+	if [ ! -d "obj" ]; then mkdir obj; fi;
+
 dine.o: ./src/dine.c
-	$(CC) -c $(CFLAGS) ./src/dine.c -Iinclude
+	$(CC) -c $(CFLAGS) $(FILE)dine.c -I./include -o ./obj/dine.o
 
 holes.o: ./src/holes.c
-	$(CC) -c $(CFLAGS) ./src/holes.c -Iinclude
+	$(CC) -c $(CFLAGS) $(FILE)holes.c -I./include -o ./obj/holes.o
+
+LinkedListAPI.o: ./src/LinkedListAPI.c
+	$(CC) -c $(CFLAGS) ./src/LinkedListAPI.c -I./include -o ./obj/LinkedListAPI.o
+
 
 clean:
-	rm *.o
+	rm -rf bin obj
