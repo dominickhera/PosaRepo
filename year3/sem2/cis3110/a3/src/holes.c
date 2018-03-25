@@ -12,14 +12,14 @@ int main(int argc, char **argv)
     FILE *fp;
     char line[256];
     char * p;
-    char memory[127][127];
+    // char memory[127][127];
     char memoryValue[127][127];
     int memoryAmount[127];
     char * word;
     int count = 0;
     // int processCount = 0;
-    int cycleCount = 1;
-    int emptyCount = 0;
+    // int cycleCount = 1;
+    // int emptyCount = 0;
     int parseCount = 0;
 
     fp = fopen(argv[1], "r");
@@ -60,6 +60,7 @@ int main(int argc, char **argv)
                 Process * tempProcess = initializeProcess(memoryValue[count], memoryAmount[count]);
                 printf("line %d: char: %s, num: %d\n", count, memoryValue[count], memoryAmount[count]);
                 insertBack(&holeSystem->processes, tempProcess);
+                insertBack(&holeSystem->waitingProcesses, tempProcess);
             }
             else if(parseCount == 0)
             {
@@ -74,7 +75,7 @@ int main(int argc, char **argv)
     }
 
     fclose(fp);
-    holeSystem->waitingProcesses = holeSystem->processes;
+    // holeSystem->waitingProcesses = holeSystem->processes;
 
     // HoleSystem * secondHoleSystem = holeSystem;
     // HoleSystem * thirdHoleSystem = holeSystem;
@@ -132,25 +133,154 @@ int main(int argc, char **argv)
 void firstFit(HoleSystem * holeSystem)
 {
     printf("First-Fit\n");
-
     while(getLength(holeSystem->waitingProcesses) != 0)
     {
-        
+
+        int nextHoleSize = checkNextHoleSize(holeSystem);
+        if(nextHoleSize == 0)
+        {
+            swapProcess(holeSystem);
+        }
+        else
+        {
+            void* elem;
+            ListIterator elemIter = createIterator(holeSystem->waitingProcesses);
+            elem = nextElement(&elemIter);
+            Process * headProcess = (Process*)elem;
+            if(nextHoleSize >= headProcess->processSize)
+            {
+                insertProcess(holeSystem);
+            }
+            else
+            {
+                swapProcess(holeSystem);
+            }
+        }
     }
 
 }
 
+void swapProcess(HoleSystem * holeSystem)
+{
+    void* elem;
+    // void* otherElem;
+    // ListIterator otherElemIter = createIterator(holeSystem->waitingProcesses);
+    // otherElem = nextElement(&otherElemIter);
+    Process * replacementProcess = (Process*)getFromFront(holeSystem->waitingProcesses);
+    ListIterator elemIter = createIterator(holeSystem->runningProcesses);
+    while((elem = nextElement(&elemIter)) != NULL)
+    {
+        Process * currentProcess = (Process*)elem;
+        if((currentProcess->processSize + checkNextHoleSize(holeSystem)) >= replacementProcess->processSize)
+        {
+            if(currentProcess->swapCount < 3)
+            {
+                currentProcess->swapCount++;
+                for(int i = 0; i < 128; i++)
+                {
+                    if(holeSystem->memory[i] == currentProcess->processID)
+                    {
+                        strcpy(&holeSystem->memory[i], "*");
+                    }
+                }
+
+                for(int i = checkBeginningHoleNum(holeSystem); i < (128 - replacementProcess->processSize); i++)
+                {
+                    strcpy(&holeSystem->memory[i], replacementProcess->processID);
+                }
+                insertBack(&holeSystem->waitingProcesses, getFromFront(holeSystem->runningProcesses));
+                deleteDataFromList(&holeSystem->runningProcesses, getFromFront(holeSystem->runningProcesses));
+                insertBack(&holeSystem->runningProcesses, getFromFront(holeSystem->waitingProcesses));
+                deleteDataFromList(&holeSystem->waitingProcesses, getFromFront(holeSystem->waitingProcesses));
 
 
-int checkHoles(HoleSystem * HoleSystem)
+
+            }
+            else
+            {
+                for(int i = 0; i < 128; i++)
+                {
+                    if(holeSystem->memory[i] == currentProcess->processID)
+                    {
+                        strcpy(&holeSystem->memory[i], "*");
+                    }
+                }
+
+                for(int i = checkBeginningHoleNum(holeSystem); i < (128 - replacementProcess->processSize); i++)
+                {
+                    strcpy(&holeSystem->memory[i], replacementProcess->processID);
+                }
+                insertBack(&holeSystem->completedProcesses, getFromFront(holeSystem->runningProcesses));
+                deleteDataFromList(&holeSystem->runningProcesses, getFromFront(holeSystem->runningProcesses));
+                insertBack(&holeSystem->runningProcesses, getFromFront(holeSystem->waitingProcesses));
+                deleteDataFromList(&holeSystem->waitingProcesses, getFromFront(holeSystem->waitingProcesses));
+
+            }
+            printProcessInfo(holeSystem, getFromBack(holeSystem->runningProcesses));
+        }
+    }
+}
+
+void insertProcess(HoleSystem * holeSystem)
+{
+    Process * newProcess = getFromFront(holeSystem->waitingProcesses);
+    int beginningNum = checkBeginningHoleNum(holeSystem);
+    for(int i = beginningNum; i < (128 - newProcess->processSize); i++)
+    {
+        strcpy(&holeSystem->memory[i], newProcess->processID);
+    }
+    insertBack(&holeSystem->runningProcesses, newProcess);
+    deleteDataFromList(&holeSystem->waitingProcesses, getFromFront(holeSystem->waitingProcesses));
+    printProcessInfo(holeSystem, newProcess);
+    // void* elem;
+    // ListIterator elemIter = createIterator(holeSystem->runningProcesses);
+    // while((elem = nextElement(&elemIter)) != NULL)
+    // {
+
+    // }
+
+}
+
+
+int checkBeginningHoleNum(HoleSystem * holeSystem)
+{
+    for(int i = 0; i < 128; i++)
+    {
+        if(holeSystem->memory[i] == '*')
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+int checkNextHoleSize(HoleSystem * holeSystem)
 {
     int holeCount = 0;
     for(int i = 0; i < 128; i++)
     {
-        if(HoleSystem->memory[i] == '*')
+        if(holeSystem->memory[i] != '*')
+        {
+            while(holeSystem->memory[i] != '*')
+            {
+                holeCount++;
+            }
+            return holeCount;
+        }
+    }
+
+    return 0;
+}
+
+int checkHoleCount(HoleSystem * holeSystem)
+{
+    int holeCount = 0;
+    for(int i = 0; i < 128; i++)
+    {
+        if(holeSystem->memory[i] == '*')
         {
             holeCount++;
-            while(HoleSystem->memory[i] == '*')
+            while(holeSystem->memory[i] == '*')
             {
                 i++;
             }
@@ -174,7 +304,7 @@ int checkMemUsage(HoleSystem * HoleSystem)
     return memUsage/128;
 }
 
-void printProcessInfo(HoleSystem * HoleSystem, Process * Process)
+void printProcessInfo(HoleSystem * holeSystem, Process * Process)
 {
 
     printf("test\n");
@@ -182,7 +312,7 @@ void printProcessInfo(HoleSystem * HoleSystem, Process * Process)
 
 }
 
-void printFinishedInfo(HoleSystem * HoleSystem)
+void printFinishedInfo(HoleSystem * holeSystem)
 {
     printf("test\n");
     // printf("Total loads = %d, average #processes = %.01f, average #holes = %.01f, cumulative %%mem = %d\n");
@@ -191,7 +321,7 @@ void printFinishedInfo(HoleSystem * HoleSystem)
 Process * initializeProcess(char* processID, int processSize)
 {
     Process* tempProcess = malloc(sizeof(Process));
-    tempProcess->processID = malloc(sizeof(processID));
+    // tempProcess->processID = malloc(sizeof(processID));
     strcpy(tempProcess->processID, processID);
     tempProcess->processSize = processSize;
     tempProcess->swapCount = 0;

@@ -21,7 +21,7 @@ typedef struct
 
 typedef struct 
 {
-	char * processID;
+	char processID[1];
 	int processSize;
 	int swapCount;
 
@@ -31,5 +31,15 @@ Process * initializeProcess(char* processID, int processSize);
 HoleSystem * initializeHoleSystem();
 int compareData(const void* first,const void* second);
 char* printGivenData(void* toBePrinted);
+void firstFit(HoleSystem * holeSystem);
+void swapProcess(HoleSystem * holeSystem);
+void insertProcess(HoleSystem * holeSystem);
+int checkBeginningHoleNum(HoleSystem * holeSystem);
+int checkNextHoleSize(HoleSystem * holeSystem);
+int checkHoleCount(HoleSystem * holeSystem);
+int checkMemUsage(HoleSystem * HoleSystem);
+void printProcessInfo(HoleSystem * holeSystem, Process * Process);
+void printFinishedInfo(HoleSystem * holeSystem);
+
 
 #endif
