@@ -154,7 +154,7 @@ void firstFit(HoleSystem * holeSystem)
             // elem = nextElement(&elemIter);
             Process * headProcess = (Process*)getFromFront(holeSystem->waitingProcesses);
             printf("front of head process is the size %d\n", headProcess->processSize);
-            if(nextHoleSize >= headProcess->processSize)
+            if(nextHoleSize >= headProcess->processSize + checkBeginningHoleNum(holeSystem))
             {
                 insertProcess(holeSystem);
             }
@@ -226,6 +226,7 @@ void swapProcess(HoleSystem * holeSystem)
                 deleteDataFromList(&holeSystem->waitingProcesses, getFromFront(holeSystem->waitingProcesses));
 
             }
+            printf("hello\n");
             printProcessInfo(holeSystem, getFromBack(holeSystem->runningProcesses));
         }
     }
@@ -327,8 +328,8 @@ void printProcessInfo(HoleSystem * holeSystem, Process * Process)
     // int memUsage = checkMemUsage(holeSystem);
     // double newMemUsage = memUsage / 128 ;
     // printf("pls work %f\n", newMemUsage);
-    // printf("test\n");
-    printf("pid loaded, #processes = %d, #holes = %d, %%memusage = %d, cumulative %%mem = %.01d\n", Process->processSize, checkHoleCount(holeSystem), checkMemUsage(holeSystem), holeSystem->cumulativeMemUsage);
+    printf("test\n");
+    // printf("pid loaded, #processes = %d, #holes = %d, %%memusage = %d, cumulative %%mem = %.01d\n", Process->processSize, checkHoleCount(holeSystem), checkMemUsage(holeSystem), holeSystem->cumulativeMemUsage);
 
 }
 
