@@ -9,9 +9,10 @@
 typedef struct
 {
 	char memory[128];
-	int cumulativeMemUsage;
-	int averageHoleCount;
-	int averageProcessCount;
+	float cumulativeMemUsage;
+	float averageHoleCount;
+	float averageProcessCount;
+	int totalLoadCount;
 	List processes;
 	List waitingProcesses;
 	List runningProcesses;
