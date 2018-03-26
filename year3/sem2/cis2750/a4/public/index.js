@@ -12,7 +12,7 @@ $(document).ready(function() {
                 so we do not need to parse it on the server.
                 JavaScript really does handle JSONs seamlessly
             */
-            // console.log("hi");
+            console.log("hi");
             var uploadFileArrayLength = data.fileArrayList.length;
             // console.log("length is" + uploadFileArrayLength);
             // var fileTableArray = $('$fileTable');
@@ -63,7 +63,7 @@ $(document).ready(function() {
              // for(i = 0; i < data.fileIndList[i].length; i++)
             // {
                 let indInfo = JSON.parse(data.fileIndList[0]);
-                // console.log("indinf is " + indInfo);
+                console.log("indinf is " + indInfo);
                 for(let individuals of indInfo)
                 {
                     // console.log("person name is : "+ individuals.givenName + " " + individuals.surname);
@@ -115,7 +115,7 @@ $(document).ready(function() {
                     .appendTo( "#statusBox" );
                     // console.log(e.target[2].value);
                     document.getElementById('addModal').style.display = "none";
-                    var myJSON = {name: e.target[4].value, givenName: e.target[0].value ,surname: e.target[1].value};
+                   var myJSON = {name: e.target[4].value, givenName: e.target[0].value ,surname: e.target[1].value};
                     var strJSON = encodeURIComponent(JSON.stringify(myJSON));
 
                     // $(document).ready(function() {
@@ -128,9 +128,19 @@ $(document).ready(function() {
         url: '/create/' + strJSON, 
         // data: strJSON,  //The server endpoint we are connecting to
         success: function (data) {
+    // //           Do something with returned object
+    // //             Note that what we get is an object, not a string, 
+    // //             so we do not need to parse it on the server.
+    // //             JavaScript really does handle JSONs seamlessly
+            
+
+
+    // //         //We write the object to the console to show that the request was successful
             console.log("yes" + data.name); 
         },
         fail: function(error) {
+            
+    // //         // Non-200 return, do something with error
             console.log(error + " no"); 
         }
     });
@@ -139,15 +149,6 @@ $(document).ready(function() {
     //     dataType: 'json',       //Data type - we will use JSON for almost everything 
     //     url: '/uploads/',   //The server endpoint we are connecting to
     //     success: function (data) {
-    //         var gedcomViewTableArray = document.getElementById('gedcomTable');
-    //             for(i = 1; i < gedcomViewTableArray.rows.length + 1; i++)
-    //             {
-    //                 var deleteRow = gedcomViewTableArray.deleteRow(i);
-    //                 // var deleteCellOne = deleteRow.deleteCell(0);
-    //                 // var deleteCellTwo = deleteRow.deleteCell(1);
-    //                 // var deleteCellThree = deleteRow.deleteCell(2);
-    //                 // var deleteCellFour = deleteRow.deleteCell(3);
-    //             }
     //         /*  Do something with returned object
     //             Note that what we get is an object, not a string, 
     //             so we do not need to parse it on the server.
