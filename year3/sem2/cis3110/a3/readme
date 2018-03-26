@@ -40,7 +40,6 @@ dine
 holes
 - only first fit partially works, wont fully work if all the parsed lines equates more than 128 Mb
 - no other algorithms currently work
-- first fit doesn't check to see if there isn't any space left
 
 =============
 references
