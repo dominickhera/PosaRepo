@@ -194,7 +194,7 @@ void swapProcess(HoleSystem * holeSystem)
                     }
                 }
 
-                for(int i = checkBeginningHoleNum(holeSystem); i < (checkBeginningHoleNum(holeSystem) + replacementProcess->processSize); i++)
+                for(int i = checkBeginningHoleNum(holeSystem); i < (i + replacementProcess->processSize); i++)
                 {
                     holeSystem->memory[i] = replacementProcess->processID[0];
                 }
@@ -216,7 +216,7 @@ void swapProcess(HoleSystem * holeSystem)
                     }
                 }
 
-                for(int i = checkBeginningHoleNum(holeSystem); i < (checkBeginningHoleNum(holeSystem) + replacementProcess->processSize); i++)
+                for(int i = checkBeginningHoleNum(holeSystem); i < (i + replacementProcess->processSize); i++)
                 {
                     holeSystem->memory[i] = replacementProcess->processID[0];
                 }
@@ -317,7 +317,7 @@ int checkMemUsage(HoleSystem * holeSystem)
             memUsage++;
         }
     }
-    printf("memusage is %d\n", memUsage);
+    // printf("memusage is %d\n", memUsage);
 
     return memUsage;
 }
