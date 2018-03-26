@@ -37,7 +37,7 @@ int main(int argc, char **argv)
         //creates the pthread for the philosophers, calling the main eating function
         for(int i = 1; i <= philosopherCount; i++)
         {
-            pthread_create(&philosopherThread[i], NULL, philosopherFunction, (void *)i);
+            pthread_create(&philosopherThread[i], NULL, philosopherFunction, (void*)i);
         }
 
         //joins all the pthreads together
