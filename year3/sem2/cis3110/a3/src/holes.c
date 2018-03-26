@@ -27,6 +27,9 @@ int main(int argc, char **argv)
     }
 
     HoleSystem * holeSystem = initializeHoleSystem();
+    HoleSystem * secondHoleSystem = initializeHoleSystem();
+    HoleSystem * thirdHoleSystem = initializeHoleSystem();
+    HoleSystem * fourthHoleSystem = initializeHoleSystem();
     Process * tempProcess;
 
     //parses the datafile, stores the value to be put into the memory in one 2D array, and the amount of times it's applied into a second 2D Array
@@ -49,6 +52,13 @@ int main(int argc, char **argv)
                 printf("line %d: char: %s, num: %d\n", count, memoryValue[count], memoryAmount[count]);
                 insertBack(&holeSystem->processes, tempProcess);
                 insertBack(&holeSystem->waitingProcesses, tempProcess);
+                insertBack(&secondHoleSystem->processes, tempProcess);
+                insertBack(&secondHoleSystem->waitingProcesses, tempProcess);
+                insertBack(&thirdHoleSystem->processes, tempProcess);
+                insertBack(&thirdHoleSystem->waitingProcesses, tempProcess);
+                insertBack(&fourthHoleSystem->processes, tempProcess);
+                insertBack(&fourthHoleSystem->waitingProcesses, tempProcess);
+
             }
             else if(parseCount == 0)
             {
@@ -61,11 +71,11 @@ int main(int argc, char **argv)
         memset(line, '\0', strlen(line));
     }
     fclose(fp);
-    holeSystem->waitingProcesses = holeSystem->processes;
+    // holeSystem->waitingProcesses = holeSystem->processes;
 
-    HoleSystem * secondHoleSystem = holeSystem;
-    HoleSystem * thirdHoleSystem = holeSystem;
-    HoleSystem * fourthHoleSystem = holeSystem;
+    // HoleSystem * secondHoleSystem = holeSystem;
+    // HoleSystem * thirdHoleSystem = holeSystem;
+    // HoleSystem * fourthHoleSystem = holeSystem;
 
     //beginning of First Fit , checks for asterisks, until enough asteriks are avaliable to put the value into the memory
     //function then forloops backwards until the value is copied over all the empty spaces, then proceeds to the next value that was parsed
