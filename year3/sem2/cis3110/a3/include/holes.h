@@ -8,7 +8,7 @@
 
 typedef struct
 {
-	char memory[128];
+	char memory[127];
 	float cumulativeMemUsage;
 	float averageHoleCount;
 	float averageProcessCount;
@@ -41,6 +41,8 @@ int checkHoleCount(HoleSystem * holeSystem);
 int checkMemUsage(HoleSystem * holeSystem);
 void printProcessInfo(HoleSystem * holeSystem, Process * Process);
 void printFinishedInfo(HoleSystem * holeSystem);
-
+void bestFit(HoleSystem * holeSystem);
+void worstFit(HoleSystem * holeSystem);
+void nextFit(HoleSystem * holeSystem);
 
 #endif
