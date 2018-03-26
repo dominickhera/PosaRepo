@@ -90,12 +90,12 @@ $(document).ready(function() {
     // .appendTo( "#statusBox" );
 
             //We write the object to the console to show that the request was successful
-            console.log(data.name); 
+            // console.log(data.name); 
         },
         fail: function(error) {
             
             // Non-200 return, do something with error
-            console.log(error); 
+            // console.log(error); 
         }
     });
 
@@ -117,31 +117,30 @@ $(document).ready(function() {
                     document.getElementById('addModal').style.display = "none";
 
                     // $(document).ready(function() {
-    // On page-load AJAX Example
-    $.ajax({
-        type: 'get',            //Request type
-        dataType: 'JSON',
+    // // On page-load AJAX Example
+    // $.ajax({
+    //     type: 'get',            //Request type
+    //     dataType: 'JSON',
         
-        // data: {surname:"\"" + e.target[0].value + "\"", givenName:"\"" + e.target[1].value + "\""},       //Data type - we will use JSON for almost everything 
-        url: '/create/' + e.target[4].value, 
-        data: {givenName:"first",surname:"last"},  //The server endpoint we are connecting to
-        success: function (data) {
-    // //           Do something with returned object
-    // //             Note that what we get is an object, not a string, 
-    // //             so we do not need to parse it on the server.
-    // //             JavaScript really does handle JSONs seamlessly
+    //     // data: {surname:"\"" + e.target[0].value + "\"", givenName:"\"" + e.target[1].value + "\""},       //Data type - we will use JSON for almost everything 
+    //     url: '/create/' + e.target[4].value, 
+    //     // data: {givenName:"first",surname:"last"},  //The server endpoint we are connecting to
+    //     success: function (data) {
+    // // //           Do something with returned object
+    // // //             Note that what we get is an object, not a string, 
+    // // //             so we do not need to parse it on the server.
+    // // //             JavaScript really does handle JSONs seamlessly
             
 
-
-    // //         //We write the object to the console to show that the request was successful
-            console.log("yes" + data.name); 
-        },
-        fail: function(error) {
+    // // //         //We write the object to the console to show that the request was successful
+    //         // console.log("yes" + data.name); 
+    //     },
+    //     fail: function(error) {
             
-    // //         // Non-200 return, do something with error
-            console.log(error + " no"); 
-        }
-    });
+    // // //         // Non-200 return, do something with error
+    //         // console.log(error + " no"); 
+    //     }
+    // });
                     break;
                 case 'createForm':
                     // console.log("create form is uploaded");

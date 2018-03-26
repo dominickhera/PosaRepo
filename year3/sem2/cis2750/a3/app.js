@@ -104,16 +104,16 @@ let sharedLib = ffi.Library('./parser/bin/parserLib', {
 // });
 
 
-app.get('/create/:name', function(req, res){
-  let filePath = "./uploads/";
-  let fileCreate = filePath + req.params.name;
-  console.log("file should be " + fileCreate);
-  // let indParse = JSON.stringify(data);
-  // console.log("file params are " + indParse);
-  console.log(req.params);
-  // let surnameVar = req.params.addIndSurname;
-   // console.log("file params are " + surnameVar);
-});
+// app.get('/create/:name', function(req, res){
+//   let filePath = "./uploads/";
+//   let fileCreate = filePath + req.params.name;
+//   console.log("file should be " + fileCreate);
+//   // let indParse = JSON.stringify(data);
+//   // console.log("file params are " + indParse);
+//   // console.log(req.params);
+//   // let surnameVar = req.params.addIndSurname;
+//    // console.log("file params are " + surnameVar);
+// });
 
 const testFolder = "./uploads/"
 var fileArray = [];

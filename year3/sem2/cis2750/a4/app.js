@@ -82,8 +82,8 @@ let sharedLib = ffi.Library('./parser/bin/parserLib', {
 //   'JSONtoGEDCOM': [ 'Object', [ 'string' ] ], //int return, int argument
 //   'getDesc' : [ 'string', [] ],
     'initFilesToJSON': [ 'string', ['string']],
-    'grabIndList': ['string', ['string']]
-    // 'addIndividualWrapper': ['void', ['string' , 'string']]
+    'grabIndList': ['string', ['string']],
+    'addIndividualWrapper': ['void', ['string' , 'string']]
 //   'putDesc' : [ 'void', [ 'string' ] ],
 });
 
@@ -106,11 +106,19 @@ let sharedLib = ffi.Library('./parser/bin/parserLib', {
 
 app.get('/create/:name', function(req, res){
   let filePath = "./uploads/";
-  let fileCreate = filePath + req.params.name;
-  console.log("file should be " + fileCreate);
-  // let indParse = JSON.stringify(data);
+  let indParse = JSON.parse(req.params.name);
   // console.log("file params are " + indParse);
-  console.log(req.params);
+   let fileCreate = filePath + indParse.name;
+   // let newJson = 
+   var myJSON = {givenName: indParse.givenName , surname: indParse.surname};
+   var newJson = JSON.stringify(myJSON);
+   let createInd = sharedLib.addIndividualWrapper(fileCreate, newJson);
+  // console.log("file should be " + fileCreate);
+  // let testParse = JSON.stringify(indParse);
+  // console.log("test parse is " + indParse.name);
+  // let secondParse = JSON.stringify(testParse);
+  // console.log("second level parse is " + secondParse);
+  // console.log(req.params);
   // let surnameVar = req.params.addIndSurname;
    // console.log("file params are " + surnameVar);
 });

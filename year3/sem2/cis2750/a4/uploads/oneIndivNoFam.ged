@@ -1,16 +1,25 @@
 0 HEAD
 1 SOUR PAF
-2 NAME Personal Ancestral File
-2 VERS 5.0
-1 DATE 30 NOV 2000
+2 SUBM @U1@
 1 GEDC
 2 VERS 5.5
-2 FORM LINEAGE-LINKED
 1 CHAR ASCII
 1 SUBM @U1@
 0 @I1@ INDI
 1 NAME John /Smith/
 1 SEX M
+0 @I2@ INDI
+1 NAME first /last/
+0 @I3@ INDI
+1 NAME firstSecond /lastSecond/
+0 @I4@ INDI
+1 NAME third /badsfajkdslf/
+0 @I5@ INDI
+1 NAME new /person/
+0 @I6@ INDI
+1 NAME pseudo /od  /
+0 @I7@ INDI
+1 NAME dfasdfas£; /fasdfa/
 0 @U1@ SUBM
 1 NAME Submitter
 0 TRLR
