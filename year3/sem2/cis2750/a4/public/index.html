@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Geneology App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Geneology Application Page">
+    <meta name="keywords" content="CHANGE ME">
+    <meta name="author" content="Dominick Hera">
+    <!-- Load jquery, bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script scriptc="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Custom CSS -->
+
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <!-- Custom CSS End -->
+</head>
+<body>
+    <h3><br>Geneology App - CIS 2750</h3>
+    <h6>Dominick Hera</h6>
+    <hr>
+
+   <!--  <h4>Status</h4>
+    <hr>
+    <h4>File Log</h4>
+    <hr>
+    <h4>GEDCOM View</h4>
+    <hr> -->
+
+    <!-- <button class="accordion"><b>Status</b></button> -->
+    <h5>Status</h5>
+    <!-- <div class="panel"> -->
+    <form>
+      <textarea name="message" id="statusBox" rows="auto" cols="50" readonly></textarea>
+      <br>
+
+    </form>
+    <button id="clearButton">Clear</button>
+    <!-- <button id="testButton">Sample Log</button> -->
+      <!-- <button action='/upload/minValid.ged' method='get' encType="multipart/form-data">clear button</button> -->
+      
+      <!-- </form> -->
+    <!-- </div> -->
+    <hr>
+    <button class="accordion"><b>File Log</b></button>
+    <!-- <div class="panel"> -->
+     <br>
+     <div style="overflow-x:auto;">
+          <table id="fileTable">
+            <tr>
+              <th>File Name (click to download)</th>
+              <th>Source</th>
+              <th>GEDC Version</th>
+              <th>Encoding</th>
+              <th>Submitter Name</th>
+              <th>Submitter Address</th>
+              <th>Number of Individuals</th>
+              <th>Number of Families</th>
+            </tr>
+           <!--  <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr> -->
+          </table>
+          <br>
+        </div>
+    <!-- </div> -->
+    <button class="accordion"><b>GEDCOM Viewer</b></button>
+    <!-- <div class="panel"> -->
+    <br>
+  <select name="fileViewSelect" id="gedcomViewFileList">
+          <!-- <option value="simpleValid">simpleValid.ged</option> -->
+          <!-- <option value="minValid">minValid.ged</option> -->
+        </select>
+
+<br>
+     <div style="overflow-x:1000;">
+          <table id="gedcomTable">
+            <tr>
+              <th>Given Name</th>
+              <th>Surname</th>
+              <th>Sex</th>
+              <th>Family Size</th>
+            </tr>
+          </table>
+          <br>
+        </div>
+    <!-- </div> -->
+    <hr>
+    <!-- <div class="panel"> -->
+        <div class="btn-group">
+          <button id="uploadFile">Upload GEDCOM File</button>
+          <button id="createSimpleGedcom">Create Simple GEDCOM</button>
+          <button id="addIndividual">Add Individual</button>
+          <button id="getDescendants">Get Descendants</button>
+        </div>
+    <!-- </div> -->
+    <hr>
+    <p>If simpleValid.ged exists in the uploads/ directory on the server, then clicking on the link below will download it from the server.<br>
+    <a href="/uploads/simpleValid.ged">simpleValid.ged</a></p>
+
+
+    <div id="uploadModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="uploadClose" class="close">&times;</span>
+        <!-- <p>upload modal</p> -->
+        <h3>Upload GEDCOM File</h3>
+        <form ref='uploadForm' id='uploadForm' action='/upload' method='post' encType="multipart/form-data">
+          <input type="file" name="uploadFile">
+          <br></br>
+           <input type="submit" id="uploadSubmit">
+        </form>
+      </div>
+
+    </div>
+
+    <div id="createModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="createClose" class="close">&times;</span>
+        <!-- <p>Some text in the create Modal..</p> -->
+        <form id="createForm">
+          <h3>Create Simple GEDCOM</h3>
+          Filename:<br>
+          <input type="text" name="fileName" id="filename">
+          <br></br>
+        Source:<br>
+        <input type="text" id="createSource" name="source">
+        <br></br>
+        GEDC Version:<br>
+        <input type="text" id="createVersion" name="gedcVersion">
+        <br>Encoding:<br>
+         <select name="encoding" id="createEncoding">
+          <option value="ANSEL">ANSEL</option>
+          <option value="UTF8">UTF-8</option>
+          <option value="ASCII">ASCII</option>
+          <option value="UNICODE">UNICODE</option>
+        </select>
+        <br>Submitter Name:<br>
+        <input type="text" id="subName" name="subName">
+        <br></br>
+        Submitter Address:<br>
+        <input type="text" id="subAddress" name="subAddress">
+        <br><br>
+        <input id="createSubmit" type="submit" value="Create GEDCOM">
+      </form>
+      </div>
+
+    </div>
+
+    <div id="addModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="addClose" class="close">&times;</span>
+        <form id="addIndForm">
+          <h3>Add Individual to GEDCOM</h3>
+
+        Given Name:<br>
+        <input type="text" id="addIndGivenname" name="givenname" value="">
+        <br>
+        Surname:<br>
+        <input type="text" id="addIndSurname" name="surname" value="">
+        <br>Gender:<br>
+         <select name="individualGender" id="addIndGenderList">
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+        </select>
+         <br>
+        Number of Families:<br>
+        <input type="text" id="numFamilies" name="numFam" value="">
+        <br>GEDCOM File:<br>
+         <select name="gedcomFile" id="addIndFileList">
+          <!-- <option value="simpleValid">simpleValid.ged</option> -->
+          <!-- <option value="minValid">minValid.ged</option> -->
+        </select>
+        <br><br>
+        <input type="submit" id="addSubmit" value="Add Individual">
+      </form>
+
+    </div>
+
+    <div id="getModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="getClose" class="close">&times;</span>
+        <p>Some text in the get Modal..</p>
+      </div>
+
+    </div>
+    <!-- Leave me at the bottom of body -->
+<script src="index.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
