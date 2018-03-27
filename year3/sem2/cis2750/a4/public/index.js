@@ -144,106 +144,42 @@ $(document).ready(function() {
             console.log(error + " no"); 
         }
     });
-    // $.ajax({
-    //     type: 'get',            //Request type
-    //     dataType: 'json',       //Data type - we will use JSON for almost everything 
-    //     url: '/uploads/',   //The server endpoint we are connecting to
-    //     success: function (data) {
-    //         /*  Do something with returned object
-    //             Note that what we get is an object, not a string, 
-    //             so we do not need to parse it on the server.
-    //             JavaScript really does handle JSONs seamlessly
-    //         */
-    //         // console.log("hi");
-    //         var uploadFileArrayLength = data.fileArrayList.length;
-    //         // console.log("length is" + uploadFileArrayLength);
-    //         // var fileTableArray = $('$fileTable');
-    //         var fileTableArray = document.getElementById('fileTable');
-    //         var gedcomViewerOptions = document.getElementById('gedcomViewFileList');
-    //         var addIndFileList = document.getElementById('addIndFileList');
-    //         var gedcomViewTableArray = document.getElementById('gedcomTable');
 
-    //         for (i = 0; i < uploadFileArrayLength; i++) { 
-    //            // console.log(data.fileIndList.length + "at i value:" + i);
-    //             $( "<div>" )
-    //             .append(data.fileArrayList[i] + "has successfully been loaded in.\n" )
-    //             .appendTo( "#statusBox" );
-
-
-    //             let fileInfo = JSON.parse(data.fileInfoList[i]);
-    //             // console.log(fileInfo.source);
-    //             var newRow = fileTableArray.insertRow(i+1);
-    //             var cellOne = newRow.insertCell(0);
-    //             var cellTwo = newRow.insertCell(1);
-    //             var cellThree = newRow.insertCell(2);
-    //             var cellFour = newRow.insertCell(3);
-    //             var cellFive= newRow.insertCell(4);
-    //             var cellSix = newRow.insertCell(5);
-    //             var cellSeven = newRow.insertCell(6);
-    //             var cellEight = newRow.insertCell(7);
-    //             // testCell.innerHTML("hello");
-    //             // cellOne.innerHTML += ('<a href="/uploads/simpleValid.ged">simpleValid.ged</a>');
-    //             cellOne.innerHTML += ( '<a href="/uploads/' + data.fileArrayList[i] + '">' + data.fileArrayList[i] + '</a>');
-    //             cellTwo.innerHTML += (fileInfo.source);
-    //             cellThree.innerHTML += (fileInfo.version);
-    //             cellFour.innerHTML += (fileInfo.encoding);
-    //             cellFive.innerHTML += (fileInfo.submitterName);
-    //             cellSix.innerHTML += (fileInfo.submitterAddress);
-    //             cellSeven.innerHTML += (fileInfo.totalIndividuals);
-    //             cellEight.innerHTML += (fileInfo.totalFamilies);
-    //             // gedcomViewerOptions.appendChild(data.fileArrayList[i]);
-    //              var option = document.createElement('option');
-                
-    //             option.innerHTML = data.fileArrayList[i];
-    //             var option2 = document.createElement('option');
-    //             option2.innerHTML = data.fileArrayList[i];
-    //             gedcomViewerOptions.appendChild(option);
-    //             addIndFileList.appendChild(option2);
-    //         }
-    //             let tempTableLength = 0;
-
-    //          // for(i = 0; i < data.fileIndList[i].length; i++)
-    //         // {
-    //             let indInfo = JSON.parse(data.fileIndList[0]);
-    //             // console.log("indinf is " + indInfo);
-    //             for(let individuals of indInfo)
-    //             {
-    //                 // console.log("person name is : "+ individuals.givenName + " " + individuals.surname);
-                    
-    //                  var indRow = gedcomViewTableArray.insertRow(tempTableLength+1);
-    //             var indCellOne = indRow.insertCell(0);
-    //             var indCellTwo = indRow.insertCell(1);
-    //             var indCellThree = indRow.insertCell(2);
-    //             var indCellFour = indRow.insertCell(3);
-    //             // // // cellOne.innerHTML += ('<a href="/uploads/simpleValid.ged">simpleValid.ged</a>');
-    //             indCellOne.innerHTML += (individuals.givenName);
-    //             // indCellOne.innerHTML += ('test');
-
-    //             indCellTwo.innerHTML += (individuals.surname);
-    //             indCellThree.innerHTML += (individuals.gender);
-    //             indCellFour.innerHTML += (individuals.familyCount);
-    //             // // cellFive.innerHTML += (fileInfo.submitterName);
-
-    //             // }
-    //             tempTableLength += 1;
-    //         }
-    // //         $( "<div>" )
-    // // .append(data.fileArrayList )
-    // // .appendTo( "#statusBox" );
-
-    //         //We write the object to the console to show that the request was successful
-    //         console.log(data.name); 
-    //     },
-    //     fail: function(error) {
-            
-    //         // Non-200 return, do something with error
-    //         console.log(error); 
-    //     }
-    // });
                     break;
                 case 'createForm':
                     // console.log("create form is uploaded");
+                      $( "<div>" )
+                     .append( e.target[0].value + " " + e.target[1].value + " has been added to file: " + e.target[4].value + "\n" )
+                    .appendTo( "#statusBox" );
+                    // console.log(e.target[2].value);
+                    // document.getElementById('addModal').style.display = "none";
+                   var myJSON = {name: e.target[4].value, source: e.target[0].value ,gedcVersion: e.target[1].value, encoding: e.target[2].value, subName: e.target[3].value, subAddress: e.target[4].value};
+                    var strJSON = encodeURIComponent(JSON.stringify(myJSON));
                     document.getElementById('createModal').style.display = "none";
+                     $.ajax({
+        type: 'get',            //Request type
+        dataType: 'JSON',
+        
+        // data: {surname:"\"" + e.target[0].value + "\"", givenName:"\"" + e.target[1].value + "\""},       //Data type - we will use JSON for almost everything 
+        url: '/add/' + strJSON, 
+        // data: strJSON,  //The server endpoint we are connecting to
+        success: function (data) {
+    // //           Do something with returned object
+    // //             Note that what we get is an object, not a string, 
+    // //             so we do not need to parse it on the server.
+    // //             JavaScript really does handle JSONs seamlessly
+            
+
+
+    // //         //We write the object to the console to show that the request was successful
+            console.log("yes" + data.name); 
+        },
+        fail: function(error) {
+            
+    // //         // Non-200 return, do something with error
+            console.log(error + " no"); 
+        }
+    });
                     break;
                 default:
                     break;
