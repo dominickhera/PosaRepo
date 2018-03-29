@@ -2497,9 +2497,11 @@ char* initFilesToJSON(char* fileName)
 
         sprintf(jsonReturn + strlen(jsonReturn), ",\"totalIndividuals\":\"%d\", \"totalFamilies\":\"%d\"}", getLength(tempObject->individuals), getLength(tempObject->families));
 
+        free(tempObject);
         // deleteGEDCOM(tempObject);
     }
 
+    printf("json before return is %s\n", jsonReturn);
     return jsonReturn;
 
 }
@@ -2945,6 +2947,15 @@ void deleteGEDCOM(GEDCOMobject* obj)
                     while((familyChildrenElem = nextElement(&familyChildrenElemIter)) != NULL)
                     {
                         Individual* individualDelete = (Individual*)familyChildrenElem;
+                        if(individualDelete->givenName != NULL)
+                        {
+                            free(individualDelete->givenName);
+                        }
+
+                        if(individualDelete->surname != NULL)
+                        {
+                            free(individualDelete->surname);
+                        }
                         // free(individualDelete->givenName);
                         // free(individualDelete->surname);
                         if(getLength(individualDelete->events) != 0)
@@ -2954,8 +2965,17 @@ void deleteGEDCOM(GEDCOMobject* obj)
                             while((individualEventsElem = nextElement(&individualEventsElemIter)) != NULL)
                             {
                                 Event* eventDelete = (Event*)individualEventsElem;
-                                free(eventDelete->date);
-                                free(eventDelete->place);
+                                if(eventDelete->date != NULL)
+                                {
+                                    free(eventDelete->date);
+                                }
+
+                                if(eventDelete->place != NULL)
+                                {
+                                    free(eventDelete->place);
+                                }
+                                // free(eventDelete->date);
+                                // free(eventDelete->place);
                                 if(getLength(eventDelete->otherFields) != 0)
                                 {
                                     void* eventOtherElem;
@@ -3017,8 +3037,17 @@ void deleteGEDCOM(GEDCOMobject* obj)
             while((individualElem = nextElement(&individualElemIter)) != NULL)
             {
                 Individual* individualDelete = (Individual*)individualElem;
-                free(individualDelete->givenName);
-                free(individualDelete->surname);
+                if(individualDelete->givenName != NULL)
+                {
+                    free(individualDelete->givenName);
+                }
+
+                if(individualDelete->surname != NULL)
+                {
+                    free(individualDelete->surname);
+                }
+                // free(individualDelete->givenName);
+                // free(individualDelete->surname);
                 if(getLength(individualDelete->events) != 0)
                 {
                     void* individualEventsElem;
@@ -3026,8 +3055,17 @@ void deleteGEDCOM(GEDCOMobject* obj)
                     while((individualEventsElem = nextElement(&individualEventsElemIter)) != NULL)
                     {
                         Event* eventDelete = (Event*)individualEventsElem;
-                        free(eventDelete->date);
-                        free(eventDelete->place);
+                        // free(eventDelete->date);
+                        // free(eventDelete->place);
+                        if(eventDelete->date != NULL)
+                                {
+                                    free(eventDelete->date);
+                                }
+
+                                if(eventDelete->place != NULL)
+                                {
+                                    free(eventDelete->place);
+                                }
                         if(getLength(eventDelete->otherFields) != 0)
                         {
                             void* eventOtherElem;
