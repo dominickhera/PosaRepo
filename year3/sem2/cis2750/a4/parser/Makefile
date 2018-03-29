@@ -29,7 +29,7 @@ endif
 
 all: $(EXE)
 
-$(EXE): BIN OBJ GEDCOMparser.o LinkedListAPI.o listLib parserLib
+$(EXE): BIN OBJ GEDCOMparser.o LinkedListAPI.o $(LISTLIB) $(LIB)
 
 BIN:
 	if [ ! -d "bin" ]; then mkdir bin; fi;
@@ -46,10 +46,10 @@ GEDCOMparser.o: ./src/GEDCOMparser.c
 LinkedListAPI.o: ./src/LinkedListAPI.c
 	$(CC) -c $(CFLAGS) ./src/LinkedListAPI.c -I./include -o ./obj/LinkedListAPI.o
 
-parserLib: 
+$(LIB): 
 	$(CC) $(CFLAGS) -shared -o ./bin/$(LIB) -fPIC ./obj/GEDCOMparser.o ./obj/LinkedListAPI.o
 
-listLib:
+$(LISTLIB):
 	$(CC) $(CFLAGS) -shared -o ./bin/$(LISTLIB) -fPIC ./obj/LinkedListAPI.o
 
 clean:
