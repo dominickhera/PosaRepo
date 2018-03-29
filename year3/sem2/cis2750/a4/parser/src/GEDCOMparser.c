@@ -181,6 +181,9 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
             }
             else
             {
+                free(tempFieldStorage);
+                free(tempDataStorage);
+
                 GEDCOMerror err;
                 err.type = INV_FILE;
                 err.line = -1;
@@ -189,6 +192,9 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
         }
         else
         {
+            free(tempFieldStorage);
+            free(tempDataStorage);
+
             GEDCOMerror err;
             err.type = INV_FILE;
             err.line = -1;
@@ -197,6 +203,9 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     }
     else
     {
+        free(tempFieldStorage);
+        free(tempDataStorage);
+
         GEDCOMerror err;
         err.type = INV_FILE;
         err.line = -1;
@@ -1619,6 +1628,8 @@ GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
                     }
                     else
                     {
+                        free(writeReturn);
+                        fclose(fp);
                         GEDCOMerror err;
                         err.type = INV_HEADER;
                         err.line = -1;
@@ -1880,6 +1891,7 @@ GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
 
                     // printf("write return returns this \n%s\n", writeReturn);
                     fputs(writeReturn, fp);
+                    free(writeReturn);
                     fclose(fp);
                 }
                 else
@@ -2272,8 +2284,12 @@ Individual* JSONtoInd(const char* str)
                 memset(tempFieldStorage, '\0', 256);
                 memset(tempDataStorage, '\0', 256);
 
+                free(tempFieldStorage);
+                free(tempDataStorage);
                 return tempIndividual;
             }
+            free(tempFieldStorage);
+            free(tempDataStorage);
         }
     }
     return NULL;
@@ -2396,11 +2412,22 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
                 memset(tempThreeStorage, '\0', 256);
                 memset(tempFourStorage, '\0', 256);
                 memset(tempFiveStorage, '\0', 256);
-
+                free(tempFieldStorage);
+                free(tempDataStorage);
+                free(tempThreeStorage);
+                free(tempFourStorage);
+                free(tempFiveStorage);
                 return tempObject;
             }
+            free(tempFieldStorage);
+            free(tempDataStorage);
+            free(tempThreeStorage);
+            free(tempFourStorage);
+            free(tempFiveStorage);
         }
+
     }
+    
 
     return NULL;
 
@@ -2540,6 +2567,7 @@ char* iListToJSON(List iList)
             }
 
             lengthTrack++;
+            free(indStr);
         }
         sprintf(indListReturn + strlen(indListReturn), "]");
     }
@@ -2576,7 +2604,7 @@ char* gListToJSON(List gList)
             {
                 sprintf(listReturn + strlen(listReturn), "%s", listStr);
             }
-
+            free(listStr);
             lengthTrack++;
         }
 
