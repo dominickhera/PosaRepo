@@ -8,6 +8,7 @@ const express = require("express");
 const app     = express();
 const path    = require("path");
 const fileUpload = require('express-fileupload');
+const mysql = require('mysql');
 
 app.use(fileUpload());
 
@@ -115,6 +116,7 @@ app.get('/signIn/:name', function(req, res) {
   // console.log("mo fuckers");
   let indParse = JSON.parse(req.params.name);
   console.log("indparse is " + indParse);
+
     const connection = mysql.createConnection({
     host     : 'dursley.socs.uoguelph.ca',
     user     : indParse.username,
