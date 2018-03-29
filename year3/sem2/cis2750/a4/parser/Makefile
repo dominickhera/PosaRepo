@@ -41,16 +41,16 @@ cppcheck:
 	cppcheck --enable=all --language=c --std=c99 --inconclusive --suppress=missingInclude src/*.c -i ./include
 
 GEDCOMparser.o: ./src/GEDCOMparser.c
-	$(CC) -c $(CFLAGS) ./src/GEDCOMparser.c -I./include -o ./obj/GEDCOMparser.o
+	$(CC) -c $(CFLAGS) -fPIC ./src/GEDCOMparser.c -I./include -o ./obj/GEDCOMparser.o
 
 LinkedListAPI.o: ./src/LinkedListAPI.c
-	$(CC) -c $(CFLAGS) ./src/LinkedListAPI.c -I./include -o ./obj/LinkedListAPI.o
+	$(CC) -c $(CFLAGS) -fPIC ./src/LinkedListAPI.c -I./include -o ./obj/LinkedListAPI.o
 
 $(LIB): 
-	$(CC) $(CFLAGS) -shared -o ./bin/$(LIB) -fPIC ./obj/GEDCOMparser.o ./obj/LinkedListAPI.o
+	$(CC) $(CFLAGS) -shared -o ./bin/$(LIB) ./obj/GEDCOMparser.o ./obj/LinkedListAPI.o
 
 $(LISTLIB):
-	$(CC) $(CFLAGS) -shared -o ./bin/$(LISTLIB) -fPIC ./obj/LinkedListAPI.o
+	$(CC) $(CFLAGS) -shared -o ./bin/$(LISTLIB) ./obj/LinkedListAPI.o
 
 clean:
 	rm -rf bin obj
