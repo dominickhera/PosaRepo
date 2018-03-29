@@ -22,6 +22,9 @@
     <h6>Dominick Hera</h6>
     <hr>
 
+    <button id="signInButton"> Sign In</button>
+    <hr>
+
    <!--  <h4>Status</h4>
     <hr>
     <h4>File Log</h4>
@@ -95,6 +98,29 @@
         </div>
     <!-- </div> -->
     <hr>
+
+    <button class="accordion"><b>Database</b></button>
+    <!-- <div class="panel"> -->
+    <br>
+  <select name="fileViewSelect" id="gedcomViewFileList">
+          <!-- <option value="simpleValid">simpleValid.ged</option> -->
+          <!-- <option value="minValid">minValid.ged</option> -->
+        </select>
+
+<br>
+     <div style="overflow-x:1000;">
+          <table id="gedcomTable">
+            <tr>
+              <th>Given Name</th>
+              <th>Surname</th>
+              <th>Sex</th>
+              <th>Family Size</th>
+            </tr>
+          </table>
+          <br>
+        </div>
+    <!-- </div> -->
+    <hr>
     <!-- <div class="panel"> -->
         <div class="btn-group">
           <button id="uploadFile">Upload GEDCOM File</button>
@@ -104,8 +130,8 @@
         </div>
     <!-- </div> -->
     <hr>
-    <p>If simpleValid.ged exists in the uploads/ directory on the server, then clicking on the link below will download it from the server.<br>
-    <a href="/uploads/simpleValid.ged">simpleValid.ged</a></p>
+   <!--  <p>If simpleValid.ged exists in the uploads/ directory on the server, then clicking on the link below will download it from the server.<br>
+    <a href="/uploads/simpleValid.ged">simpleValid.ged</a></p> -->
 
 
     <div id="uploadModal" class="modal">
@@ -190,6 +216,7 @@
       </form>
 
     </div>
+  </div>
 
     <div id="getModal" class="modal">
 
@@ -200,6 +227,27 @@
       </div>
 
     </div>
+
+    <div id="signInModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="signInClose" class="close">&times;</span>
+        <form id="signInForm">
+          <h3>Sign In</h3>
+
+        User name:<br>
+        <input type="text" id="signInUsername" name="username" value="">
+        <br>
+        Password:<br>
+        <input type="text" id="signInPassword" name="password" value="">
+        <br>Database:<br>
+        <input type="text" id="signInDatabase" namse="databse" value="">
+        <br><br>
+        <input type="submit" id="signInSubmit" value="Sign In">
+      </form>
+    </div>
+  </div>
     <!-- Leave me at the bottom of body -->
 <script src="index.js"></script>
 </body>

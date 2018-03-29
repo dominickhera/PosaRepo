@@ -63,7 +63,7 @@ $(document).ready(function() {
              // for(i = 0; i < data.fileIndList[i].length; i++)
             // {
                 let indInfo = JSON.parse(data.fileIndList[0]);
-                console.log("indinf is " + indInfo);
+                // console.log("indinf is " + indInfo);
                 for(let individuals of indInfo)
                 {
                     // console.log("person name is : "+ individuals.givenName + " " + individuals.surname);
@@ -157,31 +157,59 @@ $(document).ready(function() {
                     var strJSON = encodeURIComponent(JSON.stringify(myJSON));
                     document.getElementById('createModal').style.display = "none";
                      $.ajax({
-        type: 'get',            //Request type
-        dataType: 'JSON',
-        
-        // data: {surname:"\"" + e.target[0].value + "\"", givenName:"\"" + e.target[1].value + "\""},       //Data type - we will use JSON for almost everything 
-        url: '/add/' + strJSON, 
-        // data: strJSON,  //The server endpoint we are connecting to
-        success: function (data) {
-    // //           Do something with returned object
-    // //             Note that what we get is an object, not a string, 
-    // //             so we do not need to parse it on the server.
-    // //             JavaScript really does handle JSONs seamlessly
-            
+                            type: 'get',            //Request type
+                            dataType: 'JSON',
+                            
+                            // data: {surname:"\"" + e.target[0].value + "\"", givenName:"\"" + e.target[1].value + "\""},       //Data type - we will use JSON for almost everything 
+                            url: '/add/' + strJSON, 
+                            // data: strJSON,  //The server endpoint we are connecting to
+                            success: function (data) {
+                        // //         //We write the object to the console to show that the request was successful
+                                console.log("yes" + data.name); 
+                            },
+                            fail: function(error) {
+                                
+                        // //         // Non-200 return, do something with error
+                                console.log(error + " no"); 
+                            }
+                        });
+                    break;
+
+                case 'signInForm':
+                 // document.getElementById('signInModal').style.display = "none";
+                console.log('fuck me');
+                console.log(e.target[2].value);
+                var myJSON = {username: e.target[0].value, password: e.target[1].value ,database: e.target[2].value};
+                var strJSON = encodeURIComponent(JSON.stringify(myJSON));
+               
+               console.log(myJSON);
+                $.ajax({
+                        type: 'get',            //Request type
+                        dataType: 'JSON',
+                        
+                        // data: {surname:"\"" + e.target[0].value + "\"", givenName:"\"" + e.target[1].value + "\""},       //Data type - we will use JSON for almost everything 
+                        url: '/signIn/' + strJSON, 
+                        // data: strJSON,  //The server endpoint we are connecting to
+                        success: function (data) {
+                    // //           Do something with returned object
+                    // //             Note that what we get is an object, not a string, 
+                    // //             so we do not need to parse it on the server.
+                    // //             JavaScript really does handle JSONs seamlessly
+                            
 
 
-    // //         //We write the object to the console to show that the request was successful
-            console.log("yes" + data.name); 
-        },
-        fail: function(error) {
-            
-    // //         // Non-200 return, do something with error
-            console.log(error + " no"); 
-        }
-    });
+                    // //         //We write the object to the console to show that the request was successful
+                            console.log("yes" + data.name); 
+                        },
+                        fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                            console.log(error + " no"); 
+                        }
+                    });
                     break;
                 default:
+                console.log("default bitches");
                     break;
             }
         }
@@ -400,6 +428,23 @@ $(document).ready(function() {
     window.onclick = function(event) {
         if (event.target == getModal) {
             getModal.style.display = "none";
+        }
+    }
+
+    var signInModal = document.getElementById('signInModal');
+    var signInBtn = document.getElementById("signInButton");
+    var signInSpan = document.getElementById("signInClose");
+    signInBtn.onclick = function() {
+        signInModal.style.display = "block";
+    }
+
+    signInSpan.onclick = function() {
+        signInModal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == signInModal) {
+            signInModal.style.display = "none";
         }
     }
 

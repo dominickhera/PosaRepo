@@ -88,23 +88,6 @@ let sharedLib = ffi.Library('./parser/bin/parserLib', {
 //   'putDesc' : [ 'void', [ 'string' ] ],
 });
 
-
-//Sample endpoint
-// app.get('/uploads/', function(req , res){
-//   res.send({
-//     foo: "bar"
-//   });
-// // fs.readdir('./uploads/', (err, files) => {
-// //   files.forEach((file) => {
-// //     res.send({
-// //       foo: "test"
-// //     })
-// // //     // console.log(file);
-// //   });
-// // });
-// });
-
-
 app.get('/create/:name', function(req, res){
   let filePath = "./uploads/";
   let indParse = JSON.parse(req.params.name);
@@ -114,34 +97,33 @@ app.get('/create/:name', function(req, res){
    var myJSON = {givenName: indParse.givenName , surname: indParse.surname};
    var newJson = JSON.stringify(myJSON);
    let createInd = sharedLib.addIndividualWrapper(fileCreate, newJson);
-  // console.log("file should be " + fileCreate);
-  // let testParse = JSON.stringify(indParse);
-  // console.log("test parse is " + indParse.name);
-  // let secondParse = JSON.stringify(testParse);
-  // console.log("second level parse is " + secondParse);
-  // console.log(req.params);
-  // let surnameVar = req.params.addIndSurname;
-   // console.log("file params are " + surnameVar);
 });
 
 
 app.get('/add/:name', function(req, res){
+  // console.log("add");
   let filePath = "./uploads/";
   let indParse = JSON.parse(req.params.name);
-  // console.log("file params are " + indParse);
    let fileCreate = filePath + indParse.name;
-   // let newJson = 
    var myJSON = {source: indParse.source , gedcVersion: indParse.gedcVersion, encoding: indParse.encoding, subName: indParse.subName, subAddress: indParse.subAddress};
    var newJson = JSON.stringify(myJSON);
    let createInd = sharedLib.createGEDCOMWrapper(newJson, fileCreate);
-  // console.log("file should be " + fileCreate);
-  // let testParse = JSON.stringify(indParse);
-  // console.log("test parse is " + indParse.name);
-  // let secondParse = JSON.stringify(testParse);
-  // console.log("second level parse is " + secondParse);
-  // console.log(req.params);
-  // let surnameVar = req.params.addIndSurname;
-   // console.log("file params are " + surnameVar);
+});
+
+
+app.get('/signIn/:name', function(req, res) {
+  // console.log("mo fuckers");
+  let indParse = JSON.parse(req.params.name);
+  console.log("indparse is " + indParse);
+    const connection = mysql.createConnection({
+    host     : 'dursley.socs.uoguelph.ca',
+    user     : indParse.username,
+    password : indParse.password,
+    database : indParse.database
+});
+
+
+connection.connect();
 });
 
 
