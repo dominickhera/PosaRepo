@@ -12,9 +12,9 @@ $(document).ready(function() {
                 so we do not need to parse it on the server.
                 JavaScript really does handle JSONs seamlessly
             */
-            console.log("hi");
+            // console.log("hi");
             var uploadFileArrayLength = data.fileArrayList.length;
-            // console.log("length is" + uploadFileArrayLength);
+            console.log("length is" + uploadFileArrayLength);
             // var fileTableArray = $('$fileTable');
             var fileTableArray = document.getElementById('fileTable');
             var gedcomViewerOptions = document.getElementById('gedcomViewFileList');
@@ -176,7 +176,7 @@ $(document).ready(function() {
                     break;
 
                 case 'signInForm':
-                 // document.getElementById('signInModal').style.display = "none";
+                 document.getElementById('signInModal').style.display = "none";
                 console.log('fuck me');
                 console.log(e.target[2].value);
                 var myJSON = {username: e.target[0].value, password: e.target[1].value ,database: e.target[2].value};
@@ -232,6 +232,7 @@ $(document).ready(function() {
 
      $(document).on('change','#gedcomViewFileList',function(){
                // alert("PROBANDO");
+               var gedcomViewFileList = document.getElementById('gedcomViewFileList');
                console.log(gedcomViewFileList.value);
                    $.ajax({
             type: 'get',            //Request type
@@ -247,7 +248,7 @@ $(document).ready(function() {
                     // var deleteCellThree = deleteRow.deleteCell(2);
                     // var deleteCellFour = deleteRow.deleteCell(3);
                 }
-                console.log("length of table is " + gedcomViewTableArray.rows.length);
+                console.log("length of table is " + gedcomViewFileList.value);
                 var tempInt = 0;
                 for(i = 0; i < data.fileArrayList.length; i++)
                 {
@@ -260,7 +261,7 @@ $(document).ready(function() {
                 }
                 let tempTableLength = 0;
                 let indInfo = JSON.parse(data.fileIndList[tempInt]);
-                // console.log("indinf is " + tempInt);
+                console.log("indinf is " + tempInt);
                 for(let individuals of indInfo)
                 {
                     console.log("person name is : "+ individuals.givenName + " " + individuals.surname);

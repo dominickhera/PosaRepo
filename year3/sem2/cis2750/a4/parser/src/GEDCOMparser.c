@@ -2414,7 +2414,7 @@ char* initFilesToJSON(char* fileName)
 
     // printf("fileName is %s\n", fileName);
 
-    char * jsonReturn = malloc(sizeof(char) * 500);
+    char * jsonReturn = malloc(sizeof(char) * 1000);
 
     if(strlen(fileName) != 0)
     {

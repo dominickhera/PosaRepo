@@ -150,7 +150,7 @@ fs.readdir('./uploads/', (err, files) => {
   // console.log("\n\n\n",array);
   app.get('/uploads/', function(req , res){
   res.send({
-    foo: "bar",
+    // foo: "bar",
     fileArrayList: fileArray,
     fileInfoList: fileInfo,
     fileIndList: indList
