@@ -1541,7 +1541,7 @@ if(totalFamilyCount != 0)
         }
 }
 *obj = tempObject;
-deleteGEDCOM(tempObject);
+// deleteGEDCOM(tempObject);
 // char * str = printGEDCOM(tempObject);
 // printf("temp idea\n%s\n", str);
 
@@ -2892,249 +2892,38 @@ void deleteGEDCOM(GEDCOMobject* obj)
 
     if(obj != NULL)
     {
+
         if(obj->header != NULL)
         {
-            if(getLength(obj->header->otherFields) != 0)
-            {
-                // void* headerFieldsElem;
-                // ListIterator headerFieldsElemIter = createIterator(obj->header->otherFields);
-                // while((headerFieldsElem = nextElement(&headerFieldsElemIter)) != NULL)
-                // {
-                    // Field* headerFieldDelete = (Field*)headerFieldsElem;
-                    // free(headerFieldDelete->tag);
-                    // free(headerFieldDelete->value);
-                // }
-                clearList(&obj->header->otherFields);
-            }
-
-        }
-
-        if(getLength(obj->families) != 0)
-        {
-            void* familyDeleteElem;
-            ListIterator familyDeleteElemIter = createIterator(obj->families);
-            while((familyDeleteElem = nextElement(&familyDeleteElemIter)) != NULL)
-            {
-                Family* familyDelete = (Family*)familyDeleteElem;
-                if(getLength(familyDelete->events) != 0)
-                {
-                    void* familyEventsElem;
-                    ListIterator familyEventsElemIter = createIterator(familyDelete->events);
-                    while((familyEventsElem = nextElement(&familyEventsElemIter)) != NULL)
-                    {
-                        Event* familyEventDelete = (Event*)familyEventsElem;
-                        free(familyEventDelete->date);
-                        free(familyEventDelete->place);
-                        if(getLength(familyEventDelete->otherFields) != 0)
-                        {
-                            // void* familyEventOtherElem;
-                            // ListIterator familyEventOtherElemIter = createIterator(familyEventDelete->otherFields);
-                            // while((familyEventOtherElem = nextElement(&familyEventOtherElemIter)) != NULL)
-                            // {
-                                // Field* familyEventOtherDelete = (Field*)familyEventOtherElem;
-                                // free(familyEventOtherDelete->tag);
-                                // free(familyEventOtherDelete->value);
-                            // }
-
-                            clearList(&familyEventDelete->otherFields);
-                        }
-                        free(familyEventDelete);
-                    }
-                    clearList(&familyDelete->events);
-                }
-
-                if(getLength(familyDelete->children) != 0)
-                {
-                    void* familyChildrenElem;
-                    ListIterator familyChildrenElemIter = createIterator(familyDelete->children);
-                    while((familyChildrenElem = nextElement(&familyChildrenElemIter)) != NULL)
-                    {
-                        Individual* individualDelete = (Individual*)familyChildrenElem;
-                        if(individualDelete->givenName != NULL)
-                        {
-                            free(individualDelete->givenName);
-                        }
-
-                        if(individualDelete->surname != NULL)
-                        {
-                            free(individualDelete->surname);
-                        }
-                        // free(individualDelete->givenName);
-                        // free(individualDelete->surname);
-                        if(getLength(individualDelete->events) != 0)
-                        {
-                            void* individualEventsElem;
-                            ListIterator individualEventsElemIter = createIterator(individualDelete->events);
-                            while((individualEventsElem = nextElement(&individualEventsElemIter)) != NULL)
-                            {
-                                Event* eventDelete = (Event*)individualEventsElem;
-                                if(eventDelete->date != NULL)
-                                {
-                                    free(eventDelete->date);
-                                }
-
-                                if(eventDelete->place != NULL)
-                                {
-                                    free(eventDelete->place);
-                                }
-                                // free(eventDelete->date);
-                                // free(eventDelete->place);
-                                if(getLength(eventDelete->otherFields) != 0)
-                                {
-                                    // void* eventOtherElem;
-                                    // ListIterator eventOtherElemIter = createIterator(eventDelete->otherFields);
-                                    // while((eventOtherElem = nextElement(&eventOtherElemIter)) != NULL)
-                                    // {
-                                        // Field* eventOther = (Field*)eventOtherElem;
-                                        // free(eventOther->tag);
-                                        // free(eventOther->value);
-                                    // }
-                                    clearList(&eventDelete->otherFields);
-                                }
-                                free(eventDelete);
-                            }
-                            clearList(&individualDelete->events);
-                        }
-                        if(getLength(individualDelete->families) != 0)
-                        {
-                            clearList(&individualDelete->families);
-                        }
-                        if(getLength(individualDelete->otherFields) != 0)
-                        {
-
-                            // void* individualOtherElem;
-                            // ListIterator individualOtherElemIter = createIterator(individualDelete->otherFields);
-                            // while((individualOtherElem = nextElement(&individualOtherElemIter)) != NULL)
-                            // {
-                                // Field* individualOther = (Field*)individualOtherElem;
-                                // free(individualOther->tag);
-                                // free(individualOther->value);
-                            // }
-
-                            clearList(&individualDelete->otherFields);
-
-                        }
-                    }
-                }
-
-                if(getLength(familyDelete->otherFields) != 0)
-                {
-                    // void* familyOtherElem;
-                    // ListIterator familyOtherElemIter = createIterator(familyDelete->otherFields);
-                    // while((familyOtherElem = nextElement(&familyOtherElemIter)) != NULL)
-                    // {
-                        // Field* familyOtherDelete = (Field*)familyOtherElem;
-                        // free(familyOtherDelete->tag);
-                        // free(familyOtherDelete->value);
-                    // }
-                    clearList(&familyDelete->otherFields);
-                }
-
-            }
-        }
-
-        if(getLength(obj->individuals) != 0)
-        {
-            void* individualElem;
-            ListIterator individualElemIter = createIterator(obj->individuals);
-            while((individualElem = nextElement(&individualElemIter)) != NULL)
-            {
-                Individual* individualDelete = (Individual*)individualElem;
-                if(strlen(individualDelete->givenName) != 0)
-                {
-                    free(individualDelete->givenName);
-                }
-
-                if(strlen(individualDelete->surname) != 0)
-                {
-                    free(individualDelete->surname);
-                }
-                // free(individualDelete->givenName);
-                // free(individualDelete->surname);
-                if(getLength(individualDelete->events) != 0)
-                {
-                    void* individualEventsElem;
-                    ListIterator individualEventsElemIter = createIterator(individualDelete->events);
-                    while((individualEventsElem = nextElement(&individualEventsElemIter)) != NULL)
-                    {
-                        Event* eventDelete = (Event*)individualEventsElem;
-                        // free(eventDelete->date);
-                        // free(eventDelete->place);
-                        if(eventDelete->date != NULL)
-                                {
-                                    free(eventDelete->date);
-                                }
-
-                                if(eventDelete->place != NULL)
-                                {
-                                    free(eventDelete->place);
-                                }
-                        if(getLength(eventDelete->otherFields) != 0)
-                        {
-                            // void* eventOtherElem;
-                            // ListIterator eventOtherElemIter = createIterator(eventDelete->otherFields);
-                            // while((eventOtherElem = nextElement(&eventOtherElemIter)) != NULL)
-                            // {
-                                // Field* eventOther = (Field*)eventOtherElem;
-                                // free(eventOther->tag);
-                                // free(eventOther->value);
-                            // }
-                            clearList(&eventDelete->otherFields);
-                        }
-                        free(eventDelete);
-                    }
-                    clearList(&individualDelete->events);
-                }
-                if(getLength(individualDelete->families) != 0)
-                {
-                    clearList(&individualDelete->families);
-                }
-                if(getLength(individualDelete->otherFields) != 0)
-                {
-
-                    // void* individualOtherElem;
-                    // ListIterator individualOtherElemIter = createIterator(individualDelete->otherFields);
-                    // while((individualOtherElem = nextElement(&individualOtherElemIter)) != NULL)
-                    // {
-                        // Field* individualOther = (Field*)individualOtherElem;
-                        // if(strlen(individualOther->tag) != 0)
-                        // {
-                            // free(individualOther->tag);
-                        // }
-                        // if(strlen(individualOther->value) != 0)
-                        // {
-                            // free(individualOther->value);
-                        // }
-                    // }
-
-                    clearList(&individualDelete->otherFields);
-
-                }
-            }
+            clearList(&obj->header->otherFields);
         }
 
         if(obj->submitter != NULL)
         {
-            if(strlen(obj->submitter->address) != 0)
-            {
-                free(obj->submitter->address);
-            }
-            if(getLength(obj->submitter->otherFields) != 0)
-            {
-                // void* submitterOtherElem;
-                // ListIterator submitterOtherElemIter = createIterator(obj->submitter->otherFields);
-                // while((submitterOtherElem = nextElement(&submitterOtherElemIter)) != NULL)
-                // {
-                    // Field* submitterOther = (Field*)submitterOtherElem;
-                    // free(submitterOther->tag);
-                    // free(submitterOther->value);
-
-                // }
-                clearList(&obj->submitter->otherFields);
-            }
-
+            clearList(&obj->submitter->otherFields);
+            // free(&obj->submitter);
+            // obj->submitter = NULL;
         }
-        free(obj);
+
+        if(getLength(obj->individuals) != 0)
+        {
+            void* indElem;
+            ListIterator indElemIter = createIterator(obj->individuals);
+            while((indElem = nextElement(&indElemIter)) != NULL)
+            {
+                deleteDataFromList(&obj->individuals, indElem);
+            }
+        }
+
+        if(getLength(obj->families) != 0)
+        {
+            void* indElem;
+            ListIterator indElemIter = createIterator(obj->families);
+            while((indElem = nextElement(&indElemIter)) != NULL)
+            {
+                deleteDataFromList(&obj->families, indElem);
+            }
+        }
 
     }
 }
