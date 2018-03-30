@@ -2911,6 +2911,10 @@ void deleteGEDCOM(GEDCOMobject* obj)
             ListIterator indElemIter = createIterator(obj->individuals);
             while((indElem = nextElement(&indElemIter)) != NULL)
             {
+                Individual * tempIndividual = (Individual*)indElem;
+                clearList(&tempIndividual->otherFields);
+                clearList(&tempIndividual->families);
+                clearList(&tempIndividual->events);
                 deleteDataFromList(&obj->individuals, indElem);
             }
         }
@@ -2921,6 +2925,10 @@ void deleteGEDCOM(GEDCOMobject* obj)
             ListIterator indElemIter = createIterator(obj->families);
             while((indElem = nextElement(&indElemIter)) != NULL)
             {
+                Family * tempFamily = (Family*)indElem;
+                clearList(&tempFamily->otherFields);
+                clearList(&tempFamily->children);
+                clearList(&tempFamily->events);
                 deleteDataFromList(&obj->families, indElem);
             }
         }
