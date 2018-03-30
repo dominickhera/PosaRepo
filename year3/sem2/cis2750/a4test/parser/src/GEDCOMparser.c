@@ -2901,8 +2901,8 @@ void deleteGEDCOM(GEDCOMobject* obj)
         if(obj->submitter != NULL)
         {
             clearList(&obj->submitter->otherFields);
-            // free(&obj->submitter);
             // obj->submitter = NULL;
+            // free(&obj->submitter);
         }
 
         if(getLength(obj->individuals) != 0)
@@ -2914,6 +2914,14 @@ void deleteGEDCOM(GEDCOMobject* obj)
                 Individual * tempIndividual = (Individual*)indElem;
                 clearList(&tempIndividual->otherFields);
                 clearList(&tempIndividual->families);
+
+                void* eventElem;
+                ListIterator eventElemIter = createIterator(tempIndividual->events);
+                while((eventElem = nextElement(&eventElemIter)) != NULL)
+                {
+                    Event * tempEvent = (Event*)eventElem;
+                    clearList(&tempEvent->otherFields);
+                }
                 clearList(&tempIndividual->events);
                 deleteDataFromList(&obj->individuals, indElem);
             }
@@ -2928,6 +2936,13 @@ void deleteGEDCOM(GEDCOMobject* obj)
                 Family * tempFamily = (Family*)indElem;
                 clearList(&tempFamily->otherFields);
                 clearList(&tempFamily->children);
+                void* eventElem;
+                ListIterator eventElemIter = createIterator(tempFamily->events);
+                while((eventElem = nextElement(&eventElemIter)) != NULL)
+                {
+                    Event * tempEvent = (Event*)eventElem;
+                    clearList(&tempEvent->otherFields);
+                }
                 clearList(&tempFamily->events);
                 deleteDataFromList(&obj->families, indElem);
             }
