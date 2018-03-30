@@ -3040,12 +3040,12 @@ void deleteGEDCOM(GEDCOMobject* obj)
             while((individualElem = nextElement(&individualElemIter)) != NULL)
             {
                 Individual* individualDelete = (Individual*)individualElem;
-                if(individualDelete->givenName != NULL)
+                if(strlen(individualDelete->givenName) != 0)
                 {
                     free(individualDelete->givenName);
                 }
 
-                if(individualDelete->surname != NULL)
+                if(strlen(individualDelete->surname) != 0)
                 {
                     free(individualDelete->surname);
                 }
@@ -3097,8 +3097,14 @@ void deleteGEDCOM(GEDCOMobject* obj)
                     while((individualOtherElem = nextElement(&individualOtherElemIter)) != NULL)
                     {
                         Field* individualOther = (Field*)individualOtherElem;
-                        free(individualOther->tag);
-                        free(individualOther->value);
+                        if(strlen(individualOther->tag) != 0)
+                        {
+                            free(individualOther->tag);
+                        }
+                        if(strlen(individualOther->value) != 0)
+                        {
+                            free(individualOther->value);
+                        }
                     }
 
                     // clearList(&individualDelete->otherFields);
