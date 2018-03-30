@@ -1541,7 +1541,7 @@ if(totalFamilyCount != 0)
         }
 }
 *obj = tempObject;
-
+deleteGEDCOM(tempObject);
 // char * str = printGEDCOM(tempObject);
 // printf("temp idea\n%s\n", str);
 
