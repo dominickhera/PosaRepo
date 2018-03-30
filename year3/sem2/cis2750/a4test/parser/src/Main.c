@@ -22,7 +22,8 @@ int main()
 
 	printf("%s\n", obj);
 
-	 deleteGEDCOM(testObject);
+	free(testObject);
+	 // deleteGEDCOM(testObject);
 
 
 	return 0;
