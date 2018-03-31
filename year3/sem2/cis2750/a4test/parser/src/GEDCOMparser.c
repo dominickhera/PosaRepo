@@ -118,7 +118,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     int versionFlag = 0;
     int encordingFlag = 0;
     int subRefFlag = 0;
-    int testFlag = 0;
+    // int testFlag = 0;
     // int famFlag = 0;
     int endFlag = 0;
     // int printCount = 0;
@@ -269,10 +269,10 @@ for(int i = 0; i < count; i++)
                     return err;
                 }
                 // if(lineStorage[i][0] = '0')
-                if(testFlag == 1)
-                {
+                // if(testFlag == 1)
+                // {
                     // printf("line[%d]: %s\n", i, lineStorage[i]);
-                }
+                // }
                 // if(atoi(&lineStorage[i+1][0]) > atoi(&lineStorage[i][0]) + 1 && atoi(&lineStorage[i+1][0]) != atoi(&lineStorage[i][0]) && atoi(&lineStorage[i+1][0]) != 0)
                 // {
                 //     GEDCOMerror err;
@@ -418,10 +418,10 @@ for(int i = 0; i < count; i++)
                     err.line = -1;
                     return err;
                 }
-                if(testFlag == 1)
-                {
+                // if(testFlag == 1)
+                // {
                     // printf("header tag: <%s>, value: <%s>\n", tempFieldStorage, tempDataStorage);
-                }
+                // }
                 strcpy(headerOtherFieldTagStorage[headerOtherFieldCount], tempFieldStorage);
                 strcpy(headerOtherFieldValueStorage[headerOtherFieldCount], tempDataStorage);
                 headerOtherFieldCount++;
@@ -2897,27 +2897,38 @@ void deleteGEDCOM(GEDCOMobject* obj)
 
         if(obj->header != NULL)
         {
-            void* fieldElem;
-            ListIterator fieldElemIter = createIterator(obj->header->otherFields);
-            while((fieldElem = nextElement(&fieldElemIter)) != NULL)
+            if(getLength(obj->header->otherFields) != 0)
             {
-                Field* tempField = (Field*)fieldElem;
-                if(strlen(tempField->tag) != 0)
+                void* fieldElem;
+                ListIterator fieldElemIter = createIterator(obj->header->otherFields);
+                while((fieldElem = nextElement(&fieldElemIter)) != NULL)
                 {
-                    free(tempField->tag);
-                }
+                    deleteField(fieldElem);
+                    // Field* tempField = (Field*)fieldElem;
+                    // if(strlen(tempField->tag) != 0)
+                    // {
+                        // free(tempField->tag);
+                    // }
 
-                if(strlen(tempField->value) != 0)
-                {
-                    free(tempField->value);
+                    // if(strlen(tempField->value) != 0)
+                    // {
+                        // free(tempField->value);
+                    // }
+                    // deleteDataFromList(&obj->header->otherFields, fieldElem);
                 }
-                deleteDataFromList(&obj->header->otherFields, fieldElem);
             }
-            clearList(&obj->header->otherFields);
+            free(&obj->header);
+            // clearList(&obj->header->otherFields);
         }
 
         if(obj->submitter != NULL)
         {
+
+            Submitter * tempSubm = (Submitter*)obj->submitter;
+            if(strlen(tempSubm->address) != 0)
+            {
+                free(tempSubm->address);
+            }
 
             void* fieldElem;
             if(getLength(obj->submitter->otherFields) != 0)
@@ -2925,22 +2936,23 @@ void deleteGEDCOM(GEDCOMobject* obj)
                 ListIterator fieldElemIter = createIterator(obj->submitter->otherFields);
                 while((fieldElem = nextElement(&fieldElemIter)) != NULL)
                 {
-                    Field* tempField = (Field*)fieldElem;
-                    if(strlen(tempField->tag) != 0)
-                    {
-                        free(tempField->tag);
-                    }
+                    deleteField(fieldElem);
+        //             Field* tempField = (Field*)fieldElem;
+        //             if(strlen(tempField->tag) != 0)
+        //             {
+        //                 free(tempField->tag);
+        //             }
 
-                    if(strlen(tempField->value) != 0)
-                    {
-                        free(tempField->value);
-                    }
-                    deleteDataFromList(&obj->submitter->otherFields, fieldElem);
+        //             if(strlen(tempField->value) != 0)
+        //             {
+        //                 free(tempField->value);
+        //             }
+        //             deleteDataFromList(&obj->submitter->otherFields, fieldElem);
                 }
-                clearList(&obj->submitter->otherFields);
+        //         // clearList(&obj->submitter->otherFields);
             }
-            // obj->submitter = NULL;
-            // free(&obj->submitter);
+        //     // obj->submitter = NULL;
+            free(&obj->submitter);
         }
 
         if(getLength(obj->individuals) != 0)
@@ -2949,75 +2961,76 @@ void deleteGEDCOM(GEDCOMobject* obj)
             ListIterator indElemIter = createIterator(obj->individuals);
             while((indElem = nextElement(&indElemIter)) != NULL)
             {
-                Individual * tempIndividual = (Individual*)indElem;
-                if(getLength(tempIndividual->otherFields) != 0)
-                {
-                    void* fieldElem;
-                    ListIterator fieldElemIter = createIterator(tempIndividual->otherFields);
-                    while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-                    {
-                        deleteField(fieldElem);
-                        // Field* tempField = (Field*)fieldElem;
-                        // if(strlen(tempField->tag) != 0)
-                        // {
-                        //     free(tempField->tag);
-                        // }
+                deleteIndividual(indElem);
+        //         Individual * tempIndividual = (Individual*)indElem;
+        //         if(getLength(tempIndividual->otherFields) != 0)
+        //         {
+        //             void* fieldElem;
+        //             ListIterator fieldElemIter = createIterator(tempIndividual->otherFields);
+        //             while((fieldElem = nextElement(&fieldElemIter)) != NULL)
+        //             {
+        //                 deleteField(fieldElem);
+        //                 // Field* tempField = (Field*)fieldElem;
+        //                 // if(strlen(tempField->tag) != 0)
+        //                 // {
+        //                 //     free(tempField->tag);
+        //                 // }
 
-                        // if(strlen(tempField->value) != 0)
-                        // {
-                        //     free(tempField->value);
-                        // }
-                        deleteDataFromList(&tempIndividual->otherFields, fieldElem);
-                    }
-                    clearList(&tempIndividual->otherFields);
-                }
-                clearList(&tempIndividual->families);
-                if(strlen(tempIndividual->surname) != 0)
-                {
-                    free(tempIndividual->surname);
-                }
-                if(strlen(tempIndividual->givenName) != 0)
-                {
-                    free(tempIndividual->givenName);
-                }
+        //                 // if(strlen(tempField->value) != 0)
+        //                 // {
+        //                 //     free(tempField->value);
+        //                 // }
+        //                 deleteDataFromList(&tempIndividual->otherFields, fieldElem);
+        //             }
+        //             clearList(&tempIndividual->otherFields);
+        //         }
+        //         clearList(&tempIndividual->families);
+        //         if(strlen(tempIndividual->surname) != 0)
+        //         {
+        //             free(tempIndividual->surname);
+        //         }
+        //         if(strlen(tempIndividual->givenName) != 0)
+        //         {
+        //             free(tempIndividual->givenName);
+        //         }
 
-                void* eventElem;
-                ListIterator eventElemIter = createIterator(tempIndividual->events);
-                while((eventElem = nextElement(&eventElemIter)) != NULL)
-                {
-                    Event * tempEvent = (Event*)eventElem;
-                    if(getLength(tempEvent->otherFields) != 0)
-                    {
-                        void* fieldElem;
-                        ListIterator fieldElemIter = createIterator(tempEvent->otherFields);
-                        while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-                        {
-                            Field* tempField = (Field*)fieldElem;
-                            if(strlen(tempField->tag) != 0)
-                            {
-                                free(tempField->tag);
-                            }
+        //         void* eventElem;
+        //         ListIterator eventElemIter = createIterator(tempIndividual->events);
+        //         while((eventElem = nextElement(&eventElemIter)) != NULL)
+        //         {
+        //             Event * tempEvent = (Event*)eventElem;
+        //             if(getLength(tempEvent->otherFields) != 0)
+        //             {
+        //                 void* fieldElem;
+        //                 ListIterator fieldElemIter = createIterator(tempEvent->otherFields);
+        //                 while((fieldElem = nextElement(&fieldElemIter)) != NULL)
+        //                 {
+        //                     Field* tempField = (Field*)fieldElem;
+        //                     if(strlen(tempField->tag) != 0)
+        //                     {
+        //                         free(tempField->tag);
+        //                     }
 
-                            if(strlen(tempField->value) != 0)
-                            {
-                                free(tempField->value);
-                            }
-                            deleteDataFromList(&tempEvent->otherFields, fieldElem);
-                        }
-                        clearList(&tempEvent->otherFields);
-                    }
-                    // clearList(&tempEvent->otherFields);
-                    if(strlen(tempEvent->date) != 0)
-                    {
-                        free(tempEvent->date);
-                    }
-                    if(strlen(tempEvent->place) != 0)
-                    {
-                        free(tempEvent->place);
-                    }
-                }
-                clearList(&tempIndividual->events);
-                deleteDataFromList(&obj->individuals, indElem);
+        //                     if(strlen(tempField->value) != 0)
+        //                     {
+        //                         free(tempField->value);
+        //                     }
+        //                     deleteDataFromList(&tempEvent->otherFields, fieldElem);
+        //                 }
+        //                 clearList(&tempEvent->otherFields);
+        //             }
+        //             // clearList(&tempEvent->otherFields);
+        //             if(strlen(tempEvent->date) != 0)
+        //             {
+        //                 free(tempEvent->date);
+        //             }
+        //             if(strlen(tempEvent->place) != 0)
+        //             {
+        //                 free(tempEvent->place);
+        //             }
+        //         }
+        //         clearList(&tempIndividual->events);
+        //         deleteDataFromList(&obj->individuals, indElem);
             }
         }
 
@@ -3027,68 +3040,70 @@ void deleteGEDCOM(GEDCOMobject* obj)
             ListIterator indElemIter = createIterator(obj->families);
             while((indElem = nextElement(&indElemIter)) != NULL)
             {
-                Family * tempFamily = (Family*)indElem;
-                if(getLength(tempFamily->otherFields) != 0)
-                {
-                    void* fieldElem;
-                    ListIterator fieldElemIter = createIterator(tempFamily->otherFields);
-                    while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-                    {
-                        Field* tempField = (Field*)fieldElem;
-                        if(strlen(tempField->tag) != 0)
-                        {
-                            free(tempField->tag);
-                        }
+                deleteFamily(indElem);
+        //         Family * tempFamily = (Family*)indElem;
+        //         if(getLength(tempFamily->otherFields) != 0)
+        //         {
+        //             void* fieldElem;
+        //             ListIterator fieldElemIter = createIterator(tempFamily->otherFields);
+        //             while((fieldElem = nextElement(&fieldElemIter)) != NULL)
+        //             {
+        //                 Field* tempField = (Field*)fieldElem;
+        //                 if(strlen(tempField->tag) != 0)
+        //                 {
+        //                     free(tempField->tag);
+        //                 }
 
-                        if(strlen(tempField->value) != 0)
-                        {
-                            free(tempField->value);
-                        }
-                        deleteDataFromList(&tempFamily->otherFields, fieldElem);
-                    }
-                    clearList(&tempFamily->otherFields);
-                }
-                clearList(&tempFamily->children);
-                void* eventElem;
-                ListIterator eventElemIter = createIterator(tempFamily->events);
-                while((eventElem = nextElement(&eventElemIter)) != NULL)
-                {
-                    Event * tempEvent = (Event*)eventElem;
-                    if(getLength(tempEvent->otherFields) != 0)
-                    {
-                        void* fieldElem;
-                        ListIterator fieldElemIter = createIterator(tempEvent->otherFields);
-                        while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-                        {
-                            Field* tempField = (Field*)fieldElem;
-                            if(strlen(tempField->tag) != 0)
-                            {
-                                free(tempField->tag);
-                            }
+        //                 if(strlen(tempField->value) != 0)
+        //                 {
+        //                     free(tempField->value);
+        //                 }
+        //                 deleteDataFromList(&tempFamily->otherFields, fieldElem);
+        //             }
+        //             clearList(&tempFamily->otherFields);
+        //         }
+        //         clearList(&tempFamily->children);
+        //         void* eventElem;
+        //         ListIterator eventElemIter = createIterator(tempFamily->events);
+        //         while((eventElem = nextElement(&eventElemIter)) != NULL)
+        //         {
+        //             Event * tempEvent = (Event*)eventElem;
+        //             if(getLength(tempEvent->otherFields) != 0)
+        //             {
+        //                 void* fieldElem;
+        //                 ListIterator fieldElemIter = createIterator(tempEvent->otherFields);
+        //                 while((fieldElem = nextElement(&fieldElemIter)) != NULL)
+        //                 {
+        //                     Field* tempField = (Field*)fieldElem;
+        //                     if(strlen(tempField->tag) != 0)
+        //                     {
+        //                         free(tempField->tag);
+        //                     }
 
-                            if(strlen(tempField->value) != 0)
-                            {
-                                free(tempField->value);
-                            }
-                            deleteDataFromList(&tempEvent->otherFields, fieldElem);
-                        }
-                        clearList(&tempEvent->otherFields);
-                    }
-                    if(strlen(tempEvent->date) != 0)
-                    {
-                        free(tempEvent->date);
-                    }
-                    if(strlen(tempEvent->place) != 0)
-                    {
-                        free(tempEvent->place);
-                    }
-                }
-                clearList(&tempFamily->events);
-                deleteDataFromList(&obj->families, indElem);
+        //                     if(strlen(tempField->value) != 0)
+        //                     {
+        //                         free(tempField->value);
+        //                     }
+        //                     deleteDataFromList(&tempEvent->otherFields, fieldElem);
+        //                 }
+        //                 clearList(&tempEvent->otherFields);
+        //             }
+        //             if(strlen(tempEvent->date) != 0)
+        //             {
+        //                 free(tempEvent->date);
+        //             }
+        //             if(strlen(tempEvent->place) != 0)
+        //             {
+        //                 free(tempEvent->place);
+        //             }
+        //         }
+        //         clearList(&tempFamily->events);
+        //         deleteDataFromList(&obj->families, indElem);
             }
         }
-
+        free(obj);
     }
+
 }
 
 char* printError(GEDCOMerror err)
