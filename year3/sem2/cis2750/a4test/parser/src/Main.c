@@ -3,11 +3,12 @@
 // #include "BinarySearchTreeAPI.h"
 #include <ctype.h>
 
-GEDCOMobject * createObject();
+// GEDCOMobject * createObject();
 
 int main() 
 {
-	GEDCOMobject * testObject = createObject();
+	GEDCOMobject * testObject;
+	 // = createObject();
 
 	// enum eCode errorCodeTest;
 	GEDCOMerror errorCodeTest;
@@ -30,13 +31,13 @@ int main()
 
 }
 
-GEDCOMobject * createObject()
-{
-        GEDCOMobject* tempObject = malloc(sizeof(GEDCOMobject));
+// GEDCOMobject * createObject()
+// {
+//         GEDCOMobject* tempObject = malloc(sizeof(GEDCOMobject));
 
-        tempObject->families = initializeList(printFamily, deleteFamily, compareFamilies);
-        tempObject->individuals = initializeList(printIndividual, deleteIndividual, compareIndividuals);
+//         tempObject->families = initializeList(printFamily, deleteFamily, compareFamilies);
+//         tempObject->individuals = initializeList(printIndividual, deleteIndividual, compareIndividuals);
 
-        return tempObject;
+//         return tempObject;
 
-}
+// }

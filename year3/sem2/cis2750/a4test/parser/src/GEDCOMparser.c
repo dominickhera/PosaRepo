@@ -228,6 +228,7 @@ for(int i = 0; i < 500; i++)
     familyHusbandFindArray[i] = -1;
     familyWifeFindArray[i] = -1;
 }
+*obj = initializeGEDCOMobject();
 GEDCOMobject * tempObject = *obj;
 // GEDCOMobject * tempObject = initializeGEDCOMobject();
 
