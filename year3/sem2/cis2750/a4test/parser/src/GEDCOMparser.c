@@ -120,7 +120,7 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     int subRefFlag = 0;
     // int testFlag = 0;
     // int famFlag = 0;
-    int endFlag = 0;
+    // int endFlag = 0;
     // int printCount = 0;
     // int subPrintCount = 0;
     int count = 0;
@@ -1100,7 +1100,7 @@ else if(strcasestr(lineStorage[i], "SUBM"))
     else if(strcasestr(lineStorage[i], "TRLR"))
     {
         // printf("end found\n");
-        endFlag = 1;
+        // endFlag = 1;
     }
 }
 }
@@ -1159,7 +1159,7 @@ if(submitterOtherFieldCount != 0)
         // (char* (*printFunction)(void* toBePrinted),void (*deleteFunction)(void* toBeDeleted),int (*compareFunction)(const void* first,const void* second));
         tempOtherField = initializeOtherField(submitterOtherFieldTagStorage[j], submitterOtherFieldValueStorage[j]);
         insertBack(&tempSubm->otherFields, tempOtherField);
-        deleteField((void*)tempOtherField);
+        // deleteField((void*)tempOtherField);
         // tempSubm->otherFields = initializeList(printField, deleteField, compareFields);
     }
 }
@@ -1172,7 +1172,7 @@ if(headerOtherFieldCount != 0)
         // printf("other val: <%s>\n", headerOtherFieldValueStorage[j]);
         tempOtherField = initializeOtherField(headerOtherFieldTagStorage[j], headerOtherFieldValueStorage[j]);
         insertBack(&tempHeader->otherFields, tempOtherField);
-        deleteField((void*)tempOtherField);
+        // deleteField((void*)tempOtherField);
     }
 }
 
@@ -1204,7 +1204,7 @@ if(totalIndividualCount != 0)
                             {
                                 tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
                                 insertBack(&tempEvent->otherFields, tempOtherField);
-                                deleteField((void*)tempOtherField);
+                                // deleteField((void*)tempOtherField);
                             }
                         }
                         else
@@ -1213,13 +1213,13 @@ if(totalIndividualCount != 0)
                             {
                                 tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
                                 insertBack(&tempEvent->otherFields, tempOtherField);   
-                                deleteField((void*)tempOtherField);
+                                // deleteField((void*)tempOtherField);
                             }
                         }
                     }
 
                     insertBack(&tempIndividual->events, tempEvent);
-                    deleteEvent((void*)tempEvent);
+                    // deleteEvent((void*)tempEvent);
                 }
 
             }
@@ -1236,7 +1236,7 @@ if(totalIndividualCount != 0)
                             {
                                 tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
                                 insertBack(&tempEvent->otherFields, tempOtherField);
-                                deleteField((void*)tempOtherField);
+                                // deleteField((void*)tempOtherField);
                             }
                         }
                         else
@@ -1245,13 +1245,13 @@ if(totalIndividualCount != 0)
                             {
                                 tempOtherField = initializeOtherField(individualEventOtherFieldTagStorage[m], individualEventOtherFieldValueStorage[m]);
                                 insertBack(&tempEvent->otherFields, tempOtherField);   
-                                deleteField((void*)tempOtherField);
+                                // deleteField((void*)tempOtherField);
                             }
                         }
                     }
 
                     insertBack(&tempIndividual->events, tempEvent);
-                    deleteEvent((void*)tempEvent);
+                    // deleteEvent((void*)tempEvent);
                 }
 
             }
@@ -1269,7 +1269,7 @@ if(totalIndividualCount != 0)
                     // Event * initializeEvent(char* type, char* date, char* place)
                     tempOtherField = initializeOtherField(individualOtherFieldTagStorage[k], individualOtherFieldValueStorage[k]);
                     insertBack(&tempIndividual->otherFields, tempOtherField);
-                    deleteField((void*)tempOtherField);
+                    // deleteField((void*)tempOtherField);
                 }
             }
             else
@@ -1280,7 +1280,7 @@ if(totalIndividualCount != 0)
                     // Event * initializeEvent(char* type, char* date, char* place)
                     tempOtherField = initializeOtherField(individualOtherFieldTagStorage[k], individualOtherFieldValueStorage[k]);
                     insertBack(&tempIndividual->otherFields, tempOtherField);
-                    deleteField((void*)tempOtherField);
+                    // deleteField((void*)tempOtherField);
                 }
             }
         }
@@ -1290,7 +1290,7 @@ if(totalIndividualCount != 0)
         // }
 
         insertBack(&tempObject->individuals, tempIndividual);
-        deleteIndividual((void*)tempIndividual);
+        // deleteIndividual((void*)tempIndividual);
     }
 
 }
@@ -1327,7 +1327,7 @@ if(totalFamilyCount != 0)
                             {
                                 tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
                                 insertBack(&tempEvent->otherFields, tempOtherField);
-                                deleteField((void*)tempOtherField);
+                                // deleteField((void*)tempOtherField);
                             }
                         }   
                     }
@@ -1339,12 +1339,12 @@ if(totalFamilyCount != 0)
                             {
                                 tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
                                 insertBack(&tempEvent->otherFields, tempOtherField);
-                                deleteField((void*)tempOtherField);
+                                // deleteField((void*)tempOtherField);
                             }
                         } 
                     }
                     insertBack(&tempFamily->events, tempEvent);
-                    deleteEvent((void*)tempEvent);
+                    // deleteEvent((void*)tempEvent);
                 }
             }
             else
@@ -1360,7 +1360,7 @@ if(totalFamilyCount != 0)
                             {
                                 tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
                                 insertBack(&tempEvent->otherFields, tempOtherField);
-                                deleteField((void*)tempOtherField);
+                                // deleteField((void*)tempOtherField);
                             }
                         }   
                     }
@@ -1372,12 +1372,12 @@ if(totalFamilyCount != 0)
                             {
                                 tempOtherField = initializeOtherField(familyEventOtherFieldTagStorage[m], familyEventOtherFieldValueStorage[m]);
                                 insertBack(&tempEvent->otherFields, tempOtherField);
-                                deleteField((void*)tempOtherField);
+                                // deleteField((void*)tempOtherField);
                             }
                         } 
                     }
                     insertBack(&tempFamily->events, tempEvent);
-                    deleteEvent((void*)tempEvent);
+                    // deleteEvent((void*)tempEvent);
                 }
 
             }
@@ -1393,7 +1393,7 @@ if(totalFamilyCount != 0)
 
                     tempOtherField = initializeOtherField(familyOtherFieldTagStorage[k], familyEventOtherFieldValueStorage[k]);
                     insertBack(&tempFamily->otherFields, tempOtherField);
-                    deleteField((void*)tempOtherField);
+                    // deleteField((void*)tempOtherField);
 
                 }
 
@@ -1404,7 +1404,7 @@ if(totalFamilyCount != 0)
                 {
                     tempOtherField = initializeOtherField(familyOtherFieldTagStorage[k], familyEventOtherFieldValueStorage[k]);
                     insertBack(&tempFamily->otherFields, tempOtherField);
-                    deleteField((void*)tempOtherField);
+                    // deleteField((void*)tempOtherField);
                 }
             }
         }
@@ -1475,7 +1475,7 @@ if(totalFamilyCount != 0)
                         {
                             insertBack(&tempFamily->children, tempIndividualFind);
                             insertBack(&tempIndividualFind->families, tempFamily);
-                            deleteIndividual((void*)tempIndividualFind);
+                            // deleteIndividual((void*)tempIndividualFind);
                             // deleteFamily((void*)tempFamily);
                             // printf("surnam is <%s>\n",individualGivenNameStorage[familyChildFindArray[k]]);
                             // tempFamily->wife = tempIndividualFind;
@@ -1513,7 +1513,7 @@ if(totalFamilyCount != 0)
                             // printf("fuck\n");
                             insertBack(&tempFamily->children, tempIndividualFind);
                             insertBack(&tempIndividualFind->families, tempFamily);
-                            deleteIndividual((void*)tempIndividualFind);
+                            // deleteIndividual((void*)tempIndividualFind);
                             // deleteFamily((void*)tempFamily);
                             // break;
                             // tempFamily->wife = tempIndividualFind;
@@ -1532,7 +1532,7 @@ if(totalFamilyCount != 0)
         }
         // printf("hello\n");
         insertBack(&tempObject->families, tempFamily);
-        deleteFamily((void*)tempFamily);
+        // deleteFamily((void*)tempFamily);
         // }
         // *obj = tempObject;
         // }
