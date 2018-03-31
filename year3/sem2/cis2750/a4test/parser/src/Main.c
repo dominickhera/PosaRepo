@@ -19,12 +19,12 @@ int main()
 	char * str = printError(errorCodeTest);
 
 	printf("%s\n", str);
-	free(str);
+	// free(str);
 
 	char * obj = printGEDCOM(testObject);
 
 	printf("%s\n", obj);
-	free(obj);
+	// free(obj);
 	// free(testObject);
 	 deleteGEDCOM(testObject);
 

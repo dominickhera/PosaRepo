@@ -2640,11 +2640,12 @@ char* printGEDCOM(const GEDCOMobject* obj)
     gedcomReturn = (char*)malloc(sizeof(char) * 500);
     if(obj != NULL)
     {
-
+        // printf("1\n");
         sprintf(gedcomReturn + strlen(gedcomReturn), "\n\nFamily Tree\n\n");
 
         if(obj->header != NULL)
         {
+            // printf("2\n");
             // printf("b00ty\n");
             // Header * tempHeader = (Header*)obj->header;
             sprintf(gedcomReturn + strlen(gedcomReturn), "Header\n    Source: %s\n    GEDCOM Version: %.1f\n\n" ,obj->header->source, obj->header->gedcVersion);
@@ -2653,13 +2654,36 @@ char* printGEDCOM(const GEDCOMobject* obj)
 
             if(getLength(obj->header->otherFields)!= 0)
             {
+                // printf("3\n");
                 sprintf(gedcomReturn + strlen(gedcomReturn), "    Header Other Fields:\n");
                 void* headerFieldsElem;
                 ListIterator headerFieldsElemIter = createIterator(obj->header->otherFields);
                 while((headerFieldsElem = nextElement(&headerFieldsElemIter)) != NULL)
                 {
+                    // printf("4\n");
                     Field* tempField = (Field*)headerFieldsElem;
-                    sprintf(gedcomReturn + strlen(gedcomReturn), "     -%s : %s\n", tempField->tag, tempField->value);
+                    // printf("4.5\n");
+                    if(tempField->tag != NULL && tempField->value != NULL)
+                    {
+                        // printf("4.55\n");
+                        sprintf(gedcomReturn + strlen(gedcomReturn), "     -%s : %s\n", tempField->tag, tempField->value);
+                        // printf("4.5\n");
+                    }
+                    else
+                    {
+                        if(tempField->tag == NULL)
+                        {
+                            // printf("4.56\n");
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "     -NULL : %s\n", tempField->value);
+                        }
+                        else
+                        {
+                            // printf("4.57\n");
+                            sprintf(gedcomReturn + strlen(gedcomReturn), "     -%s : NULL\n", tempField->tag);
+                        }
+                    }
+                    // sprintf(gedcomReturn + strlen(gedcomReturn), "     -%s : %s\n", tempField->tag, tempField->value);
+                    // printf("4.6\n");
                 }
             }
         }
@@ -2667,12 +2691,14 @@ char* printGEDCOM(const GEDCOMobject* obj)
 
         if(getLength(obj->families)!= 0)
         {
+            printf("5\n");
             // printf("hiya\n");
             sprintf(gedcomReturn + strlen(gedcomReturn), "\n\nFamilies\n\n");
             void* familiesElem;
             ListIterator familiesElemIter = createIterator(obj->families);
             while((familiesElem = nextElement(&familiesElemIter))!= NULL)
             {
+                printf("6\n");
                 sprintf(gedcomReturn + strlen(gedcomReturn), "Family\n");
                 Family * tempFamily = (Family*)familiesElem;
                 if(tempFamily->wife != NULL)
@@ -2698,11 +2724,13 @@ char* printGEDCOM(const GEDCOMobject* obj)
 
                 if(getLength(tempFamily->children)!= 0)
                 {
+                    // printf("7\n");
                     // printf("chi\n");
                     void* childElem;
                     ListIterator childElemIter = createIterator(tempFamily->children);
                     while((childElem = nextElement(&childElemIter)) != NULL)
                     {
+                        // printf("8\n");
                         // printf("chi\n");
                         Individual * tempChild = (Individual*)childElem;
                         sprintf(gedcomReturn + strlen(gedcomReturn), "    Child: %s %s\n", tempChild->givenName, tempChild->surname);
@@ -2711,20 +2739,24 @@ char* printGEDCOM(const GEDCOMobject* obj)
                 // printf("totalFamilyEventCount is %d\n", getLength(tempFamily->events));
                 if(getLength(tempFamily->events)!= 0)
                 {
+                    // printf("9\n");
                     void* eventElem;
                     ListIterator eventElemIter = createIterator(tempFamily->events);
                     while((eventElem = nextElement(&eventElemIter))!= NULL)
                     {
+                        // printf("10\n");
                         Event* tempEvent = (Event*)eventElem;
                         sprintf(gedcomReturn + strlen(gedcomReturn), "        Event:\n          Type: %s\n          Date: %s\n          Place: %s\n", tempEvent->type, tempEvent->date, tempEvent->place);
 
                         if(getLength(tempEvent->otherFields)!= 0)
                         {
+                            // printf("11\n");
                             sprintf(gedcomReturn + strlen(gedcomReturn), "            Event Fields:\n\n");
                             void* eventFieldElem;
                             ListIterator eventFieldElemIter = createIterator(tempEvent->otherFields);
                             while((eventFieldElem = nextElement(&eventFieldElemIter)) != NULL)
                             {
+                                // printf("12\n");
                                 Field * tempField = (Field*)eventFieldElem;
                                 sprintf(gedcomReturn + strlen(gedcomReturn), "              %s:%s\n", tempField->tag, tempField->value);
 
@@ -2735,7 +2767,7 @@ char* printGEDCOM(const GEDCOMobject* obj)
 
                 if(getLength(tempFamily->otherFields)!= 0)
                 {
-
+                    // printf("13\n");
                     void* familyFieldElem;
                     ListIterator familyFieldElemIter = createIterator(tempFamily->otherFields);
                     while((familyFieldElem = nextElement(&familyFieldElemIter)) != NULL)
