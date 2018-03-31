@@ -3458,12 +3458,12 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
         if(toBeDeleted != NULL)
         {
             Field* fieldDelete = (Field*)toBeDeleted;
-            if(strlen(fieldDelete->tag) != 0)
+            if(fieldDelete->tag != NULL)
             {
                 free(fieldDelete->tag);
             }
 
-            if(strlen(fieldDelete->value) != 0)
+            if(fieldDelete->value != NULL)
             {
                 free(fieldDelete->value);
             }
