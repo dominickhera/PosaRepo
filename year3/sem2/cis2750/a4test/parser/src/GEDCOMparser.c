@@ -24,8 +24,10 @@ GEDCOMerror createGEDCOM(char* fileName, GEDCOMobject** obj)
     FILE *fp;
     char line[256];
     char lineStorage[1000][256];
-    char *tempFieldStorage = malloc(sizeof(char) * 256);
-    char *tempDataStorage = malloc(sizeof(char) * 256);
+    char *tempFieldStorage;
+    tempFieldStorage = (char*)malloc(sizeof(char) * 256);
+    char *tempDataStorage;
+    tempDataStorage = (char*)malloc(sizeof(char) * 256);
 
     // handles other fields in each event
     // char eventOtherFieldTagStorage[256][500];
@@ -3545,7 +3547,7 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
     Header * initializeHeader(char* source, char* gedcVersion, char* encodingType)
     {
         // printf("source before insert is %s\n", source);
-        Header* tempHeader = malloc(sizeof(Header) * 10);
+        Header* tempHeader = malloc(sizeof(Header) + 1);
         strcpy(tempHeader->source, source);
         tempHeader->gedcVersion = atof(gedcVersion);
         tempHeader->otherFields = initializeList(printField, deleteField, compareFields);
