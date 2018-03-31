@@ -2957,8 +2957,9 @@ void deleteGEDCOM(GEDCOMobject* obj)
                 }
                 // clearList(&obj->submitter->otherFields);
             }
-        //     // obj->submitter = NULL;
+            
             // free(&obj->submitter);
+            obj->submitter = NULL;
         }
 
         if(getLength(obj->individuals) != 0)
