@@ -2921,6 +2921,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
                 }
             }
             free(&obj->header);
+            obj->header = NULL;
             // clearList(&obj->header->otherFields);
         }
 
@@ -3106,7 +3107,8 @@ void deleteGEDCOM(GEDCOMobject* obj)
                 deleteDataFromList(&obj->families, indElem);
             }
         }
-        // free(obj);
+        free(obj);
+        obj = NULL;
     }
 
 }
