@@ -291,15 +291,15 @@ for(int i = 0; i < count; i++)
                     {
                         // if(lineStorage[i][j] == 'R')
                         // {
-                            // j+=2;
-                            // while(isalpha(lineStorage[i][j]) != 0)
-                            // while(lineStorage[i][j] != lineStorage[i][strlen(lineStorage[i])])
-                            //{
-                                printf("lineStorage char: %c\n", lineStorage[i][j]);
-                                tempFieldStorage[tempSize] = lineStorage[i][j];
-                                tempSize++;
-                            //    j++;
-                            //}
+                        // j+=2;
+                        // while(isalpha(lineStorage[i][j]) != 0)
+                        // while(lineStorage[i][j] != lineStorage[i][strlen(lineStorage[i])])
+                        //{
+                        printf("lineStorage char: %c\n", lineStorage[i][j]);
+                        tempFieldStorage[tempSize] = lineStorage[i][j];
+                        tempSize++;
+                        //    j++;
+                        //}
                         //}
                     }
 
@@ -1556,10 +1556,10 @@ GEDCOMerror writeGEDCOM(char* fileName, const GEDCOMobject* obj)
 
     // if(obj == NULL)
     // {
-        // GEDCOMerror err;
-        // err.type = INV_GEDCOM;
-        // err.line = -1;
-        // return err;
+    // GEDCOMerror err;
+    // err.type = INV_GEDCOM;
+    // err.line = -1;
+    // return err;
     // }
     if(obj != NULL)
     {
@@ -2423,7 +2423,7 @@ GEDCOMobject* JSONtoGEDCOM(const char* str)
         }
 
     }
-    
+
 
     return NULL;
 
@@ -2445,16 +2445,16 @@ char* initFilesToJSON(char* fileName)
 
         createGEDCOM(fileName, &tempObject);
 
-    
+
         // printf("err is %u\n", err.type);
 
-    //SOURCE/GEDVERSION/ENCODING/SUBMITTERNAME/ADDRESS/NUMIND/NUMFAM
+        //SOURCE/GEDVERSION/ENCODING/SUBMITTERNAME/ADDRESS/NUMIND/NUMFAM
         if(tempObject->header != NULL)
         {
             Header * tempHeader = (Header*)tempObject->header;
             sprintf(jsonReturn, "{\"source\":\"%s\", \"version\":\"%.1f\"", tempHeader->source, tempHeader->gedcVersion);
 
-           
+
             if(tempHeader->encoding == ANSEL)
             {
                 sprintf(jsonReturn + strlen(jsonReturn), ", \"encoding\":\"ANSEL\"");
@@ -2572,7 +2572,7 @@ char* iListToJSON(List iList)
         sprintf(indListReturn + strlen(indListReturn) , "[]");
     }
 
-    
+
     return indListReturn;
 
 }
@@ -2886,7 +2886,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
 
         if(obj->header != NULL)
         {
-             void* fieldElem;
+            void* fieldElem;
             ListIterator fieldElemIter = createIterator(obj->header->otherFields);
             while((fieldElem = nextElement(&fieldElemIter)) != NULL)
             {
@@ -2945,16 +2945,17 @@ void deleteGEDCOM(GEDCOMobject* obj)
                     ListIterator fieldElemIter = createIterator(tempIndividual->otherFields);
                     while((fieldElem = nextElement(&fieldElemIter)) != NULL)
                     {
-                        Field* tempField = (Field*)fieldElem;
-                        if(strlen(tempField->tag) != 0)
-                        {
-                            free(tempField->tag);
-                        }
+                        deleteField(fieldElem);
+                        // Field* tempField = (Field*)fieldElem;
+                        // if(strlen(tempField->tag) != 0)
+                        // {
+                        //     free(tempField->tag);
+                        // }
 
-                        if(strlen(tempField->value) != 0)
-                        {
-                            free(tempField->value);
-                        }
+                        // if(strlen(tempField->value) != 0)
+                        // {
+                        //     free(tempField->value);
+                        // }
                         deleteDataFromList(&tempIndividual->otherFields, fieldElem);
                     }
                     clearList(&tempIndividual->otherFields);
@@ -2974,7 +2975,27 @@ void deleteGEDCOM(GEDCOMobject* obj)
                 while((eventElem = nextElement(&eventElemIter)) != NULL)
                 {
                     Event * tempEvent = (Event*)eventElem;
-                    clearList(&tempEvent->otherFields);
+                    if(getLength(tempEvent->otherFields) != 0)
+                    {
+                        void* fieldElem;
+                        ListIterator fieldElemIter = createIterator(tempEvent->otherFields);
+                        while((fieldElem = nextElement(&fieldElemIter)) != NULL)
+                        {
+                            Field* tempField = (Field*)fieldElem;
+                            if(strlen(tempField->tag) != 0)
+                            {
+                                free(tempField->tag);
+                            }
+
+                            if(strlen(tempField->value) != 0)
+                            {
+                                free(tempField->value);
+                            }
+                            deleteDataFromList(&tempEvent->otherFields, fieldElem);
+                        }
+                        clearList(&tempEvent->otherFields);
+                    }
+                    // clearList(&tempEvent->otherFields);
                     if(strlen(tempEvent->date) != 0)
                     {
                         free(tempEvent->date);
@@ -3022,7 +3043,26 @@ void deleteGEDCOM(GEDCOMobject* obj)
                 while((eventElem = nextElement(&eventElemIter)) != NULL)
                 {
                     Event * tempEvent = (Event*)eventElem;
-                    clearList(&tempEvent->otherFields);
+                    if(getLength(tempEvent->otherFields) != 0)
+                    {
+                        void* fieldElem;
+                        ListIterator fieldElemIter = createIterator(tempEvent->otherFields);
+                        while((fieldElem = nextElement(&fieldElemIter)) != NULL)
+                        {
+                            Field* tempField = (Field*)fieldElem;
+                            if(strlen(tempField->tag) != 0)
+                            {
+                                free(tempField->tag);
+                            }
+
+                            if(strlen(tempField->value) != 0)
+                            {
+                                free(tempField->value);
+                            }
+                            deleteDataFromList(&tempEvent->otherFields, fieldElem);
+                        }
+                        clearList(&tempEvent->otherFields);
+                    }
                     if(strlen(tempEvent->date) != 0)
                     {
                         free(tempEvent->date);
