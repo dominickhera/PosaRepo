@@ -2636,7 +2636,8 @@ char* gListToJSON(List gList)
 char* printGEDCOM(const GEDCOMobject* obj)
 {
 
-    char * gedcomReturn = malloc(sizeof(char) * 1000);
+    char * gedcomReturn; 
+    gedcomReturn = (char*)malloc(sizeof(char) * 500);
     if(obj != NULL)
     {
 
@@ -3040,7 +3041,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
         //             }
         //         }
         //         clearList(&tempIndividual->events);
-                deleteDataFromList(&obj->individuals, indElem);
+                // deleteDataFromList(&obj->individuals, indElem);
             }
         }
 
@@ -3108,11 +3109,11 @@ void deleteGEDCOM(GEDCOMobject* obj)
         //             }
         //         }
         //         clearList(&tempFamily->events);
-                deleteDataFromList(&obj->families, indElem);
+                // deleteDataFromList(&obj->families, indElem);
             }
         }
-        free(obj);
-        obj = NULL;
+        // free(obj);
+        // obj = NULL;
     }
 
 }

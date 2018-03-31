@@ -15,6 +15,7 @@ int main()
 
 	errorCodeTest = createGEDCOM("./uploads/simpleValid.ged", &testObject);
 
+
 	char * str = printError(errorCodeTest);
 
 	printf("%s\n", str);
