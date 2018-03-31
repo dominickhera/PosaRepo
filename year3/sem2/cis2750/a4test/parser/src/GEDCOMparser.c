@@ -1145,6 +1145,9 @@ else if(submFlag != 1)
     return err;
 }
 
+
+free(tempDataStorage);
+free(tempFieldStorage);
 // GEDCOMobject * tempObject;   
 Individual * tempIndividual;
 Family * tempFamily;
