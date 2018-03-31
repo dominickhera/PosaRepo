@@ -15,14 +15,15 @@ int main()
 
 	errorCodeTest = createGEDCOM("./uploads/simpleValid.ged", &testObject);
 
-	// char * str = printError(errorCodeTest);
+	char * str = printError(errorCodeTest);
 
-	printf("%s\n", printError(errorCodeTest));
+	printf("%s\n", str);
+	free(str);
 
 	char * obj = printGEDCOM(testObject);
 
 	printf("%s\n", obj);
-
+	free(obj);
 	// free(testObject);
 	 deleteGEDCOM(testObject);
 
