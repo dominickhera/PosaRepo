@@ -3312,6 +3312,7 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
             }
         
         free(toBeDeleted);
+        toBeDeleted = NULL;
     }
     }
 
@@ -3376,6 +3377,7 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
             }
         
         free(toBeDeleted);
+        toBeDeleted = NULL;
     }
     }
 
@@ -3432,6 +3434,7 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                 }
             }
             free(toBeDeleted);
+            toBeDeleted = NULL;
 
         }
         // toBeDeleted = NULL;
@@ -3489,6 +3492,7 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
             }
 
             free(toBeDeleted);
+            toBeDeleted = NULL;
         }
 
     }
