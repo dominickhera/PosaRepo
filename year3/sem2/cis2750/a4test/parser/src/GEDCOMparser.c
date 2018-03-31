@@ -3309,7 +3309,7 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                 }
             }
         
-        // free(toBeDeleted);
+        free(toBeDeleted);
     }
     }
 
@@ -3373,7 +3373,7 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                 }
             }
         
-        // free(toBeDeleted);
+        free(toBeDeleted);
     }
     }
 
@@ -3429,7 +3429,7 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                     deleteDataFromList(&tempFamily->events, elem);
                 }
             }
-            // free(toBeDeleted);
+            free(toBeDeleted);
 
         }
         // toBeDeleted = NULL;
@@ -3486,7 +3486,7 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                 free(fieldDelete->value);
             }
 
-            // free(toBeDeleted);
+            free(toBeDeleted);
         }
 
     }
