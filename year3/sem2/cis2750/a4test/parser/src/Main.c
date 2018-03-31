@@ -24,7 +24,7 @@ int main()
 	char * obj = printGEDCOM(testObject);
 
 	printf("%s\n", obj);
-	free(obj);
+	// free(obj);
 	// free(testObject);
 	 // deleteGEDCOM(testObject);
 
