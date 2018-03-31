@@ -1219,6 +1219,7 @@ if(totalIndividualCount != 0)
                     }
 
                     insertBack(&tempIndividual->events, tempEvent);
+                    deleteEvent((void*)tempEvent);
                 }
 
             }
@@ -1250,7 +1251,7 @@ if(totalIndividualCount != 0)
                     }
 
                     insertBack(&tempIndividual->events, tempEvent);
-
+                    deleteEvent((void*)tempEvent);
                 }
 
             }
@@ -1289,6 +1290,7 @@ if(totalIndividualCount != 0)
         // }
 
         insertBack(&tempObject->individuals, tempIndividual);
+        deleteIndividual((void*)tempIndividual);
     }
 
 }
@@ -1342,6 +1344,7 @@ if(totalFamilyCount != 0)
                         } 
                     }
                     insertBack(&tempFamily->events, tempEvent);
+                    deleteEvent((void*)tempEvent);
                 }
             }
             else
@@ -1373,7 +1376,8 @@ if(totalFamilyCount != 0)
                             }
                         } 
                     }
-                    insertBack(&tempFamily->events, tempEvent); 
+                    insertBack(&tempFamily->events, tempEvent);
+                    deleteEvent((void*)tempEvent);
                 }
 
             }
@@ -1417,6 +1421,7 @@ if(totalFamilyCount != 0)
                 {
                     tempFamily->husband = tempIndividualFind;
                     insertBack(&tempIndividualFind->families, tempFamily);
+                    // deleteFamily((void*)tempFamily);
                 }
             }
         }
@@ -1436,6 +1441,7 @@ if(totalFamilyCount != 0)
                 {
                     tempFamily->wife = tempIndividualFind;
                     insertBack(&tempIndividualFind->families, tempFamily);
+                    // deleteFamily((void*)tempFamily);
                 }
             }
         }
@@ -1469,6 +1475,8 @@ if(totalFamilyCount != 0)
                         {
                             insertBack(&tempFamily->children, tempIndividualFind);
                             insertBack(&tempIndividualFind->families, tempFamily);
+                            deleteIndividual((void*)tempIndividualFind);
+                            // deleteFamily((void*)tempFamily);
                             // printf("surnam is <%s>\n",individualGivenNameStorage[familyChildFindArray[k]]);
                             // tempFamily->wife = tempIndividualFind;
                         }
@@ -1505,6 +1513,8 @@ if(totalFamilyCount != 0)
                             // printf("fuck\n");
                             insertBack(&tempFamily->children, tempIndividualFind);
                             insertBack(&tempIndividualFind->families, tempFamily);
+                            deleteIndividual((void*)tempIndividualFind);
+                            // deleteFamily((void*)tempFamily);
                             // break;
                             // tempFamily->wife = tempIndividualFind;
                         }
@@ -1522,6 +1532,7 @@ if(totalFamilyCount != 0)
         }
         // printf("hello\n");
         insertBack(&tempObject->families, tempFamily);
+        deleteFamily((void*)tempFamily);
         // }
         // *obj = tempObject;
         // }
@@ -3255,7 +3266,33 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
     //****************************************** List helper functions *******************************************
     void deleteEvent(void* toBeDeleted)
     {
+
+        if(toBeDeleted != NULL)
+        {
+            Event * tempEvent = (Event*)toBeDeleted;
+            if(tempEvent->date != NULL)
+            {
+                free(tempEvent->date);
+            }
+
+            if(tempEvent->place != NULL)
+            {
+                free(tempEvent->place);
+            }
+
+            if(getLength(tempEvent->otherFields) != 0)
+            {
+                void* elem;
+                ListIterator elemIter = createIterator(tempEvent->otherFields);
+                while((elem = nextElement(&elemIter)) != NULL)
+                {
+                    deleteField(elem);
+                    deleteDataFromList(&tempEvent->otherFields, elem);
+                }
+            }
+        
         free(toBeDeleted);
+    }
     }
 
     int compareEvents(const void* first,const void* second)
@@ -3273,7 +3310,53 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
 
     void deleteIndividual(void* toBeDeleted)
     {
+        if(toBeDeleted != NULL)
+        {
+            Individual * tempIndividual = (Individual*)toBeDeleted;
+            if(tempIndividual->givenName != NULL)
+            {
+                free(tempIndividual->givenName);
+            }
+            if(tempIndividual->surname != NULL)
+            {
+                free(tempIndividual->surname);
+            }
+
+            if(getLength(tempIndividual->otherFields) != 0)
+            {
+                void* elem;
+                ListIterator elemIter = createIterator(tempIndividual->otherFields);
+                while((elem = nextElement(&elemIter)) != NULL)
+                {
+                    deleteField(elem);
+                    deleteDataFromList(&tempIndividual->otherFields, elem);
+                }
+            }
+
+            if(getLength(tempIndividual->events) != 0)
+            {
+                void* elem;
+                ListIterator elemIter = createIterator(tempIndividual->otherFields);
+                while((elem = nextElement(&elemIter)) != NULL)
+                {
+                    deleteEvent(elem);
+                    deleteDataFromList(&tempIndividual->events, elem);
+                }
+            }
+
+            if(getLength(tempIndividual->families) != 0)
+            {
+                void* elem;
+                ListIterator elemIter = createIterator(tempIndividual->otherFields);
+                while((elem = nextElement(&elemIter)) != NULL)
+                {
+                    deleteFamily(elem);
+                    deleteDataFromList(&tempIndividual->families, elem);
+                }
+            }
+        
         free(toBeDeleted);
+    }
     }
 
     int compareIndividuals(const void* first,const void* second)
@@ -3291,7 +3374,47 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
 
     void deleteFamily(void* toBeDeleted)
     {
-        toBeDeleted = NULL;
+
+        if(toBeDeleted != NULL)
+        {
+            Family * tempFamily = (Family*)toBeDeleted;
+
+            if(getLength(tempFamily->otherFields) != 0)
+            {
+                void* elem;
+                ListIterator elemIter = createIterator(tempFamily->otherFields);
+                while((elem = nextElement(&elemIter)) != NULL)
+                {
+                    deleteField(elem);
+                    deleteDataFromList(&tempFamily->otherFields, elem);
+                }
+            }
+
+            if(getLength(tempFamily->children) != 0)
+            {
+                void* elem;
+                ListIterator elemIter = createIterator(tempFamily->children);
+                while((elem = nextElement(&elemIter)) != NULL)
+                {
+                    deleteIndividual(elem);
+                    deleteDataFromList(&tempFamily->children, elem);
+                }
+            }
+
+            if(getLength(tempFamily->events) != 0)
+            {
+                void* elem;
+                ListIterator elemIter = createIterator(tempFamily->events);
+                while((elem = nextElement(&elemIter)) != NULL)
+                {
+                    deleteEvent(elem);
+                    deleteDataFromList(&tempFamily->events, elem);
+                }
+            }
+            free(toBeDeleted);
+
+        }
+        // toBeDeleted = NULL;
         // free(toBeDeleted);
         // free((Family*)toBeDeleted);
     }
@@ -3332,18 +3455,21 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
     void deleteField(void* toBeDeleted)
     {
 
-        Field* fieldDelete = (Field*)toBeDeleted;
-        if(strlen(fieldDelete->tag) != 0)
+        if(toBeDeleted != NULL)
         {
-            free(fieldDelete->tag);
-        }
+            Field* fieldDelete = (Field*)toBeDeleted;
+            if(strlen(fieldDelete->tag) != 0)
+            {
+                free(fieldDelete->tag);
+            }
 
-        if(strlen(fieldDelete->value) != 0)
-        {
-            free(fieldDelete->value);
-        }
+            if(strlen(fieldDelete->value) != 0)
+            {
+                free(fieldDelete->value);
+            }
 
-        free(toBeDeleted);
+            free(toBeDeleted);
+        }
 
     }
 
