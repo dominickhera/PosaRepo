@@ -3144,8 +3144,8 @@ void deleteGEDCOM(GEDCOMobject* obj)
                 // deleteDataFromList(&obj->families, indElem);
             }
         }
-        // free(obj);
-        // obj = NULL;
+        free(obj);
+        obj = NULL;
     }
 
 }
