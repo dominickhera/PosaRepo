@@ -2931,9 +2931,11 @@ void deleteGEDCOM(GEDCOMobject* obj)
                 free(tempSubm->address);
             }
 
-            void* fieldElem;
+            
             if(getLength(obj->submitter->otherFields) != 0)
-            {
+            {   
+                void* fieldElem;
+
                 ListIterator fieldElemIter = createIterator(obj->submitter->otherFields);
                 while((fieldElem = nextElement(&fieldElemIter)) != NULL)
                 {
@@ -2950,10 +2952,10 @@ void deleteGEDCOM(GEDCOMobject* obj)
         //             }
         //             deleteDataFromList(&obj->submitter->otherFields, fieldElem);
                 }
-        //         // clearList(&obj->submitter->otherFields);
+                // clearList(&obj->submitter->otherFields);
             }
         //     // obj->submitter = NULL;
-            free(&obj->submitter);
+            // free(&obj->submitter);
         }
 
         if(getLength(obj->individuals) != 0)
@@ -3113,7 +3115,7 @@ char* printError(GEDCOMerror err)
     char * errorCodeReturn = malloc(sizeof(char) * 256);
     if(err.type == INV_FILE)
     {
-        strcpy(errorCodeReturn, "INV_FILE: thereâs a problem with file argument - its null, it;âs a empty string, file doesn't exist or - cannot be opened,file doesn't have the.ics extension\n");
+        strcpy(errorCodeReturn, "INV_FILE: there's a problem with file argument - its null, it;âs a empty string, file doesn't exist or - cannot be opened,file doesn't have the.ics extension\n");
     }
     else if(err.type == INV_GEDCOM)
     {
