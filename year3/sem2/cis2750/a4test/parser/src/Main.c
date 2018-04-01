@@ -21,25 +21,14 @@ int main()
 	printf("%s\n", str);
 	free(str);
 
-	char * obj = printGEDCOM(testObject);
+	// char * obj = printGEDCOM(testObject);
 
-	printf("%s\n", obj);
-	free(obj);
+	// printf("%s\n", obj);
+	// free(obj);
 	// free(testObject);
-	 deleteGEDCOM(testObject);
+	deleteGEDCOM(testObject);
 
 
 	return 0;
 
 }
-
-// GEDCOMobject * createObject()
-// {
-//         GEDCOMobject* tempObject = malloc(sizeof(GEDCOMobject));
-
-//         tempObject->families = initializeList(printFamily, deleteFamily, compareFamilies);
-//         tempObject->individuals = initializeList(printIndividual, deleteIndividual, compareIndividuals);
-
-//         return tempObject;
-
-// }

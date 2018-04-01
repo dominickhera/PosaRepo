@@ -2529,6 +2529,7 @@ void addIndividualWrapper(char* fileName, char* IndJSON)
 
     writeGEDCOM(fileName, tempObject);
 
+    deleteGEDCOM(tempObject);
     // free(tempObject);
 
 }
@@ -2550,6 +2551,8 @@ char* grabIndList(char* fileName)
     createGEDCOM(fileName, &tempObject);
 
     char * indList = iListToJSON(tempObject->individuals);
+
+    deleteGEDCOM(tempObject);
 
     return indList;
 }
@@ -2637,7 +2640,7 @@ char* printGEDCOM(const GEDCOMobject* obj)
 {
 
     char * gedcomReturn; 
-    gedcomReturn = (char*)malloc(sizeof(char) * 500);
+    gedcomReturn = (char*)malloc(sizeof(char) * 1000);
     if(obj != NULL)
     {
         // printf("1\n");
@@ -2969,30 +2972,6 @@ void deleteGEDCOM(GEDCOMobject* obj)
             {
                 free(tempSubm->address);
             }
-
-            
-        //     if(getLength(obj->submitter->otherFields) > 0)
-        //     {   
-        //         void* fieldElem;
-
-        //         ListIterator fieldElemIter = createIterator(obj->submitter->otherFields);
-        //         while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-        //         {
-        //             deleteField(fieldElem);
-        // //             Field* tempField = (Field*)fieldElem;
-        // //             if(strlen(tempField->tag) != 0)
-        // //             {
-        // //                 free(tempField->tag);
-        // //             }
-
-        // //             if(strlen(tempField->value) != 0)
-        // //             {
-        // //                 free(tempField->value);
-        // //             }
-        // //             deleteDataFromList(&obj->submitter->otherFields, fieldElem);
-        //         }
-        //         // clearList(&obj->submitter->otherFields);
-        //     }
             
             // free(&obj->submitter);
             // obj->submitter = NULL;
@@ -3005,75 +2984,6 @@ void deleteGEDCOM(GEDCOMobject* obj)
             while((indElem = nextElement(&indElemIter)) != NULL)
             {
                 deleteIndividual(indElem);
-        //         Individual * tempIndividual = (Individual*)indElem;
-        //         if(getLength(tempIndividual->otherFields) != 0)
-        //         {
-        //             void* fieldElem;
-        //             ListIterator fieldElemIter = createIterator(tempIndividual->otherFields);
-        //             while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-        //             {
-        //                 deleteField(fieldElem);
-        //                 // Field* tempField = (Field*)fieldElem;
-        //                 // if(strlen(tempField->tag) != 0)
-        //                 // {
-        //                 //     free(tempField->tag);
-        //                 // }
-
-        //                 // if(strlen(tempField->value) != 0)
-        //                 // {
-        //                 //     free(tempField->value);
-        //                 // }
-        //                 deleteDataFromList(&tempIndividual->otherFields, fieldElem);
-        //             }
-        //             clearList(&tempIndividual->otherFields);
-        //         }
-        //         clearList(&tempIndividual->families);
-        //         if(strlen(tempIndividual->surname) != 0)
-        //         {
-        //             free(tempIndividual->surname);
-        //         }
-        //         if(strlen(tempIndividual->givenName) != 0)
-        //         {
-        //             free(tempIndividual->givenName);
-        //         }
-
-        //         void* eventElem;
-        //         ListIterator eventElemIter = createIterator(tempIndividual->events);
-        //         while((eventElem = nextElement(&eventElemIter)) != NULL)
-        //         {
-        //             Event * tempEvent = (Event*)eventElem;
-        //             if(getLength(tempEvent->otherFields) != 0)
-        //             {
-        //                 void* fieldElem;
-        //                 ListIterator fieldElemIter = createIterator(tempEvent->otherFields);
-        //                 while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-        //                 {
-        //                     Field* tempField = (Field*)fieldElem;
-        //                     if(strlen(tempField->tag) != 0)
-        //                     {
-        //                         free(tempField->tag);
-        //                     }
-
-        //                     if(strlen(tempField->value) != 0)
-        //                     {
-        //                         free(tempField->value);
-        //                     }
-        //                     deleteDataFromList(&tempEvent->otherFields, fieldElem);
-        //                 }
-        //                 clearList(&tempEvent->otherFields);
-        //             }
-        //             // clearList(&tempEvent->otherFields);
-        //             if(strlen(tempEvent->date) != 0)
-        //             {
-        //                 free(tempEvent->date);
-        //             }
-        //             if(strlen(tempEvent->place) != 0)
-        //             {
-        //                 free(tempEvent->place);
-        //             }
-        //         }
-        //         clearList(&tempIndividual->events);
-                // deleteDataFromList(&obj->individuals, indElem);
             }
         }
 
@@ -3084,68 +2994,10 @@ void deleteGEDCOM(GEDCOMobject* obj)
             while((indElem = nextElement(&indElemIter)) != NULL)
             {
                 deleteFamily(indElem);
-        //         Family * tempFamily = (Family*)indElem;
-        //         if(getLength(tempFamily->otherFields) != 0)
-        //         {
-        //             void* fieldElem;
-        //             ListIterator fieldElemIter = createIterator(tempFamily->otherFields);
-        //             while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-        //             {
-        //                 Field* tempField = (Field*)fieldElem;
-        //                 if(strlen(tempField->tag) != 0)
-        //                 {
-        //                     free(tempField->tag);
-        //                 }
-
-        //                 if(strlen(tempField->value) != 0)
-        //                 {
-        //                     free(tempField->value);
-        //                 }
-        //                 deleteDataFromList(&tempFamily->otherFields, fieldElem);
-        //             }
-        //             clearList(&tempFamily->otherFields);
-        //         }
-        //         clearList(&tempFamily->children);
-        //         void* eventElem;
-        //         ListIterator eventElemIter = createIterator(tempFamily->events);
-        //         while((eventElem = nextElement(&eventElemIter)) != NULL)
-        //         {
-        //             Event * tempEvent = (Event*)eventElem;
-        //             if(getLength(tempEvent->otherFields) != 0)
-        //             {
-        //                 void* fieldElem;
-        //                 ListIterator fieldElemIter = createIterator(tempEvent->otherFields);
-        //                 while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-        //                 {
-        //                     Field* tempField = (Field*)fieldElem;
-        //                     if(strlen(tempField->tag) != 0)
-        //                     {
-        //                         free(tempField->tag);
-        //                     }
-
-        //                     if(strlen(tempField->value) != 0)
-        //                     {
-        //                         free(tempField->value);
-        //                     }
-        //                     deleteDataFromList(&tempEvent->otherFields, fieldElem);
-        //                 }
-        //                 clearList(&tempEvent->otherFields);
-        //             }
-        //             if(strlen(tempEvent->date) != 0)
-        //             {
-        //                 free(tempEvent->date);
-        //             }
-        //             if(strlen(tempEvent->place) != 0)
-        //             {
-        //                 free(tempEvent->place);
-        //             }
-        //         }
-        //         clearList(&tempFamily->events);
-                // deleteDataFromList(&obj->families, indElem);
             }
         }
-        free(obj);
-        obj = NULL;
+        // free(obj);
+        // obj = NULL;
     }
 
 }
@@ -3345,13 +3197,16 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                 ListIterator elemIter = createIterator(tempEvent->otherFields);
                 while((elem = nextElement(&elemIter)) != NULL)
                 {
-                    deleteField(elem);
-                    deleteDataFromList(&tempEvent->otherFields, elem);
+                    if(elem != NULL)
+                    {
+                        deleteField(elem);
+                        deleteDataFromList(&tempEvent->otherFields, elem);
+                    }
                 }
             }
         
-        free(toBeDeleted);
-        toBeDeleted = NULL;
+        // free(toBeDeleted);
+        // toBeDeleted = NULL;
     }
     }
 
@@ -3388,8 +3243,11 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                 ListIterator elemIter = createIterator(tempIndividual->otherFields);
                 while((elem = nextElement(&elemIter)) != NULL)
                 {
-                    deleteField(elem);
-                    deleteDataFromList(&tempIndividual->otherFields, elem);
+                    if(elem != NULL)
+                    {
+                        deleteField(elem);
+                        deleteDataFromList(&tempIndividual->otherFields, elem);
+                    }
                 }
             }
 
@@ -3399,8 +3257,11 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                 ListIterator elemIter = createIterator(tempIndividual->otherFields);
                 while((elem = nextElement(&elemIter)) != NULL)
                 {
-                    deleteEvent(elem);
-                    deleteDataFromList(&tempIndividual->events, elem);
+                    if(elem != NULL)
+                    {
+                        deleteEvent(elem);
+                        deleteDataFromList(&tempIndividual->events, elem);
+                    }
                 }
             }
 
@@ -3410,13 +3271,16 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                 ListIterator elemIter = createIterator(tempIndividual->otherFields);
                 while((elem = nextElement(&elemIter)) != NULL)
                 {
-                    deleteFamily(elem);
-                    deleteDataFromList(&tempIndividual->families, elem);
+                    if(elem != NULL)
+                    {
+                        deleteFamily(elem);
+                        deleteDataFromList(&tempIndividual->families, elem);
+                    }
                 }
             }
         
-        free(toBeDeleted);
-        toBeDeleted = NULL;
+        // free(toBeDeleted);
+        // toBeDeleted = NULL;
     }
     }
 
@@ -3446,8 +3310,11 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                 ListIterator elemIter = createIterator(tempFamily->otherFields);
                 while((elem = nextElement(&elemIter)) != NULL)
                 {
-                    deleteField(elem);
-                    deleteDataFromList(&tempFamily->otherFields, elem);
+                    if(elem != NULL)
+                    {
+                        deleteField(elem);
+                        deleteDataFromList(&tempFamily->otherFields, elem);
+                    }
                 }
             }
 
@@ -3457,8 +3324,11 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                 ListIterator elemIter = createIterator(tempFamily->children);
                 while((elem = nextElement(&elemIter)) != NULL)
                 {
-                    deleteIndividual(elem);
-                    deleteDataFromList(&tempFamily->children, elem);
+                    if(elem != NULL)
+                    {
+                        deleteIndividual(elem);
+                        deleteDataFromList(&tempFamily->children, elem);
+                    }
                 }
             }
 
@@ -3468,12 +3338,15 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                 ListIterator elemIter = createIterator(tempFamily->events);
                 while((elem = nextElement(&elemIter)) != NULL)
                 {
-                    deleteEvent(elem);
-                    deleteDataFromList(&tempFamily->events, elem);
+                    if(elem != NULL)
+                    {
+                        deleteEvent(elem);
+                        deleteDataFromList(&tempFamily->events, elem);
+                    }
                 }
             }
-            free(toBeDeleted);
-            toBeDeleted = NULL;
+            // free(toBeDeleted);
+            // toBeDeleted = NULL;
 
         }
         // toBeDeleted = NULL;
@@ -3530,8 +3403,8 @@ List getDescendants(const GEDCOMobject* familyRecord, const Individual* person)
                 free(fieldDelete->value);
             }
 
-            free(toBeDeleted);
-            toBeDeleted = NULL;
+            // free(toBeDeleted);
+            // toBeDeleted = NULL;
         }
 
     }
