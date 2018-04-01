@@ -212,6 +212,9 @@ $(document).ready(function() {
                         }
                     });
                     break;
+                case 'displayIndFileForm':
+                    document.getElementById('displayIndividualsModal').style.display = "none";
+                    break;
                 default:
                 console.log("default bitches");
                     break;
@@ -858,6 +861,23 @@ $(document).ready(function() {
     window.onclick = function(event) {
         if (event.target == signInModal) {
             signInModal.style.display = "none";
+        }
+    }
+
+    var displayIndFamModal = document.getElementById('displayIndividualsModal');
+    var displayIndFamBtn = document.getElementById("displayIndividuals");
+    var displayIndFamSpan = document.getElementById("displayIndFileClose");
+    displayIndFamBtn.onclick = function() {
+        displayIndFamModal.style.display = "block";
+    }
+
+    displayIndFamSpan.onclick = function() {
+        displayIndFamModal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == displayIndFamModal) {
+            displayIndFamModal.style.display = "none";
         }
     }
 
