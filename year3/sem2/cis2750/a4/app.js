@@ -122,10 +122,9 @@ app.get('/signIn/:name', function(req, res) {
     user     : indParse.username,
     password : indParse.password,
     database : indParse.database
-});
-
-
-connection.connect();
+    });
+    
+  connection.connect();
 });
 
 
