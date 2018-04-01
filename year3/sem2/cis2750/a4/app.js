@@ -157,7 +157,7 @@ app.get('/count/', function(req , res){
       
     }
 
-}); 
+})
     // fileIndList: indList
   });
 });
