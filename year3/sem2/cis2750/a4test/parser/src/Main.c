@@ -21,12 +21,12 @@ int main()
 	printf("%s\n", str);
 	free(str);
 
-	// char * obj = printGEDCOM(testObject);
+	char * obj = printGEDCOM(testObject);
 
-	// printf("%s\n", obj);
-	// free(obj);
+	printf("%s\n", obj);
+	free(obj);
 	// free(testObject);
-	 // deleteGEDCOM(testObject);
+	 deleteGEDCOM(testObject);
 
 
 	return 0;

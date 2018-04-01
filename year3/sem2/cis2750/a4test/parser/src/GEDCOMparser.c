@@ -2971,28 +2971,28 @@ void deleteGEDCOM(GEDCOMobject* obj)
             }
 
             
-            if(getLength(obj->submitter->otherFields) != 0)
-            {   
-                void* fieldElem;
+        //     if(getLength(obj->submitter->otherFields) > 0)
+        //     {   
+        //         void* fieldElem;
 
-                ListIterator fieldElemIter = createIterator(obj->submitter->otherFields);
-                while((fieldElem = nextElement(&fieldElemIter)) != NULL)
-                {
-                    deleteField(fieldElem);
-        //             Field* tempField = (Field*)fieldElem;
-        //             if(strlen(tempField->tag) != 0)
-        //             {
-        //                 free(tempField->tag);
-        //             }
+        //         ListIterator fieldElemIter = createIterator(obj->submitter->otherFields);
+        //         while((fieldElem = nextElement(&fieldElemIter)) != NULL)
+        //         {
+        //             deleteField(fieldElem);
+        // //             Field* tempField = (Field*)fieldElem;
+        // //             if(strlen(tempField->tag) != 0)
+        // //             {
+        // //                 free(tempField->tag);
+        // //             }
 
-        //             if(strlen(tempField->value) != 0)
-        //             {
-        //                 free(tempField->value);
-        //             }
-        //             deleteDataFromList(&obj->submitter->otherFields, fieldElem);
-                }
-                // clearList(&obj->submitter->otherFields);
-            }
+        // //             if(strlen(tempField->value) != 0)
+        // //             {
+        // //                 free(tempField->value);
+        // //             }
+        // //             deleteDataFromList(&obj->submitter->otherFields, fieldElem);
+        //         }
+        //         // clearList(&obj->submitter->otherFields);
+        //     }
             
             // free(&obj->submitter);
             // obj->submitter = NULL;
