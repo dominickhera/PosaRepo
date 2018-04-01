@@ -123,10 +123,44 @@ app.get('/signIn/:name', function(req, res) {
     password : indParse.password,
     database : indParse.database
     });
-    
+
   connection.connect();
 });
 
+
+app.get('/clear/', function(req, res) {
+  connection.query("TRUNCATE TABLE FILE", function (err, rows, fields) {
+    if (err) console.log("Something went wrong. "+err);
+});
+  connection.query("TRUNCATE TABLE INDIVIDUAL", function (err, rows, fields) {
+    if (err) console.log("Something went wrong. "+err);
+});
+});
+
+app.get('/count/', function(req , res){
+  res.send({
+    // foo: "bar",
+    fileCount: connection.query("SELECT COUNT(*) FROM FILE", function (err, rows, fields) {
+  //Throw an error if we cannot run the query 
+    if (err) 
+        console.log("Something went wrong. "+err);
+    else {
+      
+    }
+
+});,
+    individualCount: connection.query("SELECT COUNT(*) FROM INDIVIDUAL", function (err, rows, fields) {
+  //Throw an error if we cannot run the query 
+    if (err) 
+        console.log("Something went wrong. "+err);
+    else {
+      
+    }
+
+}); 
+    // fileIndList: indList
+  });
+});
 
 const testFolder = "./uploads/"
 var fileArray = [];
@@ -157,6 +191,61 @@ fs.readdir('./uploads/', (err, files) => {
 });
 });
 
+
+fs.readdir('./uploads/', (err, files) => {
+  files.forEach((file) => {
+    fileArray.push(file);
+    // var array = fs.readFileSync(testFolder + file).toString().split("\n");
+     // console.log("\n\n\n",array); 
+     let testFile = "./uploads/" + file;
+     let fileInfoJSON = sharedLib.initFilesToJSON(testFile);
+     fileInfo.push(fileInfoJSON);
+     let indListJSON = sharedLib.grabIndList(testFile);
+     indList.push(indListJSON);
+
+      // console.log(fileInfoJSON);
+    // console.log(file);
+  });
+  // console.log("\n\n\n",array);
+  var storeFileArray = [];
+  var storeIndArray = [];
+  app.get('/store/', function(req , res){
+    for (let file of fileArray){
+      let fileInfo = JSON.parse(fileInfo[file]);
+      let fileLine = "INSERT INTO FILE (file_name, source, version, encoding, sub_name, sub_addr, num_individuals, num_families) values ('" + fileArray[file] + "', '" + fileInfo.source + "', '" + fileInfo.version + "', '" + fileInfo.encoding + "', '" + fileInfo.submitterName + "', '" + fileInfo.submitterAddress + "', '" + fileInfo.totalIndividuals + "', '" + fileInfo.totalFamilies + "')"
+      storeFileArray.push(fileLine);
+      let indInfo = JSON.parse(indList[file]);
+                // console.log("indinf is " + indInfo);
+                for(let individuals of indInfo)
+                {
+                let fileLine = "INSERT INTO INDIVIDUAL (surname, given_name, sex, fam_size, source_file) values ('" + indInfo.surname + "', '" + indInfo.given_name + "', '" + indInfo.sex + "', '" + indInfo.fam_size + "', '" + fileArray[file] + "')"
+                storeIndArray.push(fileLine);
+                // // cellFive.innerHTML += (fileInfo.submitterName);
+
+                // }
+                // tempTableLength += 1;
+            }
+    }
+
+    for (let line of storeFileArray) {
+      connection.query(line, function (err, rows, fields) {
+        if (err) console.log("Something went wrong. "+err);
+    });
+    }
+
+    for (let ind of storeIndArray) {
+      connection.query(ind, function (err, rows, fields) {
+        if (err) console.log("something went wrong." +err);
+      });
+    }
+  // res.send({
+    // foo: "bar",
+    // fileArrayList: fileArray,
+    // fileInfoList: fileInfo,
+    // fileIndList: indList
+  // });
+});
+});
 
 app.listen(portNum);
 console.log('Running app at localhost: ' + portNum);

@@ -394,6 +394,78 @@ $(document).ready(function() {
     //     }
     // }
 
+
+
+
+    // <div class="btn-group">
+          // <button id="storeDBData">Store All Data</button>
+          // <button id="displayDBStatus">Display DB Status</button>
+          // <button id="clearDBData">Clear All Data</button>
+          // <button id="executeQuery">Execute Query</button>
+        // </div>
+
+    document.getElementById('clearDBData').onclick = function()
+    {
+        $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/clear/', 
+            success: function (data) {
+
+                $( "<div>" )
+                .append( "Database has been cleared\n")
+                .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+    });
+
+     $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/count/', 
+            success: function (data) {
+
+                $( "<div>" )
+                .append( "Database has " + data.fileCount + " files and " + data.individualCount + " individuals.\n" )
+                .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+    });
+
+    }
+
+    document.getElementById('displayDBStatus').onclick = function()
+    {
+     $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/count/', 
+            success: function (data) {
+
+                $( "<div>" )
+                .append( "Database has " + data.fileCount + " files and " + data.individualCount + " individuals.\n" )
+                .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+    });
+
+    }
+
     var addModal = document.getElementById('addModal');
     var addBtn = document.getElementById("addIndividual");
     var addSpan = document.getElementById("addClose");
@@ -448,5 +520,8 @@ $(document).ready(function() {
             signInModal.style.display = "none";
         }
     }
+
+
+
 
 });
