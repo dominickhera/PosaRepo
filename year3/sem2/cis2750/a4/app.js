@@ -148,7 +148,7 @@ app.get('/count/', function(req , res){
       
     }
 
-});,
+}),
     individualCount: connection.query("SELECT COUNT(*) FROM INDIVIDUAL", function (err, rows, fields) {
   //Throw an error if we cannot run the query 
     if (err) 
