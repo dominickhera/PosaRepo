@@ -109,7 +109,7 @@
 
 <br>
      <div style="overflow-x:1000;">
-          <table id="gedcomTable">
+          <table id="databaseTable">
             <tr>
               <th>Given Name</th>
               <th>Surname</th>
@@ -124,7 +124,15 @@
           <button id="storeDBData">Store All Data</button>
           <button id="displayDBStatus">Display DB Status</button>
           <button id="clearDBData">Clear All Data</button>
-          <button id="executeQuery">Execute Query</button>
+          <!-- <button id="executeQuery">Execute Query</button> -->
+        </div>
+
+         <div class="btn-group">
+          <button id="displayLastName">Display all Individuals sorted by Last name</button>
+          <button id="displayIndividuals">display Individuals in a file</button>
+          <button id="displayFirstName">Display all individuals sorted by first name</button>
+          <button id="displayFemales">Display all females first in individuals</button>
+          <button id="displayNumFams">Display all Files sorted by number of families</button>
         </div>
 
     <!-- </div> -->
@@ -259,10 +267,49 @@
         Password:<br>
         <input type="text" id="signInPassword" name="password" value="">
         <br>Database:<br>
-        <input type="text" id="signInDatabase" namse="databse" value="">
+        <input type="text" id="signInDatabase" namse="database" value="">
         <br><br>
         <input type="submit" id="signInSubmit" value="Sign In">
       </form>
+    </div>
+  </div>
+
+  <div id="queryModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="queryClose" class="close">&times;</span>
+        <form id="queryForm">
+          <h3>Sign In</h3>
+
+        Query:<br>
+        <input type="text" id="queryCommand" name="query" value="">
+        <br>
+        <!-- Password:<br> -->
+        <!-- <input type="text" id="signInPassword" name="password" value=""> -->
+        <!-- <br>Database:<br> -->
+        <!-- <input type="text" id="signInDatabase" namse="database" value=""> -->
+        <br><br>
+        <input type="submit" id="signInSubmit" value="Sign In">
+      </form>
+    </div>
+  </div>
+
+
+  <div id="displayIndividualsModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="displayIndFileClose" class="close">&times;</span>
+        <form id="displayIndFileForm">
+          <h3>Display Individuals in File</h3>
+        <br>GEDCOM File:<br>
+         <select name="gedcomFileDisplay" id="displayIndFileList">
+        </select>
+        <br><br>
+        <input type="submit" id="displayIndFileSubmit" value="Display Individual">
+      </form>
+
     </div>
   </div>
     <!-- Leave me at the bottom of body -->

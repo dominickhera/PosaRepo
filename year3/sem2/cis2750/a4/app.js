@@ -162,6 +162,92 @@ app.get('/count/', function(req , res){
   });
 });
 
+var individualList = [];
+app.get('/lastName/', function(req , res){
+  connection.query("SELECT * FROM INDIVIDUAL ORDER BY surname", function (err, rows, fields) {
+  //Throw an error if we cannot run the query 
+    if (err) 
+        console.log("Something went wrong. "+err);
+    else {
+      for(let row of rows) {
+        individualList.push(row);
+      }
+    }
+  });
+
+
+  res.send({
+    // foo: "bar",
+    individualCount: individualList
+    // fileIndList: indList
+  });
+});
+
+var individualList = [];
+app.get('/firstName/', function(req , res){
+  connection.query("SELECT * FROM INDIVIDUAL ORDER BY given_name", function (err, rows, fields) {
+  //Throw an error if we cannot run the query 
+    if (err) 
+        console.log("Something went wrong. "+err);
+    else {
+      for(let row of rows) {
+        individualList.push(row);
+      }
+    }
+  });
+
+
+  res.send({
+    // foo: "bar",
+    individualCount: individualList
+    // fileIndList: indList
+  });
+});
+
+var individualList = [];
+app.get('/females/', function(req , res){
+  connection.query("SELECT * FROM INDIVIDUAL ORDER BY sex", function (err, rows, fields) {
+  //Throw an error if we cannot run the query 
+    if (err) 
+        console.log("Something went wrong. "+err);
+    else {
+      for(let row of rows) {
+        individualList.push(row);
+      }
+    }
+  });
+
+
+  res.send({
+    // foo: "bar",
+    individualCount: individualList
+    // fileIndList: indList
+  });
+});
+
+
+var individualList = [];
+app.get('/numFam/', function(req , res){
+  connection.query("SELECT * FROM FILE ORDER BY num_families", function (err, rows, fields) {
+  //Throw an error if we cannot run the query 
+    if (err) 
+        console.log("Something went wrong. "+err);
+    else {
+      for(let row of rows) {
+        individualList.push(row);
+      }
+    }
+  });
+
+
+  res.send({
+    // foo: "bar",
+    individualCount: individualList
+    // fileIndList: indList
+  });
+});
+
+
 const testFolder = "./uploads/"
 var fileArray = [];
 var fileInfo = [];

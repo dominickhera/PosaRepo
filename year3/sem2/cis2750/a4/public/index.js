@@ -20,6 +20,7 @@ $(document).ready(function() {
             var gedcomViewerOptions = document.getElementById('gedcomViewFileList');
             var addIndFileList = document.getElementById('addIndFileList');
             var gedcomViewTableArray = document.getElementById('gedcomTable');
+            var queryFileList = document.getElementById('displayIndFileList');
 
             for (i = 0; i < uploadFileArrayLength; i++) { 
                // console.log(data.fileIndList.length + "at i value:" + i);
@@ -54,9 +55,12 @@ $(document).ready(function() {
                 
                 option.innerHTML = data.fileArrayList[i];
                 var option2 = document.createElement('option');
+                var option3 = document.createElement('option');
+                option3.innerHTML = data.fileArrayList[i];
                 option2.innerHTML = data.fileArrayList[i];
                 gedcomViewerOptions.appendChild(option);
                 addIndFileList.appendChild(option2);
+                displayIndFileList.appendChild(option3);
             }
                 let tempTableLength = 0;
 
@@ -404,6 +408,54 @@ $(document).ready(function() {
           // <button id="executeQuery">Execute Query</button>
         // </div>
 
+         // <div class="btn-group">
+          // <button id="displayLastName">Display all Individuals sorted by Last name</button>
+          // <button id="displayIndividuals">display Individuals in a file</button>
+          // <button id="displayFirstName">Display all individuals sorted by first name</button>
+          // <button id="displayFemales">Display all females in individuals</button>
+          // <button id="displayNumFams">Display all Files sorted by number of families</button>
+
+
+    document.getElementById('storeDBData').onclick = function()
+    {
+        $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/clear/', 
+            success: function (data) {
+
+                // $( "<div>" )
+                // .append( "Database has been cleared\n")
+                // .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+        });
+
+     $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/count/', 
+            success: function (data) {
+
+                $( "<div>" )
+                .append( "Database has " + data.fileCount + " files and " + data.individualCount + " individuals.\n" )
+                .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+    });
+
+    }
+
     document.getElementById('clearDBData').onclick = function()
     {
         $.ajax({
@@ -464,6 +516,294 @@ $(document).ready(function() {
             }
     });
 
+    }
+
+    document.getElementById('displayLastName').onclick = function()
+    {
+
+        $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/lastName/', 
+            success: function (data) {
+                var gedcomViewTableArray = document.getElementById('databaseTable');
+                let indInfo = JSON.parse(data.individualCount);
+                let tempTableLength = 1;
+                // for(let individuals of indInfo)
+                // {
+                     // let indInfo = JSON.parse(data.fileIndList[0]);
+                // console.log("indinf is " + indInfo);
+
+
+                for(let individuals of indInfo)
+                {
+                    // console.log("person name is : "+ individuals.givenName + " " + individuals.surname);
+                    
+                     var indRow = gedcomViewTableArray.insertRow(tempTableLength+1);
+                var indCellOne = indRow.insertCell(0);
+                var indCellTwo = indRow.insertCell(1);
+                var indCellThree = indRow.insertCell(2);
+                var indCellFour = indRow.insertCell(3);
+                // // // cellOne.innerHTML += ('<a href="/uploads/simpleValid.ged">simpleValid.ged</a>');
+                indCellOne.innerHTML += (individuals.givenName);
+                // indCellOne.innerHTML += ('test');
+
+                indCellTwo.innerHTML += (individuals.surname);
+                indCellThree.innerHTML += (individuals.gender);
+                indCellFour.innerHTML += (individuals.familyCount);
+                // // cellFive.innerHTML += (fileInfo.submitterName);
+
+                // }
+                tempTableLength += 1;
+            }
+                }
+
+                $( "<div>" )
+                .append( "Database has " + data.fileCount + " files and " + data.individualCount + " individuals.\n" )
+                .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+    });
+
+
+     $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/count/', 
+            success: function (data) {
+
+                $( "<div>" )
+                .append( "Database has " + data.fileCount + " files and " + data.individualCount + " individuals.\n" )
+                .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+    });
+
+    }
+
+    document.getElementById('displayIndividuals').onclick = function()
+    {
+     $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/count/', 
+            success: function (data) {
+
+                $( "<div>" )
+                .append( "Database has " + data.fileCount + " files and " + data.individualCount + " individuals.\n" )
+                .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+    });
+
+    }
+
+    document.getElementById('displayFirstName').onclick = function()
+    {
+     $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/firstName/', 
+            success: function (data) {
+                var gedcomViewTableArray = document.getElementById('databaseTable');
+                let indInfo = JSON.parse(data.individualCount);
+                let tempTableLength = 1;
+                // for(let individuals of indInfo)
+                // {
+                     // let indInfo = JSON.parse(data.fileIndList[0]);
+                // console.log("indinf is " + indInfo);
+
+
+                for(let individuals of indInfo)
+                {
+                    // console.log("person name is : "+ individuals.givenName + " " + individuals.surname);
+                    
+                     var indRow = gedcomViewTableArray.insertRow(tempTableLength+1);
+                var indCellOne = indRow.insertCell(0);
+                var indCellTwo = indRow.insertCell(1);
+                var indCellThree = indRow.insertCell(2);
+                var indCellFour = indRow.insertCell(3);
+                // // // cellOne.innerHTML += ('<a href="/uploads/simpleValid.ged">simpleValid.ged</a>');
+                indCellOne.innerHTML += (individuals.givenName);
+                // indCellOne.innerHTML += ('test');
+
+                indCellTwo.innerHTML += (individuals.surname);
+                indCellThree.innerHTML += (individuals.gender);
+                indCellFour.innerHTML += (individuals.familyCount);
+                // // cellFive.innerHTML += (fileInfo.submitterName);
+
+                // }
+                tempTableLength += 1;
+            }
+                $( "<div>" )
+                .append( "Database has " + data.fileCount + " files and " + data.individualCount + " individuals.\n" )
+                .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+    });
+
+    }
+
+     document.getElementById('displayFemales').onclick = function()
+    {
+         $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/females/', 
+            success: function (data) {
+                var gedcomViewTableArray = document.getElementById('databaseTable');
+                let indInfo = JSON.parse(data.individualCount);
+                let tempTableLength = 1;
+                // for(let individuals of indInfo)
+                // {
+                     // let indInfo = JSON.parse(data.fileIndList[0]);
+                // console.log("indinf is " + indInfo);
+
+
+                for(let individuals of indInfo)
+                {
+                    // console.log("person name is : "+ individuals.givenName + " " + individuals.surname);
+                    
+                     var indRow = gedcomViewTableArray.insertRow(tempTableLength+1);
+                var indCellOne = indRow.insertCell(0);
+                var indCellTwo = indRow.insertCell(1);
+                var indCellThree = indRow.insertCell(2);
+                var indCellFour = indRow.insertCell(3);
+                // // // cellOne.innerHTML += ('<a href="/uploads/simpleValid.ged">simpleValid.ged</a>');
+                indCellOne.innerHTML += (individuals.givenName);
+                // indCellOne.innerHTML += ('test');
+
+                indCellTwo.innerHTML += (individuals.surname);
+                indCellThree.innerHTML += (individuals.gender);
+                indCellFour.innerHTML += (individuals.familyCount);
+                // // cellFive.innerHTML += (fileInfo.submitterName);
+
+                // }
+                tempTableLength += 1;
+            }
+                }
+
+                $( "<div>" )
+                .append( "Database has " + data.fileCount + " files and " + data.individualCount + " individuals.\n" )
+                .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+    });
+
+        $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/count/', 
+            success: function (data) {
+
+                $( "<div>" )
+                .append( "Database has " + data.fileCount + " files and " + data.individualCount + " individuals.\n" )
+                .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+    });
+    }
+
+    document.getElementById('displayNumFams').onclick = function()
+    {
+
+         $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/lastName/', 
+            success: function (data) {
+                var gedcomViewTableArray = document.getElementById('databaseTable');
+                let indInfo = JSON.parse(data.individualCount);
+                let tempTableLength = 1;
+                // for(let individuals of indInfo)
+                // {
+                     // let indInfo = JSON.parse(data.fileIndList[0]);
+                // console.log("indinf is " + indInfo);
+
+
+                for(let individuals of indInfo)
+                {
+                    // console.log("person name is : "+ individuals.givenName + " " + individuals.surname);
+                    
+                     var indRow = gedcomViewTableArray.insertRow(tempTableLength+1);
+                var indCellOne = indRow.insertCell(0);
+                var indCellTwo = indRow.insertCell(1);
+                var indCellThree = indRow.insertCell(2);
+                var indCellFour = indRow.insertCell(3);
+                // // // cellOne.innerHTML += ('<a href="/uploads/simpleValid.ged">simpleValid.ged</a>');
+                indCellOne.innerHTML += (individuals.filename);
+                // indCellOne.innerHTML += ('test');
+
+                indCellTwo.innerHTML += (individuals.source);
+                indCellThree.innerHTML += (individuals.encoding);
+                indCellFour.innerHTML += (individuals.familyCount);
+                // // cellFive.innerHTML += (fileInfo.submitterName);
+
+                // }
+                tempTableLength += 1;
+            }
+                }
+
+                $( "<div>" )
+                .append( "Database has " + data.fileCount + " files and " + data.individualCount + " individuals.\n" )
+                .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+    });
+
+
+        $.ajax({
+            type: 'get',            //Request type
+            dataType: 'JSON',
+            url: '/count/', 
+            success: function (data) {
+
+                $( "<div>" )
+                .append( "Database has " + data.fileCount + " files and " + data.individualCount + " individuals.\n" )
+                .appendTo( "#statusBox" );
+                // console.log("yes" + data.name); 
+            },
+            fail: function(error) {
+                            
+                    // //         // Non-200 return, do something with error
+                console.log(error + " no"); 
+            }
+    });
     }
 
     var addModal = document.getElementById('addModal');
