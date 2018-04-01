@@ -2945,7 +2945,10 @@ void deleteGEDCOM(GEDCOMobject* obj)
                 ListIterator fieldElemIter = createIterator(obj->header->otherFields);
                 while((fieldElem = nextElement(&fieldElemIter)) != NULL)
                 {
-                    deleteField(fieldElem);
+                    if(fieldElem != NULL)
+                    {
+                        deleteField(fieldElem);
+                    }
                     // Field* tempField = (Field*)fieldElem;
                     // if(strlen(tempField->tag) != 0)
                     // {
@@ -2960,7 +2963,7 @@ void deleteGEDCOM(GEDCOMobject* obj)
                 }
             }
             free(&obj->header);
-            obj->header = NULL;
+            // obj->header = NULL;
             // clearList(&obj->header->otherFields);
         }
 
@@ -2977,15 +2980,18 @@ void deleteGEDCOM(GEDCOMobject* obj)
             // obj->submitter = NULL;
         }
 
-        if(getLength(obj->individuals) != 0)
-        {
-            void* indElem;
-            ListIterator indElemIter = createIterator(obj->individuals);
-            while((indElem = nextElement(&indElemIter)) != NULL)
-            {
-                deleteIndividual(indElem);
-            }
-        }
+        // if(getLength(obj->individuals) != 0)
+        // {
+        //     void* indElem;
+        //     ListIterator indElemIter = createIterator(obj->individuals);
+        //     while((indElem = nextElement(&indElemIter)) != NULL)
+        //     {
+        //         if(indElem != NULL)
+        //         {
+        //             deleteIndividual(indElem);
+        //         }
+        //     }
+        // }
 
         if(getLength(obj->families) != 0)
         {
@@ -2993,7 +2999,10 @@ void deleteGEDCOM(GEDCOMobject* obj)
             ListIterator indElemIter = createIterator(obj->families);
             while((indElem = nextElement(&indElemIter)) != NULL)
             {
-                deleteFamily(indElem);
+                if(indElem != NULL)
+                {
+                    deleteFamily(indElem);
+                }
             }
         }
         // free(obj);
