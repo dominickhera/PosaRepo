@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
 #include <time.h>
 
 
@@ -39,8 +37,8 @@ int main()
                 sieveArray[k] = 0;
             }
         }
-
     }
+
     for(int i = 2; i <= upperlimitInt; i++)
     {
         if(sieveArray[i] % 3*i == 0 )
@@ -55,11 +53,8 @@ int main()
 
     for(int i = 2; i <= upperlimitInt; i++)
     {
-
         if(sieveArray[i] % 5*i == 0)
         {
-            // printf("shit equals 0? %d\n", sieveArray[i]);
-
             for(int k = i * 5; k <= upperlimitInt; k += i)
             {
                 sieveArray[k] = 0;
@@ -73,7 +68,6 @@ int main()
         {
             newSieveCount++;
         }
-        // printf("sieveArray[%d]: %d\n", i, sieveArray[i]);
     }
     int resultsArray[newSieveCount];
 
@@ -85,18 +79,17 @@ int main()
             secondCount++;
         }
     }
+
     fp = fopen("primeNumberCOutput.txt", "w");
-    // char * output = malloc(sizeof(char) * 10000);
     fprintf(fp, "results\n");
 
     for(int i = 0; i < newSieveCount; i++)
     {
         fprintf(fp, "%d\n", resultsArray[i]);
     }
+    
     fprintf(fp, "\n");
-    // fputs(output, fp);
     fclose(fp);
-    // free(output);
 
     clock_t finishTime = clock();
 
